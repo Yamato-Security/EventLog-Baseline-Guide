@@ -557,6 +557,10 @@ Attackers may change the password in order to obtain persistence.
 "MSI Spawned Cmd and Powershell Spawned Processes","high","","process_creation","This rule looks for Windows Installer service (msiexec.exe) spawning command line and/or powershell that spawns other processes","ca51d442-0a18-77d6-66b8-6f72ef1dc3bd"
 "Reconnaissance Activity Using BuiltIn Commands","medium","","process_creation","Detects execution of a set of builtin commands often used in recon stages by different attack groups","e7ce8bbd-3976-853e-eb57-e2ca8dcbf67c"
 "Driver/DLL Installation Via Odbcconf.EXE","medium","","process_creation","Detects execution of ""odbcconf"" with ""INSTALLDRIVER"" which installs a new ODBC driver. Attackers abuse this to install and run malicious DLLs.","adc0be0e-1fd7-a7d2-38cd-74c936dcd78f"
+"Proxy Execution via Vshadow","medium","","process_creation","Detects the invocation of vshadow.exe with the -exec parameter that executes a specified script or command after the shadow copies are created but before the VShadow tool exits.
+VShadow is a command-line tool that you can use to create and manage volume shadow copies. While legitimate backup or administrative scripts may use this flag,
+attackers can leverage this parameter to proxy the execution of malware.
+","b31f0683-91b2-ad1b-a771-24124f22e83e"
 "Remote CHM File Download/Execution Via HH.EXE","high","","process_creation","Detects the usage of ""hh.exe"" to execute/download remotely hosted "".chm"" files.","e3cb371f-ecf2-9b45-e6ff-67bb63f48a48"
 "Suspicious ZipExec Execution","medium","","process_creation","ZipExec is a Proof-of-Concept (POC) tool to wrap binary-based tools into a password-protected zip file.","2a048dab-1493-f4cf-68dc-2fc90db2a471"
 "Suspicious Greedy Compression Using Rar.EXE","high","","process_creation","Detects RAR usage that creates an archive from a suspicious folder, either a system folder or one of the folders often used by attackers for staging purposes","d9100b89-baa5-8f0b-5a28-90217fe41a0f"
@@ -1452,6 +1456,7 @@ This could be a precursor to a ransomware attack and has been an observed techni
 "Potential Privilege Escalation via Service Permissions Weakness","high","","process_creation","Detect modification of services configuration (ImagePath, FailureCommand and ServiceDLL) in registry by processes with Medium integrity level","c9ee66ac-639b-5403-8384-6c70ecdcddc1"
 "Suspicious Runscripthelper.exe","medium","","process_creation","Detects execution of powershell scripts via Runscripthelper.exe","f93df83e-4e70-cffa-f5d8-2b7c77d7bb45"
 "Computer Discovery And Export Via Get-ADComputer Cmdlet","medium","","process_creation","Detects usage of the Get-ADComputer cmdlet to collect computer information and output it to a file","1a00950e-36a2-0312-33ae-1d272dc02169"
+"HackTool - Doppelanger LSASS Dumper Execution","high","","process_creation","Detects the execution of the Doppelanger hacktool which is used to dump LSASS memory via process cloning while evading common detection methods","06624157-0db4-9e8c-200f-fcfe2788d3e4"
 "Suspicious Registry Modification From ADS Via Regini.EXE","high","","process_creation","Detects the import of an alternate data stream with regini.exe, regini.exe can be used to modify registry keys.","0e51a9f2-52ef-1f9a-cd41-f229ac148283"
 "DSInternals Suspicious PowerShell Cmdlets","high","","process_creation","Detects execution and usage of the DSInternals PowerShell module. Which can be used to perform what might be considered as suspicious activity such as dumping DPAPI backup keys or manipulating NTDS.DIT files.
 The DSInternals PowerShell Module exposes several internal features of Active Directory and Azure Active Directory. These include FIDO2 and NGC key auditing, offline ntds.dit file manipulation, password auditing, DC recovery from IFM backups and password hash calculation.
@@ -1618,6 +1623,9 @@ When executed from a non-default directory, this utility can be abused in order 
 "Audio Capture via SoundRecorder","medium","","process_creation","Detect attacker collecting audio via SoundRecorder application.","ebef59bf-5a12-af67-8a95-a282ae4bdaf6"
 "Potential Credential Dumping Via WER","high","","process_creation","Detects potential credential dumping via Windows Error Reporting LSASS Shtinkering technique which uses the Windows Error Reporting to dump lsass","fd5780a1-437f-d735-9ec2-8ed852b7c70f"
 "Start of NT Virtual DOS Machine","medium","","process_creation","Ntvdm.exe allows the execution of 16-bit Windows applications on 32-bit Windows operating systems, as well as the execution of both 16-bit and 32-bit DOS applications","79562785-6cc3-acf1-853a-e4758e918d32"
+"HackTool - HollowReaper Execution","high","","process_creation","Detects usage of HollowReaper, a process hollowing shellcode launcher used for stealth payload execution through process hollowing.
+It replaces the memory of a legitimate process with custom shellcode, allowing the attacker to execute payloads under the guise of trusted binaries.
+","4620f95a-0964-646b-6b21-78a838f03ac3"
 "Suspicious Schtasks Execution AppData Folder","high","","process_creation","Detects the creation of a schtask that executes a file from C:\Users\<USER>\AppData\Local","6b789465-3c6e-9af1-e00a-929db8f324d1"
 "Exports Critical Registry Keys To a File","high","","process_creation","Detects the export of a crital Registry key to a file.","d68e9dcc-21b3-418c-4d05-669b4d9c0511"
 "PUA - Netcat Suspicious Execution","high","","process_creation","Detects execution of Netcat. Adversaries may use a non-application layer protocol for communication between host and C2 server or among infected hosts within a network","f483b0b8-2606-8691-2edb-5c64c3a7347e"
