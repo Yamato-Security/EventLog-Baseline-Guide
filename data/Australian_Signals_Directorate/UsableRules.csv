@@ -1995,6 +1995,14 @@ Initial baselining of the allowed extension list is required.
 free space, and other disk information. This can be done using the `wmic` command-line utility and has been
 observed being used by threat actors such as Volt Typhoon.
 ","f880519f-4419-7762-c6d0-7676fd2192a9"
+"Attempts of Kerberos Coercion Via DNS SPN Spoofing","high","","process_creation","Detects the presence of ""UWhRC....AAYBAAAA"" pattern in command line.
+The pattern ""1UWhRCAAAAA..BAAAA"" is a base64-encoded signature that corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure.
+Attackers can use this technique to coerce authentication from victim systems to attacker-controlled hosts.
+It is one of the strong indicators of a Kerberos coercion attack, where adversaries manipulate DNS records
+to spoof Service Principal Names (SPNs) and redirect authentication requests like in CVE-2025-33073.
+If you see this pattern in the command line, it is likely an attempt to add spoofed Service Principal Names (SPNs) to DNS records,
+or checking for the presence of such records through the `nslookup` command.
+","c642ffbe-eb4e-5b90-c10a-de01f70dcb68"
 "Arbitrary File Download Via MSEDGE_PROXY.EXE","medium","","process_creation","Detects usage of ""msedge_proxy.exe"" to download arbitrary files","d6d1a63b-5f0f-795e-fe18-4c2e1784568d"
 "Suspicious PowerShell Encoded Command Patterns","high","","process_creation","Detects PowerShell command line patterns in combincation with encoded commands that often appear in malware infection chains","ec21a11c-311b-e205-6bb5-57d26e408fcb"
 "Invoke-Obfuscation Via Stdin","high","","process_creation","Detects Obfuscated Powershell via Stdin in Scripts","e8fdfc6d-5256-c3f4-7858-a45724bce385"
@@ -2773,7 +2781,7 @@ By setting this registry value to ""0"" (DWORD), Windows will be allowed to stor
 "Potential Persistence Via Visual Studio Tools for Office","medium","","registry_set","Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications.","9f3a2bef-c9ee-ce47-c8eb-d746addb05ac"
 "Disable Windows Event Logging Via Registry","high","","registry_set","Detects tampering with the ""Enabled"" registry key in order to disable Windows logging of a Windows event channel","6d5ef37b-2d6d-8ef5-a641-57161c232686"
 "COM Hijacking via TreatAs","medium","","registry_set","Detect modification of TreatAs key to enable ""rundll32.exe -sta"" command","0a89f91f-0278-2cf2-d4ad-c958bc125ad3"
-"Modification of IE Registry Settings","low","","registry_set","Detects modification of the registry settings used for Internet Explorer and other Windows components that use these settings. An attacker can abuse this registry key to add a domain to the trusted sites Zone or insert javascript for persistence","0fbb75e3-4f11-c091-e62d-0159f224a0af"
+"Modification of IE Registry Settings","low","","registry_set","Detects modification of the registry settings used for Internet Explorer and other Windows components that use these settings. An attacker can abuse this registry key to add a domain to the trusted sites Zone or insert JavaScript for persistence","0fbb75e3-4f11-c091-e62d-0159f224a0af"
 "Windows Defender Exclusions Added - Registry","medium","","registry_set","Detects the Setting of Windows Defender Exclusions","c86baf10-abab-0f8f-88a2-e51640a26b5c"
 "Potentially Suspicious Command Executed Via Run Dialog Box - Registry","high","","registry_set","Detects execution of commands via the run dialog box on Windows by checking values of the ""RunMRU"" registry key.
 This technique was seen being abused by threat actors to deceive users into pasting and executing malicious commands, often disguised as CAPTCHA verification steps.
@@ -2920,6 +2928,7 @@ Ransomware threat actors and operators (specifically BlackCat) were seen increas
 ","007fb76c-92e3-5bfa-4f46-d6179811290f"
 "Internet Explorer DisableFirstRunCustomize Enabled","medium","","registry_set","Detects changes to the Internet Explorer ""DisableFirstRunCustomize"" value, which prevents Internet Explorer from running the first run wizard the first time a user starts the browser after installing Internet Explorer or Windows.
 ","6b3466e8-35d1-e288-b322-0873400febd7"
+"FileFix - Command Evidence in TypedPaths from Browser File Upload Abuse","high","","registry_set","Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.","57a468ba-845c-797e-81fb-79970450803a"
 "Session Manager Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","b7f195d8-0147-8ddd-90c3-3e8e75037660"
 "Potential Persistence Via Outlook LoadMacroProviderOnBoot Setting","high","","registry_set","Detects the modification of Outlook setting ""LoadMacroProviderOnBoot"" which if enabled allows the automatic loading of any configured VBA project/module","2f221db9-1924-551f-ad98-7f01d47c6c7e"
 "Office Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","cb43927e-70c4-47e4-6121-af9fb00a6a77"

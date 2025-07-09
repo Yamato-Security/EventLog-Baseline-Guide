@@ -4,6 +4,13 @@
 "Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
 "Password Policy Enumerated","medium","security","","Detects when the password policy is enumerated.","9bcf333e-fc4c-5912-eeba-8a0cefe21be4"
 "AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
+"Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
+matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
+commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
+attacker-controlled hosts by spoofing SPNs via DNS. It is one of the strong indicators of a Kerberos coercion attack,.
+where adversaries manipulate DNS records to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
+Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
+","19da3c91-0fcd-61d5-5b4f-bde550a79070"
 "Group Policy Abuse for Privilege Addition","medium","security","","Detects the first occurrence of a modification to Group Policy Object Attributes to add privileges to user accounts or use them to add users as local admins.
 ","6e3066ef-54e1-9d1b-5bc6-9ae6947ae271"
 "Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
@@ -13,6 +20,13 @@
 "Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
 "Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
 "Suspicious LDAP-Attributes Used","high","security","","Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.","925d441a-37b4-0afa-1d98-809b5df5fd06"
+"Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
+matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
+commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
+attacker-controlled hosts by spoofing SPNs via DNS. It is one of the strong indicators of a Kerberos coercion attack,.
+where adversaries manipulate DNS records to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
+Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
+","19da3c91-0fcd-61d5-5b4f-bde550a79070"
 "Active Directory User Backdoors","high","security","","Detects scenarios where one can control another users or computers account without having to use their credentials.","c9123898-04d5-2d3b-5e2b-7c0c92111480"
 "Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"
 "ADCS Certificate Template Configuration Vulnerability","low","security","","Detects certificate creation with template allowing risk permission subject","3a655a7c-a830-77ad-fc8b-f054fb713304"
