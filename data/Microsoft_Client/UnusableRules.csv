@@ -5,6 +5,13 @@
 "Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
 "Password Policy Enumerated","medium","security","","Detects when the password policy is enumerated.","9bcf333e-fc4c-5912-eeba-8a0cefe21be4"
 "AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
+"Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
+matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
+commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
+attacker-controlled hosts by spoofing SPNs via DNS. It is one of the strong indicators of a Kerberos coercion attack,.
+where adversaries manipulate DNS records to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
+Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
+","19da3c91-0fcd-61d5-5b4f-bde550a79070"
 "Group Policy Abuse for Privilege Addition","medium","security","","Detects the first occurrence of a modification to Group Policy Object Attributes to add privileges to user accounts or use them to add users as local admins.
 ","6e3066ef-54e1-9d1b-5bc6-9ae6947ae271"
 "Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
@@ -14,6 +21,13 @@
 "Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
 "Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
 "Suspicious LDAP-Attributes Used","high","security","","Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.","925d441a-37b4-0afa-1d98-809b5df5fd06"
+"Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
+matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
+commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
+attacker-controlled hosts by spoofing SPNs via DNS. It is one of the strong indicators of a Kerberos coercion attack,.
+where adversaries manipulate DNS records to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
+Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
+","19da3c91-0fcd-61d5-5b4f-bde550a79070"
 "Active Directory User Backdoors","high","security","","Detects scenarios where one can control another users or computers account without having to use their credentials.","c9123898-04d5-2d3b-5e2b-7c0c92111480"
 "Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"
 "ADCS Certificate Template Configuration Vulnerability","low","security","","Detects certificate creation with template allowing risk permission subject","3a655a7c-a830-77ad-fc8b-f054fb713304"
@@ -207,7 +221,7 @@ By setting this registry value to ""0"" (DWORD), Windows will be allowed to stor
 "Potential Persistence Via Visual Studio Tools for Office","medium","","registry_set","Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications.","9f3a2bef-c9ee-ce47-c8eb-d746addb05ac"
 "Disable Windows Event Logging Via Registry","high","","registry_set","Detects tampering with the ""Enabled"" registry key in order to disable Windows logging of a Windows event channel","6d5ef37b-2d6d-8ef5-a641-57161c232686"
 "COM Hijacking via TreatAs","medium","","registry_set","Detect modification of TreatAs key to enable ""rundll32.exe -sta"" command","0a89f91f-0278-2cf2-d4ad-c958bc125ad3"
-"Modification of IE Registry Settings","low","","registry_set","Detects modification of the registry settings used for Internet Explorer and other Windows components that use these settings. An attacker can abuse this registry key to add a domain to the trusted sites Zone or insert javascript for persistence","0fbb75e3-4f11-c091-e62d-0159f224a0af"
+"Modification of IE Registry Settings","low","","registry_set","Detects modification of the registry settings used for Internet Explorer and other Windows components that use these settings. An attacker can abuse this registry key to add a domain to the trusted sites Zone or insert JavaScript for persistence","0fbb75e3-4f11-c091-e62d-0159f224a0af"
 "Windows Defender Exclusions Added - Registry","medium","","registry_set","Detects the Setting of Windows Defender Exclusions","c86baf10-abab-0f8f-88a2-e51640a26b5c"
 "Potentially Suspicious Command Executed Via Run Dialog Box - Registry","high","","registry_set","Detects execution of commands via the run dialog box on Windows by checking values of the ""RunMRU"" registry key.
 This technique was seen being abused by threat actors to deceive users into pasting and executing malicious commands, often disguised as CAPTCHA verification steps.
@@ -354,6 +368,7 @@ Ransomware threat actors and operators (specifically BlackCat) were seen increas
 ","007fb76c-92e3-5bfa-4f46-d6179811290f"
 "Internet Explorer DisableFirstRunCustomize Enabled","medium","","registry_set","Detects changes to the Internet Explorer ""DisableFirstRunCustomize"" value, which prevents Internet Explorer from running the first run wizard the first time a user starts the browser after installing Internet Explorer or Windows.
 ","6b3466e8-35d1-e288-b322-0873400febd7"
+"FileFix - Command Evidence in TypedPaths from Browser File Upload Abuse","high","","registry_set","Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.","57a468ba-845c-797e-81fb-79970450803a"
 "Session Manager Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","b7f195d8-0147-8ddd-90c3-3e8e75037660"
 "Potential Persistence Via Outlook LoadMacroProviderOnBoot Setting","high","","registry_set","Detects the modification of Outlook setting ""LoadMacroProviderOnBoot"" which if enabled allows the automatic loading of any configured VBA project/module","2f221db9-1924-551f-ad98-7f01d47c6c7e"
 "Office Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","cb43927e-70c4-47e4-6121-af9fb00a6a77"
