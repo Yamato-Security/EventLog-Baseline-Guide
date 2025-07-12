@@ -257,7 +257,7 @@ m1, m2 = st.columns(2)
 with m1:
     st.markdown("<hr>", unsafe_allow_html=True)
     data = df_usable["service"].dropna()
-    st.markdown(f"<h4 style='text-align: center;'>Unusable Rules Group by Sigma Service</h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='text-align: center;'>Usable Rules Group by Sigma Service</h4>", unsafe_allow_html=True)
     data = data.value_counts().head(10).reset_index()
     data.columns = ["Service", "Count"]
     chart = alt.Chart(data).mark_bar().encode(
