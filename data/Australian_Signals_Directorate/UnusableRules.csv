@@ -1,9 +1,7 @@
 "title","level","service","category","description","id"
 "Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
 "Active Directory User Backdoors","high","security","","Detects scenarios where one can control another users or computers account without having to use their credentials.","c9123898-04d5-2d3b-5e2b-7c0c92111480"
-"Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
 "Password Policy Enumerated","medium","security","","Detects when the password policy is enumerated.","9bcf333e-fc4c-5912-eeba-8a0cefe21be4"
-"AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
 "Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
 matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
 commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
@@ -11,15 +9,18 @@ attacker-controlled hosts by spoofing SPNs via DNS. It is one of the strong indi
 where adversaries manipulate DNS records to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
 Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
 ","19da3c91-0fcd-61d5-5b4f-bde550a79070"
+"AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
+"Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
+"Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"
 "Group Policy Abuse for Privilege Addition","medium","security","","Detects the first occurrence of a modification to Group Policy Object Attributes to add privileges to user accounts or use them to add users as local admins.
 ","6e3066ef-54e1-9d1b-5bc6-9ae6947ae271"
+"Powerview Add-DomainObjectAcl DCSync AD Extend Right","high","security","","Backdooring domain object to grant the rights associated with DCSync to a regular user or machine account using Powerview\Add-DomainObjectAcl DCSync Extended Right cmdlet, will allow to re-obtain the pwd hashes of any user/computer","e92d7fea-4127-4b6c-a889-3f0b89f7b567"
 "Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
 ","bc613d09-5a80-cad3-6f65-c5020f960511"
-"Powerview Add-DomainObjectAcl DCSync AD Extend Right","high","security","","Backdooring domain object to grant the rights associated with DCSync to a regular user or machine account using Powerview\Add-DomainObjectAcl DCSync Extended Right cmdlet, will allow to re-obtain the pwd hashes of any user/computer","e92d7fea-4127-4b6c-a889-3f0b89f7b567"
 "Possible Shadow Credentials Added","high","security","","Detects possible addition of shadow credentials to an active directory object.","8bcf1772-4335-28e1-e320-5ce48b15ae9f"
-"Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
-"Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
 "Suspicious LDAP-Attributes Used","high","security","","Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.","925d441a-37b4-0afa-1d98-809b5df5fd06"
+"Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
+"Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
 "Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
 matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
 commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
@@ -28,124 +29,123 @@ where adversaries manipulate DNS records to spoof Service Principal Names (SPNs)
 Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
 ","19da3c91-0fcd-61d5-5b4f-bde550a79070"
 "Active Directory User Backdoors","high","security","","Detects scenarios where one can control another users or computers account without having to use their credentials.","c9123898-04d5-2d3b-5e2b-7c0c92111480"
-"Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"
 "ADCS Certificate Template Configuration Vulnerability","low","security","","Detects certificate creation with template allowing risk permission subject","3a655a7c-a830-77ad-fc8b-f054fb713304"
 "ADCS Certificate Template Configuration Vulnerability with Risky EKU","high","security","","Detects certificate creation with template allowing risk permission subject and risky EKU","aa2d5bf7-bc73-068e-a4df-a887cc3aba2b"
-"T1047 Wmiprvse Wbemcomn DLL Hijack","high","security","","Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\` directory over the network for a WMI DLL Hijack scenario.","f252afa3-fe83-562c-01c0-1334f55af84c"
-"Remote Service Activity via SVCCTL Named Pipe","medium","security","","Detects remote service activity via remote access to the svcctl named pipe","9a0e08fc-d50e-2539-9da0-f2b04439c414"
-"Possible PetitPotam Coerce Authentication Attempt","high","security","","Detect PetitPotam coerced authentication activity.","bcc12e55-1578-5174-2a47-98a6211a1c6c"
-"Windows Network Access Suspicious desktop.ini Action","medium","security","","Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.","192d9d70-11ad-70e5-9d6c-d32a1ec74857"
-"First Time Seen Remote Named Pipe","high","security","","This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes","308a3356-4624-7c95-24df-cf5a02e5eb56"
-"Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
-","bc613d09-5a80-cad3-6f65-c5020f960511"
-"Remote Task Creation via ATSVC Named Pipe","medium","security","","Detects remote task creation via at.exe or API interacting with ATSVC namedpipe","93fd0f77-62da-26fb-3e96-71cde45a9680"
-"Suspicious Access to Sensitive File Extensions","medium","security","","Detects known sensitive file extensions accessed on a network share","4af39497-9655-9586-817d-94f0df38913f"
-"Impacket PsExec Execution","high","security","","Detects execution of Impacket's psexec.py.","24e370e0-b9f0-5851-0261-f984742ff2a1"
-"Transferring Files with Credential Data via Network Shares","medium","security","","Transferring files with well-known filenames (sensitive files with credential data) using network shares","73d3720b-e4f3-d7e1-2a3f-8ca0a5e1fc1b"
-"Protected Storage Service Access","high","security","","Detects access to a protected_storage service over the network. Potential abuse of DPAPI to extract domain backup keys from Domain Controllers","7695295d-281f-23ce-d52e-8336ebd47532"
-"Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
-"SMB Create Remote File Admin Share","high","security","","Look for non-system accounts SMB accessing a file with write (0x2) access mask via administrative share (i.e C$).","37f5d188-182d-7a53-dca7-4bebbb6ce43e"
-"Possible Impacket SecretDump Remote Activity","high","security","","Detect AD credential dumping using impacket secretdump HKTL","677980bc-7dcc-1f9a-e161-a7f310ec9652"
-"DCERPC SMB Spoolss Named Pipe","medium","security","","Detects the use of the spoolss named pipe over SMB. This can be used to trigger the authentication via NTLM of any machine that has the spoolservice enabled.","d415c82b-814d-5cdc-c2f2-a138115b878e"
-"Suspicious PsExec Execution","high","security","","detects execution of psexec or paexec with renamed service name, this rule helps to filter out the noise if psexec is used for legit purposes or if attacker uses a different psexec client other than sysinternal one","426009da-814c-c1c0-cf41-6631c9ff6a8e"
-"DCOM InternetExplorer.Application Iertutil DLL Hijack - Security","high","security","","Detects a threat actor creating a file named `iertutil.dll` in the `C:\Program Files\Internet Explorer\` directory over the network for a DCOM InternetExplorer DLL Hijack scenario.","85e72fe3-83af-8ed9-39d3-2883e46059f1"
+"NetShare File Access","informational","security","","","8c6ec2b2-8dad-4996-9aba-d659afc1b919"
 "Remote Registry Management Using Reg Utility","medium","security","","Remote registry management using REG utility from non-admin workstation","e9f405d3-e7ea-9adf-2f31-9ab2a7a90f5a"
 "CVE-2021-1675 Print Spooler Exploitation IPC Access","critical","security","","Detects remote printer driver load from Detailed File Share in Security logs that are a sign of successful exploitation attempts against print spooler vulnerability CVE-2021-1675 and CVE-2021-34527","52b5923e-1ef2-aaad-5513-3c830f3c5850"
-"NetShare File Access","informational","security","","","8c6ec2b2-8dad-4996-9aba-d659afc1b919"
+"Suspicious PsExec Execution","high","security","","detects execution of psexec or paexec with renamed service name, this rule helps to filter out the noise if psexec is used for legit purposes or if attacker uses a different psexec client other than sysinternal one","426009da-814c-c1c0-cf41-6631c9ff6a8e"
+"Possible Impacket SecretDump Remote Activity","high","security","","Detect AD credential dumping using impacket secretdump HKTL","677980bc-7dcc-1f9a-e161-a7f310ec9652"
+"DCERPC SMB Spoolss Named Pipe","medium","security","","Detects the use of the spoolss named pipe over SMB. This can be used to trigger the authentication via NTLM of any machine that has the spoolservice enabled.","d415c82b-814d-5cdc-c2f2-a138115b878e"
+"Remote Task Creation via ATSVC Named Pipe","medium","security","","Detects remote task creation via at.exe or API interacting with ATSVC namedpipe","93fd0f77-62da-26fb-3e96-71cde45a9680"
+"Possible PetitPotam Coerce Authentication Attempt","high","security","","Detect PetitPotam coerced authentication activity.","bcc12e55-1578-5174-2a47-98a6211a1c6c"
+"Remote Service Activity via SVCCTL Named Pipe","medium","security","","Detects remote service activity via remote access to the svcctl named pipe","9a0e08fc-d50e-2539-9da0-f2b04439c414"
+"T1047 Wmiprvse Wbemcomn DLL Hijack","high","security","","Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\` directory over the network for a WMI DLL Hijack scenario.","f252afa3-fe83-562c-01c0-1334f55af84c"
+"Windows Network Access Suspicious desktop.ini Action","medium","security","","Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.","192d9d70-11ad-70e5-9d6c-d32a1ec74857"
+"SMB Create Remote File Admin Share","high","security","","Look for non-system accounts SMB accessing a file with write (0x2) access mask via administrative share (i.e C$).","37f5d188-182d-7a53-dca7-4bebbb6ce43e"
+"Suspicious Access to Sensitive File Extensions","medium","security","","Detects known sensitive file extensions accessed on a network share","4af39497-9655-9586-817d-94f0df38913f"
+"Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
+","bc613d09-5a80-cad3-6f65-c5020f960511"
+"DCOM InternetExplorer.Application Iertutil DLL Hijack - Security","high","security","","Detects a threat actor creating a file named `iertutil.dll` in the `C:\Program Files\Internet Explorer\` directory over the network for a DCOM InternetExplorer DLL Hijack scenario.","85e72fe3-83af-8ed9-39d3-2883e46059f1"
+"Protected Storage Service Access","high","security","","Detects access to a protected_storage service over the network. Potential abuse of DPAPI to extract domain backup keys from Domain Controllers","7695295d-281f-23ce-d52e-8336ebd47532"
+"Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
+"Transferring Files with Credential Data via Network Shares","medium","security","","Transferring files with well-known filenames (sensitive files with credential data) using network shares","73d3720b-e4f3-d7e1-2a3f-8ca0a5e1fc1b"
+"First Time Seen Remote Named Pipe","high","security","","This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes","308a3356-4624-7c95-24df-cf5a02e5eb56"
+"Impacket PsExec Execution","high","security","","Detects execution of Impacket's psexec.py.","24e370e0-b9f0-5851-0261-f984742ff2a1"
+"Net Conn","informational","security","","The Windows Filtering Platform has allowed a connection.","d0a61a11-57c9-4afc-b940-3f19b60db08e"
+"Net Conn Blocked","informational","security","","The Windows Filtering Platform has blocked a connection.","b793a8e6-28a4-4fb8-816e-17a99e4e7b40"
+"New RDP Connection Initiated From Domain Controller","high","","network_connection","Detects an RDP connection originating from a domain controller.","8b0f1458-5a23-5950-ebc7-f8d7a562dc06"
+"Network Connection Initiated From Users\Public Folder","medium","","network_connection","Detects a network connection initiated from a process located in the ""C:\Users\Public"" folder.
+Attacker are known to drop their malicious payloads and malware in this directory as its writable by everyone.
+Use this rule to hunt for potential suspicious or uncommon activity in your environement.
+","a1027f51-4eb5-a16d-91bf-9e124bb594dd"
+"Dllhost.EXE Initiated Network Connection To Non-Local IP Address","medium","","network_connection","Detects Dllhost.EXE initiating a network connection to a non-local IP address.
+Aside from Microsoft own IP range that needs to be excluded. Network communication from Dllhost will depend entirely on the hosted DLL.
+An initial baseline is recommended before deployment.
+","1062d249-f014-9faf-044e-2b75d6f9763f"
+"Network Connection Initiated By PowerShell Process","low","","network_connection","Detects a network connection that was initiated from a PowerShell process.
+Often times malicious powershell scripts download additional payloads or communicate back to command and control channels via uncommon ports or IPs.
+Use this rule as a basis for hunting for anomalies.
+","9e00ae65-e5aa-2c89-c7a1-7b6ee0e194f5"
+"Msiexec.EXE Initiated Network Connection Over HTTP","low","","network_connection","Detects a network connection initiated by an ""Msiexec.exe"" process over port 80 or 443.
+Adversaries might abuse ""msiexec.exe"" to install and execute remotely hosted packages.
+Use this rule to hunt for potentially anomalous or suspicious communications.
+","8696ae22-70c1-ca19-4888-66ed19ea27da"
+"Dfsvc.EXE Initiated Network Connection Over Uncommon Port","high","","network_connection","Detects an initiated network connection over uncommon ports from ""dfsvc.exe"". A utility used to handled ClickOnce applications.","4255ccee-f954-7d80-4281-d5a5fe9ea9f7"
+"HH.EXE Initiated HTTP Network Connection","medium","","network_connection","Detects a network connection initiated by the ""hh.exe"" process to HTTP destination ports, which could indicate the execution/download of remotely hosted .chm files.
+","13790f2d-97b2-d1a0-6624-1061d7ccbb8c"
+"Dfsvc.EXE Network Connection To Non-Local IPs","medium","","network_connection","Detects network connections from ""dfsvc.exe"" used to handled ClickOnce applications to non-local IPs","713fd43d-88e4-6801-2eac-756d06792d4f"
 "Enumeration via the Global Catalog","medium","security","","Detects enumeration of the global catalog (that can be performed using BloodHound or others AD reconnaissance tools). Adjust Threshold according to domain width.","ffaf246b-f54a-05ba-d9b0-fba6626c7822"
-"Outbound RDP Connections Over Non-Standard Tools","high","","network_connection","Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
-An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
-","e02f9ef8-2edb-79a4-0626-b506436d7ebe"
-"Network Connection Initiated By IMEWDBLD.EXE","high","","network_connection","Detects a network connection initiated by IMEWDBLD.EXE. This might indicate potential abuse of the utility as a LOLBIN in order to download arbitrary files or additional payloads.
-","0f4d93f0-a1eb-e6cb-7d79-f38cc95a9a55"
-"Python Initiated Connection","medium","","network_connection","Detects a Python process initiating a network connection. While this often relates to package installation, it can also indicate a potential malicious script communicating with a C&C server.","cb64ddfa-8325-dc30-db3f-e546a9b1eba5"
-"Local Network Connection Initiated By Script Interpreter","medium","","network_connection","Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder.
-","7e448677-939e-f6d0-e901-91843a3888d7"
+"Suspicious Epmap Connection","high","","network_connection","Detects suspicious ""epmap"" connection to a remote computer via remote procedure call (RPC)","58a2d80c-c77b-324c-640d-c97cf5fcbefa"
+"Windows Filtering Platform Blocked Connection From EDR Agent Binary","high","security","","Detects a Windows Filtering Platform (WFP) blocked connection event involving common Endpoint Detection and Response (EDR) agents.
+Adversaries may use WFP filters to prevent Endpoint Detection and Response (EDR) agents from reporting security events.
+","764518e5-4160-b679-1946-cbd0e76705da"
+"RDP over Reverse SSH Tunnel WFP","high","security","","Detects svchost hosting RDP termsvcs communicating with the loopback address","810804a5-98c3-7e56-e8ed-8a95d72ad829"
+"Uncommon Outbound Kerberos Connection - Security","medium","security","","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
+","1ee90f6c-2d09-5bcf-b8fd-06fe14f86746"
+"Remote PowerShell Sessions Network Connections (WinRM)","high","security","","Detects basic PowerShell Remoting (WinRM) by monitoring for network inbound connections to ports 5985 OR 5986","cc1d9970-7c17-d738-f5cb-8fb12f02d0fd"
+"Suspicious Wordpad Outbound Connections","medium","","network_connection","Detects a network connection initiated by ""wordpad.exe"" over uncommon destination ports.
+This might indicate potential process injection activity from a beacon or similar mechanisms.
+","510d0486-0545-9178-93cb-5f5a8c75930b"
 "Office Application Initiated Network Connection To Non-Local IP","medium","","network_connection","Detects an office application (Word, Excel, PowerPoint)  that initiate a network connection to a non-private IP addresses.
 This rule aims to detect traffic similar to one seen exploited in CVE-2021-42292.
 This rule will require an initial baseline and tuning that is specific to your organization.
 ","7c154a7f-01a0-3b2e-927d-32c452139322"
-"RDP Over Reverse SSH Tunnel","high","","network_connection","Detects svchost hosting RDP termsvcs communicating with the loopback address and on TCP port 3389","81ca22c3-fdfd-6c3a-051f-dc404488536c"
-"Office Application Initiated Network Connection Over Uncommon Ports","medium","","network_connection","Detects an office suit application (Word, Excel, PowerPoint, Outlook) communicating to target systems over uncommon ports.","8cf1b63a-f161-0e51-a9d2-cc697d06a5a4"
-"Network Connection Initiated By Eqnedt32.EXE","high","","network_connection","Detects network connections from the Equation Editor process ""eqnedt32.exe"".","141fe5f1-4de3-21fd-1b09-8d53f1019340"
+"Communication To Uncommon Destination Ports","medium","","network_connection","Detects programs that connect to uncommon destination ports","7983db98-5767-b29d-2652-a01fd3e751ad"
+"Outbound Network Connection To Public IP Via Winlogon","medium","","network_connection","Detects a ""winlogon.exe"" process that initiate network communications with public IP addresses","3c6c2271-decf-a5c0-b983-edaa9cf7077d"
+"Network Connection Initiated By Regsvr32.EXE","medium","","network_connection","Detects a network connection initiated by ""Regsvr32.exe""","6814d247-c70b-e49e-6553-149fc21c3a81"
+"Uncommon Outbound Kerberos Connection","medium","","network_connection","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
+","7c743e5c-7a9d-ba96-9ada-1d17687e2a6d"
+"RegAsm.EXE Initiating Network Connection To Public IP","medium","","network_connection","Detects ""RegAsm.exe"" initiating a network connection to public IP adresses","a0e133b9-f055-5011-01e6-75ed480ad2da"
+"Python Initiated Connection","medium","","network_connection","Detects a Python process initiating a network connection. While this often relates to package installation, it can also indicate a potential malicious script communicating with a C&C server.","cb64ddfa-8325-dc30-db3f-e546a9b1eba5"
+"Silenttrinity Stager Msbuild Activity","high","","network_connection","Detects a possible remote connections to Silenttrinity c2","f96b2d35-57da-bef8-3624-73634617eac6"
+"Suspicious Outbound SMTP Connections","medium","","network_connection","Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
+The data may also be sent to an alternate network location from the main command and control server.
+","94af51b6-e4c1-f780-3f48-90c3d7e35ea4"
 "Outbound Network Connection Initiated By Microsoft Dialer","high","","network_connection","Detects outbound network connection initiated by Microsoft Dialer.
 The Microsoft Dialer, also known as Phone Dialer, is a built-in utility application included in various versions of the Microsoft Windows operating system. Its primary function is to provide users with a graphical interface for managing phone calls via a modem or a phone line connected to the computer.
 This is an outdated process in the current conext of it's usage and is a common target for info stealers for process injection, and is used to make C2 connections, common example is ""Rhadamanthys""
 ","fa5330d2-19f1-4167-52a0-fb622b6425f8"
-"Silenttrinity Stager Msbuild Activity","high","","network_connection","Detects a possible remote connections to Silenttrinity c2","f96b2d35-57da-bef8-3624-73634617eac6"
-"Potentially Suspicious Malware Callback Communication","high","","network_connection","Detects programs that connect to known malware callback ports based on statistical analysis from two different sandbox system databases
-","7ac85830-5907-5206-2d25-490b3ace5587"
-"Suspicious Outbound SMTP Connections","medium","","network_connection","Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
-The data may also be sent to an alternate network location from the main command and control server.
-","94af51b6-e4c1-f780-3f48-90c3d7e35ea4"
-"Communication To Uncommon Destination Ports","medium","","network_connection","Detects programs that connect to uncommon destination ports","7983db98-5767-b29d-2652-a01fd3e751ad"
-"Network Communication Initiated To File Sharing Domains From Process Located In Suspicious Folder","high","","network_connection","Detects executables located in potentially suspicious directories initiating network connections towards file sharing domains.","34ba9d0c-a415-a91a-013b-30158906f18c"
-"RegAsm.EXE Initiating Network Connection To Public IP","medium","","network_connection","Detects ""RegAsm.exe"" initiating a network connection to public IP adresses","a0e133b9-f055-5011-01e6-75ed480ad2da"
+"Uncommon Network Connection Initiated By Certutil.EXE","high","","network_connection","Detects a network connection initiated by the certutil.exe utility.
+Attackers can abuse the utility in order to download malware or additional payloads.
+","bc5e54c2-1b8d-cb27-3079-f47318f4ccc7"
 "Rundll32 Internet Connection","medium","","network_connection","Detects a rundll32 that communicates with public IP addresses","4a7137e3-d863-49dd-6199-5ca7722de62e"
+"Microsoft Sync Center Suspicious Network Connections","medium","","network_connection","Detects suspicious connections from Microsoft Sync Center to non-private IPs.","e2d0c6fb-f0de-9cce-076d-f755f6ae4956"
+"Outbound RDP Connections Over Non-Standard Tools","high","","network_connection","Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+","e02f9ef8-2edb-79a4-0626-b506436d7ebe"
+"Network Connection Initiated By Eqnedt32.EXE","high","","network_connection","Detects network connections from the Equation Editor process ""eqnedt32.exe"".","141fe5f1-4de3-21fd-1b09-8d53f1019340"
+"Network Connection Initiated By IMEWDBLD.EXE","high","","network_connection","Detects a network connection initiated by IMEWDBLD.EXE. This might indicate potential abuse of the utility as a LOLBIN in order to download arbitrary files or additional payloads.
+","0f4d93f0-a1eb-e6cb-7d79-f38cc95a9a55"
+"Network Connection Initiated By AddinUtil.EXE","high","","network_connection","Detects a network connection initiated by the Add-In deployment cache updating utility ""AddInutil.exe"".
+This could indicate a potential command and control communication as this tool doesn't usually initiate network activity.
+","8d993d6b-e44b-0df0-91c0-6093975b69f8"
+"RDP to HTTP or HTTPS Target Ports","high","","network_connection","Detects svchost hosting RDP termsvcs communicating to target systems on TCP port 80 or 443","5049ed9f-e700-a499-9498-5e648851d2ad"
+"RDP Over Reverse SSH Tunnel","high","","network_connection","Detects svchost hosting RDP termsvcs communicating with the loopback address and on TCP port 3389","81ca22c3-fdfd-6c3a-051f-dc404488536c"
 "Network Connection Initiated Via Notepad.EXE","high","","network_connection","Detects a network connection that is initiated by the ""notepad.exe"" process.
 This might be a sign of process injection from a beacon process or something similar.
 Notepad rarely initiates a network communication except when printing documents for example.
 ","e6f76f81-e758-4001-122c-58a3ceef02f9"
-"Network Connection Initiated By Regsvr32.EXE","medium","","network_connection","Detects a network connection initiated by ""Regsvr32.exe""","6814d247-c70b-e49e-6553-149fc21c3a81"
-"Outbound Network Connection To Public IP Via Winlogon","medium","","network_connection","Detects a ""winlogon.exe"" process that initiate network communications with public IP addresses","3c6c2271-decf-a5c0-b983-edaa9cf7077d"
-"Uncommon Network Connection Initiated By Certutil.EXE","high","","network_connection","Detects a network connection initiated by the certutil.exe utility.
-Attackers can abuse the utility in order to download malware or additional payloads.
-","bc5e54c2-1b8d-cb27-3079-f47318f4ccc7"
-"Network Connection Initiated By AddinUtil.EXE","high","","network_connection","Detects a network connection initiated by the Add-In deployment cache updating utility ""AddInutil.exe"".
-This could indicate a potential command and control communication as this tool doesn't usually initiate network activity.
-","8d993d6b-e44b-0df0-91c0-6093975b69f8"
 "Outbound Network Connection Initiated By Cmstp.EXE","high","","network_connection","Detects a network connection initiated by Cmstp.EXE
 Its uncommon for ""cmstp.exe"" to initiate an outbound network connection. Investigate the source of such requests to determine if they are malicious.
 ","41d54b25-deb6-4ea3-fbac-3f5b6e200939"
 "Remote Access Tool - AnyDesk Incoming Connection","medium","","network_connection","Detects incoming connections to AnyDesk. This could indicate a potential remote attacker trying to connect to a listening instance of AnyDesk and use it as potential command and control channel.
 ","5a099129-36a4-b13b-5345-9f37b231fb5c"
-"Uncommon Connection to Active Directory Web Services","medium","","network_connection","Detects uncommon network connections to the Active Directory Web Services (ADWS) from processes not typically associated with ADWS management.
-","b2c34a06-251e-87ee-2d3e-fae878185d34"
-"Uncommon Outbound Kerberos Connection","medium","","network_connection","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
-","7c743e5c-7a9d-ba96-9ada-1d17687e2a6d"
-"Microsoft Sync Center Suspicious Network Connections","medium","","network_connection","Detects suspicious connections from Microsoft Sync Center to non-private IPs.","e2d0c6fb-f0de-9cce-076d-f755f6ae4956"
-"RDP to HTTP or HTTPS Target Ports","high","","network_connection","Detects svchost hosting RDP termsvcs communicating to target systems on TCP port 80 or 443","5049ed9f-e700-a499-9498-5e648851d2ad"
+"Network Communication Initiated To File Sharing Domains From Process Located In Suspicious Folder","high","","network_connection","Detects executables located in potentially suspicious directories initiating network connections towards file sharing domains.","34ba9d0c-a415-a91a-013b-30158906f18c"
+"Outbound Network Connection Initiated By Script Interpreter","high","","network_connection","Detects a script interpreter wscript/cscript opening a network connection to a non-local network. Adversaries may use script to download malicious payloads.","1487f05c-b749-4322-d657-d20a2eea7e47"
+"Potentially Suspicious Malware Callback Communication","high","","network_connection","Detects programs that connect to known malware callback ports based on statistical analysis from two different sandbox system databases
+","7ac85830-5907-5206-2d25-490b3ace5587"
+"Local Network Connection Initiated By Script Interpreter","medium","","network_connection","Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder.
+","7e448677-939e-f6d0-e901-91843a3888d7"
 "Network Connection Initiated From Process Located In Potentially Suspicious Or Uncommon Location","high","","network_connection","Detects a network connection initiated by programs or processes running from suspicious or uncommon files system locations.
 ","1ba0b3d6-e0f7-98e9-4611-b307922a0766"
-"Outbound Network Connection Initiated By Script Interpreter","high","","network_connection","Detects a script interpreter wscript/cscript opening a network connection to a non-local network. Adversaries may use script to download malicious payloads.","1487f05c-b749-4322-d657-d20a2eea7e47"
-"Suspicious Wordpad Outbound Connections","medium","","network_connection","Detects a network connection initiated by ""wordpad.exe"" over uncommon destination ports.
-This might indicate potential process injection activity from a beacon or similar mechanisms.
-","510d0486-0545-9178-93cb-5f5a8c75930b"
-"RDP over Reverse SSH Tunnel WFP","high","security","","Detects svchost hosting RDP termsvcs communicating with the loopback address","810804a5-98c3-7e56-e8ed-8a95d72ad829"
-"Uncommon Outbound Kerberos Connection - Security","medium","security","","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
-","1ee90f6c-2d09-5bcf-b8fd-06fe14f86746"
-"Windows Filtering Platform Blocked Connection From EDR Agent Binary","high","security","","Detects a Windows Filtering Platform (WFP) blocked connection event involving common Endpoint Detection and Response (EDR) agents.
-Adversaries may use WFP filters to prevent Endpoint Detection and Response (EDR) agents from reporting security events.
-","764518e5-4160-b679-1946-cbd0e76705da"
-"Remote PowerShell Sessions Network Connections (WinRM)","high","security","","Detects basic PowerShell Remoting (WinRM) by monitoring for network inbound connections to ports 5985 OR 5986","cc1d9970-7c17-d738-f5cb-8fb12f02d0fd"
-"Suspicious Epmap Connection","high","","network_connection","Detects suspicious ""epmap"" connection to a remote computer via remote procedure call (RPC)","58a2d80c-c77b-324c-640d-c97cf5fcbefa"
-"Network Connection Initiated From Users\Public Folder","medium","","network_connection","Detects a network connection initiated from a process located in the ""C:\Users\Public"" folder.
-Attacker are known to drop their malicious payloads and malware in this directory as its writable by everyone.
-Use this rule to hunt for potential suspicious or uncommon activity in your environement.
-","a1027f51-4eb5-a16d-91bf-9e124bb594dd"
-"Network Connection Initiated By PowerShell Process","low","","network_connection","Detects a network connection that was initiated from a PowerShell process.
-Often times malicious powershell scripts download additional payloads or communicate back to command and control channels via uncommon ports or IPs.
-Use this rule as a basis for hunting for anomalies.
-","9e00ae65-e5aa-2c89-c7a1-7b6ee0e194f5"
-"Dfsvc.EXE Network Connection To Non-Local IPs","medium","","network_connection","Detects network connections from ""dfsvc.exe"" used to handled ClickOnce applications to non-local IPs","713fd43d-88e4-6801-2eac-756d06792d4f"
-"HH.EXE Initiated HTTP Network Connection","medium","","network_connection","Detects a network connection initiated by the ""hh.exe"" process to HTTP destination ports, which could indicate the execution/download of remotely hosted .chm files.
-","13790f2d-97b2-d1a0-6624-1061d7ccbb8c"
-"Dfsvc.EXE Initiated Network Connection Over Uncommon Port","high","","network_connection","Detects an initiated network connection over uncommon ports from ""dfsvc.exe"". A utility used to handled ClickOnce applications.","4255ccee-f954-7d80-4281-d5a5fe9ea9f7"
-"Dllhost.EXE Initiated Network Connection To Non-Local IP Address","medium","","network_connection","Detects Dllhost.EXE initiating a network connection to a non-local IP address.
-Aside from Microsoft own IP range that needs to be excluded. Network communication from Dllhost will depend entirely on the hosted DLL.
-An initial baseline is recommended before deployment.
-","1062d249-f014-9faf-044e-2b75d6f9763f"
-"Msiexec.EXE Initiated Network Connection Over HTTP","low","","network_connection","Detects a network connection initiated by an ""Msiexec.exe"" process over port 80 or 443.
-Adversaries might abuse ""msiexec.exe"" to install and execute remotely hosted packages.
-Use this rule to hunt for potentially anomalous or suspicious communications.
-","8696ae22-70c1-ca19-4888-66ed19ea27da"
-"New RDP Connection Initiated From Domain Controller","high","","network_connection","Detects an RDP connection originating from a domain controller.","8b0f1458-5a23-5950-ebc7-f8d7a562dc06"
-"Net Conn","informational","security","","The Windows Filtering Platform has allowed a connection.","d0a61a11-57c9-4afc-b940-3f19b60db08e"
-"Net Conn Blocked","informational","security","","The Windows Filtering Platform has blocked a connection.","b793a8e6-28a4-4fb8-816e-17a99e4e7b40"
-"Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
+"Office Application Initiated Network Connection Over Uncommon Ports","medium","","network_connection","Detects an office suit application (Word, Excel, PowerPoint, Outlook) communicating to target systems over uncommon ports.","8cf1b63a-f161-0e51-a9d2-cc697d06a5a4"
+"Uncommon Connection to Active Directory Web Services","medium","","network_connection","Detects uncommon network connections to the Active Directory Web Services (ADWS) from processes not typically associated with ADWS management.
+","b2c34a06-251e-87ee-2d3e-fae878185d34"
 "Password Policy Enumerated","medium","security","","Detects when the password policy is enumerated.","9bcf333e-fc4c-5912-eeba-8a0cefe21be4"
 "AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
+"Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
 "Enabled User Right in AD to Control User Objects","high","security","","Detects scenario where if a user is assigned the SeEnableDelegationPrivilege right in Active Directory it would allow control of other AD user objects.","eaafcd7e-3303-38d1-9cff-fcfbae177f4d"
-"SCM Database Privileged Operation","medium","security","","Detects non-system users performing privileged operation os the SCM database","ec9c7ea2-54d7-3a55-caa8-4741f099505a"
-"Lateral Movement Indicator ConDrv","low","security","","This event was observed on the target host during lateral movement. The process name within the event contains the process spawned post compromise. Account Name within the event contains the compromised user account name. This event should to be correlated with 4624 and 4688 for further intrusion context.","6683ccd7-da7a-b988-1683-7f7a1bf72bf6"
 "Possible Hidden Service Created","medium","security","","User requested to modify the Dynamic Access Control (DAC) permissions of a service, possibly to hide it from view.","15db3cc7-30bd-47a0-bd75-66208ce8e3fe"
+"Lateral Movement Indicator ConDrv","low","security","","This event was observed on the target host during lateral movement. The process name within the event contains the process spawned post compromise. Account Name within the event contains the compromised user account name. This event should to be correlated with 4624 and 4688 for further intrusion context.","6683ccd7-da7a-b988-1683-7f7a1bf72bf6"
+"SCM Database Privileged Operation","medium","security","","Detects non-system users performing privileged operation os the SCM database","ec9c7ea2-54d7-3a55-caa8-4741f099505a"
