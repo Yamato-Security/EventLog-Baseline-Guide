@@ -152,10 +152,10 @@ with m1:
     df_usable.sort_values("level", inplace=True)
     data = df_usable["level"].value_counts().reindex(level_order).reset_index()
     data.columns = ["Level", "Value"]
-    total = data["Value"].sum()
+    usable_total = data["Value"].sum()
 
     ## Bar chart
-    st.markdown(f"<h4 style='text-align: center;'>Usable Rules Group by Level (Total: {total})</h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='text-align: center;'>Usable Rules Group by Level (Total: {usable_total})</h4>", unsafe_allow_html=True)
     st.altair_chart(create_bar_chart(data, ""), use_container_width=True)
 
 with m2:
@@ -163,16 +163,16 @@ with m2:
     df_unusable.sort_values("level", inplace=True)
     data = df_unusable["level"].value_counts().reindex(level_order).reset_index()
     data.columns = ["Level", "Value"]
-    total = data["Value"].sum()
+    unusable_total = data["Value"].sum()
 
     ## Bar chart
-    st.markdown(f"<h4 style='text-align: center;'>Unusable Rules Group by Level (Total: {total})</h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='text-align: center;'>Unusable Rules Group by Level (Total: {unusable_total})</h4>", unsafe_allow_html=True)
     st.altair_chart(create_bar_chart(data, ""), use_container_width=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
 ## List
-st.markdown(f"<h4 style='text-align: center;'>Usable Rules List (Total: {total})</h4>", unsafe_allow_html=True)
+st.markdown(f"<h4 style='text-align: center;'>Usable Rules List (Total: {usable_total})</h4>", unsafe_allow_html=True)
 cellStyle_unusable = JsCode(
     r"""
     function(cellClassParams) {
@@ -192,7 +192,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
 
 ## List
-st.markdown(f"<h4 style='text-align: center;'>Unusable Rules List (Total: {total})</h4>", unsafe_allow_html=True)
+st.markdown(f"<h4 style='text-align: center;'>Unusable Rules List (Total: {unusable_total})</h4>", unsafe_allow_html=True)
 cellStyle_unusable = JsCode(
     r"""
     function(cellClassParams) {
