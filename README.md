@@ -4,6 +4,9 @@ A comprehensive Streamlit application for comparing and analyzing Windows Event 
 ## Live Demo
 [https://yamato-security-eventlog-baseline-guide-streamlit-app-gwlyjo.streamlit.app/](https://yamato-security-eventlog-baseline-guide-streamlit-app-gwlyjo.streamlit.app/)
 
+## Architecture
+![Screenshot](img/06.png)
+
 ## Screenshot
 ![Screenshot](img/01.png)
 
