@@ -20,7 +20,7 @@ A comprehensive Streamlit application for comparing and analyzing Windows Event 
 
 ## Features
 
-### Baseline Guide Comparison
+### Windows Event Log Audit Settings Baseline Guide Comparison
 Compare audit settings across multiple authoritative sources:
 - **Windows Default**: Microsoft's default configuration
 - **YamatoSecurity**: Community-driven security configurations
