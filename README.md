@@ -9,17 +9,6 @@ It leverages over 4,000 Sigma rules and audit baselines to visualize detection c
 ## Architecture
 ![Screenshot](img/06.png)
 
-## Screenshot
-![Screenshot](img/01.png)
-
-![Screenshot](img/02.png)
-
-![Screenshot](img/03.png)
-
-![Screenshot](img/04.png)
-
-![Screenshot](img/05.png)
-
 ## Features
 
 ### Windows Event Log Audit Settings Baseline Guide Comparison
@@ -36,7 +25,19 @@ Compare audit settings across multiple authoritative sources:
 - **Sigma Rule Statistics**: Impact analysis on detection rule effectiveness
 - **Service and Category Breakdown**: Granular analysis by Windows services and categories
 
-## Color-Coded Interface
+
+### Screenshot
+![Screenshot](img/01.png)
+
+![Screenshot](img/02.png)
+
+![Screenshot](img/03.png)
+
+![Screenshot](img/04.png)
+
+![Screenshot](img/05.png)
+
+### Color-Coded Interface
 
 The application uses an intuitive color-coding system:
 - **🟡 Yellow**: Changes required from default settings
