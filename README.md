@@ -1,5 +1,7 @@
 # About EventLog-Baseline-Guide
 A comprehensive Streamlit application for comparing and analyzing Windows Event Log audit settings across different security baseline guides.
+This tool provides a user-friendly interface to visualize differences in audit settings, assess their impact on detection rule effectiveness, and make informed decisions about Windows Event Log configurations.
+It leverages over 4,000 Sigma rules and audit baselines to visualize detection coverage before and after applying specific configurations.
 
 ## Live Demo
 [https://yamato-security-eventlog-baseline-guide-streamlit-app-gwlyjo.streamlit.app/](https://yamato-security-eventlog-baseline-guide-streamlit-app-gwlyjo.streamlit.app/)
