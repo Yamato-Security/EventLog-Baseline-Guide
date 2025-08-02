@@ -13,7 +13,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        os: [ windows-2019, windows-2022, windows-2025, windows-latest ]
+        os: [ windows-11-arm, windows-2022, windows-2025, windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -46,7 +46,7 @@ jobs:
           ./Microsoft_Server.bat
 
       - name: Run WELA.ps1 audit-settings(Default)
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           cd WELA
           ./WELA.ps1 audit-settings
@@ -75,7 +75,7 @@ jobs:
           ./WELA.ps1 audit-filesize
 
       - name: Convert audit csv result (Default)
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           # WELA-Audit-Result.csvのRecommendedSetting列を空白にする
           $auditCsvPath = "./WELA/WELA-Audit-Result.csv"
@@ -92,7 +92,7 @@ jobs:
           $fileSizeData | Export-Csv $fileSizeCsvPath -NoTypeInformation -Encoding UTF8
 
       - name: Move WELA result files (Default)
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           cd WELA
           Copy-Item *.csv ../data/Windows_Default/ -Force
@@ -128,47 +128,47 @@ jobs:
           commit_message: Apply changes
 
       - name: Checkout WELA repository
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         uses: actions/checkout@v4
         with:
           repository: Yamato-Security/WELA
           path: WELA
 
       - name: Run configure bat(YamatoSecurity)
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           cd bat
           ./YamatoSecurity.bat
 
       - name: Run WELA.ps1 audit-settings
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           cd WELA
           ./WELA.ps1 audit-settings
 
       - name: Run WELA.ps1 audit-filesize
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           cd WELA
           ./WELA.ps1 audit-filesize
 
       - name: Move WELA result files (YamatoSecurity)
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           cd WELA
           Copy-Item *.csv ../data/YamatoSecurity/ -Force
 
       - name: Delete WELA repo
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           Remove-Item -Recurse -Force WELA
 
       - name: Pull Git repo
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         run: |
           git pull origin main
 
       - uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-11-arm' }}
         with:
           commit_message: Apply changes
