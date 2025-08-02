@@ -213,6 +213,10 @@ This is usually used with UseLogonCredential to manipulate the caching credentia
 "Registry Persistence Mechanisms in Recycle Bin","high","","registry_event","Detects persistence registry keys for Recycle Bin","1617c214-9562-4819-58cd-ffa7929cf167"
 "Windows Registry Trust Record Modification","medium","","registry_event","Alerts on trust record modification within the registry, indicating usage of macros","b2a0af70-a308-0185-6128-c2e37db1ebf2"
 "NetNTLM Downgrade Attack - Registry","high","","registry_event","Detects NetNTLM downgrade attack","3387665f-9c44-56db-5cb9-a35e48689376"
+"Windows Defender Threat Severity Default Action Modified","high","","registry_event","Detects modifications or creations of Windows Defender's default threat action settings based on severity to 'allow' or take 'no action'.
+This is a highly suspicious configuration change that effectively disables Defender's ability to automatically mitigate threats of a certain severity level,
+allowing malicious software to run unimpeded. An attacker might use this technique to bypass defenses before executing payloads.
+","4162459b-68e6-524b-ec5a-48ed032b96cd"
 "Registry Entries For Azorult Malware","critical","","registry_event","Detects the presence of a registry key created during Azorult execution","46595663-e666-c413-ccf4-028a618ca712"
 "Potential NetWire RAT Activity - Registry","high","","registry_add","Detects registry keys related to NetWire RAT","61bb2824-c37f-f432-0767-9a80d45583aa"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_add","Detects COM object hijacking via TreatAs subkey","6b4b0ded-e40c-4d49-68f0-b78339d9587e"
@@ -501,7 +505,7 @@ IMEs are essential for languages that have more characters than can be represent
 .NET Usage Log output location can be controlled by setting the NGenAssemblyUsageLog CLR configuration knob in the Registry or by configuring an environment variable (as described in the next section).
 By simplify specifying an arbitrary value (e.g. fake output location or junk data) for the expected value, a Usage Log file for the .NET execution context will not be created.
 ","9f6b7775-4d86-0f98-45b5-2cfac0e410e7"
-"Suspicious Powershell In Registry Run Keys","medium","","registry_set","Detects potential PowerShell commands or code within registry run keys","886d79ab-1307-d072-9729-18305985ebad"
+"Suspicious PowerShell In Registry Run Keys","medium","","registry_set","Detects potential PowerShell commands or code within registry run keys","886d79ab-1307-d072-9729-18305985ebad"
 "UAC Notification Disabled","medium","","registry_set","Detects when an attacker tries to disable User Account Control (UAC) notification by tampering with the ""UACDisableNotify"" value.
 UAC is a critical security feature in Windows that prevents unauthorized changes to the operating system. It prompts the user for permission or an administrator password before allowing actions that could affect the system's operation or change settings that affect other users.
 When ""UACDisableNotify"" is set to 1, UAC prompts are suppressed.
