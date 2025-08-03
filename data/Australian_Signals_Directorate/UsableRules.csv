@@ -934,6 +934,7 @@ Monitor process creation with ""wmic process call create"" and LOLBins in comman
 "Registry Dump of SAM Creds and Secrets","high","","process_creation","Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database either through Windows Registry where the SAM database is stored","f4ff3d8e-34aa-51f7-6a8e-5081ec934b65"
 "Run from a Zip File","medium","","process_creation","Payloads may be compressed, archived, or encrypted in order to avoid detection","0557765a-6dad-b15a-5cf0-d92eef2b33ab"
 "Indirect Command Exectuion via Forfiles","medium","","process_creation","Detects execition of commands and binaries from the context of ""forfiles.exe"". This can be used as a LOLBIN in order to bypass application whitelisting.","4bea8156-6003-3037-62a5-4be1429183b9"
+"PowerShell Web Download","medium","","process_creation","Detects suspicious ways to download files or content using PowerShell","0b1811c8-8c1e-c6bb-1af2-2fe3b42a6b56"
 "Suspicious Cmd Execution via WMI","medium","","process_creation","Detects suspicious command execution (cmd) via Windows Management Instrumentation (WMI) on a remote host. This could be indicative of adversary lateral movement.","83f40f59-3ad9-6e41-f40d-b0c6cba08720"
 "Stop Or Remove Antivirus Service","high","","process_creation","Detects usage of 'Stop-Service' or 'Remove-Service' powershell cmdlet to disable AV services.
 Adversaries may disable security tools to avoid possible detection of their tools and activities by stopping antivirus service
@@ -1036,6 +1037,8 @@ Adversaries may use this information to determine which users have elevated perm
 "Xwizard.EXE Execution From Non-Default Location","high","","process_creation","Detects the execution of Xwizard tool from a non-default directory.
 When executed from a non-default directory, this utility can be abused in order to side load a custom version of ""xwizards.dll"".
 ","a45e9350-b577-e20b-ed84-113a3b5c3e3a"
+"Password Set to Never Expire via WMI","medium","","process_creation","Detects the use of wmic.exe to modify user account settings and explicitly disable password expiration.
+","b1293fae-fc5a-74c7-dfc9-3ad02ce661b2"
 "Potential File Download Via MS-AppInstaller Protocol Handler","medium","","process_creation","Detects usage of the ""ms-appinstaller"" protocol handler via command line to potentially download arbitrary files via AppInstaller.EXE
 The downloaded files are temporarly stored in "":\Users\%username%\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\AC\INetCache\<RANDOM-8-CHAR-DIRECTORY>""
 ","04dd1706-97cc-c1bf-45db-6a9786736ab4"
@@ -1703,7 +1706,7 @@ An example would be a threat actor creating a new user via the net command and p
 "HackTool - SysmonEOP Execution","critical","","process_creation","Detects the execution of the PoC that can be used to exploit Sysmon CVE-2022-41120","40c1ee69-dcc9-b5a4-614c-60aa83c693d0"
 "Suspicious Processes Spawned by Java.EXE","high","","process_creation","Detects suspicious processes spawned from a Java host process which could indicate a sign of exploitation (e.g. log4j)","095ae799-3f3b-554f-3c83-f8d48e711e72"
 "Ping Hex IP","high","","process_creation","Detects a ping command that uses a hex encoded IP address","8f1f0cfc-418f-58d0-6c0a-aa9299b3d5e5"
-"Potential DLL File Download Via PowerShell Invoke-WebRequest","medium","","process_creation","Detects potential DLL files being downloaded using the PowerShell Invoke-WebRequest cmdlet","7b1d6a26-339a-db21-8b7d-55f848967cdd"
+"Potential DLL File Download Via PowerShell Invoke-WebRequest","medium","","process_creation","Detects potential DLL files being downloaded using the PowerShell Invoke-WebRequest or Invoke-RestMethod cmdlets.","7b1d6a26-339a-db21-8b7d-55f848967cdd"
 "Perl Inline Command Execution","medium","","process_creation","Detects execution of perl using the ""-e""/""-E"" flags. This is could be used as a way to launch a reverse shell or execute live perl code.","1c7255e9-5677-0dce-20d7-83f42f4a517c"
 "Outlook EnableUnsafeClientMailRules Setting Enabled","high","","process_creation","Detects an attacker trying to enable the outlook security setting ""EnableUnsafeClientMailRules"" which allows outlook to run applications or execute macros","d9d5da14-1719-381f-170e-e347318f764f"
 "Uncommon Userinit Child Process","high","","process_creation","Detects uncommon ""userinit.exe"" child processes, which could be a sign of uncommon shells or login scripts used for persistence.","8d2051ab-4ac8-617f-7be7-3a2c8e1a8aa8"
@@ -1745,7 +1748,6 @@ Msiexec.exe is the command-line utility for the Windows Installer and is thus co
 "SafeBoot Registry Key Deleted Via Reg.EXE","high","","process_creation","Detects execution of ""reg.exe"" commands with the ""delete"" flag on safe boot registry keys. Often used by attacker to prevent safeboot execution of security products","9069f74a-131e-643b-86fc-0f23d29805d7"
 "Run PowerShell Script from ADS","high","","process_creation","Detects PowerShell script execution from Alternate Data Stream (ADS)","d6a5fc1c-e0e9-bcc2-daed-22823802b707"
 "Remote Access Tool - AnyDesk Silent Installation","high","","process_creation","Detects AnyDesk Remote Desktop silent installation. Which can be used by attackers to gain remote access.","1ec0b8fb-050d-074d-7209-6c4c724f24cb"
-"PowerShell Web Download","medium","","process_creation","Detects suspicious ways to download files or content using PowerShell","0b1811c8-8c1e-c6bb-1af2-2fe3b42a6b56"
 "Shell32 DLL Execution in Suspicious Directory","high","","process_creation","Detects shell32.dll executing a DLL in a suspicious directory","54783800-bea8-9a66-c11d-9aab8da467eb"
 "Delete All Scheduled Tasks","high","","process_creation","Detects the usage of schtasks with the delete flag and the asterisk symbol to delete all tasks from the schedule of the local computer, including tasks scheduled by other users.","35f42a49-bad0-2ba7-87b0-62e78681838e"
 "Deny Service Access Using Security Descriptor Tampering Via Sc.EXE","high","","process_creation","Detects suspicious DACL modifications to deny access to a service that affects critical trustees. This can be used to hide services or make them unstoppable.","fd14e822-33da-bc04-253d-2c8cc8659a30"
@@ -2090,6 +2092,10 @@ Initial baselining of the allowed extension list is required.
 "Potential Provlaunch.EXE Binary Proxy Execution Abuse","medium","","process_creation","Detects child processes of ""provlaunch.exe"" which might indicate potential abuse to proxy execution.","0e400d25-3298-763d-1813-3fe64dbdb2b0"
 "Suspicious RunAs-Like Flag Combination","medium","","process_creation","Detects suspicious command line flags that let the user set a target user and command as e.g. seen in PsExec-like tools","775ae677-184d-c90f-016f-f337fd79aa75"
 "Potentially Suspicious Execution Of Regasm/Regsvcs From Uncommon Location","medium","","process_creation","Detects potentially suspicious execution of the Regasm/Regsvcs utilities from a potentially suspicious location","d14f893b-1931-f274-ce30-147d8cca81fb"
+"PowerShell Defender Threat Severity Default Action Set to 'Allow' or 'NoAction'","high","","process_creation","Detects the use of PowerShell to execute the 'Set-MpPreference' cmdlet to configure Windows Defender's threat severity default action to 'Allow' (value '6') or 'NoAction' (value '9').
+This is a highly suspicious configuration change that effectively disables Defender's ability to automatically mitigate threats of a certain severity level.
+An attacker might use this technique via the command line to bypass defenses before executing payloads.
+","118c7926-b646-c48e-0be5-da48f765543e"
 "Tap Installer Execution","medium","","process_creation","Well-known TAP software installation. Possible preparation for data exfiltration using tunneling techniques","9bce1ab7-f1d3-6e4c-e5ae-6cdb2b974218"
 "Ruby Inline Command Execution","medium","","process_creation","Detects execution of ruby using the ""-e"" flag. This is could be used as a way to launch a reverse shell or execute live ruby code.","602c5e30-f2c0-b275-aab7-2e95c70b2883"
 "Allow Service Access Using Security Descriptor Tampering Via Sc.EXE","high","","process_creation","Detects suspicious DACL modifications to allow access to a service from a suspicious trustee. This can be used to override access restrictions set by previous ACLs.","a6b2ba82-448c-971d-4112-1464c1588d84"
@@ -2294,6 +2300,10 @@ This could be an indicator of exfiltration or use of WebDav to launch code (host
 "Obfuscated IP Download Activity","medium","","process_creation","Detects use of an encoded/obfuscated version of an IP address (hex, octal...) in an URL combined with a download command","e0a1f78a-c161-fbe3-4ec6-e151177ec4f1"
 "Suspicious Spool Service Child Process","high","","process_creation","Detects suspicious print spool service (spoolsv.exe) child processes.","9acd90a3-770d-023f-0b71-92c461984dcc"
 "Service StartupType Change Via PowerShell Set-Service","medium","","process_creation","Detects the use of the PowerShell ""Set-Service"" cmdlet to change the startup type of a service to ""disabled"" or ""manual""","c748889d-9dac-b46a-4f1b-812efb97e670"
+"Windows Defender Context Menu Removed","high","","process_creation","Detects the use of reg.exe or PowerShell to delete the Windows Defender context menu handler registry keys.
+This action removes the ""Scan with Microsoft Defender"" option from the right-click menu for files, directories, and drives.
+Attackers may use this technique to hinder manual, on-demand scans and reduce the visibility of the security product.
+","2f67b2ed-f7b9-c3fd-7e0a-a17cb1920bab"
 "Suspicious Process By Web Server Process","high","","process_creation","Detects potentially suspicious processes being spawned by a web server process which could be the result of a successfully placed web shell or exploitation
 ","5bdc7357-a9e6-95bc-a7cd-c6e0022b3299"
 "Application Removed Via Wmic.EXE","medium","","process_creation","Detects the removal or uninstallation of an application via ""Wmic.EXE"".","4f8de5d6-a332-76fb-d759-219688d83254"
@@ -2307,6 +2317,10 @@ This behavior has been used by threat actors behind Dharma ransomware.
 Adversaries may destroy data and files on specific systems or in large numbers on a network to interrupt availability to systems, services, and network resources.
 Data destruction is likely to render stored data irrecoverable by forensic techniques through overwriting files or data on local and remote drives
 ","40457d53-1448-2b59-d171-3ec4d0c7e8b6"
+"Disabling Windows Defender WMI Autologger Session via Reg.exe","high","","process_creation","Detects the use of reg.exe to disable the Event Tracing for Windows (ETW) Autologger session for Windows Defender API and Audit events.
+By setting the 'Start' value to '0' for the 'DefenderApiLogger' or 'DefenderAuditLogger' session, an attacker can prevent these critical security events
+from being logged, effectively blinding monitoring tools that rely on this data. This is a powerful defense evasion technique.
+","900cc808-eb18-0106-55ac-478667fa36d5"
 "Potential Privilege Escalation Using Symlink Between Osk and Cmd","high","","process_creation","Detects the creation of a symbolic link between ""cmd.exe"" and the accessibility on-screen keyboard binary (osk.exe) using ""mklink"". This technique provides an elevated command prompt to the user from the login screen without the need to log in.","3644cb9d-2e13-2dcc-497a-9eb0710ac9b8"
 "Computer Discovery And Export Via Get-ADComputer Cmdlet","medium","","process_creation","Detects usage of the Get-ADComputer cmdlet to collect computer information and output it to a file","1a00950e-36a2-0312-33ae-1d272dc02169"
 "Base64 Encoded PowerShell Command Detected","high","","process_creation","Detects usage of the ""FromBase64String"" function in the commandline which is used to decode a base64 encoded string","c03c42ba-1e4e-45c3-c0ba-c8d38b077ee7"
@@ -2783,6 +2797,10 @@ This is usually used with UseLogonCredential to manipulate the caching credentia
 "Registry Persistence Mechanisms in Recycle Bin","high","","registry_event","Detects persistence registry keys for Recycle Bin","1617c214-9562-4819-58cd-ffa7929cf167"
 "Windows Registry Trust Record Modification","medium","","registry_event","Alerts on trust record modification within the registry, indicating usage of macros","b2a0af70-a308-0185-6128-c2e37db1ebf2"
 "NetNTLM Downgrade Attack - Registry","high","","registry_event","Detects NetNTLM downgrade attack","3387665f-9c44-56db-5cb9-a35e48689376"
+"Windows Defender Threat Severity Default Action Modified","high","","registry_event","Detects modifications or creations of Windows Defender's default threat action settings based on severity to 'allow' or take 'no action'.
+This is a highly suspicious configuration change that effectively disables Defender's ability to automatically mitigate threats of a certain severity level,
+allowing malicious software to run unimpeded. An attacker might use this technique to bypass defenses before executing payloads.
+","4162459b-68e6-524b-ec5a-48ed032b96cd"
 "Registry Entries For Azorult Malware","critical","","registry_event","Detects the presence of a registry key created during Azorult execution","46595663-e666-c413-ccf4-028a618ca712"
 "Potential NetWire RAT Activity - Registry","high","","registry_add","Detects registry keys related to NetWire RAT","61bb2824-c37f-f432-0767-9a80d45583aa"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_add","Detects COM object hijacking via TreatAs subkey","6b4b0ded-e40c-4d49-68f0-b78339d9587e"
@@ -3071,7 +3089,7 @@ IMEs are essential for languages that have more characters than can be represent
 .NET Usage Log output location can be controlled by setting the NGenAssemblyUsageLog CLR configuration knob in the Registry or by configuring an environment variable (as described in the next section).
 By simplify specifying an arbitrary value (e.g. fake output location or junk data) for the expected value, a Usage Log file for the .NET execution context will not be created.
 ","9f6b7775-4d86-0f98-45b5-2cfac0e410e7"
-"Suspicious Powershell In Registry Run Keys","medium","","registry_set","Detects potential PowerShell commands or code within registry run keys","886d79ab-1307-d072-9729-18305985ebad"
+"Suspicious PowerShell In Registry Run Keys","medium","","registry_set","Detects potential PowerShell commands or code within registry run keys","886d79ab-1307-d072-9729-18305985ebad"
 "UAC Notification Disabled","medium","","registry_set","Detects when an attacker tries to disable User Account Control (UAC) notification by tampering with the ""UACDisableNotify"" value.
 UAC is a critical security feature in Windows that prevents unauthorized changes to the operating system. It prompts the user for permission or an administrator password before allowing actions that could affect the system's operation or change settings that affect other users.
 When ""UACDisableNotify"" is set to 1, UAC prompts are suppressed.
