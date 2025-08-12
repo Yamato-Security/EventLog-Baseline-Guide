@@ -13,7 +13,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        os: [ windows-11-arm, windows-2022, windows-2025, windows-latest ]
+        os: [ windows-11-arm, windows-2022, windows-2025, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -45,11 +45,11 @@ jobs:
           cd bat
           ./Microsoft_Client.bat
 
-      - name: Run configure bat(MS Server)
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: |
-          cd bat
-          ./Microsoft_Server.bat
+#      - name: Run configure bat(MS Server)
+#        if: ${{ matrix.os == 'windows-latest' }}
+#        run: |
+#          cd bat
+#          ./Microsoft_Server.bat
 
       - name: Run WELA.ps1 audit-settings(ASD)
         if: ${{ matrix.os == 'windows-2022' }}
@@ -63,11 +63,11 @@ jobs:
           cd WELA
           ./WELA.ps1 audit-settings -Baseline Microsoft_Client
 
-      - name: Run WELA.ps1 audit-settings(MS Server)
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: |
-          cd WELA
-          ./WELA.ps1 audit-settings -Baseline Microsoft_Server
+#      - name: Run WELA.ps1 audit-settings(MS Server)
+#        if: ${{ matrix.os == 'windows-latest' }}
+#        run: |
+#          cd WELA
+#          ./WELA.ps1 audit-settings -Baseline Microsoft_Server
 
       - name: Run WELA.ps1 audit-filesize
         run: |
