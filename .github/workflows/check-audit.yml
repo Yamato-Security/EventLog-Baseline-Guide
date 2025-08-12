@@ -27,6 +27,12 @@ jobs:
           repository: Yamato-Security/WELA
           path: WELA
 
+      - name: Run WELA.ps1 audit-settings(Default)
+        if: ${{ matrix.os == 'windows-2025' }}
+        run: |
+          cd WELA
+          ./WELA.ps1 audit-settings
+
       - name: Run configure bat(ASD)
         if: ${{ matrix.os == 'windows-2022' }}
         run: |
@@ -44,12 +50,6 @@ jobs:
         run: |
           cd bat
           ./Microsoft_Server.bat
-
-      - name: Run WELA.ps1 audit-settings(Default)
-        if: ${{ matrix.os == 'windows-2025' }}
-        run: |
-          cd WELA
-          ./WELA.ps1 audit-settings
 
       - name: Run WELA.ps1 audit-settings(ASD)
         if: ${{ matrix.os == 'windows-2022' }}
