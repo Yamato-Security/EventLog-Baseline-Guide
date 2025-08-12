@@ -27,8 +27,7 @@ jobs:
           repository: Yamato-Security/WELA
           path: WELA
 
-      - name: Run WELA.ps1 audit-settings(Default)
-        if: ${{ matrix.os == 'windows-2025' }}
+      - name: Run auditpol command
         run: |
           auditpol /get /category:*
 
