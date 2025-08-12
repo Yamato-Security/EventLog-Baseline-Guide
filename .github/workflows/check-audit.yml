@@ -115,10 +115,6 @@ jobs:
           cd WELA
           Copy-Item *.csv ../data/Microsoft_Server/ -Force
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Apply changes
-
       - name: Delete WELA repo
         run: |
           Remove-Item -Recurse -Force WELA
@@ -161,10 +157,6 @@ jobs:
         run: |
           cd WELA
           Copy-Item *.csv ../data/YamatoSecurity/ -Force
-
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Apply changes
 
       - name: Delete WELA repo
         if: ${{ matrix.os == 'windows-2025' }}
