@@ -30,8 +30,12 @@ jobs:
       - name: Run WELA.ps1 audit-settings(Default)
         if: ${{ matrix.os == 'windows-2025' }}
         run: |
+          auditpol /get /category:*
+
+      - name: Run WELA.ps1 audit-settings(Default)
+        if: ${{ matrix.os == 'windows-2025' }}
+        run: |
           cd WELA
-          auditpol /set /subcategory:{0CCE922B-69AE-11D9-BED3-505054503030} /success:disable /failure:disable
           ./WELA.ps1 audit-settings
 
       - name: Run configure bat(ASD)
