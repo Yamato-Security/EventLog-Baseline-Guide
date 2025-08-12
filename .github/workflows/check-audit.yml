@@ -45,11 +45,11 @@ jobs:
           cd bat
           ./Microsoft_Client.bat
 
-#      - name: Run configure bat(MS Server)
-#        if: ${{ matrix.os == 'windows-latest' }}
-#        run: |
-#          cd bat
-#          ./Microsoft_Server.bat
+      - name: Run configure bat(MS Server)
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          cd bat
+          ./Microsoft_Server.bat
 
       - name: Run WELA.ps1 audit-settings(ASD)
         if: ${{ matrix.os == 'windows-2022' }}
@@ -63,11 +63,11 @@ jobs:
           cd WELA
           ./WELA.ps1 audit-settings -Baseline Microsoft_Client
 
-#      - name: Run WELA.ps1 audit-settings(MS Server)
-#        if: ${{ matrix.os == 'windows-latest' }}
-#        run: |
-#          cd WELA
-#          ./WELA.ps1 audit-settings -Baseline Microsoft_Server
+      - name: Run WELA.ps1 audit-settings(MS Server)
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          cd WELA
+          ./WELA.ps1 audit-settings -Baseline Microsoft_Server
 
       - name: Run WELA.ps1 audit-filesize
         run: |
@@ -115,6 +115,10 @@ jobs:
           cd WELA
           Copy-Item *.csv ../data/Microsoft_Server/ -Force
 
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply changes
+
       - name: Delete WELA repo
         run: |
           Remove-Item -Recurse -Force WELA
@@ -157,6 +161,10 @@ jobs:
         run: |
           cd WELA
           Copy-Item *.csv ../data/YamatoSecurity/ -Force
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply changes
 
       - name: Delete WELA repo
         if: ${{ matrix.os == 'windows-2025' }}
