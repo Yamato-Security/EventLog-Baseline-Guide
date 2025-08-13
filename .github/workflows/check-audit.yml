@@ -33,7 +33,7 @@ jobs:
 
       - name: Run auditpol set command
         run: |
-          auditpol /set /subcategory:{0CCE922B-69AE-11D9-BED3-505054503030} /success:disable /failure:disable
+          cmd /c "auditpol /set /subcategory:{0CCE922B-69AE-11D9-BED3-505054503030} /success:disable /failure:disable"
 
       - name: Run WELA.ps1 audit-settings(Default)
         if: ${{ matrix.os == 'windows-2025' }}
