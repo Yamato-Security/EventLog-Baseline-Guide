@@ -613,7 +613,7 @@ Monitor process creation with ""wmic process call create"" and LOLBins in comman
 "Process Memory Dumped Via RdrLeakDiag.EXE","high","","process_creation","Detects uses of the rdrleakdiag.exe LOLOBIN utility to dump process memory","4d7489b1-282a-3c79-a3fe-e852cdea4515"
 "TA505 Dropper Load Pattern","critical","","process_creation","Detects mshta loaded by wmiprvse as parent as used by TA505 malicious documents","0a67f769-527a-e79d-fa05-a4bbdcd6fcc4"
 "Squirrel Lolbin","medium","","process_creation","Detects Possible Squirrel Packages Manager as Lolbin","6dd18e44-e4a2-1c08-3d0e-f4dc7e2fa9cc"
-"Detect Virtualbox Driver Installation OR Starting Of VMs","low","","process_creation","Adversaries can carry out malicious operations using a virtual instance to avoid detection. This rule is built to detect the registration of the Virtualbox driver or start of a Virtualbox VM.","53138fa3-42f4-bab3-4939-cdc55f014842"
+"Virtualbox Driver Installation or Starting of VMs","low","","process_creation","Adversaries can carry out malicious operations using a virtual instance to avoid detection. This rule is built to detect the registration of the Virtualbox driver or start of a Virtualbox VM.","53138fa3-42f4-bab3-4939-cdc55f014842"
 "Assembly Loading Via CL_LoadAssembly.ps1","medium","","process_creation","Detects calls to ""LoadAssemblyFromPath"" or ""LoadAssemblyFromNS"" that are part of the ""CL_LoadAssembly.ps1"" script. This can be abused to load different assemblies and bypass App locker controls.","a14e43f1-2c46-bf33-4ae5-b72dec4e8f0f"
 "HackTool - LaZagne Execution","medium","","process_creation","Detects the execution of the LaZagne. A utility used to retrieve multiple types of passwords stored on a local computer.
 LaZagne has been leveraged multiple times by threat actors in order to dump credentials.
@@ -966,6 +966,10 @@ Threat actors have leveraged this utility and this technique for achieving netwo
 "Python Function Execution Security Warning Disabled In Excel","high","","process_creation","Detects changes to the registry value ""PythonFunctionWarnings"" that would prevent any warnings or alerts from showing when Python functions are about to be executed.
 Threat actors could run malicious code through the new Microsoft Excel feature that allows Python to run within the spreadsheet.
 ","6ed0a1fe-48ad-ebd5-4596-bd6f5005bbe0"
+"Windows Recovery Environment Disabled Via Reagentc","medium","","process_creation","Detects attempts to disable windows recovery environment using Reagentc.
+ReAgentc.exe is a command-line tool in Windows used to manage the Windows Recovery Environment (WinRE).
+It allows users to enable, disable, and configure WinRE, which is used for troubleshooting and repairing common boot issues.
+","7e941643-69fc-290f-3b49-eee5d24adde8"
 "File Download From IP URL Via Curl.EXE","medium","","process_creation","Detects file downloads directly from IP address URL using curl.exe","4ed666e7-e78b-4b16-c4bd-1612077f0065"
 "Suspicious Process By Web Server Process","high","","process_creation","Detects potentially suspicious processes being spawned by a web server process which could be the result of a successfully placed web shell or exploitation
 ","5bdc7357-a9e6-95bc-a7cd-c6e0022b3299"
