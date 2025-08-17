@@ -1766,6 +1766,9 @@ their working directories to point to attacker-controlled WebDAV servers, causin
 malicious executables (like route.exe) from the WebDAV path instead of legitimate system binaries
 through Process.Start() search order manipulation.
 ","5cceaffb-6b96-605b-5c7e-58a2f125f151"
+"Potential SharePoint ToolShell CVE-2025-53770 Exploitation Indicators","high","","process_creation","Detects potential exploitation of CVE-2025-53770 by identifying indicators such as suspicious command lines discovered in Post-Exploitation activities.
+CVE-2025-53770 is a zero-day vulnerability in SharePoint that allows remote code execution.
+","acecfe24-cf2a-2635-dded-a45c357eea3f"
 "Exploit for CVE-2015-1641","critical","","process_creation","Detects Winword starting uncommon sub process MicroScMgmt.exe as used in exploits for CVE-2015-1641","a13f506e-fac9-0e14-f1b5-1cfbe9c57e46"
 "Potential Maze Ransomware Activity","critical","","process_creation","Detects specific process characteristics of Maze ransomware word document droppers","e3ea1348-79be-c569-ad0a-4aadcc5cc216"
 "Potential Emotet Rundll32 Execution","critical","","process_creation","Detecting Emotet DLL loading by looking for rundll32.exe processes with command lines ending in ,RunDLL or ,Control_RunDLL","aeae16e2-a1e2-dc9e-0228-60755dd9c6b7"
