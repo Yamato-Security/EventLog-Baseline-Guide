@@ -20,6 +20,6 @@
 "Microsoft-Windows-Windows Defender%4Operational.evtx","1.00 MB","16 MB","16MB","","False","Circular","N"
 "Microsoft-Windows-Windows Firewall With Advanced Security%4Firewall.evtx","1.00 MB","1 MB","1 MB","","False","Circular","N"
 "Microsoft-Windows-WMI-Activity%4Operational.evtx","1.00 MB","1 MB","1 MB","","False","Circular","N"
-"Security.evtx","4.07 MB","20 MB","20 MB","","False","Circular","N"
+"Security.evtx","1.07 MB","20 MB","20 MB","","False","Circular","N"
 "System.evtx","1.07 MB","20 MB","20 MB","","False","Circular","N"
 "Windows PowerShell.evtx","15.00 MB","15 MB","15 MB","","True","Circular","N"
