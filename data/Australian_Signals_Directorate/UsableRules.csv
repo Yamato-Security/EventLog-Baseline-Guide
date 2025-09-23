@@ -731,6 +731,7 @@ their working directories to point to attacker-controlled WebDAV servers, causin
 malicious executables (like route.exe) from the WebDAV path instead of legitimate system binaries
 through Process.Start() search order manipulation.
 ","5cceaffb-6b96-605b-5c7e-58a2f125f151"
+"Potential Exploitation of CrushFTP RCE Vulnerability (CVE-2025-54309)","high","","process_creation","Detects suspicious child processes created by CrushFTP. It could be an indication of exploitation of a RCE vulnerability such as CVE-2025-54309.","81ef2b50-ae07-2c4b-4242-6669c7176fec"
 "Potential Notepad++ CVE-2025-49144 Exploitation","high","","process_creation","Detects potential exploitation of CVE-2025-49144, a local privilege escalation vulnerability in Notepad++ installers (v8.8.1 and prior) where the installer calls regsvr32.exe without specifying the full path.
 This allows an attacker to execute arbitrary code with elevated privileges by placing a malicious regsvr32.exe alongside this Legitimate Notepad++ installer.
 The vulnerability is triggered when the installer attempts to register the NppShell.dll file, which is a component of Notepad++.
@@ -1670,6 +1671,7 @@ As an example, this can be used before connecting to an RDP session via command 
 "File Explorer Folder Opened Using Explorer Folder Shortcut Via Shell","high","","process_creation","Detects the initial execution of ""cmd.exe"" which spawns ""explorer.exe"" with the appropriate command line arguments for opening the ""My Computer"" folder.
 ","0c504797-106a-bd3f-6172-cebfb63391b1"
 "Chromium Browser Instance Executed With Custom Extension","medium","","process_creation","Detects a Chromium based browser process with the 'load-extension' flag to start a instance with a custom extension","8974c35e-3161-6538-c0ef-b12e467718a7"
+"Suspicious Velociraptor Child Process","high","","process_creation","Detects the suspicious use of the Velociraptor DFIR tool to execute other tools or download additional payloads, as seen in a campaign where it was abused for remote access and to stage further attacks.","d6a4c9bc-d5cf-bd43-fc5b-0a8b0a3c125f"
 "Service DACL Abuse To Hide Services Via Sc.EXE","high","","process_creation","Detects usage of the ""sc.exe"" utility adding a new service with special permission seen used by threat actors which makes the service hidden and unremovable.","4c9296a3-a93c-d142-7e16-69111f075e7f"
 "Malicious Base64 Encoded PowerShell Keywords in Command Lines","high","","process_creation","Detects base64 encoded strings used in hidden malicious PowerShell command lines","0114b671-6245-50f6-97b3-693945ab45cc"
 "7Zip Compressing Dump Files","medium","","process_creation","Detects execution of 7z in order to compress a file with a "".dmp""/"".dump"" extension, which could be a step in a process of dump file exfiltration.","93586827-5f54-fc91-0b2f-338fd5365694"
@@ -1859,6 +1861,9 @@ The manifest option enables you to install an application by passing in a YAML f
 Winget can be used to download and install exe, msi or msix files later.
 ","afee1b7e-2430-1880-34e2-eb2ae5bf07ff"
 "Potential Script Proxy Execution Via CL_Mutexverifiers.ps1","medium","","process_creation","Detects the use of the Microsoft signed script ""CL_mutexverifiers"" to proxy the execution of additional PowerShell script commands","844df162-c07b-4b60-29d1-adf324d785f5"
+"Potential PowerShell Console History Access Attempt via History File","medium","","process_creation","Detects potential access attempts to the PowerShell console history directly via history file (ConsoleHost_history.txt).
+This can give access to plaintext passwords used in PowerShell commands or used for general reconnaissance.
+","3becf1a9-6869-2795-e158-31485eae103f"
 "HackTool - Bloodhound/Sharphound Execution","high","","process_creation","Detects command line parameters used by Bloodhound and Sharphound hack tools","37366c60-8aea-e3e5-bae7-3c24e54f629b"
 "Suspicious RunAs-Like Flag Combination","medium","","process_creation","Detects suspicious command line flags that let the user set a target user and command as e.g. seen in PsExec-like tools","775ae677-184d-c90f-016f-f337fd79aa75"
 "Suspicious JavaScript Execution Via Mshta.EXE","high","","process_creation","Detects execution of javascript code using ""mshta.exe"".","40dc8b10-369e-d60a-531b-a6d6de0bad18"
@@ -2184,6 +2189,10 @@ This utility can be abused in order to run custom COM object created in the regi
 "Tor Client/Browser Execution","high","","process_creation","Detects the use of Tor or Tor-Browser to connect to onion routing networks","ef92722b-fb96-33d7-d77b-f6770ac84d0f"
 "HackTool - Mimikatz Execution","high","","process_creation","Detection well-known mimikatz command line arguments","b0b6f0e2-8ed1-fa15-6ebb-cf992c0fd7ea"
 "PUA - Chisel Tunneling Tool Execution","high","","process_creation","Detects usage of the Chisel tunneling tool via the commandline arguments","de663faa-aac0-dab6-a4b3-8d8c8a00ef96"
+"Registry Manipulation via WMI Stdregprov","medium","","process_creation","Detects the usage of wmic.exe to manipulate Windows registry via the WMI StdRegProv class.
+This behaviour could be potentially suspicious because it uses an alternative method to modify registry keys instead of legitimate registry tools like reg.exe or regedit.exe.
+Attackers specifically choose this technique to evade detection and bypass security monitoring focused on traditional registry modification commands.
+","287709ae-0175-f8df-11fc-9ec74c46d8c9"
 "Renamed AutoIt Execution","high","","process_creation","Detects the execution of a renamed AutoIt2.exe or AutoIt3.exe.
 AutoIt is a scripting language and automation tool for Windows systems. While primarily used for legitimate automation tasks, it can be misused in cyber attacks.
 Attackers can leverage AutoIt to create and distribute malware, including keyloggers, spyware, and botnets. A renamed AutoIt executable is particularly suspicious.
@@ -2461,6 +2470,10 @@ This can be used to potentially bypass defenses and execute Linux or Windows-bas
 This technique is used by numerous ransomware families and actors.
 This may only be successful on server platforms that have Windows Backup enabled.
 ","133b31a6-d87d-34ee-0699-ac8c9dce764b"
+"Remote Access Tool - TacticalRMM Agent Registration to Potentially Attacker-Controlled Server","medium","","process_creation","Detects TacticalRMM agent installations where the --api, --auth, and related flags are used on the command line.
+These parameters configure the agent to connect to a specific RMM server with authentication, client ID, and site ID.
+This technique could indicate a threat actor attempting to register the agent with an attacker-controlled RMM infrastructure silently.
+","7997ec07-1c34-0bba-64bc-d699a65b149f"
 "Suspicious Parent Double Extension File Execution","high","","process_creation","Detect execution of suspicious double extension files in ParentCommandLine","775d4bc1-d404-6927-6dc7-c22d00029c37"
 "Stop Windows Service Via Net.EXE","low","","process_creation","Detects the stopping of a Windows service via the ""net"" utility.","a0d8ce28-b409-13a0-c884-65166e1aa672"
 "Findstr GPP Passwords","high","","process_creation","Look for the encrypted cpassword value within Group Policy Preference files on the Domain Controller. This value can be decrypted with gpp-decrypt.","8a9278f4-40c8-30f3-c1ab-7dc224491477"
@@ -2996,6 +3009,11 @@ Which effectively hides it from any tooling such as ""schtasks /query"" (Read th
 MaxMpxCt specifies the maximum outstanding network requests for the server per client, which is used when negotiating a Server Message Block (SMB) connection with a client. Note if the value is set beyond 125 older Windows 9x clients will fail to negotiate.
 Ransomware threat actors and operators (specifically BlackCat) were seen increasing this value in order to handle a higher volume of traffic.
 ","007fb76c-92e3-5bfa-4f46-d6179811290f"
+"Potential ClickFix Execution Pattern - Registry","high","","registry_set","Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+such as one-liners that execute remotely hosted malicious files or scripts.
+","00d744c2-1966-dcdc-2c72-3a12d7b5fd2d"
 "Suspicious Environment Variable Has Been Registered","high","","registry_set","Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings","59a208e8-d58f-efd0-e693-48703d554101"
 "Wow6432Node CurrentVersion Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e262d6ab-07ec-712b-78c5-696f002dc7f0"
 "Potential Attachment Manager Settings Attachments Tamper","high","","registry_set","Detects tampering with attachment manager settings policies attachments (See reference for more information)","fbab75d9-3bd2-3705-4511-3e0cf5a10fe4"
