@@ -586,6 +586,11 @@ Which effectively hides it from any tooling such as ""schtasks /query"" (Read th
 MaxMpxCt specifies the maximum outstanding network requests for the server per client, which is used when negotiating a Server Message Block (SMB) connection with a client. Note if the value is set beyond 125 older Windows 9x clients will fail to negotiate.
 Ransomware threat actors and operators (specifically BlackCat) were seen increasing this value in order to handle a higher volume of traffic.
 ","007fb76c-92e3-5bfa-4f46-d6179811290f"
+"Potential ClickFix Execution Pattern - Registry","high","","registry_set","Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+such as one-liners that execute remotely hosted malicious files or scripts.
+","00d744c2-1966-dcdc-2c72-3a12d7b5fd2d"
 "Suspicious Environment Variable Has Been Registered","high","","registry_set","Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings","59a208e8-d58f-efd0-e693-48703d554101"
 "Wow6432Node CurrentVersion Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e262d6ab-07ec-712b-78c5-696f002dc7f0"
 "Potential Attachment Manager Settings Attachments Tamper","high","","registry_set","Detects tampering with attachment manager settings policies attachments (See reference for more information)","fbab75d9-3bd2-3705-4511-3e0cf5a10fe4"
