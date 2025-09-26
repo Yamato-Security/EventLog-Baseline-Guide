@@ -898,6 +898,8 @@ Malware such as Pikabot and Qakbot were seen using similar techniques as well as
 "Potential Recon Activity Using DriverQuery.EXE","high","","process_creation","Detect usage of the ""driverquery"" utility to perform reconnaissance on installed drivers","36d25ea3-c267-467d-2607-8791f67b7e4e"
 "Suspicious Powercfg Execution To Change Lock Screen Timeout","medium","","process_creation","Detects suspicious execution of 'Powercfg.exe' to change lock screen timeout","deb3c0f1-0961-ecf5-5c89-8c7640d2b22f"
 "Harvesting Of Wifi Credentials Via Netsh.EXE","medium","","process_creation","Detect the harvesting of wifi credentials using netsh.exe","bbc6093d-c0e1-e946-62dd-d27307534a1f"
+"Suspicious Process Suspension via WERFaultSecure through EDR-Freeze","high","","process_creation","Detects attempts to freeze a process likely an EDR or an antimalware service process through EDR-Freeze that abuses the WerFaultSecure.exe process to suspend security software.
+","4bf1a6ac-2f14-c4e7-4339-5a28683aa92f"
 "DSInternals Suspicious PowerShell Cmdlets","high","","process_creation","Detects execution and usage of the DSInternals PowerShell module. Which can be used to perform what might be considered as suspicious activity such as dumping DPAPI backup keys or manipulating NTDS.DIT files.
 The DSInternals PowerShell Module exposes several internal features of Active Directory and Azure Active Directory. These include FIDO2 and NGC key auditing, offline ntds.dit file manipulation, password auditing, DC recovery from IFM backups and password hash calculation.
 ","15f30e45-8a75-9af7-3703-c6af70b3d9f5"
