@@ -123,9 +123,8 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 "Suspicious Get-ADDBAccount Usage","high","","ps_module","Detects suspicious invocation of the Get-ADDBAccount script that reads from a ntds.dit file and may be used to get access to credentials without using any credential dumpers","85b06a92-2ad6-ef34-57c3-fac694f74095"
 "Alternate PowerShell Hosts - PowerShell Module","medium","","ps_module","Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe","b7826f95-a54d-d6e4-d4e0-38998c4eb8d7"
 "Suspicious PowerShell Invocations - Generic - PowerShell Module","high","","ps_module","Detects suspicious PowerShell invocation command parameters","e27c3517-69ca-c8c3-fc57-c4baba10867f"
-"Suspicious Get Local Groups Information","low","","ps_module","Adversaries may attempt to find local system groups and permission settings.
-The knowledge of local system permission groups can help adversaries determine which groups exist and which users belong to a particular group.
-Adversaries may use this information to determine which users have elevated permissions, such as the users found within the local administrators group.
+"Suspicious Get Local Groups Information","low","","ps_module","Detects the use of PowerShell modules and cmdlets to gather local group information.
+Adversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.
 ","300dbe85-b7a0-be0b-aa57-321c1ee97848"
 "Suspicious Computer Machine Password by PowerShell","medium","","ps_module","The Reset-ComputerMachinePassword cmdlet changes the computer account password that the computers use to authenticate to the domain controllers in the domain.
 You can use it to reset the password of the local computer.
@@ -342,9 +341,8 @@ Screen capturing functionality may be included as a feature of a remote access t
 "Powershell Keylogging","medium","","ps_script","Adversaries may log user keystrokes to intercept credentials as the user types them.","c9aa7755-6950-a83c-72f5-53d0eab019eb"
 "PowerShell Web Access Installation - PsScript","high","","ps_script","Detects the installation and configuration of PowerShell Web Access, which could be used for remote access and potential abuse","802477a9-01ea-d5f8-2ff9-44285787d0f7"
 "Invoke-Obfuscation Via Use Rundll32 - PowerShell","high","","ps_script","Detects Obfuscated Powershell via use Rundll32 in Scripts","00b36dc9-4f98-0596-4487-6aabd187344b"
-"Suspicious Get Local Groups Information - PowerShell","low","","ps_script","Adversaries may attempt to find local system groups and permission settings.
-The knowledge of local system permission groups can help adversaries determine which groups exist and which users belong to a particular group.
-Adversaries may use this information to determine which users have elevated permissions, such as the users found within the local administrators group.
+"Suspicious Get Local Groups Information - PowerShell","low","","ps_script","Detects the use of PowerShell modules and cmdlets to gather local group information.
+Adversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.
 ","231be74a-ed58-7e55-d906-23131f589913"
 "Windows Defender Exclusions Added - PowerShell","medium","","ps_script","Detects modifications to the Windows Defender configuration settings using PowerShell to add exclusions","addd9852-1b8e-322b-77eb-4a749ba8dca6"
 "Suspicious Eventlog Clear","medium","","ps_script","Detects usage of known powershell cmdlets such as ""Clear-EventLog"" to clear the Windows event logs","a8e07a3d-571c-0d25-729b-fa16be9ea6c5"
@@ -578,6 +576,7 @@ Adversaries may establish persistence and/or elevate privileges by executing mal
 "Use of Wfc.exe","medium","","process_creation","The Workflow Command-line Compiler can be used for AWL bypass and is listed in Microsoft's recommended block rules.","735b333c-168f-1517-ce6e-44604578243f"
 "Port Forwarding Activity Via SSH.EXE","medium","","process_creation","Detects port forwarding activity via SSH.exe","9f52bf0b-cd07-33a3-f9c1-6cf08889812a"
 "HackTool - XORDump Execution","high","","process_creation","Detects suspicious use of XORDump process memory dumping utility","e11f3d67-9772-748c-2a6a-e825964efe89"
+"Potentially Suspicious Child Processes Spawned by ConHost","high","","process_creation","Detects suspicious child processes related to Windows Shell utilities spawned by `conhost.exe`, which could indicate malicious activity using trusted system components.","faa3b493-02b2-9e9c-3d74-8a59a0205e5d"
 "Potentially Suspicious CMD Shell Output Redirect","medium","","process_creation","Detects inline Windows shell commands redirecting output via the "">"" symbol to a suspicious location.
 This technique is sometimes used by malicious actors in order to redirect the output of reconnaissance commands such as ""hostname"" and ""dir"" to files for future exfiltration.
 ","9ea6664e-70c1-5f36-42c2-1fdb75330fb7"
@@ -656,6 +655,9 @@ This could indicate potential adversaries stopping ETW providers recording loade
 ","2d61b1f3-942f-cd54-c470-efc9dad10255"
 "Execution Of Non-Existing File","high","","process_creation","Checks whether the image specified in a process creation event is not a full, absolute path (caused by process ghosting or other unorthodox methods to start a process)","5385a182-a453-d329-5d89-d768e2b73e28"
 "SQLite Chromium Profile Data DB Access","high","","process_creation","Detect usage of the ""sqlite"" binary to query databases in Chromium-based browsers for potential data stealing.","457a72af-e7d7-48c0-0f9f-cd793a1a2584"
+"Scheduled Task Creation with Curl and PowerShell Execution Combo","medium","","process_creation","Detects the creation of a scheduled task using schtasks.exe, potentially in combination with curl for downloading payloads and PowerShell for executing them.
+This facilitates executing malicious payloads or connecting with C&C server persistently without dropping the malware sample on the host.
+","16cf2db0-5355-1ded-b4a7-522991ff6460"
 "Invoke-Obfuscation Via Stdin","high","","process_creation","Detects Obfuscated Powershell via Stdin in Scripts","e8fdfc6d-5256-c3f4-7858-a45724bce385"
 "Potential Dosfuscation Activity","medium","","process_creation","Detects possible payload obfuscation via the commandline","6edef6e7-c67d-20e2-44cd-62afc03872c2"
 "VolumeShadowCopy Symlink Creation Via Mklink","high","","process_creation","Shadow Copies storage symbolic link creation using operating systems utilities","52b94cb0-304c-59f3-ca56-497db104688c"
@@ -681,6 +683,10 @@ The technique abuses clipboard manipulation and disguises command execution as b
 "Computer System Reconnaissance Via Wmic.EXE","medium","","process_creation","Detects execution of wmic utility with the ""computersystem"" flag in order to obtain information about the machine such as the domain, username, model, etc.","50bb828c-a04e-d207-bb34-71d9f1144a73"
 "Suspicious File Encoded To Base64 Via Certutil.EXE","high","","process_creation","Detects the execution of certutil with the ""encode"" flag to encode a file to base64 where the extensions of the file is suspicious","28c8ac5c-4774-b281-e7e4-3445164e0180"
 "Suspicious RASdial Activity","medium","","process_creation","Detects suspicious process related to rasdial.exe","60b34e33-95fe-6beb-2917-eb4309e6dcd8"
+"Security Event Logging Disabled via MiniNt Registry Key - Process","high","","process_creation","Detects attempts to disable security event logging by adding the `MiniNt` registry key.
+This key is used to disable the Windows Event Log service, which collects and stores event logs from the operating system and applications.
+Adversaries may want to disable this service to prevent logging of security events that could be used to detect their activities.
+","847d9f6f-a38e-7aa1-9da8-20f3f4c1d416"
 "File Decryption Using Gpg4win","medium","","process_creation","Detects usage of Gpg4win to decrypt files","f539aaee-c369-f209-b744-3e1b8b37c936"
 "Potential SquiblyTwo Technique Execution","medium","","process_creation","Detects potential SquiblyTwo attack technique with possible renamed WMIC via Imphash and OriginalFileName fields","b9b053da-68a6-d372-9780-828406597122"
 "Deletion of Volume Shadow Copies via WMI with PowerShell","high","","process_creation","Detects deletion of Windows Volume Shadow Copies with PowerShell code and Get-WMIObject. This technique is used by numerous ransomware families such as Sodinokibi/REvil","962de487-869e-eec3-a641-839d9af9c49d"
@@ -723,6 +729,7 @@ including OS, CPU, GPU, and disk drive names; memory capacity; display resolutio
 and GPU driver products/versions.
 Some of these commands were used by Aurora Stealer in late 2022/early 2023.
 ","80fc60a3-3570-d8c6-9ee9-d527bfd15b84"
+"Scheduled Task Creation Masquerading as System Processes","high","","process_creation","Detects the creation of scheduled tasks that involve system processes, which may indicate malicious actors masquerading as or abusing these processes to execute payloads or maintain persistence.","84d137d9-0fe0-de23-4c5c-4530db9c5575"
 "Suspicious PowerShell Invocations - Specific - ProcessCreation","medium","","process_creation","Detects suspicious PowerShell invocation command parameters","1c5c23b8-d4a3-0d4b-6116-74f8ddd96546"
 "Remote Access Tool - AnyDesk Execution","medium","","process_creation","An adversary may use legitimate desktop support and remote access software, such as Team Viewer, Go2Assist, LogMein, AmmyyAdmin, etc, to establish an interactive command and control channel to target systems within networks.
 These services are commonly used as legitimate technical support software, and may be allowed by application control within a target environment.
@@ -1047,6 +1054,8 @@ Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when com
 "Taskmgr as LOCAL_SYSTEM","high","","process_creation","Detects the creation of taskmgr.exe process in context of LOCAL_SYSTEM","d2fc7f9b-7773-8c83-5bf3-d977a655e6e0"
 "Potential Password Spraying Attempt Using Dsacls.EXE","medium","","process_creation","Detects possible password spraying attempts using Dsacls","3dce4add-2a09-340f-3b2e-5d79b18a4adb"
 "Net WebClient Casing Anomalies","high","","process_creation","Detects PowerShell command line contents that include a suspicious abnormal casing in the Net.Webclient (e.g. nEt.WEbCliEnT) string as used in obfuscation techniques","7d6acc1b-aef6-8fb8-8b37-50e258273f6a"
+"Suspicious Uninstall of Windows Defender Feature via PowerShell","high","","process_creation","Detects the use of PowerShell with Uninstall-WindowsFeature or Remove-WindowsFeature cmdlets to disable or remove the Windows Defender GUI feature, a common technique used by adversaries to evade defenses.
+","9610d848-8049-b860-c3ee-235db9eccfc4"
 "PowerShell Web Access Feature Enabled Via DISM","high","","process_creation","Detects the use of DISM to enable the PowerShell Web Access feature, which could be used for remote access and potential abuse","c60e39f2-5135-0c04-8c79-a2730ff4a37a"
 "Suspicious Csi.exe Usage","medium","","process_creation","Csi.exe is a signed binary from Microsoft that comes with Visual Studio and provides C# interactive capabilities. It can be used to run C# code from a file passed as a parameter in command line. Early version of this utility provided with Microsoft “Roslyn” Community Technology Preview was named 'rcsi.exe'","655cb0fd-79c4-949b-b842-e1fcf2e1e527"
 "Suspicious Processes Spawned by Java.EXE","high","","process_creation","Detects suspicious processes spawned from a Java host process which could indicate a sign of exploitation (e.g. log4j)","095ae799-3f3b-554f-3c83-f8d48e711e72"
@@ -1457,6 +1466,11 @@ The DSInternals PowerShell Module exposes several internal features of Active Di
 "HackTool - SharpWSUS/WSUSpendu Execution","high","","process_creation","Detects the execution of SharpWSUS or WSUSpendu, utilities that allow for lateral movement through WSUS.
 Windows Server Update Services (WSUS) is a critical component of Windows systems and is frequently configured in a way that allows an attacker to circumvent internal networking limitations.
 ","7987377e-ddde-302c-5a17-7723837a1d38"
+"NodeJS Execution of JavaScript File","low","","process_creation","Detects execution of JavaScript or JSC files using NodeJs binary node.exe, that could be potentially suspicious.
+Node.js is a popular open-source JavaScript runtime that runs code outside browsers and is widely used for both frontend and backend development.
+Adversaries have been observed abusing Node.js to disguise malware as legitimate processes, evade security defenses, and maintain persistence within target systems.
+Because Node.js is commonly used, this rule may generate false positives in some environments. However, if such activity is unusual in your environment, it is highly suspicious and warrants immediate investigation.
+","5b59cdaa-a618-5038-0573-2902a6798a29"
 "Potential Arbitrary DLL Load Using Winword","medium","","process_creation","Detects potential DLL sideloading using the Microsoft Office winword process via the '/l' flag.","eacb8d30-18b2-df70-fb8e-b5b8bb773983"
 "Veeam Backup Database Suspicious Query","medium","","process_creation","Detects potentially suspicious SQL queries using SQLCmd targeting the Veeam backup databases in order to steal information.","2eed1cc9-eaed-d468-3184-02f80bf78c3d"
 "Fsutil Suspicious Invocation","high","","process_creation","Detects suspicious parameters of fsutil (deleting USN journal, configuring it with small size, etc).
@@ -1568,6 +1582,7 @@ It replaces the memory of a legitimate process with custom shellcode, allowing t
 By setting the 'Start' value to '0' for the 'DefenderApiLogger' or 'DefenderAuditLogger' session, an attacker can prevent these critical security events
 from being logged, effectively blinding monitoring tools that rely on this data. This is a powerful defense evasion technique.
 ","900cc808-eb18-0106-55ac-478667fa36d5"
+"MMC Executing Files with Reversed Extensions Using RTLO Abuse","high","","process_creation","Detects malicious behavior where the MMC utility (`mmc.exe`) executes files with reversed extensions caused by Right-to-Left Override (RLO) abuse, disguising them as document formats.","5602c07f-c042-d14f-190e-cf750711227e"
 "Suspicious Redirection to Local Admin Share","high","","process_creation","Detects a suspicious output redirection to the local admins share, this technique is often found in malicious scripts or hacktool stagers","a69dee50-f5d1-178f-3794-9e06d089fc93"
 "Suspicious Service Path Modification","high","","process_creation","Detects service path modification via the ""sc"" binary to a suspicious command or path","9a71e218-8397-8c6b-22e0-fc805c7e6571"
 "Potentially Suspicious Call To Win32_NTEventlogFile Class","high","","process_creation","Detects usage of the WMI class ""Win32_NTEventlogFile"" in a potentially suspicious way (delete, backup, change permissions, etc.) from a PowerShell script","fdb2c7f2-63dc-72cd-5261-f3ab65d5d157"
@@ -1648,6 +1663,7 @@ Both can be used for AWL bypass and to execute F# code via scripts or inline.
 "Enumerate All Information With Whoami.EXE","medium","","process_creation","Detects the execution of ""whoami.exe"" with the ""/all"" flag","33f733e0-fb92-860f-da22-47ee0186c951"
 "Windows Credential Manager Access via VaultCmd","medium","","process_creation","List credentials currently stored in Windows Credential Manager via the native Windows utility vaultcmd.exe","af00bb3c-d23f-1210-525a-d8eaf94dd907"
 "Firewall Rule Update Via Netsh.EXE","medium","","process_creation","Detects execution of netsh with the ""advfirewall"" and the ""set"" option in order to set new values for properties of a existing rule","982b7732-cb4f-a678-742f-12975f002ced"
+"Potentially Suspicious Inline JavaScript Execution via NodeJS Binary","medium","","process_creation","Detects potentially suspicious inline JavaScript execution using Node.js with specific keywords in the command line.","7d713cf5-4d56-75d5-a689-0206993c4d03"
 "Potential Discovery Activity Via Dnscmd.EXE","medium","","process_creation","Detects an attempt to leverage dnscmd.exe to enumerate the DNS zones of a domain. DNS zones used to host the DNS records for a particular domain.","7aaa460d-7613-e1bd-01a0-3c17a897a9d2"
 "Remote PowerShell Session Host Process (WinRM)","medium","","process_creation","Detects remote PowerShell sections by monitoring for wsmprovhost (WinRM host process) as a parent or child process (sign of an active PowerShell remote session).","088e72dd-07b4-8c9a-4e3a-f8b72d98def0"
 "Abuse of Service Permissions to Hide Services Via Set-Service","high","","process_creation","Detects usage of the ""Set-Service"" powershell cmdlet to configure a new SecurityDescriptor that allows a service to be hidden from other utilities such as ""sc.exe"", ""Get-Service""...etc. (Works only in powershell 7)","f57937ba-e844-d5ff-1b06-4ca216d0b747"
@@ -2759,7 +2775,7 @@ by causing a malicious DLL to be loaded and run in the context of separate proce
 "RedMimicry Winnti Playbook Registry Manipulation","high","","registry_event","Detects actions caused by the RedMimicry Winnti playbook","a250ceb5-fda2-758b-e33b-594cb197d8ca"
 "Potential Qakbot Registry Activity","high","","registry_event","Detects a registry key used by IceID in a campaign that distributes malicious OneNote files","52da4b83-76bb-1c03-3d3d-d2767a05c186"
 "NetNTLM Downgrade Attack - Registry","high","","registry_event","Detects NetNTLM downgrade attack","3387665f-9c44-56db-5cb9-a35e48689376"
-"Disable Security Events Logging Adding Reg Key MiniNt","high","","registry_event","Detects the addition of a key 'MiniNt' to the registry. Upon a reboot, Windows Event Log service will stopped write events.","36ef53bd-ce38-b8b6-b163-c7ff42107ecb"
+"Disable Security Events Logging Adding Reg Key MiniNt","high","","registry_event","Detects the addition of a key 'MiniNt' to the registry. Upon a reboot, Windows Event Log service will stop writing events.","36ef53bd-ce38-b8b6-b163-c7ff42107ecb"
 "Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback","medium","","registry_set","Detects enabling of the ""AllowAnonymousCallback"" registry value, which allows a remote connection between computers that do not have a trust relationship.","153b0ce0-9f0b-f10f-7d6e-3a23dea83494"
 "PrinterNightmare Mimikatz Driver Name","critical","","registry_event","Detects static QMS 810 and mimikatz driver name used by Mimikatz as exploited in CVE-2021-1675 and CVE-2021-34527","33feb9a9-afd4-3403-46c9-13a7b4a62b80"
 "Creation of a Local Hidden User Account by Registry","high","","registry_event","Sysmon registry detection of a local hidden user account.","447c311d-5d73-52c3-d10c-a1205258cf04"
@@ -2988,6 +3004,10 @@ Remote desktop is a common feature in operating systems. It allows a user to log
 Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as Remote Desktop Services (RDS).
 ","b0acca11-04f4-7e88-5dd9-fc299b3716e8"
 "Old TLS1.0/TLS1.1 Protocol Version Enabled","medium","","registry_set","Detects applications or users re-enabling old TLS versions by setting the ""Enabled"" value to ""1"" for the ""Protocols"" registry key.","f1d2e557-5935-d1b7-cc8a-48563f722f9c"
+"Security Event Logging Disabled via MiniNt Registry Key - Registry Set","high","","registry_set","Detects the addition of the 'MiniNt' key to the registry. Upon a reboot, Windows Event Log service will stop writing events.
+Windows Event Log is a service that collects and stores event logs from the operating system and applications. It is an important component of Windows security and auditing.
+Adversary may want to disable this service to disable logging of security events which could be used to detect their activities.
+","bff51a59-a1b9-f1f5-f5e4-ac2e523d572a"
 "New Netsh Helper DLL Registered From A Suspicious Location","high","","registry_set","Detects changes to the Netsh registry key to add a new DLL value that is located on a suspicious location. This change might be an indication of a potential persistence attempt by adding a malicious Netsh helper
 ","57fba93d-7938-c3fd-109b-6d1fb6037e2c"
 "Registry Hide Function from User","medium","","registry_set","Detects registry modifications that hide internal tools or functions from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)","e95c5cb7-fd08-cb3b-14e8-d0a4287e6f68"
