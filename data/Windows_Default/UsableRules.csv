@@ -123,9 +123,8 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 "Suspicious Get-ADDBAccount Usage","high","","ps_module","Detects suspicious invocation of the Get-ADDBAccount script that reads from a ntds.dit file and may be used to get access to credentials without using any credential dumpers","85b06a92-2ad6-ef34-57c3-fac694f74095"
 "Alternate PowerShell Hosts - PowerShell Module","medium","","ps_module","Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe","b7826f95-a54d-d6e4-d4e0-38998c4eb8d7"
 "Suspicious PowerShell Invocations - Generic - PowerShell Module","high","","ps_module","Detects suspicious PowerShell invocation command parameters","e27c3517-69ca-c8c3-fc57-c4baba10867f"
-"Suspicious Get Local Groups Information","low","","ps_module","Adversaries may attempt to find local system groups and permission settings.
-The knowledge of local system permission groups can help adversaries determine which groups exist and which users belong to a particular group.
-Adversaries may use this information to determine which users have elevated permissions, such as the users found within the local administrators group.
+"Suspicious Get Local Groups Information","low","","ps_module","Detects the use of PowerShell modules and cmdlets to gather local group information.
+Adversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.
 ","300dbe85-b7a0-be0b-aa57-321c1ee97848"
 "Suspicious Computer Machine Password by PowerShell","medium","","ps_module","The Reset-ComputerMachinePassword cmdlet changes the computer account password that the computers use to authenticate to the domain controllers in the domain.
 You can use it to reset the password of the local computer.
@@ -342,9 +341,8 @@ Screen capturing functionality may be included as a feature of a remote access t
 "Powershell Keylogging","medium","","ps_script","Adversaries may log user keystrokes to intercept credentials as the user types them.","c9aa7755-6950-a83c-72f5-53d0eab019eb"
 "PowerShell Web Access Installation - PsScript","high","","ps_script","Detects the installation and configuration of PowerShell Web Access, which could be used for remote access and potential abuse","802477a9-01ea-d5f8-2ff9-44285787d0f7"
 "Invoke-Obfuscation Via Use Rundll32 - PowerShell","high","","ps_script","Detects Obfuscated Powershell via use Rundll32 in Scripts","00b36dc9-4f98-0596-4487-6aabd187344b"
-"Suspicious Get Local Groups Information - PowerShell","low","","ps_script","Adversaries may attempt to find local system groups and permission settings.
-The knowledge of local system permission groups can help adversaries determine which groups exist and which users belong to a particular group.
-Adversaries may use this information to determine which users have elevated permissions, such as the users found within the local administrators group.
+"Suspicious Get Local Groups Information - PowerShell","low","","ps_script","Detects the use of PowerShell modules and cmdlets to gather local group information.
+Adversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.
 ","231be74a-ed58-7e55-d906-23131f589913"
 "Windows Defender Exclusions Added - PowerShell","medium","","ps_script","Detects modifications to the Windows Defender configuration settings using PowerShell to add exclusions","addd9852-1b8e-322b-77eb-4a749ba8dca6"
 "Suspicious Eventlog Clear","medium","","ps_script","Detects usage of known powershell cmdlets such as ""Clear-EventLog"" to clear the Windows event logs","a8e07a3d-571c-0d25-729b-fa16be9ea6c5"
