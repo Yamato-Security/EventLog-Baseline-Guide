@@ -66,7 +66,7 @@ by causing a malicious DLL to be loaded and run in the context of separate proce
 "RedMimicry Winnti Playbook Registry Manipulation","high","","registry_event","Detects actions caused by the RedMimicry Winnti playbook","a250ceb5-fda2-758b-e33b-594cb197d8ca"
 "Potential Qakbot Registry Activity","high","","registry_event","Detects a registry key used by IceID in a campaign that distributes malicious OneNote files","52da4b83-76bb-1c03-3d3d-d2767a05c186"
 "NetNTLM Downgrade Attack - Registry","high","","registry_event","Detects NetNTLM downgrade attack","3387665f-9c44-56db-5cb9-a35e48689376"
-"Disable Security Events Logging Adding Reg Key MiniNt","high","","registry_event","Detects the addition of a key 'MiniNt' to the registry. Upon a reboot, Windows Event Log service will stopped write events.","36ef53bd-ce38-b8b6-b163-c7ff42107ecb"
+"Disable Security Events Logging Adding Reg Key MiniNt","high","","registry_event","Detects the addition of a key 'MiniNt' to the registry. Upon a reboot, Windows Event Log service will stop writing events.","36ef53bd-ce38-b8b6-b163-c7ff42107ecb"
 "Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback","medium","","registry_set","Detects enabling of the ""AllowAnonymousCallback"" registry value, which allows a remote connection between computers that do not have a trust relationship.","153b0ce0-9f0b-f10f-7d6e-3a23dea83494"
 "PrinterNightmare Mimikatz Driver Name","critical","","registry_event","Detects static QMS 810 and mimikatz driver name used by Mimikatz as exploited in CVE-2021-1675 and CVE-2021-34527","33feb9a9-afd4-3403-46c9-13a7b4a62b80"
 "Creation of a Local Hidden User Account by Registry","high","","registry_event","Sysmon registry detection of a local hidden user account.","447c311d-5d73-52c3-d10c-a1205258cf04"
@@ -295,6 +295,10 @@ Remote desktop is a common feature in operating systems. It allows a user to log
 Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as Remote Desktop Services (RDS).
 ","b0acca11-04f4-7e88-5dd9-fc299b3716e8"
 "Old TLS1.0/TLS1.1 Protocol Version Enabled","medium","","registry_set","Detects applications or users re-enabling old TLS versions by setting the ""Enabled"" value to ""1"" for the ""Protocols"" registry key.","f1d2e557-5935-d1b7-cc8a-48563f722f9c"
+"Security Event Logging Disabled via MiniNt Registry Key - Registry Set","high","","registry_set","Detects the addition of the 'MiniNt' key to the registry. Upon a reboot, Windows Event Log service will stop writing events.
+Windows Event Log is a service that collects and stores event logs from the operating system and applications. It is an important component of Windows security and auditing.
+Adversary may want to disable this service to disable logging of security events which could be used to detect their activities.
+","bff51a59-a1b9-f1f5-f5e4-ac2e523d572a"
 "New Netsh Helper DLL Registered From A Suspicious Location","high","","registry_set","Detects changes to the Netsh registry key to add a new DLL value that is located on a suspicious location. This change might be an indication of a potential persistence attempt by adding a malicious Netsh helper
 ","57fba93d-7938-c3fd-109b-6d1fb6037e2c"
 "Registry Hide Function from User","medium","","registry_set","Detects registry modifications that hide internal tools or functions from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)","e95c5cb7-fd08-cb3b-14e8-d0a4287e6f68"
