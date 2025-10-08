@@ -80,7 +80,9 @@ This can occur if an attacker leverages PowerShell cmdlets such as ""New-NetFire
 "Uncommon New Firewall Rule Added In Windows Firewall Exception List","medium","firewall-as","","Detects when a rule has been added to the Windows Firewall exception list","a1dbd390-a4c5-755a-1b1f-a76aabbecbbc"
 "Windows Firewall Settings Have Been Changed","low","firewall-as","","Detects activity when the settings of the Windows firewall have been changed","a0062bfc-2eba-05df-e231-f4a44b1317ab"
 "Firewall Rule Modified In The Windows Firewall Exception List","low","firewall-as","","Detects when a rule has been modified in the Windows firewall exception list","5d551ac6-b825-b536-7ec6-75339fc57a25"
-"Loading Diagcab Package From Remote Path","high","diagnosis-scripted","","Detects loading of diagcab packages from a remote path, as seen in DogWalk vulnerability","b0e8486c-73f6-e1ba-9684-acba841c2719"
+"Potential Remote Desktop Connection to Non-Domain Host","medium","ntlm","","Detects logons using NTLM to hosts that are potentially not part of the domain.","b416a5b9-a282-2826-bc58-8b8481d865f6"
+"NTLM Logon","low","ntlm","","Detects logons using NTLM, which could be caused by a legacy source or attackers","c043d322-c767-faa8-92d4-381dcc35cab3"
+"NTLM Brute Force","medium","ntlm","","Detects common NTLM brute force device names","b7a0fd59-bab8-fec2-28ad-548b2635d87f"
 "PowerShell Called from an Executable Version Mismatch","high","","ps_classic_start","Detects PowerShell called from an executable by the version mismatch method","b8c409c0-bd7a-5c05-0bae-56f88fe7b78d"
 "Nslookup PowerShell Download Cradle","medium","","ps_classic_start","Detects a powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records.","11151659-80c2-7657-d058-2a07c5662662"
 "Renamed Powershell Under Powershell Channel","low","","ps_classic_start","Detects a renamed Powershell execution, which is a common technique used to circumvent security controls and bypass detection logic that's dependent on process names and process paths.
@@ -789,6 +791,9 @@ Adversaries may establish persistence and/or elevate privileges by executing mal
 "PUA - Advanced Port Scanner Execution","medium","","process_creation","Detects the use of Advanced Port Scanner.","3ea85a25-dba7-a10e-8a48-9aa4dc65abb9"
 "Firewall Configuration Discovery Via Netsh.EXE","low","","process_creation","Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems","af675749-89e4-ecbe-08aa-846a61be3500"
 "Arbitrary File Download Via MSEDGE_PROXY.EXE","medium","","process_creation","Detects usage of ""msedge_proxy.exe"" to download arbitrary files","d6d1a63b-5f0f-795e-fe18-4c2e1784568d"
+"IIS WebServer Log Deletion via CommandLine Utilities","medium","","process_creation","Detects attempts to delete Internet Information Services (IIS) log files via command line utilities, which is a common defense evasion technique used by attackers to cover their tracks.
+Threat actors often abuse vulnerabilities in web applications hosted on IIS servers to gain initial access and later delete IIS logs to evade detection.
+","bb67b9c1-36b4-5057-bac0-7c90c9147791"
 "Active Directory Structure Export Via Csvde.EXE","medium","","process_creation","Detects the execution of ""csvde.exe"" in order to export organizational Active Directory structure.","be45d499-4cd7-c4a6-727e-e52c6770468e"
 "Suspicious TSCON Start as SYSTEM","high","","process_creation","Detects a tscon.exe start as LOCAL SYSTEM","c9e0d554-2be2-3ae9-6b9c-e80fde3df203"
 "HackTool - SafetyKatz Execution","critical","","process_creation","Detects the execution of the hacktool SafetyKatz via PE information and default Image name","f7214fe4-985b-b820-4816-01cc5cd40601"
