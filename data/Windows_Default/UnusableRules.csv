@@ -241,6 +241,9 @@ Adversaries may establish persistence and/or elevate privileges by executing mal
 "PUA - Advanced Port Scanner Execution","medium","","process_creation","Detects the use of Advanced Port Scanner.","3ea85a25-dba7-a10e-8a48-9aa4dc65abb9"
 "Firewall Configuration Discovery Via Netsh.EXE","low","","process_creation","Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems","af675749-89e4-ecbe-08aa-846a61be3500"
 "Arbitrary File Download Via MSEDGE_PROXY.EXE","medium","","process_creation","Detects usage of ""msedge_proxy.exe"" to download arbitrary files","d6d1a63b-5f0f-795e-fe18-4c2e1784568d"
+"IIS WebServer Log Deletion via CommandLine Utilities","medium","","process_creation","Detects attempts to delete Internet Information Services (IIS) log files via command line utilities, which is a common defense evasion technique used by attackers to cover their tracks.
+Threat actors often abuse vulnerabilities in web applications hosted on IIS servers to gain initial access and later delete IIS logs to evade detection.
+","bb67b9c1-36b4-5057-bac0-7c90c9147791"
 "Active Directory Structure Export Via Csvde.EXE","medium","","process_creation","Detects the execution of ""csvde.exe"" in order to export organizational Active Directory structure.","be45d499-4cd7-c4a6-727e-e52c6770468e"
 "Suspicious TSCON Start as SYSTEM","high","","process_creation","Detects a tscon.exe start as LOCAL SYSTEM","c9e0d554-2be2-3ae9-6b9c-e80fde3df203"
 "HackTool - SafetyKatz Execution","critical","","process_creation","Detects the execution of the hacktool SafetyKatz via PE information and default Image name","f7214fe4-985b-b820-4816-01cc5cd40601"
