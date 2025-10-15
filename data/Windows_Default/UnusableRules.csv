@@ -162,7 +162,6 @@ This may only be successful on server platforms that have Windows Backup enabled
 "Potentially Suspicious ASP.NET Compilation Via AspNetCompiler","high","","process_creation","Detects execution of ""aspnet_compiler.exe"" with potentially suspicious paths for compilation.","7ba37b73-d32a-9fdc-27f1-372220985b67"
 "HackTool - Stracciatella Execution","high","","process_creation","Detects Stracciatella which executes a Powershell runspace from within C# (aka SharpPick technique) with AMSI, ETW and Script Block Logging disabled based on PE metadata characteristics.","a9d391c2-0efd-3d38-0c33-49f93ab68df6"
 "Suspicious Curl.EXE Download","high","","process_creation","Detects a suspicious curl process start on Windows and outputs the requested document to a local file","e09795ef-2d7f-3f65-8286-c3267b89622e"
-"Arbitrary DLL or Csproj Code Execution Via Dotnet.EXE","medium","","process_creation","Detects execution of arbitrary DLLs or unsigned code via a "".csproj"" files via Dotnet.EXE.","7fe031ee-5c6c-0eea-fe28-fb72cbbe1aed"
 "Diskshadow Script Mode - Uncommon Script Extension Execution","medium","","process_creation","Detects execution of ""Diskshadow.exe"" in script mode to execute an script with a potentially uncommon extension.
 Initial baselining of the allowed extension list is required.
 ","a5621ded-7646-ab81-f618-d9132148ad46"
@@ -259,7 +258,7 @@ Adversaries may enable Windows Recall as part of post-exploitation discovery and
 This rule assumes that Recall is already explicitly disabled on the host, and subsequently enabled by the adversary.
 ","3be2ca2a-e70a-49c3-7d32-ac25c979e199"
 "Security Service Disabled Via Reg.EXE","high","","process_creation","Detects execution of ""reg.exe"" to disable security services such as Windows Defender.","8ba4f215-e4a8-8858-ae46-4785a18094c6"
-"Browser Execution In Headless Mode","medium","","process_creation","Detects execution of Chromium based browser in headless mode","c2ba2ab9-14d6-22d6-50e6-def8d485c093"
+"Browser Execution In Headless Mode","low","","process_creation","Detects execution of Chromium based browser in headless mode","c2ba2ab9-14d6-22d6-50e6-def8d485c093"
 "Suspicious PowerShell Download and Execute Pattern","high","","process_creation","Detects suspicious PowerShell download patterns that are often used in malicious scripts, stagers or downloaders (make sure that your backend applies the strings case-insensitive)","20f83d4c-6338-a0c0-b882-c4c1997c025f"
 "Regsvr32 Execution From Highly Suspicious Location","high","","process_creation","Detects execution of regsvr32 where the DLL is located in a highly suspicious locations","f0f9d4eb-6b2b-b7dd-4bba-a3e2739203f4"
 "Hiding Files with Attrib.exe","medium","","process_creation","Detects usage of attrib.exe to hide files from users.","3fc98f17-3322-83c7-6332-d7813d88d4f1"
@@ -963,7 +962,7 @@ This may only be successful on server platforms that have Windows Backup enabled
 "Password Set to Never Expire via WMI","medium","","process_creation","Detects the use of wmic.exe to modify user account settings and explicitly disable password expiration.
 ","b1293fae-fc5a-74c7-dfc9-3ad02ce661b2"
 "Devtoolslauncher.exe Executes Specified Binary","high","","process_creation","The Devtoolslauncher.exe executes other binary","415d9b8e-8ea7-ce1d-44e5-f124d411e636"
-"File And SubFolder Enumeration Via Dir Command","low","","process_creation","Detects usage of the ""dir"" command part of Widows CMD with the ""/S"" command line flag in order to enumerate files in a specified directory and all subdirectories.
+"File And SubFolder Enumeration Via Dir Command","low","","process_creation","Detects usage of the ""dir"" command part of Windows CMD with the ""/S"" command line flag in order to enumerate files in a specified directory and all subdirectories.
 ","d2fa11c1-82e2-42db-8f24-39f38b6ea6ba"
 "Potential Binary Impersonating Sysinternals Tools","medium","","process_creation","Detects binaries that use the same name as legitimate sysinternals tools to evade detection.
 This rule looks for the execution of binaries that are named similarly to Sysinternals tools.
@@ -1183,7 +1182,6 @@ When a file is opened, the default program used to open the file (also called th
 "JScript Compiler Execution","low","","process_creation","Detects the execution of the ""jsc.exe"" (JScript Compiler).
 Attacker might abuse this in order to compile JScript files on the fly and bypassing application whitelisting.
 ","4acb4c4c-6e64-9353-58fa-113832d88626"
-"Use Short Name Path in Command Line","medium","","process_creation","Detect use of the Windows 8.3 short name. Which could be used as a method to avoid command-line detection","ee28ff63-eaf6-56ee-7406-da65896bc0e5"
 "HackTool - Impacket Tools Execution","high","","process_creation","Detects the execution of different compiled Windows binaries of the impacket toolset (based on names or part of their names - could lead to false positives)","39a37f01-5f47-60db-1809-3aef76fc537a"
 "Unusual Parent Process For Cmd.EXE","medium","","process_creation","Detects suspicious parent process for cmd.exe","370b959a-526f-4355-c41d-8388206d423a"
 "Potential Mpclient.DLL Sideloading Via Defender Binaries","high","","process_creation","Detects potential sideloading of ""mpclient.dll"" by Windows Defender processes (""MpCmdRun"" and ""NisSrv"") from their non-default directory.","11009f2c-2e92-f0a7-40e3-76f389110133"
@@ -1626,6 +1624,14 @@ Hunting Opportunity 2 - Remote Sessions On Out Of Office Hours
 
 If you have admins within your environment using remote sessions to administer endpoints, you can create a threat-hunting query and modify the time of the initiated sessions looking for abnormal activity.
 ","441ef2d8-5da0-7432-b390-b778f9f5c77b"
+"Use Short Name Path in Command Line","medium","","process_creation","Detects the use of short name paths (8.3 format) in command lines, which can be used to obfuscate paths or access restricted locations.
+Windows creates short 8.3 filenames (like PROGRA~1) for compatibility with MS-DOS-based or 16-bit Windows programs.
+When investigating, examine:
+- Commands using short paths to access sensitive directories or files
+- Web servers on Windows (especially Apache) where short filenames could bypass security controls
+- Correlation with other suspicious behaviors
+- baseline of short name usage in your environment and look for deviations
+","ee28ff63-eaf6-56ee-7406-da65896bc0e5"
 "WSF/JSE/JS/VBA/VBE File Execution Via Cscript/Wscript","medium","","process_creation","Detects script file execution (.js, .jse, .vba, .vbe, .vbs, .wsf) by Wscript/Cscript","5742c4d7-6bb8-d4c7-1abf-eedde7c178df"
 "Dynamic .NET Compilation Via Csc.EXE - Hunting","medium","","process_creation","Detects execution of ""csc.exe"" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages.","d11c691d-7387-9895-7369-83c0abfbfba7"
 "Process Execution From WebDAV Share","low","","process_creation","Detects execution of processes with image paths starting with WebDAV shares (\\), which might indicate malicious file execution from remote web shares.
