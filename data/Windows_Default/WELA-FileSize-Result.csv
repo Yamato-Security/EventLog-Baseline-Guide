@@ -1,5 +1,5 @@
 "LogFile","CurrentLogSize","MaxLogSize","Default","Recommended","IsLogFull","LogMode","CorrectSetting"
-"Application.evtx","0.07 MB","20 MB","20 MB","","False","Circular","N"
+"Application.evtx","1.07 MB","20 MB","20 MB","","False","Circular","N"
 "Microsoft-Windows-AppLocker%4EXE and DLL.evtx","0.07 MB","1 MB","1 MB","","False","Circular","N"
 "Microsoft-Windows-AppLocker%4MSI and Script.evtx","0.07 MB","1 MB","1 MB","","False","Circular","N"
 "Microsoft-Windows-AppLocker%4Packaged app-Deployment.evtx","0.07 MB","1 MB","1 MB","","False","Circular","N"
