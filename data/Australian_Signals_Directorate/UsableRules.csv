@@ -712,6 +712,7 @@ This may only be successful on server platforms that have Windows Backup enabled
 "Potentially Suspicious ASP.NET Compilation Via AspNetCompiler","high","","process_creation","Detects execution of ""aspnet_compiler.exe"" with potentially suspicious paths for compilation.","7ba37b73-d32a-9fdc-27f1-372220985b67"
 "HackTool - Stracciatella Execution","high","","process_creation","Detects Stracciatella which executes a Powershell runspace from within C# (aka SharpPick technique) with AMSI, ETW and Script Block Logging disabled based on PE metadata characteristics.","a9d391c2-0efd-3d38-0c33-49f93ab68df6"
 "Suspicious Curl.EXE Download","high","","process_creation","Detects a suspicious curl process start on Windows and outputs the requested document to a local file","e09795ef-2d7f-3f65-8286-c3267b89622e"
+"Arbitrary DLL or Csproj Code Execution Via Dotnet.EXE","medium","","process_creation","Detects execution of arbitrary DLLs or unsigned code via a "".csproj"" files via Dotnet.EXE.","7fe031ee-5c6c-0eea-fe28-fb72cbbe1aed"
 "Diskshadow Script Mode - Uncommon Script Extension Execution","medium","","process_creation","Detects execution of ""Diskshadow.exe"" in script mode to execute an script with a potentially uncommon extension.
 Initial baselining of the allowed extension list is required.
 ","a5621ded-7646-ab81-f618-d9132148ad46"
@@ -842,7 +843,6 @@ This could be an indicator of exfiltration or use of WebDav to launch code (host
 ","f84fbf6b-fa1f-71fb-e2ca-4f67b2451fe6"
 "Suspicious Network Command","low","","process_creation","Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems","b37bf4b0-3cd7-a1dd-ca56-4af874660093"
 "Malicious PowerShell Commandlets - ProcessCreation","high","","process_creation","Detects Commandlet names from well-known PowerShell exploitation frameworks","097acc6f-8384-1ffd-c4af-993cdf49dff6"
-"Whoami Utility Execution","low","","process_creation","Detects the execution of whoami, which is often used by attackers after exploitation / privilege escalation","4f66eca2-1272-c8d1-d056-e903294b1046"
 "OpenWith.exe Executes Specified Binary","high","","process_creation","The OpenWith.exe executes other binary","2c25a504-0f86-ca3f-43e0-5a40240a81fd"
 "HackTool - PCHunter Execution","high","","process_creation","Detects suspicious use of PCHunter, a tool like Process Hacker to view and manipulate processes, kernel options and other low level stuff","a40c99d5-1323-f65d-73d1-ca673940b7b2"
 "Uncommon Child Process Of Setres.EXE","high","","process_creation","Detects uncommon child process of Setres.EXE.
@@ -1099,8 +1099,9 @@ The database might contain authentication tokens and other sensitive information
 "Suspicious IIS URL GlobalRules Rewrite Via AppCmd","medium","","process_creation","Detects usage of ""appcmd"" to create new global URL rewrite rules. This behaviour has been observed being used by threat actors to add new rules so they can access their webshells.","82956673-bd55-9f29-96a4-e5bdd4083071"
 "PUA - CsExec Execution","high","","process_creation","Detects the use of the lesser known remote execution tool named CsExec a PsExec alternative","e96c2fac-d250-ed6f-8382-328d4faa876d"
 "Root Certificate Installed From Susp Locations","high","","process_creation","Adversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers.","a7e6a51e-0f36-3f14-8b9b-12110ce23ff3"
-"Potentially Suspicious JWT Token Search Via CLI","medium","","process_creation","Detects possible search for JWT tokens via CLI by looking for the string ""eyJ0eX"" or ""eyJhbG"".
-This string is used as an anchor to look for the start of the JWT token used by microsoft office and similar apps.
+"Potentially Suspicious JWT Token Search Via CLI","medium","","process_creation","Detects potentially suspicious search for JWT tokens via CLI by looking for the string ""eyJ0eX"" or ""eyJhbG"".
+JWT tokens are often used for access-tokens across various applications and services like Microsoft 365, Azure, AWS, Google Cloud, and others.
+Threat actors may search for these tokens to steal them for lateral movement or privilege escalation.
 ","9040711a-5958-aed6-ca57-ab80997eb33c"
 "SQL Client Tools PowerShell Session Detection","medium","","process_creation","This rule detects execution of a PowerShell code through the sqltoolsps.exe utility, which is included in the standard set of utilities supplied with the Microsoft SQL Server Management studio.
 Script blocks are not logged in this case, so this utility helps to bypass protection mechanisms based on the analysis of these logs.
@@ -1265,7 +1266,6 @@ Inspect the location and the content of the file passed as an argument in order 
 As an example, this can be used before connecting to an RDP session via command line interface.
 ","06860765-c664-13b1-1bba-4ae0606ad697"
 "Potential Provlaunch.EXE Binary Proxy Execution Abuse","medium","","process_creation","Detects child processes of ""provlaunch.exe"" which might indicate potential abuse to proxy execution.","0e400d25-3298-763d-1813-3fe64dbdb2b0"
-"PowerShell DownloadFile","high","","process_creation","Detects the execution of powershell, a WebClient object creation and the invocation of DownloadFile in a single command line","c095d894-f021-b42f-054d-9727ada91e6a"
 "BitLockerTogo.EXE Execution","low","","process_creation","Detects the execution of ""BitLockerToGo.EXE"".
 BitLocker To Go is BitLocker Drive Encryption on removable data drives. This feature includes the encryption of, USB flash drives, SD cards, External hard disk drives, Other drives that are formatted by using the NTFS, FAT16, FAT32, or exFAT file system.
 This is a rarely used application and usage of it at all is worth investigating.
@@ -1342,14 +1342,20 @@ Due to the old nature of this utility and the rareness of machines having the fi
 "HackTool - Certipy Execution","high","","process_creation","Detects Certipy execution, a tool for Active Directory Certificate Services enumeration and abuse based on PE metadata characteristics and common command line arguments.
 ","efdfbdd6-7e24-de87-fab4-a6218c8d0740"
 "HackTool - PurpleSharp Execution","critical","","process_creation","Detects the execution of the PurpleSharp adversary simulation tool","18dfc536-9538-c1a3-545c-82b5c749672c"
-"Potential LSASS Process Dump Via Procdump","high","","process_creation","Detects suspicious uses of the SysInternals Procdump utility by using a special command line parameter in combination with the lsass.exe process.
-This way we are also able to catch cases in which the attacker has renamed the procdump executable.
+"Potential LSASS Process Dump Via Procdump","high","","process_creation","Detects potential credential harvesting attempts through LSASS memory dumps using ProcDump.
+This rule identifies suspicious command-line patterns that combine memory dump flags (-ma, -mm, -mp) with LSASS-related process markers.
+LSASS (Local Security Authority Subsystem Service) contains sensitive authentication data including plaintext passwords, NTLM hashes, and Kerberos tickets in memory.
+Attackers commonly dump LSASS memory to extract credentials for lateral movement and privilege escalation.
 ","16b983b0-2a6e-197e-d708-3468b8785eb6"
 "HackTool - Impersonate Execution","medium","","process_creation","Detects execution of the Impersonate tool. Which can be used to manipulate tokens on a Windows computers remotely (PsExec/WmiExec) or interactively","49f7221b-6487-9808-ded9-4019dfe83e80"
 "Security Tools Keyword Lookup Via Findstr.EXE","medium","","process_creation","Detects execution of ""findstr"" to search for common names of security tools. Attackers often pipe the results of recon commands such as ""tasklist"" or ""whoami"" to ""findstr"" in order to filter out the results.
 This detection focuses on the keywords that the attacker might use as a filter.
 ","90bfcc44-6d97-c258-a28e-a17300913661"
 "Potentially Suspicious WebDAV LNK Execution","medium","","process_creation","Detects possible execution via LNK file accessed on a WebDAV server.","a2325ec9-0dd9-e21d-c39b-3e8dc0f36213"
+"RunMRU Registry Key Deletion","high","","process_creation","Detects deletion of the RunMRU registry key, which stores the history of commands executed via the Run dialog.
+In the clickfix techniques, the phishing lures instruct users to open a run dialog through (Win + R) and execute malicious commands.
+Adversaries may delete this key to cover their tracks after executing commands.
+","26c06fd6-5e65-1a6d-9852-08a8ae19398f"
 "Rundll32 Execution With Uncommon DLL Extension","medium","","process_creation","Detects the execution of rundll32 with a command line that doesn't contain a common extension","d6ede5f4-8daa-4a92-6e5f-9cd3ca86089c"
 "PrintBrm ZIP Creation of Extraction","high","","process_creation","Detects the execution of the LOLBIN PrintBrm.exe, which can be used to create or extract ZIP files. PrintBrm.exe should not be run on a normal workstation.","e5dce32e-6986-6417-4a01-aea6093f1e87"
 "Command Line Execution with Suspicious URL and AppData Strings","medium","","process_creation","Detects a suspicious command line execution that includes an URL and AppData string in the command line parameters as used by several droppers (js/vbs > powershell)","891ece81-d720-ce9c-fe02-6e491c7adb14"
@@ -1525,7 +1531,7 @@ Adversary may rename their malicious tools as legitimate Sysinternals tools to e
 "Sysmon Configuration Update","medium","","process_creation","Detects updates to Sysmon's configuration. Attackers might update or replace the Sysmon configuration with a bare bone one to avoid monitoring without shutting down the service completely","055ae5db-808f-a1cc-57ac-99f0fadbab7f"
 "HackTool - SharPersist Execution","high","","process_creation","Detects the execution of the hacktool SharPersist - used to deploy various different kinds of persistence mechanisms","d60bae71-ab70-95e8-ce1c-c0226f62a597"
 "System Disk And Volume Reconnaissance Via Wmic.EXE","medium","","process_creation","An adversary might use WMI to discover information about the system, such as the volume name, size,
-free space, and other disk information. This can be done using the `wmic` command-line utility and has been
+free space, and other disk information. This can be done using the 'wmic' command-line utility and has been
 observed being used by threat actors such as Volt Typhoon.
 ","f880519f-4419-7762-c6d0-7676fd2192a9"
 "UAC Bypass Using Event Viewer RecentViews","high","","process_creation","Detects the pattern of UAC Bypass using Event Viewer RecentViews","fb7a3239-94db-7a87-e1de-97016c713f32"
@@ -1701,6 +1707,9 @@ MeshAgent can execute commands on the target host by leveraging win-console to o
 "Uncommon Child Process Of BgInfo.EXE","medium","","process_creation","Detects uncommon child processes of ""BgInfo.exe"" which could be a sign of potential abuse of the binary to proxy execution via external VBScript","7a110d73-1faa-19d5-10aa-bd44ad1e783f"
 "Change PowerShell Policies to an Insecure Level","medium","","process_creation","Detects changing the PowerShell script execution policy to a potentially insecure level using the ""-ExecutionPolicy"" flag.","0fd941d7-3dec-afd3-d991-d693f0a6dff8"
 "PowerShell Set-Acl On Windows Folder","high","","process_creation","Detects PowerShell scripts to set the ACL to a file in the Windows folder","401fb350-d891-c9ac-1ba7-13d9cce53c20"
+"Suspicious BitLocker Access Agent Update Utility Execution","high","","process_creation","Detects the execution of the BitLocker Access Agent Update Utility (baaupdate.exe) which is not a common parent process for other processes.
+Suspicious child processes spawned by baaupdate.exe could indicate an attempt at lateral movement via BitLocker DCOM & COM Hijacking.
+","083d9e96-f2d7-ff41-1e8c-14988603fcbe"
 "Remote CHM File Download/Execution Via HH.EXE","high","","process_creation","Detects the usage of ""hh.exe"" to execute/download remotely hosted "".chm"" files.","e3cb371f-ecf2-9b45-e6ff-67bb63f48a48"
 "PowerShell Script Run in AppData","medium","","process_creation","Detects a suspicious command line execution that invokes PowerShell with reference to an AppData folder","403a879a-c765-af55-2a45-cce39e1f5cdb"
 "Nslookup PowerShell Download Cradle - ProcessCreation","medium","","process_creation","Detects suspicious powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records","58180213-29ed-6aa8-7558-806ba2830b7f"
@@ -1885,7 +1894,7 @@ Instead they modify the task after creation to include their malicious payload
 "LSA PPL Protection Disabled Via Reg.EXE","high","","process_creation","Detects the usage of the ""reg.exe"" utility to disable PPL protection on the LSA process","a6a22651-ffaa-7713-8313-46ce8a85ad64"
 "PsExec Service Execution","medium","","process_creation","Detects launch of the PSEXESVC service, which means that this system was the target of a psexec remote execution","063b6d5e-3f4e-c3a0-f506-0f8296b9eec4"
 "WSL Child Process Anomaly","medium","","process_creation","Detects uncommon or suspicious child processes spawning from a WSL process. This could indicate an attempt to evade parent/child relationship detections or persistence attempts via cron using WSL","481a16ec-1b88-6a7a-78b7-eedff1d69951"
-"Winrar Execution in Non-Standard Folder","medium","","process_creation","Detects a suspicious winrar execution in a folder which is not the default installation folder","91a429e4-2bb4-05ef-b164-545b86f9ba8e"
+"WinRAR Execution in Non-Standard Folder","medium","","process_creation","Detects a suspicious WinRAR execution in a folder which is not the default installation folder","91a429e4-2bb4-05ef-b164-545b86f9ba8e"
 "Potentially Suspicious Windows App Activity","medium","","process_creation","Detects potentially suspicious child process of applications launched from inside the WindowsApps directory. This could be a sign of a rogue "".appx"" package installation/execution","101b11d6-0200-6a9a-daea-aaebf8b49bca"
 "Verclsid.exe Runs COM Object","medium","","process_creation","Detects when verclsid.exe is used to run COM object via GUID","f95fb96e-dacc-23fa-9a80-f509e7973c9f"
 "Regsvr32 DLL Execution With Suspicious File Extension","high","","process_creation","Detects the execution of REGSVR32.exe with DLL files masquerading as other files","de7bed2f-8da9-bfd3-f7af-a1a8e5ff462d"
@@ -1948,6 +1957,10 @@ Usee to Query/modify DNS records for Active Directory integrated DNS via LDAP
 "Potential Persistence Via Microsoft Compatibility Appraiser","medium","","process_creation","Detects manual execution of the ""Microsoft Compatibility Appraiser"" task via schtasks.
 In order to trigger persistence stored in the ""\AppCompatFlags\TelemetryController"" registry key.
 ","c2a0770d-11ab-758f-a9ed-de4bbee89af7"
+"PUA - TruffleHog Execution","medium","","process_creation","Detects execution of TruffleHog, a tool used to search for secrets in different platforms like Git, Jira, Slack, SharePoint, etc. that could be used maliciously.
+While it is a legitimate tool, intended for use in CI pipelines and security assessments,
+It was observed in the Shai-Hulud malware campaign targeting npm packages to steal sensitive information.
+","026e49e9-46d7-d52b-a096-24d8122cf42b"
 "Remote Access Tool - ScreenConnect Server Web Shell Execution","high","","process_creation","Detects potential web shell execution from the ScreenConnect server process.","e8e1c7ac-50e7-03e1-c3d6-e1192efc4260"
 "PUA - SoftPerfect Netscan Execution","medium","","process_creation","Detects usage of SoftPerfect's ""netscan.exe"". An application for scanning networks.
 It is actively used in-the-wild by threat actors to inspect and understand the network architecture of a victim.
@@ -1989,6 +2002,10 @@ Usually ""RegAsm.exe"" should point to a dedicated DLL file or call the help wit
 "Local File Read Using Curl.EXE","medium","","process_creation","Detects execution of ""curl.exe"" with the ""file://"" protocol handler in order to read local files.","0ac56170-1ec2-0fcb-1654-0178ffa1487b"
 "Suspicious Windows Defender Registry Key Tampering Via Reg.EXE","high","","process_creation","Detects the usage of ""reg.exe"" to tamper with different Windows Defender registry keys in order to disable some important features related to protection and detection
 ","0e292cea-6680-a95e-46e2-4b938a65597e"
+"Hacktool - EDR-Freeze Execution","high","","process_creation","Detects execution of EDR-Freeze, a tool that exploits the MiniDumpWriteDump function and WerFaultSecure.exe to suspend EDR and Antivirus processes on Windows.
+EDR-Freeze leverages a race-condition attack to put security processes into a dormant state by suspending WerFaultSecure at the moment it freezes the target process.
+This technique does not require kernel-level exploits or BYOVD, but instead abuses user-mode functionality to temporarily disable monitoring by EDR or Antimalware solutions.
+","4f30677f-0ac0-d659-b950-25eb414a322b"
 "Arbitrary MSI Download Via Devinit.EXE","medium","","process_creation","Detects a certain command line flag combination used by ""devinit.exe"", which can be abused as a LOLBIN to download arbitrary MSI packages on a Windows system","39bd9b2b-7c43-e7a8-e882-3de14365ae19"
 "Suspicious File Download From IP Via Curl.EXE","high","","process_creation","Detects potentially suspicious file downloads directly from IP addresses using curl.exe","a404c83b-51de-a308-f6fc-659d55a00b6c"
 "Potential Script Proxy Execution Via CL_Mutexverifiers.ps1","medium","","process_creation","Detects the use of the Microsoft signed script ""CL_mutexverifiers"" to proxy the execution of additional PowerShell script commands","844df162-c07b-4b60-29d1-adf324d785f5"
@@ -2083,6 +2100,7 @@ When a file is opened, the default program used to open the file (also called th
 "HackTool - Wmiexec Default Powershell Command","high","","process_creation","Detects the execution of PowerShell with a specific flag sequence that is used by the Wmiexec script","8d0b4349-4a33-f9c1-b911-e922e9ed2f63"
 "Group Membership Reconnaissance Via Whoami.EXE","medium","","process_creation","Detects the execution of whoami.exe with the /group command line flag to show group membership for the current user, account type, security identifiers (SID), and attributes.","4f9a9515-6240-4eb8-beb5-f86cb1f08036"
 "Arbitrary File Download Via MSPUB.EXE","medium","","process_creation","Detects usage of ""MSPUB"" (Microsoft Publisher) to download arbitrary files","dd4ac92f-1ad9-9f2e-e7b1-574030f25c36"
+"Winscp Execution From Non Standard Folder","medium","","process_creation","Detects the execution of Winscp from an a non standard folder. This could indicate the execution of Winscp portable.","c589fd3e-8572-cdd5-70cd-08a23ea19794"
 "Unusually Long PowerShell CommandLine","low","","process_creation","Detects unusually long PowerShell command lines with a length of 1000 characters or more","9d361072-2d35-e275-87b6-4915aa2beab8"
 "Process Terminated Via Taskkill","low","","process_creation","Detects execution of ""taskkill.exe"" in order to stop a service or a process. Look for suspicious parents executing this command in order to hunt for potential malicious activity.
 Attackers might leverage this in order to conduct data destruction or data encrypted for impact on the data stores of services like Exchange and SQL Server.
@@ -2184,6 +2202,7 @@ When investigating, examine:
 ","ee28ff63-eaf6-56ee-7406-da65896bc0e5"
 "WSF/JSE/JS/VBA/VBE File Execution Via Cscript/Wscript","medium","","process_creation","Detects script file execution (.js, .jse, .vba, .vbe, .vbs, .wsf) by Wscript/Cscript","5742c4d7-6bb8-d4c7-1abf-eedde7c178df"
 "Dynamic .NET Compilation Via Csc.EXE - Hunting","medium","","process_creation","Detects execution of ""csc.exe"" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages.","d11c691d-7387-9895-7369-83c0abfbfba7"
+"FTP Connection Open Attempt Via Winscp CLI","medium","","process_creation","Detects the execution of Winscp with the ""-command"" and the ""open"" flags in order to open an FTP connection. Akira ransomware was seen using this technique in order to exfiltrate data.","633c4a15-175a-66fd-ebc0-538863c2adcf"
 "Process Execution From WebDAV Share","low","","process_creation","Detects execution of processes with image paths starting with WebDAV shares (\\), which might indicate malicious file execution from remote web shares.
 Execution of processes from WebDAV shares can be a sign of lateral movement or exploitation attempts, especially if the process is not a known legitimate application.
 Exploitation Attempt of vulnerabilities like CVE-2025-33053 also involves executing processes from WebDAV paths.
@@ -2350,6 +2369,12 @@ The "".lnk"" file was delivered via phishing campaign.
 "APT31 Judgement Panda Activity","critical","","process_creation","Detects APT31 Judgement Panda activity as described in the Crowdstrike 2019 Global Threat Report","95e7263a-c0ff-b3c4-7947-3f452d58d181"
 "Operation Wocao Activity","high","","process_creation","Detects activity mentioned in Operation Wocao report","5a419751-992b-77c8-867f-49e5097ecddd"
 "Potential APT-C-12 BlueMushroom DLL Load Activity Via Regsvr32","medium","","process_creation","Detects potential BlueMushroom DLL loading activity via regsvr32 from AppData Local","c3a27568-59dc-1d9d-e90f-dd041655ebdf"
+"Commvault QOperation Path Traversal Webshell Drop (CVE-2025-57790)","high","","process_creation","Detects the use of qoperation.exe with the -file argument to write a JSP file to the webroot, indicating a webshell drop.
+This is a post-authentication step corresponding to CVE-2025-57790.
+","fbb1d319-e5da-b2dc-c422-63c2cc6eb1e2"
+"Commvault QLogin Argument Injection Authentication Bypass (CVE-2025-57791)","high","","process_creation","Detects the use of argument injection in the Commvault qlogin command - potential exploitation for CVE-2025-57791.
+An attacker can inject the `-localadmin` parameter via the password field to bypass authentication and gain a privileged token.
+","7d3ba87a-9d7b-ff71-06a5-44faf62e1464"
 "Potential SharePoint ToolShell CVE-2025-53770 Exploitation Indicators","high","","process_creation","Detects potential exploitation of CVE-2025-53770 by identifying indicators such as suspicious command lines discovered in Post-Exploitation activities.
 CVE-2025-53770 is a zero-day vulnerability in SharePoint that allows remote code execution.
 ","acecfe24-cf2a-2635-dded-a45c357eea3f"
@@ -2369,6 +2394,12 @@ The detection focuses on commonly abused Windows executables (like powershell.ex
 This allows an attacker to execute arbitrary code with elevated privileges by placing a malicious regsvr32.exe alongside this Legitimate Notepad++ installer.
 The vulnerability is triggered when the installer attempts to register the NppShell.dll file, which is a component of Notepad++.
 ","1df6028e-e6fa-9d43-0ec9-a502e12d85dd"
+"Potential Exploitation of GoAnywhere MFT Vulnerability","high","","process_creation","Detects suspicious command execution by child processes of the GoAnywhere Managed File Transfer (MFT) application, which may indicate exploitation such as CVE-2025-10035.
+This behavior is indicative of post-exploitation activity related to CVE-2025-10035, as observed in campaigns by the threat actor Storm-1175.
+","0e43ac6e-2ec6-bfd2-6821-ebaa244692cb"
+"Commvault QLogin with PublicSharingUser and GUID Password (CVE-2025-57788)","medium","","process_creation","Detects a qlogin.exe command attempting to authenticate as the internal `_+_PublicSharingUser_` using a GUID as the password.
+This could be an indicator of an attacker exploiting CVE-2025-57788 to gain initial access using leaked credentials.
+","1ebc60e4-712a-f776-9f31-209948f97a00"
 "Kalambur Backdoor Curl TOR SOCKS Proxy Execution","high","","process_creation","Detects the execution of the ""curl.exe"" command, referencing ""SOCKS"" and "".onion"" domains, which could be indicative of Kalambur backdoor activity.","073e0fdf-35a4-362b-a1c6-2b1b41c71231"
 "Exploit for CVE-2015-1641","critical","","process_creation","Detects Winword starting uncommon sub process MicroScMgmt.exe as used in exploits for CVE-2015-1641","a13f506e-fac9-0e14-f1b5-1cfbe9c57e46"
 "CVE-2023-22518 Exploitation Attempt - Suspicious Confluence Child Process (Windows)","medium","","process_creation","Detects exploitation attempt of CVE-2023-22518 (Confluence Data Center / Confluence Server), where an attacker can exploit vulnerable endpoints to e.g. create admin accounts and execute arbitrary commands.
@@ -2442,6 +2473,7 @@ Monitor process creation with ""wmic process call create"" and LOLBins in comman
 "Stop Windows Service","low","","process_creation","Detects a Windows service to be stopped","5e1aa8a2-0c7e-a580-4093-894302350358"
 "Root Certificate Installed","medium","","process_creation","Adversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers.","f378e980-dd67-4968-9df5-2ac09c718d4d"
 "WMI Remote Command Execution","medium","","process_creation","An adversary might use WMI to execute commands on a remote system","f58bcb01-a76b-cc94-f698-29be1afd376b"
+"Whoami Utility Execution","low","","process_creation","Detects the execution of whoami, which is often used by attackers after exploitation / privilege escalation","4f66eca2-1272-c8d1-d056-e903294b1046"
 "Visual Basic Script Execution","medium","","process_creation","Adversaries may abuse Visual Basic (VB) for execution","124493b3-4f31-c0bb-dbe9-97f0666635ba"
 "CrackMapExecWin","critical","","process_creation","Detects CrackMapExecWin Activity as Described by NCSC","9fcbb5dc-f858-0445-bcf4-ade441a89dc3"
 "Suspicious Certutil Command Usage","high","","process_creation","Detects a suspicious Microsoft certutil execution with sub commands like 'decode' sub command, which is sometimes used to decode malicious code","540f0d7f-8d92-2c4b-ce07-2be23d582ede"
@@ -2467,6 +2499,7 @@ Monitor process creation with ""wmic process call create"" and LOLBins in comman
 "Run from a Zip File","medium","","process_creation","Payloads may be compressed, archived, or encrypted in order to avoid detection","0557765a-6dad-b15a-5cf0-d92eef2b33ab"
 "Suspicious Characters in CommandLine","high","","process_creation","Detects suspicious Unicode characters in the command line, which could be a sign of obfuscation or defense evasion","c4c78b6f-2ead-8d39-dc1b-9ab4e88fc5b6"
 "Suspicious Rundll32 Script in CommandLine","medium","","process_creation","Detects suspicious process related to rundll32 based on arguments","ae18b229-740e-17c7-63f2-b15422d6271e"
+"PowerShell DownloadFile","high","","process_creation","Detects the execution of powershell, a WebClient object creation and the invocation of DownloadFile in a single command line","c095d894-f021-b42f-054d-9727ada91e6a"
 "Registry Dump of SAM Creds and Secrets","high","","process_creation","Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database either through Windows Registry where the SAM database is stored","f4ff3d8e-34aa-51f7-6a8e-5081ec934b65"
 "Suspicious File Download Using Office Application","high","","process_creation","Detects the usage of one of three Microsoft office applications (Word, Excel, PowerPoint) to download arbitrary files","dc86094c-5f6f-895a-e92a-8b82229db6b7"
 "WMI Execution Via Office Process","medium","","process_creation","Initial execution of malicious document calls wmic to execute the file with regsvr32","0bca1760-51b3-cdf0-9756-923f2be12c94"
@@ -3431,6 +3464,10 @@ This issue can occur for example when a service uses a user account or a compute
 ","e10c99fe-7559-5ae3-9c5c-9fd0a70bd4a6"
 "Important Windows Eventlog Cleared","high","system","","Detects the clearing of one of the Windows Core Eventlogs. e.g. caused by ""wevtutil cl"" command execution","30966a3a-2224-0e1a-d28d-c0f7e84cfed3"
 "Eventlog Cleared","medium","system","","One of the Windows Eventlogs has been cleared. e.g. caused by ""wevtutil cl"" command execution","8617b59c-812e-c88e-0bd4-5267e0e825f0"
+"ISATAP Router Address Was Set","medium","system","","Detects the configuration of a new ISATAP router on a Windows host. While ISATAP is a legitimate Microsoft technology for IPv6 transition, unexpected or unauthorized ISATAP router configurations could indicate a potential IPv6 DNS Takeover attack using tools like mitm6.
+In such attacks, adversaries advertise themselves as DHCPv6 servers and set malicious ISATAP routers to intercept traffic.
+This detection should be correlated with network baselines and known legitimate ISATAP deployments in your environment.
+","fecb8f7f-ab95-3d55-be6b-a2f4796a6ae9"
 "Crash Dump Created By Operating System","medium","system","","Detects ""BugCheck"" errors indicating the system rebooted due to a crash, capturing the bugcheck code, dump file path, and report ID.","d4ccca35-9fd6-1ed8-f5d5-84f755404fdd"
 "Local Privilege Escalation Indicator TabTip","high","system","","Detects the invocation of TabTip via CLSID as seen when JuicyPotatoNG is used on a system in brute force mode","cd12f5c0-9798-3928-58bf-34b2816ea898"
 "Active Directory Certificate Services Denied Certificate Enrollment Request","low","system","","Detects denied requests by Active Directory Certificate Services.
