@@ -641,7 +641,6 @@ This can be used to hide internet activity or be used to hide the process of exf
 With this enabled organization will lose visibility into data such as query type, response and originating IP that are used to determine bad actors.
 ","22adc86b-0198-3dfd-0cc2-f686d342be66"
 "Scripted Diagnostics Turn Off Check Enabled - Registry","medium","","registry_set","Detects enabling TurnOffCheck which can be used to bypass defense of MSDT Follina vulnerability","5726e5a8-ce24-8360-cfb3-731d16ed8aca"
-"Blackbyte Ransomware Registry","high","","registry_set","BlackByte set three different registry values to escalate privileges and begin setting the stage for lateral movement and encryption","9651c944-f6ad-6a83-4ff8-76f682bce13e"
 "Disable Administrative Share Creation at Startup","medium","","registry_set","Administrative shares are hidden network shares created by Microsoft Windows NT operating systems that grant system administrators remote access to every disk volume on a network-connected system","2946c058-5b67-3779-9a29-6cd622926e09"
 "Windows Recall Feature Enabled - Registry","medium","","registry_set","Detects the enabling of the Windows Recall feature via registry manipulation. Windows Recall can be enabled by setting the value of ""DisableAIDataAnalysis"" to ""0"".
 Adversaries may enable Windows Recall as part of post-exploitation discovery and collection activities.
@@ -714,6 +713,10 @@ The malware stores its configuration in the registry alongside drivers utilized 
 "Suspicious Set Value of MSDT in Registry (CVE-2022-30190)","medium","","registry_set","Detects set value ms-msdt MSProtocol URI scheme in Registry that could be an attempt to exploit CVE-2022-30190.","9754f622-65d5-8c9b-7762-f074e2d502ed"
 "BlueSky Ransomware Artefacts","high","security","","Detect access to files and shares with names and extensions used by BlueSky ransomware which could indicate a current or previous encryption attempt.","21ead34c-d2d4-2799-6318-2ff9e4aa9222"
 "CVE-2021-31979 CVE-2021-33771 Exploits","critical","","registry_set","Detects patterns as noticed in exploitation of Windows CVE-2021-31979 CVE-2021-33771 vulnerability and DevilsTongue malware by threat group Sourgum","a4072638-9c3a-3307-e4f9-458edbb60efb"
+"Blackbyte Ransomware Registry","high","","registry_set","Detects specific windows registry modifications made by BlackByte ransomware variants.
+BlackByte set three different registry values to escalate privileges and begin setting the stage for lateral movement and encryption.
+This rule triggers when any of the following registry keys are set to DWORD 1, however all three should be investigated as part of a larger BlackByte ransomware detection and response effort.
+","9651c944-f6ad-6a83-4ff8-76f682bce13e"
 "Small Sieve Malware Registry Persistence","high","","registry_set","Detects registry value with specific intentional typo and strings seen used by the Small Sieve malware","8376c984-b3da-370c-ff20-3c9c0dc9f18e"
 "Potential Ursnif Malware Activity - Registry","high","","registry_add","Detects registry keys related to Ursnif malware.","4adab006-3d6b-cf15-fdcc-f081f50e87f5"
 "Outlook Task/Note Reminder Received","low","","registry_set","Detects changes to the registry values related to outlook that indicates that a reminder was triggered for a Note or Task item. This could be a sign of exploitation of CVE-2023-23397. Further investigation is required to determine the success of an exploitation.","d2c33d76-7b09-c3b4-a954-ffd2e0da3cc8"
