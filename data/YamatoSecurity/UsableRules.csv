@@ -889,7 +889,9 @@ Windows stores local service configuration information in the Registry under HKL
 "Remote Access Tool - Team Viewer Session Started On Windows Host","low","","process_creation","Detects the command line executed when TeamViewer starts a session started by a remote host.
 Once a connection has been started, an investigator can verify the connection details by viewing the ""incoming_connections.txt"" log file in the TeamViewer folder.
 ","6ea28a10-22c9-94e3-ecf6-cd29b8bc75bd"
-"HackTool - Windows Credential Editor (WCE) Execution","critical","","process_creation","Detects the use of Windows Credential Editor (WCE)","956c7de5-3b88-83e6-b1c1-c1d194e166d8"
+"HackTool - Windows Credential Editor (WCE) Execution","critical","","process_creation","Detects the use of Windows Credential Editor (WCE), a popular post-exploitation tool used to extract plaintext passwords, hash, PIN code and Kerberos tickets from memory.
+It is often used by threat actors for credential dumping and lateral movement within compromised networks.
+","956c7de5-3b88-83e6-b1c1-c1d194e166d8"
 "Suspicious Download Via Certutil.EXE","medium","","process_creation","Detects the execution of certutil with certain flags that allow the utility to download files.","34fbd3e7-f286-812f-f5a0-61d77817a0b4"
 "Potential Dropper Script Execution Via WScript/CScript","medium","","process_creation","Detects wscript/cscript executions of scripts located in user directories","4b713aaa-d275-9bdc-3492-6a1d3582348c"
 "Suspicious Diantz Download and Compress Into a CAB File","medium","","process_creation","Download and compress a remote file and store it in a cab file on local machine.","4657b559-a0fa-d23b-e35c-9cde37b20f8c"
@@ -1150,6 +1152,10 @@ An example would be a threat actor creating a new user via the net command and p
 "Suspicious Parent Double Extension File Execution","high","","process_creation","Detect execution of suspicious double extension files in ParentCommandLine","775d4bc1-d404-6927-6dc7-c22d00029c37"
 "Suspicious Registry Modification From ADS Via Regini.EXE","high","","process_creation","Detects the import of an alternate data stream with regini.exe, regini.exe can be used to modify registry keys.","0e51a9f2-52ef-1f9a-cd41-f229ac148283"
 "PUA - Suspicious ActiveDirectory Enumeration Via AdFind.EXE","high","","process_creation","Detects active directory enumeration activity using known AdFind CLI flags","5a05c10d-f2a5-f434-4d63-63cd535745b6"
+"PUA - Restic Backup Tool Execution","high","","process_creation","Detects the execution of the Restic backup tool, which can be used for data exfiltration.
+Threat actors may leverage Restic to back up and exfiltrate sensitive data to remote storage locations, including cloud services.
+If not legitimately used in the enterprise environment, its presence may indicate malicious activity.
+","7ec4822c-18de-077f-88aa-03d1ccba40b1"
 "Stop Windows Service Via PowerShell Stop-Service","low","","process_creation","Detects the stopping of a Windows service via the PowerShell Cmdlet ""Stop-Service""","c53a6656-ecdc-89f8-742f-0455f2ed3c64"
 "PUA - PingCastle Execution From Potentially Suspicious Parent","high","","process_creation","Detects the execution of PingCastle, a tool designed to quickly assess the Active Directory security level via a script located in a potentially suspicious or uncommon location.
 ","ac70393b-10a3-1934-e063-2bff18e8a37c"
@@ -1964,6 +1970,9 @@ While it is a legitimate tool, intended for use in CI pipelines and security ass
 It was observed in the Shai-Hulud malware campaign targeting npm packages to steal sensitive information.
 ","026e49e9-46d7-d52b-a096-24d8122cf42b"
 "Remote Access Tool - ScreenConnect Server Web Shell Execution","high","","process_creation","Detects potential web shell execution from the ScreenConnect server process.","e8e1c7ac-50e7-03e1-c3d6-e1192efc4260"
+"Installation of WSL Kali-Linux","high","","process_creation","Detects installation of Kali Linux distribution through Windows Subsystem for Linux (WSL).
+Attackers may use Kali Linux WSL to leverage its penetration testing tools and capabilities for malicious purposes.
+","3de98820-2d36-1706-4ba6-1dcac6f0a2db"
 "PUA - SoftPerfect Netscan Execution","medium","","process_creation","Detects usage of SoftPerfect's ""netscan.exe"". An application for scanning networks.
 It is actively used in-the-wild by threat actors to inspect and understand the network architecture of a victim.
 ","d14c21ed-9fb4-dd37-d9a0-df7cd5f8092b"
@@ -2029,6 +2038,7 @@ attackers can leverage this parameter to proxy the execution of malware.
 "Use of VisualUiaVerifyNative.exe","medium","","process_creation","VisualUiaVerifyNative.exe is a Windows SDK that can be used for AWL bypass and is listed in Microsoft's recommended block rules.","2116c0b4-e272-0fc0-40da-107d4cbaa911"
 "Suspicious Workstation Locking via Rundll32","medium","","process_creation","Detects a suspicious call to the user32.dll function that locks the user workstation","926d4093-40e5-c7e0-f87e-01b94cbb63a7"
 "Suspicious ZipExec Execution","medium","","process_creation","ZipExec is a Proof-of-Concept (POC) tool to wrap binary-based tools into a password-protected zip file.","2a048dab-1493-f4cf-68dc-2fc90db2a471"
+"WSL Kali-Linux Usage","high","","process_creation","Detects the use of Kali Linux through Windows Subsystem for Linux","d63e46b7-e8e4-0adf-ae74-e7e8d30f7d79"
 "Suspicious ScreenSave Change by Reg.exe","medium","","process_creation","Adversaries may establish persistence by executing malicious content triggered by user inactivity.
 Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension
 ","d7156c2d-f3d8-5088-3d92-b5b7ee49cb65"
