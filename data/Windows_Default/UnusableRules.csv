@@ -2393,6 +2393,8 @@ Ransomware threat actors and operators (specifically BlackCat) were seen increas
 The ""PromptOnSecureDesktop"" setting specifically determines whether UAC prompts are displayed on the secure desktop. The secure desktop is a separate desktop environment that's isolated from other processes running on the system. It's designed to prevent malicious software from intercepting or tampering with UAC prompts.
 When ""PromptOnSecureDesktop"" is set to 0, UAC prompts are displayed on the user's current desktop instead of the secure desktop. This reduces the level of security because it potentially exposes the prompts to manipulation by malicious software.
 ","4475b3bd-9b24-b189-1118-871c5fe3fe17"
+"WFP Filter Added via Registry","medium","","registry_set","Detects registry modifications that add Windows Filtering Platform (WFP) filters, which may be used to block security tools and EDR agents from reporting events.
+","c4192251-3d93-add7-246d-df5227e7dcb9"
 "Potential Persistence Via LSA Extensions","high","","registry_set","Detects when an attacker modifies the ""REG_MULTI_SZ"" value named ""Extensions"" to include a custom DLL to achieve persistence via lsass.
 The ""Extensions"" list contains filenames of DLLs being automatically loaded by lsass.exe. Each DLL has its InitializeLsaExtension() method called after loading.
 ","e249ebd9-4719-fbd6-ad42-802038c12f87"
