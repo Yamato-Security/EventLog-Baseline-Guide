@@ -2712,6 +2712,11 @@ This requires an Advanced Auditing policy to log a successful Windows Event ID 4
 "Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
 ","777523b0-14f8-1ca2-12c9-d668153661ff"
 "Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
+"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
+The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
+Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
+Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
+","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
 "SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
 "ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
 "Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
@@ -2765,6 +2770,11 @@ This requires an Advanced Auditing policy to log a successful Windows Event ID 4
 "Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
 ","777523b0-14f8-1ca2-12c9-d668153661ff"
 "Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
+"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
+The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
+Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
+Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
+","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
 "SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
 "ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
 "Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
@@ -2819,6 +2829,11 @@ This requires an Advanced Auditing policy to log a successful Windows Event ID 4
 "Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
 ","777523b0-14f8-1ca2-12c9-d668153661ff"
 "Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
+"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
+The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
+Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
+Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
+","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
 "SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
 "ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
 "Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
@@ -2858,6 +2873,11 @@ This requires an Advanced Auditing policy to log a successful Windows Event ID 4
 "Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
 ","777523b0-14f8-1ca2-12c9-d668153661ff"
 "Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
+"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
+The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
+Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
+Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
+","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
 "SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
 "ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
 "Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
