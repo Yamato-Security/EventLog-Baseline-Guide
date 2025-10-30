@@ -401,7 +401,6 @@ Adversaries may use this information to determine which users have elevated perm
 "Remove Account From Domain Admin Group","medium","","ps_script","Adversaries may interrupt availability of system and network resources by inhibiting access to accounts utilized by legitimate users.
 Accounts may be deleted, locked, or manipulated (ex: changed credentials) to remove access to accounts.
 ","33a52335-678e-da31-eb46-d7cfc302cb3e"
-"Powershell Token Obfuscation - Powershell","high","","ps_script","Detects TOKEN OBFUSCATION technique from Invoke-Obfuscation","77af6d22-9887-7943-53f1-6a849e2e892d"
 "Powershell MsXml COM Object","medium","","ps_script","Adversaries may abuse PowerShell commands and scripts for execution.
 PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
 Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code
@@ -444,6 +443,10 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 "Use Of Remove-Item to Delete File - ScriptBlock","low","","ps_script","PowerShell Remove-Item  with -Path to delete a file or a folder with ""-Recurse""","6e77c76e-375f-3378-fb5b-0d55e078f8ad"
 "New Windows Firewall Rule Added Via New-NetFirewallRule Cmdlet - ScriptBlock","low","","ps_script","Detects when a powershell script contains calls to the ""New-NetFirewallRule"" cmdlet in order to add a new firewall rule with an ""Allow"" action.
 ","40fd8a4e-3820-0edf-530e-53785ee863e9"
+"Powershell Token Obfuscation - Powershell","medium","","ps_script","Detects TOKEN OBFUSCATION technique from Invoke-Obfuscation in Powershell scripts.
+Use this rule as a threat-hunting baseline to find obfuscated scripts in your environment.
+Once tested and tuned, consider deploying a production detection rule based on this hunting rule.
+","77af6d22-9887-7943-53f1-6a849e2e892d"
 "Potential POWERTRASH Script Execution","high","","ps_script","Detects potential execution of the PowerShell script POWERTRASH","b8581aed-5481-addc-116b-c0b8384cecfc"
 "Potential APT FIN7 POWERHOLD Execution","high","","ps_script","Detects execution of the POWERHOLD script seen used by FIN7 as reported by WithSecureLabs","384a6ce5-d681-2e87-6a43-6e1a0eb0f316"
 "Lace Tempest PowerShell Launcher","high","","ps_script","Detects a PowerShell script used by Lace Tempest APT to launch their malware loader by exploiting CVE-2023-47246 as reported by SysAid Team
