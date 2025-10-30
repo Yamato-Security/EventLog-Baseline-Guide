@@ -401,7 +401,6 @@ Adversaries may use this information to determine which users have elevated perm
 "Remove Account From Domain Admin Group","medium","","ps_script","Adversaries may interrupt availability of system and network resources by inhibiting access to accounts utilized by legitimate users.
 Accounts may be deleted, locked, or manipulated (ex: changed credentials) to remove access to accounts.
 ","33a52335-678e-da31-eb46-d7cfc302cb3e"
-"Powershell Token Obfuscation - Powershell","high","","ps_script","Detects TOKEN OBFUSCATION technique from Invoke-Obfuscation","77af6d22-9887-7943-53f1-6a849e2e892d"
 "Powershell MsXml COM Object","medium","","ps_script","Adversaries may abuse PowerShell commands and scripts for execution.
 PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
 Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code
@@ -444,6 +443,10 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 "Use Of Remove-Item to Delete File - ScriptBlock","low","","ps_script","PowerShell Remove-Item  with -Path to delete a file or a folder with ""-Recurse""","6e77c76e-375f-3378-fb5b-0d55e078f8ad"
 "New Windows Firewall Rule Added Via New-NetFirewallRule Cmdlet - ScriptBlock","low","","ps_script","Detects when a powershell script contains calls to the ""New-NetFirewallRule"" cmdlet in order to add a new firewall rule with an ""Allow"" action.
 ","40fd8a4e-3820-0edf-530e-53785ee863e9"
+"Powershell Token Obfuscation - Powershell","medium","","ps_script","Detects TOKEN OBFUSCATION technique from Invoke-Obfuscation in Powershell scripts.
+Use this rule as a threat-hunting baseline to find obfuscated scripts in your environment.
+Once tested and tuned, consider deploying a production detection rule based on this hunting rule.
+","77af6d22-9887-7943-53f1-6a849e2e892d"
 "Potential POWERTRASH Script Execution","high","","ps_script","Detects potential execution of the PowerShell script POWERTRASH","b8581aed-5481-addc-116b-c0b8384cecfc"
 "Potential APT FIN7 POWERHOLD Execution","high","","ps_script","Detects execution of the POWERHOLD script seen used by FIN7 as reported by WithSecureLabs","384a6ce5-d681-2e87-6a43-6e1a0eb0f316"
 "Lace Tempest PowerShell Launcher","high","","ps_script","Detects a PowerShell script used by Lace Tempest APT to launch their malware loader by exploiting CVE-2023-47246 as reported by SysAid Team
@@ -1618,6 +1621,8 @@ However, malicious actors may exploit these tools by renaming them to bypass det
 "Sensitive File Dump Via Wbadmin.EXE","high","","process_creation","Detects the dump of highly sensitive files such as ""NTDS.DIT"" and ""SECURITY"" hive.
 Attackers can leverage the ""wbadmin"" utility in order to dump sensitive files that might contain credential or sensitive information.
 ","f3baa8fc-8db9-1300-7b37-53785ce88ee9"
+"Potential Lateral Movement via Windows Remote Shell","medium","","process_creation","Detects a child process spawned by 'winrshost.exe', which suggests remote command execution through Windows Remote Shell (WinRs) and may indicate potential lateral movement activity.
+","000b6661-928a-b276-901f-a8b94c10f61b"
 "Rundll32 Execution Without CommandLine Parameters","high","","process_creation","Detects suspicious start of rundll32.exe without any parameters as found in CobaltStrike beacon activity","011b5544-f9c6-7b7c-5114-f1cbce8b511a"
 "Cloudflared Tunnel Connections Cleanup","medium","","process_creation","Detects execution of the ""cloudflared"" tool with the tunnel ""cleanup"" flag in order to cleanup tunnel connections.","fc4ecc21-82a9-f983-5331-c9e94cfc7cfd"
 "PUA - PingCastle Execution","medium","","process_creation","Detects the execution of PingCastle, a tool designed to quickly assess the Active Directory security level.","0c6e9a79-2e34-53ee-92c8-a3b0e05011d0"
@@ -1682,6 +1687,9 @@ Both can be used for AWL bypass and to execute F# code via scripts or inline.
 "Windows Credential Manager Access via VaultCmd","medium","","process_creation","List credentials currently stored in Windows Credential Manager via the native Windows utility vaultcmd.exe","af00bb3c-d23f-1210-525a-d8eaf94dd907"
 "Firewall Rule Update Via Netsh.EXE","medium","","process_creation","Detects execution of netsh with the ""advfirewall"" and the ""set"" option in order to set new values for properties of a existing rule","982b7732-cb4f-a678-742f-12975f002ced"
 "Potentially Suspicious Inline JavaScript Execution via NodeJS Binary","medium","","process_creation","Detects potentially suspicious inline JavaScript execution using Node.js with specific keywords in the command line.","7d713cf5-4d56-75d5-a689-0206993c4d03"
+"Suspicious Speech Runtime Binary Child Process","high","","process_creation","Detects suspicious Speech Runtime Binary Execution by monitoring its child processes.
+Child processes spawned by SpeechRuntime.exe could indicate an attempt for lateral movement via COM & DCOM hijacking.
+","6fe12769-d53d-732b-a087-299018034ba9"
 "Potential Discovery Activity Via Dnscmd.EXE","medium","","process_creation","Detects an attempt to leverage dnscmd.exe to enumerate the DNS zones of a domain. DNS zones used to host the DNS records for a particular domain.","7aaa460d-7613-e1bd-01a0-3c17a897a9d2"
 "Remote PowerShell Session Host Process (WinRM)","medium","","process_creation","Detects remote PowerShell sections by monitoring for wsmprovhost (WinRM host process) as a parent or child process (sign of an active PowerShell remote session).","088e72dd-07b4-8c9a-4e3a-f8b72d98def0"
 "Abuse of Service Permissions to Hide Services Via Set-Service","high","","process_creation","Detects usage of the ""Set-Service"" powershell cmdlet to configure a new SecurityDescriptor that allows a service to be hidden from other utilities such as ""sc.exe"", ""Get-Service""...etc. (Works only in powershell 7)","f57937ba-e844-d5ff-1b06-4ca216d0b747"
@@ -1819,6 +1827,9 @@ Threat actors abused older vulnerable versions to manipulate system processes.
 This often done by attackers or malware in order to evade defensive mechanisms.
 ","a6320654-afe9-8fa6-7fdc-3270c5a552d2"
 "PUA - Potential PE Metadata Tamper Using Rcedit","medium","","process_creation","Detects the use of rcedit to potentially alter executable PE metadata properties, which could conceal efforts to rename system utilities for defense evasion.","ae609e1c-eb91-f3a5-50b2-e6d70abc4c8b"
+"Winrs Local Command Execution","high","","process_creation","Detects the execution of Winrs.exe where it is used to execute commands locally.
+Commands executed this way are launched under Winrshost.exe and can represent proxy execution used for defense evasion or lateral movement.
+","e953bfb4-3064-708f-4822-a5d7b3edf657"
 "Launch-VsDevShell.PS1 Proxy Execution","medium","","process_creation","Detects the use of the 'Launch-VsDevShell.ps1' Microsoft signed script to execute commands.","ba78b609-b5f0-41e2-1081-e3424cdfe02d"
 "Ruby Inline Command Execution","medium","","process_creation","Detects execution of ruby using the ""-e"" flag. This is could be used as a way to launch a reverse shell or execute live ruby code.","602c5e30-f2c0-b275-aab7-2e95c70b2883"
 "Remote Access Tool - Potential MeshAgent Execution - Windows","medium","","process_creation","Detects potential execution of MeshAgent which is a tool used for remote access.
@@ -2222,6 +2233,10 @@ Exploitation Attempt of vulnerabilities like CVE-2025-33053 also involves execut
 "Curl.EXE Execution With Custom UserAgent","medium","","process_creation","Detects execution of curl.exe with custom useragent options","e0489e47-4c09-f300-bf19-14475e09c953"
 "SC.EXE Query Execution","low","","process_creation","Detects execution of ""sc.exe"" to query information about registered services on the system","1a3d7d59-1928-edd5-afaa-ffb4018bf777"
 "Suspicious Tasklist Discovery Command","informational","","process_creation","Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network","a8683f51-05f0-cb77-d513-48b731911be3"
+"Potential Executable Run Itself As Sacrificial Process","low","","process_creation","Detects when an executable launches an identical instance of itself, a behavior often used to create a suspended “sacrificial” process for code injection or evasion.
+Investigate for indicators such as the process being started in suspended mode, rapid parent termination, memory manipulation (e.g., WriteProcessMemory, CreateRemoteThread), or unsigned binaries.
+Review command-line arguments, process ancestry, and network activity to confirm if this is legitimate behavior or process injection activity.
+","a0f22264-4d87-83f0-24f3-583409c6f464"
 "Potentially Suspicious PowerShell Child Processes","medium","","process_creation","Detects potentially suspicious child processes spawned by PowerShell.
 Use this rule to hunt for potential anomalies initiating from PowerShell scripts and commands.
 ","56ff2d1a-cadd-2622-f049-458f96d44a39"
