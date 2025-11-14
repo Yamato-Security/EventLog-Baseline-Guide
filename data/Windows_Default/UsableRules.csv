@@ -30,12 +30,17 @@ Unfortunately, that is about the only instance of CVEs being written to this log
 "CVE-2024-49113 Exploitation Attempt - LDAP Nightmare","high","application","","Detects exploitation attempt of CVE-2024-49113 known as LDAP Nightmare, based on ""Application Error"" log where the faulting application is ""lsass.exe"" and the faulting module is ""WLDAP32.dll"".
 ","1117f6c7-1c68-9c6e-c3e8-191e9d687387"
 "CVE-2020-0688 Exploitation via Eventlog","high","application","","Detects the exploitation of Microsoft Exchange vulnerability as described in CVE-2020-0688","b1a2ae27-889c-aa26-1bd3-21f277008048"
+"Potential Exploitation of CVE-2022-21919 or CVE-2021-34484 for LPE","low","application","","Detects potential exploitation attempts of CVE-2022-21919 or CVE-2021-34484 leading to local privilege escalation via the User Profile Service.
+During exploitation of this vulnerability, two logs (Provider_Name: Microsoft-Windows-User Profiles Service) with EventID 1511 and 1515 are created (EventID 1515 may generate many false positives).
+Additionally, the directory \Users\TEMP may be created during exploitation. This behavior was observed on Windows Server 2008.
+","17e91768-3a0f-6d5f-bc0d-7f2d22391909"
 "MSSQL Extended Stored Procedure Backdoor Maggie","high","application","","This rule detects the execution of the extended storage procedure backdoor named Maggie in the context of Microsoft SQL server","e177969a-73cc-a32c-b948-cb580287057a"
 "LPE InstallerFileTakeOver PoC CVE-2021-41379","high","application","","Detects PoC tool used to exploit LPE vulnerability CVE-2021-41379","8e38887f-8e20-477d-26c1-0862951ae91b"
+"Exploitation Activity of CVE-2025-59287 - WSUS Deserialization","high","application","","Detects cast exceptions in Windows Server Update Services (WSUS) application logs that highly indicate exploitation attempts of CVE-2025-59287, a deserialization vulnerability in WSUS.
+","e9f37d4c-d2f4-8c89-92d8-82346d4dd882"
 "MSMQ Corrupted Packet Encountered","high","application","","Detects corrupted packets sent to the MSMQ service. Could potentially be a sign of CVE-2023-21554 exploitation","0bcc2c11-231f-f491-7985-3571fee7f2c5"
 "CVE-2023-40477 Potential Exploitation - WinRAR Application Crash","medium","application","","Detects a crash of ""WinRAR.exe"" where the version is lower than 6.23. This could indicate potential exploitation of CVE-2023-40477","f33feae7-db95-01a2-c35f-a6361e690ebb"
 "Microsoft Malware Protection Engine Crash - WER","high","application","","This rule detects a suspicious crash of the Microsoft Malware Protection Engine","ea429061-e3b4-fabd-8bd6-cb98772aeeba"
-"Suspicious Usage of CVE_2021_34484 or CVE 2022_21919","low","application","","During exploitation of this vulnerability, two logs (Provider_Name:Microsoft-Windows-User Profiles Service) with EventID 1511 and 1515 (maybe lot of false positives with this event) are created. Moreover, it appears the directory \Users\TEMP is created may be created during the exploitation. Viewed on 2008 Server","17e91768-3a0f-6d5f-bc0d-7f2d22391909"
 "MSI Install","informational","application","","Windows Installer installed software via an MSI file.
 %Data[1]%: Product Name
 %Data[2]%: Product Version
@@ -54,6 +59,7 @@ Binary: Not sure how to decode.
 "New BITS Job Created Via Bitsadmin","low","bits-client","","Detects the creation of a new bits job by Bitsadmin","f72c1543-44f6-f836-c0da-9bab33600dac"
 "BITS Transfer Job Download To Potential Suspicious Folder","high","bits-client","","Detects new BITS transfer job where the LocalName/Saved file is stored in a potentially suspicious location","26844668-ef48-7a97-5687-9533e59288b7"
 "Bits Job Created","informational","bits-client","","Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads.","18e6fa4a-353d-42b6-975c-bb05dbf4a004"
+"CryptoDPAPI Decrypt","informational","","","Detects whenever SPCryptUnprotect is called in the Microsoft-Windows-Crypto-DPAPI/Debug event log.","420d5d28-78ed-4e43-844a-94ce69db378c"
 "CodeIntegrity - Unsigned Kernel Module Loaded","high","codeintegrity-operational","","Detects the presence of a loaded unsigned kernel module on the system.","23f17a2b-73ca-e465-e823-bb1d47543f6d"
 "CodeIntegrity - Revoked Image Loaded","high","codeintegrity-operational","","Detects image load events with revoked certificates by code integrity.","4d4c3fb7-504c-7089-2bb3-26781191b7eb"
 "CodeIntegrity - Disallowed File For Protected Processes Has Been Blocked","high","codeintegrity-operational","","Detects block events for files that are disallowed by code integrity for protected processes","c2644e00-b2a8-1e98-7dfc-bbef3a929767"
@@ -562,10 +568,10 @@ Attackers may change the password in order to obtain persistence.
 "Potential AD User Enumeration From Non-Machine Account","medium","security","","Detects read access to a domain user from a non-machine account","fe814c5a-505f-a313-7d8c-030187c24e8e"
 "Interactive Logon to Server Systems","medium","security","","Detects interactive console logons to Server Systems","7298c707-7564-3229-7c76-ec514847d8c2"
 "Potential Pass the Hash Activity","medium","security","","Detects the attack technique pass the hash which is used to move laterally inside the network","35890fd4-9ed3-b244-0eff-91fe61e52f8b"
+"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Hacktool Ruler","high","security","","This events that are generated when using the hacktool Ruler by Sensepost","8b40829b-4556-9bec-a8ad-905688497639"
 "Metasploit SMB Authentication","high","security","","Alerts on Metasploit host's authentications on the domain.","827aa6c1-1507-3f0a-385a-ade5251bfd71"
 "Failed Logon From Public IP","medium","security","","Detects a failed logon attempt from a public IP. A login from a public IP can indicate a misconfigured firewall or network boundary.","6bcac9cb-eeee-9f45-c5c1-0daaf023ac12"
-"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Account Tampering - Suspicious Failed Logon Reasons","medium","security","","This method uses uncommon error codes on failed logons to determine suspicious activity and tampering with accounts that have been disabled or somehow restricted.","655eb351-553b-501f-186e-aa9af13ecf43"
 "Failed Logins with Different Accounts from Single Source System","medium","security","","Detects suspicious failed logins with different user accounts from a single source system","428d3964-3241-1ceb-8f93-b31d8490c822"
 "Multiple Users Remotely Failing To Authenticate From Single Source","medium","security","","Detects a source system failing to authenticate against a remote host with multiple users.","30e70d43-6368-123c-a3c8-d23309a3ff97"
@@ -586,6 +592,7 @@ Attackers may change the password in order to obtain persistence.
 "Potential Remote WMI ActiveScriptEventConsumers Activity","medium","security","","Detect potential adversaries leveraging WMI ActiveScriptEventConsumers remotely to move laterally in a network.
 This event is best correlated and used as an enrichment to determine the potential lateral movement activity.
 ","910ec16d-6957-01b7-39a8-5e676e459cac"
+"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Hacktool Ruler","high","security","","This events that are generated when using the hacktool Ruler by Sensepost","8b40829b-4556-9bec-a8ad-905688497639"
 "Suspicious Remote Logon with Explicit Credentials","medium","security","","Detects suspicious processes logging on with explicit credentials","250cf413-1d30-38fd-4b41-ae5a92452700"
 "Metasploit SMB Authentication","high","security","","Alerts on Metasploit host's authentications on the domain.","827aa6c1-1507-3f0a-385a-ade5251bfd71"
@@ -593,7 +600,6 @@ This event is best correlated and used as an enrichment to determine the potenti
 "Failed Logon From Public IP","medium","security","","Detects a failed logon attempt from a public IP. A login from a public IP can indicate a misconfigured firewall or network boundary.","6bcac9cb-eeee-9f45-c5c1-0daaf023ac12"
 "Successful Account Login Via WMI","low","security","","Detects successful logon attempts performed with WMI","c310cab1-252e-1d98-6b6f-e6e60c88a374"
 "RDP Login from Localhost","high","security","","RDP login with localhost source address may be a tunnelled login","b3f33f69-1331-d3d0-eb62-81f477abad86"
-"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Potential Access Token Abuse","medium","security","","Detects potential token impersonation and theft. Example, when using ""DuplicateToken(Ex)"" and ""ImpersonateLoggedOnUser"" with the ""LOGON32_LOGON_NEW_CREDENTIALS flag"".","e8c130a4-cf04-543d-919b-76947bde76b8"
 "Successful Overpass the Hash Attempt","high","security","","Detects successful logon with logon type 9 (NewCredentials) which matches the Overpass the Hash behavior of e.g Mimikatz's sekurlsa::pth module.","20f4e87b-c272-42da-9a1f-ad54206e3622"
 "External Remote SMB Logon from Public IP","high","security","","Detects successful logon from public IP address via SMB. This can indicate a publicly-exposed SMB port.","5c67a566-7829-eb05-4a1f-0eb292ef993f"
@@ -953,19 +959,21 @@ The CosmicDuke info stealer uses Windows services typically named ""javamtsup"" 
 "Turla PNG Dropper Service","critical","system","","This method detects malicious services mentioned in Turla PNG dropper report by NCC Group in November 2018","75a0da35-0e7f-e313-f974-d812b44295a4"
 "Turla Service Install","high","system","","This method detects a service install of malicious services mentioned in Carbon Paper - Turla report by ESET","665e3be1-3ec1-2e79-bd0f-dca344762794"
 "OilRig APT Schedule Task Persistence - System","critical","system","","Detects OilRig schedule task persistence as reported by Nyotron in their March 2018 report","afa88090-3c0b-17fc-7061-2259abc82d2b"
+"Potential KDC RC4-HMAC Downgrade Exploit - CVE-2022-37966","high","system","","Detects the exploitation of a security bypass and elevation of privilege vulnerability with Authentication Negotiation by using weak RC4-HMAC negotiation","87515290-bf9f-09a4-af0e-bac22cb017f6"
 "Potential CVE-2021-42278 Exploitation Attempt","medium","system","","The attacker creates a computer object using those permissions with a password known to her.
 After that she clears the attribute ServicePrincipalName on the computer object.
 Because she created the object (CREATOR OWNER), she gets granted additional permissions and can do many changes to the object.
 ","8a194220-2afd-d5a9-0644-0a2d76019999"
-"Goofy Guineapig Backdoor Service Creation","critical","system","","Detects service creation persistence used by the Goofy Guineapig backdoor","0375abd6-f86e-a665-27a0-501b2a1621a8"
-"SNAKE Malware Service Persistence","critical","system","","Detects the creation of a service named ""WerFaultSvc"" which seems to be used by the SNAKE malware as a persistence mechanism as described by CISA in their report","abdb2e55-7d24-7f3d-6091-2b42abca2e67"
-"COLDSTEEL Persistence Service Creation","high","system","","Detects the creation of new services potentially related to COLDSTEEL RAT","d8f1ace1-c01b-3f95-34ed-993d29f876f5"
-"SAM Dump to AppData","high","system","","Detects suspicious SAM dump activity as cause by QuarksPwDump and other password dumpers","f224a2b6-2db1-a1a2-42d4-25df0c460915"
-"New Service Uses Double Ampersand in Path","high","system","","Detects a service installation that uses a suspicious double ampersand used in the image path value","22b90bac-a283-6153-761c-7b6059f8f250"
 "Potential CVE-2021-42287 Exploitation Attempt","medium","system","","The attacker creates a computer object using those permissions with a password known to her.
 After that she clears the attribute ServicePrincipalName on the computer object.
 Because she created the object (CREATOR OWNER), she gets granted additional permissions and can do many changes to the object.
 ","7ef3c84f-fc5f-e0e6-b94d-07dbb0c946eb"
+"Goofy Guineapig Backdoor Service Creation","critical","system","","Detects service creation persistence used by the Goofy Guineapig backdoor","0375abd6-f86e-a665-27a0-501b2a1621a8"
+"Potential RDP Exploit CVE-2019-0708","medium","system","","Detect suspicious error on protocol RDP, potential CVE-2019-0708","19979e7a-7d1e-a8e3-2a9e-9b3ac0059fa7"
+"SNAKE Malware Service Persistence","critical","system","","Detects the creation of a service named ""WerFaultSvc"" which seems to be used by the SNAKE malware as a persistence mechanism as described by CISA in their report","abdb2e55-7d24-7f3d-6091-2b42abca2e67"
+"COLDSTEEL Persistence Service Creation","high","system","","Detects the creation of new services potentially related to COLDSTEEL RAT","d8f1ace1-c01b-3f95-34ed-993d29f876f5"
+"SAM Dump to AppData","high","system","","Detects suspicious SAM dump activity as cause by QuarksPwDump and other password dumpers","f224a2b6-2db1-a1a2-42d4-25df0c460915"
+"New Service Uses Double Ampersand in Path","high","system","","Detects a service installation that uses a suspicious double ampersand used in the image path value","22b90bac-a283-6153-761c-7b6059f8f250"
 "Critical Hive In Suspicious Location Access Bits Cleared","high","system","","Detects events from the Kernel-General ETW indicating that the access bits of a hive with a system like hive name located in the temp directory have been reset.
 This occurs when an application tries to access a hive and the hive has not be recognized since the last 7 days (by default).
 Registry hive dumping utilities such as QuarksPwDump were seen emitting this behavior.
@@ -1023,9 +1031,7 @@ When a package is deployed via PDQDeploy it installs a remote service on the tar
 "Meterpreter or Cobalt Strike Getsystem Service Installation - System","high","system","","Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service installation","4639745f-a91a-d296-8935-4c694a97f938"
 "Service Installed By Unusual Client - System","high","system","","Detects a service installed by a client which has PID 0 or whose parent has PID 0","97b97d4d-e03c-ace5-3215-fa2f51ec5fd5"
 "NTLMv1 Logon Between Client and Server","medium","system","","Detects the reporting of NTLMv1 being used between a client and server. NTLMv1 is insecure as the underlying encryption algorithms can be brute-forced by modern hardware.","cb063566-b04b-c7e4-316b-c69075ed08f5"
-"Potential RDP Exploit CVE-2019-0708","medium","system","","Detect suspicious error on protocol RDP, potential CVE-2019-0708","19979e7a-7d1e-a8e3-2a9e-9b3ac0059fa7"
 "NTFS Vulnerability Exploitation","high","system","","This the exploitation of a NTFS vulnerability as reported without many details via Twitter","73b6342c-c17a-d447-2fd3-119ed3cf61ca"
-"KDC RC4-HMAC Downgrade CVE-2022-37966","high","system","","Detects the exploitation of a security bypass and elevation of privilege vulnerability with Authentication Negotiation by using weak RC4-HMAC negotiation","87515290-bf9f-09a4-af0e-bac22cb017f6"
 "Certificate Use With No Strong Mapping","medium","system","","Detects a user certificate that was valid but could not be mapped to a user in a strong way (such as via explicit mapping, key trust mapping, or a SID)
 This could be a sign of exploitation of the elevation of privilege vulnerabilities (CVE-2022-34691, CVE-2022-26931, CVE-2022-26923) that can occur when the KDC allows certificate spoofing by not requiring a strong mapping.
 Events where the AccountName and CN of the Subject do not match, or where the CN ends in a dollar sign indicating a machine, may indicate certificate spoofing.

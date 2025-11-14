@@ -501,6 +501,10 @@ These services are commonly used as legitimate technical support software, and m
 Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when compared with other legitimate software commonly used by adversaries. (Citation: Symantec Living off the Land)
 ","2b62781d-0af4-f828-f915-7b0039020526"
 "Dropping Of Password Filter DLL","medium","","process_creation","Detects dropping of dll files in system32 that may be used to retrieve user credentials from LSASS","77303e46-58e3-05a8-24a1-2274aa37201c"
+"Suspicious CertReq Command to Download","high","","process_creation","Detects a suspicious CertReq execution downloading a file.
+This behavior is often used by attackers to download additional payloads or configuration files.
+Certreq is a built-in Windows utility used to request and retrieve certificates from a certification authority (CA). However, it can be abused by threat actors for malicious purposes.
+","f35bf333-81f6-500b-dc59-92da984b5ea2"
 "Uncommon Child Process Of AddinUtil.EXE","medium","","process_creation","Detects uncommon child processes of the Add-In deployment cache updating utility (AddInutil.exe) which could be a sign of potential abuse of the binary to proxy execution via a custom Addins.Store payload.
 ","3e94a11b-52b5-7f93-d623-5ba15ab8f4aa"
 "Suspicious New Service Creation","high","","process_creation","Detects creation of a new service via ""sc"" command or the powershell ""new-service"" cmdlet with suspicious binary paths","ccbdac70-917f-7393-ee60-cc1586b03137"
@@ -754,7 +758,6 @@ The tool has been observed in use by threat groups including Akira ransomware.
 "ManageEngine Endpoint Central Dctask64.EXE Potential Abuse","high","","process_creation","Detects the execution of ""dctask64.exe"", a signed binary by ZOHO Corporation part of ManageEngine Endpoint Central.
 This binary can be abused for DLL injection, arbitrary command and process execution.
 ","705fa07c-8ce4-2fcc-9d33-de2ac20c6369"
-"Suspicious Certreq Command to Download","high","","process_creation","Detects a suspicious certreq execution taken from the LOLBAS examples, which can be abused to download (small) files","f35bf333-81f6-500b-dc59-92da984b5ea2"
 "Potentially Suspicious Regsvr32 HTTP IP Pattern","high","","process_creation","Detects regsvr32 execution to download and install DLLs located remotely where the address is an IP address.","a49d1313-b65e-0401-130b-8e929805577f"
 "Potential Suspicious Mofcomp Execution","high","","process_creation","Detects execution of the ""mofcomp"" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
 The ""mofcomp"" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
@@ -893,6 +896,8 @@ Adversaries may abuse various utilities in order to decompress data to avoid det
 ","740e34bc-7ca6-ebba-db66-9b466f9c7558"
 "Suspicious File Download From File Sharing Domain Via Curl.EXE","high","","process_creation","Detects potentially suspicious file download from file sharing domains using curl.exe","ebccbc0b-0513-7912-7679-1ff5d676842e"
 "REGISTER_APP.VBS Proxy Execution","medium","","process_creation","Detects the use of a Microsoft signed script 'REGISTER_APP.VBS' to register a VSS/VDS Provider as a COM+ application.","7a6b455d-a8d7-2cba-6d4e-05d8c6c9278c"
+"DeviceCredentialDeployment Execution","medium","","process_creation","Detects the execution of DeviceCredentialDeployment to hide a process from view.
+","bf39ad4c-8a90-0e00-7076-2436ebb83b41"
 "Rar Usage with Password and Compression Level","high","","process_creation","Detects the use of rar.exe, on the command line, to create an archive with password protection or with a specific compression level. This is pretty indicative of malicious actions.","b0fec5a0-3b3f-9e6c-b5b1-bdabd28f18ee"
 "File Download Via Bitsadmin To An Uncommon Target Folder","medium","","process_creation","Detects usage of bitsadmin downloading a file to uncommon target folder","af422edd-75d2-0585-95bf-c4e72291a69e"
 "Invocation of Active Directory Diagnostic Tool (ntdsutil.exe)","medium","","process_creation","Detects execution of ntdsutil.exe, which can be used for various attacks against the NTDS database (NTDS.DIT)","4b8e07ad-57d3-608d-6f9e-31047dfeb0de"
@@ -1002,7 +1007,6 @@ observed being used by threat actors such as Volt Typhoon.
 "Stop Windows Service Via Sc.EXE","low","","process_creation","Detects the stopping of a Windows service via the ""sc.exe"" utility","115267f9-0227-94b2-f6ef-56939bd2c693"
 "Suspicious Mshta.EXE Execution Patterns","high","","process_creation","Detects suspicious mshta process execution patterns","01ee4326-bf63-03dc-3a07-97129ea929cb"
 "Execution via stordiag.exe","high","","process_creation","Detects the use of stordiag.exe to execute schtasks.exe systeminfo.exe and fltmc.exe","fa60721b-3812-856b-d15f-7c528214d125"
-"Execute MSDT Via Answer File","high","","process_creation","Detects execution of ""msdt.exe"" using an answer file which is simulating the legitimate way of calling msdt via ""pcwrun.exe"" (For example from the compatibility tab)","aac97665-0e43-e14b-bc3c-bbefd72790dd"
 "Msiexec Quiet Installation","medium","","process_creation","Adversaries may abuse msiexec.exe to proxy execution of malicious payloads.
 Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi)
 ","56fda9b4-d3c0-2709-26ea-b109bdafb5c2"
@@ -1119,7 +1123,6 @@ Both can be used for AWL bypass and to execute F# code via scripts or inline.
 "Wscript Shell Run In CommandLine","medium","","process_creation","Detects the presence of the keywords ""Wscript"", ""Shell"" and ""Run"" in the command, which could indicate a suspicious activity","378bed70-399f-408f-0667-aa91c755a606"
 "Program Executed Using Proxy/Local Command Via SSH.EXE","medium","","process_creation","Detect usage of the ""ssh.exe"" binary as a proxy to launch other programs.","c9a20835-ce7c-8118-9269-64b5a5e8cbb5"
 "Potential Mftrace.EXE Abuse","medium","","process_creation","Detects child processes of the ""Trace log generation tool for Media Foundation Tools"" (Mftrace.exe) which can abused to execute arbitrary binaries.","62ff6ff0-2ab6-4498-2d8a-7aaf4d8bdbb1"
-"Suspicious CustomShellHost Execution","medium","","process_creation","Detects the execution of CustomShellHost binary where the child isn't located in 'C:\Windows\explorer.exe'","5f438a3c-3bd7-d256-61ad-9ae6334543ec"
 "Potential AMSI Bypass Via .NET Reflection","high","","process_creation","Detects Request to ""amsiInitFailed"" that can be used to disable AMSI Scanning","584c503a-bcee-ab44-f773-dea130827275"
 "Suspicious Chromium Browser Instance Executed With Custom Extension","high","","process_creation","Detects a suspicious process spawning a Chromium based browser process with the 'load-extension' flag to start an instance with a custom extension","bb8639b3-534e-d193-84ff-570b4a6eb383"
 "Insecure Proxy/DOH Transfer Via Curl.EXE","medium","","process_creation","Detects execution of ""curl.exe"" with the ""insecure"" flag over proxy or DOH.","b1d59fa0-c42c-0efd-027d-d7721d153420"
@@ -1230,6 +1233,10 @@ Attackers can restore sensitive files such as NTDS.DIT or Registry Hives from ba
 "New Capture Session Launched Via DXCap.EXE","medium","","process_creation","Detects the execution of ""DXCap.EXE"" with the ""-c"" flag, which allows a user to launch any arbitrary binary or windows package through DXCap itself. This can be abused to potentially bypass application whitelisting.
 ","502f2034-8929-9fd1-10fc-732a817671b7"
 "Suspicious Usage Of Active Directory Diagnostic Tool (ntdsutil.exe)","medium","","process_creation","Detects execution of ntdsutil.exe to perform different actions such as restoring snapshots...etc.","693159ba-e2b9-cb03-30d0-5234a23b26d7"
+"Suspicious Explorer Process with Whitespace Padding - ClickFix/FileFix","high","","process_creation","Detects process creation with suspicious whitespace padding followed by a '#' character, which may indicate ClickFix or FileFix techniques used to conceal malicious commands from visual inspection.
+ClickFix and FileFix are social engineering attack techniques where adversaries distribute phishing documents or malicious links that deceive users into opening the Windows Run dialog box or File Explorer search bar.
+The victims are then instructed to paste commands from their clipboard, which contain extensive whitespace padding using various Unicode space characters to push the actual malicious command far to the right, effectively hiding it from immediate view.
+","ed6d814e-9b25-6213-526d-92e0d4cca625"
 "Service DACL Abuse To Hide Services Via Sc.EXE","high","","process_creation","Detects usage of the ""sc.exe"" utility adding a new service with special permission seen used by threat actors which makes the service hidden and unremovable.","4c9296a3-a93c-d142-7e16-69111f075e7f"
 "Suspicious Process Masquerading As SvcHost.EXE","high","","process_creation","Detects a suspicious process that is masquerading as the legitimate ""svchost.exe"" by naming its binary ""svchost.exe"" and executing from an uncommon location.
 Adversaries often disguise their malicious binaries by naming them after legitimate system processes like ""svchost.exe"" to evade detection.
@@ -1263,7 +1270,6 @@ Threat actors abused older vulnerable versions to manipulate system processes.
 "Remote XSL Execution Via Msxsl.EXE","high","","process_creation","Detects the execution of the ""msxsl"" binary with an ""http"" keyword in the command line. This might indicate a potential remote execution of XSL files.","8bb8dbbf-4781-7bf2-3340-f3b39cc8501a"
 "Suspicious Scheduled Task Name As GUID","medium","","process_creation","Detects creation of a scheduled task with a GUID like name","470da37d-268f-d626-f90a-04ef23655a27"
 "Certificate Exported Via Certutil.EXE","medium","","process_creation","Detects the execution of the certutil with the ""exportPFX"" flag which allows the utility to export certificates.","5dd528dc-d144-18ab-88ff-fca3158b68c5"
-"DeviceCredentialDeployment Execution","medium","","process_creation","Detects the execution of DeviceCredentialDeployment to hide a process from view","bf39ad4c-8a90-0e00-7076-2436ebb83b41"
 "Binary Proxy Execution Via Dotnet-Trace.EXE","medium","","process_creation","Detects commandline arguments for executing a child process via dotnet-trace.exe","47beff1b-e312-3476-6c22-0805b517fa1f"
 "Scheduled Task Executing Payload from Registry","medium","","process_creation","Detects the creation of a schtasks that potentially executes a payload stored in the Windows Registry using PowerShell.","bde2aa8e-57e6-7c83-466b-dfdcf1a7de29"
 "Potential ReflectDebugger Content Execution Via WerFault.EXE","medium","","process_creation","Detects execution of ""WerFault.exe"" with the ""-pr"" commandline flag that is used to run files stored in the ReflectDebugger key which could be used to store the path to the malware in order to masquerade the execution flow","6fed31ac-e26c-8668-fed8-9145c0f0cb2b"
@@ -1362,6 +1368,8 @@ Instead they modify the task after creation to include their malicious payload
 "Potentially Suspicious Windows App Activity","medium","","process_creation","Detects potentially suspicious child process of applications launched from inside the WindowsApps directory. This could be a sign of a rogue "".appx"" package installation/execution","101b11d6-0200-6a9a-daea-aaebf8b49bca"
 "Verclsid.exe Runs COM Object","medium","","process_creation","Detects when verclsid.exe is used to run COM object via GUID","f95fb96e-dacc-23fa-9a80-f509e7973c9f"
 "Regsvr32 DLL Execution With Suspicious File Extension","high","","process_creation","Detects the execution of REGSVR32.exe with DLL files masquerading as other files","de7bed2f-8da9-bfd3-f7af-a1a8e5ff462d"
+"Suspicious CustomShellHost Execution","high","","process_creation","Detects the execution of CustomShellHost.exe where the child isn't located in 'C:\Windows\explorer.exe'. CustomShellHost is a known LOLBin that can be abused by attackers for defense evasion techniques.
+","5f438a3c-3bd7-d256-61ad-9ae6334543ec"
 "Suspicious Rundll32 Activity Invoking Sys File","high","","process_creation","Detects suspicious process related to rundll32 based on command line that includes a *.sys file as seen being used by UNC2452","9d6f9951-dc6f-66b5-290e-ff79c75550f6"
 "Logged-On User Password Change Via Ksetup.EXE","medium","","process_creation","Detects password change for the logged-on user's via ""ksetup.exe""","42949869-416c-aa49-476a-3f2a4b57aa8c"
 "PktMon.EXE Execution","medium","","process_creation","Detects execution of PktMon, a tool that captures network packets.","94ae2cf8-1a32-d069-3ee0-eaae5f14745e"
@@ -1538,6 +1546,8 @@ By setting this registry value to ""0"" (DWORD), Windows will be allowed to stor
 ","310bf792-4e0d-b9ba-7dea-7512f8953921"
 "HackTool - Mimikatz Execution","high","","process_creation","Detection well-known mimikatz command line arguments","b0b6f0e2-8ed1-fa15-6ebb-cf992c0fd7ea"
 "Potential Persistence Via Logon Scripts - CommandLine","high","","process_creation","Detects the addition of a new LogonScript to the registry value ""UserInitMprLogonScript"" for potential persistence","4b8c4cc7-a599-dafe-263f-ff5cb96a6967"
+"MSDT Execution Via Answer File","high","","process_creation","Detects execution of ""msdt.exe"" using an answer file which is simulating the legitimate way of calling msdt via ""pcwrun.exe"" (For example from the compatibility tab).
+","aac97665-0e43-e14b-bc3c-bbefd72790dd"
 "Microsoft IIS Connection Strings Decryption","high","","process_creation","Detects use of aspnet_regiis to decrypt Microsoft IIS connection strings. An attacker with Microsoft IIS web server access via a webshell or alike can decrypt and dump any hardcoded connection strings, such as the MSSQL service account password using aspnet_regiis command.","c9722d26-25e3-6e45-3950-85182a7a1b35"
 "Fsutil Behavior Set SymlinkEvaluation","medium","","process_creation","A symbolic link is a type of file that contains a reference to another file.
 This is probably done to make sure that the ransomware is able to follow shortcuts on the machine in order to find the original file to encrypt
@@ -1862,6 +1872,9 @@ CVE-2025-31161, where attackers can achieve RCE through crafted HTTP requests.
 The detection focuses on commonly abused Windows executables (like powershell.exe, cmd.exe etc.) that attackers typically use post-exploitation to execute malicious commands.
 ","c8db6dc8-96e3-1974-3921-3a7fc78993d4"
 "Potential Exploitation of CrushFTP RCE Vulnerability (CVE-2025-54309)","high","","process_creation","Detects suspicious child processes created by CrushFTP. It could be an indication of exploitation of a RCE vulnerability such as CVE-2025-54309.","81ef2b50-ae07-2c4b-4242-6669c7176fec"
+"Exploitation Activity of CVE-2025-59287 - WSUS Suspicious Child Process","high","","process_creation","Detects the creation of command-line interpreters (cmd.exe, powershell.exe) as child processes of Windows Server Update Services (WSUS) related process wsusservice.exe.
+This behavior is a key indicator of exploitation for the critical remote code execution vulnerability such as CVE-2025-59287, where attackers spawn shells to conduct reconnaissance and further post-exploitation activities.
+","7b9101a5-546b-b1bc-1efd-c80d30a0d318"
 "Potential Notepad++ CVE-2025-49144 Exploitation","high","","process_creation","Detects potential exploitation of CVE-2025-49144, a local privilege escalation vulnerability in Notepad++ installers (v8.8.1 and prior) where the installer calls regsvr32.exe without specifying the full path.
 This allows an attacker to execute arbitrary code with elevated privileges by placing a malicious regsvr32.exe alongside this Legitimate Notepad++ installer.
 The vulnerability is triggered when the installer attempts to register the NppShell.dll file, which is a component of Notepad++.
@@ -2200,7 +2213,6 @@ by causing a malicious DLL to be loaded and run in the context of separate proce
 "Run Once Task Configuration in Registry","medium","","registry_event","Rule to detect the configuration of Run Once registry key. Configured payload can be run by runonce.exe /AlternateShellStartup","f00c4059-0241-7fee-4186-e8d0b5741cba"
 "Suspicious Run Key from Download","high","","registry_event","Detects the suspicious RUN keys created by software located in Download or temporary Outlook/Internet Explorer directories","f81b1344-1639-27dc-c1e1-577c4e6c8e19"
 "Suspicious Camera and Microphone Access","high","","registry_event","Detects Processes accessing the camera and microphone from suspicious folder","139f52db-35af-c5f8-bbf8-22a2094dfea6"
-"Pandemic Registry Key","critical","","registry_event","Detects Pandemic Windows Implant","a36fab91-8874-79c8-32cb-b2a0117d5a0b"
 "UAC Bypass Via Wsreset","high","","registry_event","Unfixed method for UAC bypass from Windows 10. WSReset.exe file associated with the Windows Store. It will run a binary file contained in a low-privilege registry.","95ca0984-3622-ee0b-d0b7-4bf861f58030"
 "Security Support Provider (SSP) Added to LSA Configuration","high","","registry_event","Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows.
 ","a2b70475-be0a-993d-b01f-8ecf4bbd7576"
@@ -2210,7 +2222,6 @@ by causing a malicious DLL to be loaded and run in the context of separate proce
 "NetNTLM Downgrade Attack - Registry","high","","registry_event","Detects NetNTLM downgrade attack","3387665f-9c44-56db-5cb9-a35e48689376"
 "Disable Security Events Logging Adding Reg Key MiniNt","high","","registry_event","Detects the addition of a key 'MiniNt' to the registry. Upon a reboot, Windows Event Log service will stop writing events.","36ef53bd-ce38-b8b6-b163-c7ff42107ecb"
 "Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback","medium","","registry_set","Detects enabling of the ""AllowAnonymousCallback"" registry value, which allows a remote connection between computers that do not have a trust relationship.","153b0ce0-9f0b-f10f-7d6e-3a23dea83494"
-"PrinterNightmare Mimikatz Driver Name","critical","","registry_event","Detects static QMS 810 and mimikatz driver name used by Mimikatz as exploited in CVE-2021-1675 and CVE-2021-34527","33feb9a9-afd4-3403-46c9-13a7b4a62b80"
 "Creation of a Local Hidden User Account by Registry","high","","registry_event","Sysmon registry detection of a local hidden user account.","447c311d-5d73-52c3-d10c-a1205258cf04"
 "Path To Screensaver Binary Modified","medium","","registry_event","Detects value modification of registry key containing path to binary used as screensaver.","f5a1f729-ff8c-577e-2d33-a209e00bf7f3"
 "HybridConnectionManager Service Installation - Registry","high","","registry_event","Detects the installation of the Azure Hybrid Connection Manager service to allow remote code execution from Azure function.","0a77c311-af5b-b0e4-4d1d-e87ede81b2c7"
@@ -2272,6 +2283,8 @@ When ""UACDisableNotify"" is set to 1, UAC prompts are suppressed.
 "Change User Account Associated with the FAX Service","high","","registry_set","Detect change of the user account associated with the FAX service to avoid the escalation problem.","96a90fb0-3747-35a8-d9c5-dcc7d373c57c"
 "PowerShell Script Execution Policy Enabled","low","","registry_set","Detects the enabling of the PowerShell script execution policy. Once enabled, this policy allows scripts to be executed.","b0ac9712-6658-cdfd-92d7-8aa07fcdf31c"
 "ETW Logging Disabled In .NET Processes - Sysmon Registry","high","","registry_set","Potential adversaries stopping ETW providers recording loaded .NET assemblies.","b845b5d0-c25c-d832-f891-58b8224599ee"
+"Suspicious Space Characters in RunMRU Registry Path - ClickFix","high","","registry_set","Detects the occurrence of numerous space characters in RunMRU registry paths, which may indicate execution via phishing lures using clickfix techniques to hide malicious commands in the Windows Run dialog box from naked eyes.
+","44b5abf5-fa3c-d623-20ee-7f8552f3b87c"
 "Uncommon Extension In Keyboard Layout IME File Registry Value","high","","registry_set","Detects usage of Windows Input Method Editor (IME) keyboard layout feature, which allows an attacker to load a DLL into the process after sending the WM_INPUTLANGCHANGEREQUEST message.
 Before doing this, the client needs to register the DLL in a special registry key that is assumed to implement this keyboard layout. This registry key should store a value named ""Ime File"" with a DLL path.
 IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean.
@@ -2412,6 +2425,8 @@ The ""Extensions"" list contains filenames of DLLs being automatically loaded by
 ","e249ebd9-4719-fbd6-ad42-802038c12f87"
 "CrashControl CrashDump Disabled","medium","","registry_set","Detects disabling the CrashDump per registry (as used by HermeticWiper)","742762c2-287c-4b94-5f99-ae234cdd3d2c"
 "Potential Persistence Via Scrobj.dll COM Hijacking","medium","","registry_set","Detect use of scrobj.dll as this DLL looks for the ScriptletURL key to get the location of the script to execute","7bb576ef-cc9a-5126-c758-aa8d24f0edda"
+"Suspicious Space Characters in TypedPaths Registry Path - FileFix","high","","registry_set","Detects the occurrence of numerous space characters in TypedPaths registry paths, which may indicate execution via phishing lures using file-fix techniques to hide malicious commands.
+","8d0dc35f-6c19-c320-3d86-8bd087469dbe"
 "UAC Bypass Abusing Winsat Path Parsing - Registry","high","","registry_set","Detects the pattern of UAC Bypass using a path parsing issue in winsat.exe (UACMe 52)","c5041759-c026-94ae-a6d4-6e6bfbfa3d0c"
 "Potential Signing Bypass Via Windows Developer Features - Registry","high","","registry_set","Detects when the enablement of developer features such as ""Developer Mode"" or ""Application Sideloading"". Which allows the user to install untrusted packages.","eea69d1c-b62d-d58f-4ee3-82f9053a20ea"
 "Persistence Via Hhctrl.ocx","high","","registry_set","Detects when an attacker modifies the registry value of the ""hhctrl"" to point to a custom binary","6e7e4fc7-4279-156d-6a7b-f6c593f51098"
@@ -2466,7 +2481,6 @@ An attacker can set a custom page to execute arbitrary code and link to it via t
 "Enable Local Manifest Installation With Winget","medium","","registry_set","Detects changes to the AppInstaller (winget) policy. Specifically the activation of the local manifest installation, which allows a user to install new packages via custom manifests.","e70cde78-b476-8726-75d1-073aeabb4e1d"
 "Potential Persistence Via AutodialDLL","high","","registry_set","Detects change the the ""AutodialDLL"" key which could be used as a persistence method to load custom DLL via the ""ws2_32"" library","0ea81575-bcbc-e0f8-6604-6236751cb5db"
 "New RUN Key Pointing to Suspicious Folder","high","","registry_set","Detects suspicious new RUN key element pointing to an executable in a suspicious folder","2c97b46f-dbd7-bf78-71c0-86ed4a55c654"
-"Blue Mockingbird - Registry","high","","registry_set","Attempts to detect system changes made by Blue Mockingbird","5e4e8480-72ed-5e37-7cfe-93d7cfd37974"
 "Windows Defender Exclusions Added - Registry","medium","","registry_set","Detects the Setting of Windows Defender Exclusions","c86baf10-abab-0f8f-88a2-e51640a26b5c"
 "Potential Persistence Via Outlook Home Page","high","","registry_set","Detects potential persistence activity via outlook home page.
 An attacker can set a home page to achieve code execution and persistence by editing the WebView registry keys.
@@ -2543,7 +2557,6 @@ This is often used as a method of persistence.
 "New File Association Using Exefile","high","","registry_set","Detects the abuse of the exefile handler in new file association. Used for bypass of security products.","b0fb77bd-c468-c8dd-1a84-96bf79d003a7"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_add","Detects COM object hijacking via TreatAs subkey","6b4b0ded-e40c-4d49-68f0-b78339d9587e"
 "Potential Persistence Via New AMSI Providers - Registry","high","","registry_add","Detects when an attacker registers a new AMSI provider in order to achieve persistence","d8884952-23ce-8a65-d998-cb775a119c95"
-"Potential NetWire RAT Activity - Registry","high","","registry_add","Detects registry keys related to NetWire RAT","61bb2824-c37f-f432-0767-9a80d45583aa"
 "Suspicious Execution Of Renamed Sysinternals Tools - Registry","high","","registry_add","Detects the creation of the ""accepteula"" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)","6a724c01-e3a5-3f08-0a26-a25aab47a2d1"
 "PUA - Sysinternals Tools Execution - Registry","medium","","registry_add","Detects the execution of some potentially unwanted tools such as PsExec, Procdump, etc. (part of the Sysinternals suite) via the creation of the ""accepteula"" registry key.","cab7e60f-55aa-b72e-1943-4d3980028a43"
 "Potential Persistence Via Logon Scripts - Registry","medium","","registry_add","Detects creation of ""UserInitMprLogonScript"" registry value which can be used as a persistence method by malicious actors","c6a4d8a3-8e7d-30b4-a6f0-aee8a87463bf"
@@ -2570,17 +2583,21 @@ Seen being created by Forest Blizzard APT as reported by MSFT.
 "Forest Blizzard APT - Custom Protocol Handler DLL Registry Set","high","","registry_set","Detects the setting of the DLL that handles the custom protocol handler.
 Seen being created by Forest Blizzard APT as reported by MSFT.
 ","30840c08-9ef9-b60c-581d-256b0a2f8041"
+"Pandemic Registry Key","critical","","registry_event","Detects Pandemic Windows Implant","a36fab91-8874-79c8-32cb-b2a0117d5a0b"
 "OilRig APT Registry Persistence","critical","","registry_event","Detects OilRig registry persistence as reported by Nyotron in their March 2018 report","e3b2e8dd-18aa-f9bc-9af7-bc31d7717574"
 "OceanLotus Registry Activity","critical","","registry_event","Detects registry keys created in OceanLotus (also known as APT32) attacks","91264309-c919-28fd-5fff-f994208d1f34"
 "CVE-2020-1048 Exploitation Attempt - Suspicious New Printer Ports - Registry","high","","registry_set","Detects changes to the ""Ports"" registry key with data that includes a Windows path or a file with a suspicious extension.
 This could be an attempt to exploit CVE-2020-1048 - a Windows Print Spooler elevation of privilege vulnerability.
 ","630f16a8-0e53-642e-ff10-1e8fdeb631b8"
+"Blue Mockingbird - Registry","high","","registry_set","Attempts to detect system changes made by Blue Mockingbird","5e4e8480-72ed-5e37-7cfe-93d7cfd37974"
 "FlowCloud Registry Markers","critical","","registry_event","Detects FlowCloud malware registry markers from threat group TA410.
 The malware stores its configuration in the registry alongside drivers utilized by the malware's keylogger components.
 ","0b8e16f0-ba71-e4bd-3716-69afe0091614"
 "Leviathan Registry Key Activity","critical","","registry_event","Detects registry key used by Leviathan APT in Malaysian focused campaign","09b9f622-28c3-d403-0447-f3858c57995e"
 "Suspicious Set Value of MSDT in Registry (CVE-2022-30190)","medium","","registry_set","Detects set value ms-msdt MSProtocol URI scheme in Registry that could be an attempt to exploit CVE-2022-30190.","9754f622-65d5-8c9b-7762-f074e2d502ed"
 "CVE-2021-31979 CVE-2021-33771 Exploits","critical","","registry_set","Detects patterns as noticed in exploitation of Windows CVE-2021-31979 CVE-2021-33771 vulnerability and DevilsTongue malware by threat group Sourgum","a4072638-9c3a-3307-e4f9-458edbb60efb"
+"PrinterNightmare Mimikatz Driver Name","critical","","registry_event","Detects static QMS 810 and mimikatz driver name used by Mimikatz as exploited in CVE-2021-1675 and CVE-2021-34527","33feb9a9-afd4-3403-46c9-13a7b4a62b80"
+"Potential NetWire RAT Activity - Registry","high","","registry_add","Detects registry keys related to NetWire RAT","61bb2824-c37f-f432-0767-9a80d45583aa"
 "Blackbyte Ransomware Registry","high","","registry_set","Detects specific windows registry modifications made by BlackByte ransomware variants.
 BlackByte set three different registry values to escalate privileges and begin setting the stage for lateral movement and encryption.
 This rule triggers when any of the following registry keys are set to DWORD 1, however all three should be investigated as part of a larger BlackByte ransomware detection and response effort.
