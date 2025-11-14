@@ -30,12 +30,17 @@ Unfortunately, that is about the only instance of CVEs being written to this log
 "CVE-2024-49113 Exploitation Attempt - LDAP Nightmare","high","application","","Detects exploitation attempt of CVE-2024-49113 known as LDAP Nightmare, based on ""Application Error"" log where the faulting application is ""lsass.exe"" and the faulting module is ""WLDAP32.dll"".
 ","1117f6c7-1c68-9c6e-c3e8-191e9d687387"
 "CVE-2020-0688 Exploitation via Eventlog","high","application","","Detects the exploitation of Microsoft Exchange vulnerability as described in CVE-2020-0688","b1a2ae27-889c-aa26-1bd3-21f277008048"
+"Potential Exploitation of CVE-2022-21919 or CVE-2021-34484 for LPE","low","application","","Detects potential exploitation attempts of CVE-2022-21919 or CVE-2021-34484 leading to local privilege escalation via the User Profile Service.
+During exploitation of this vulnerability, two logs (Provider_Name: Microsoft-Windows-User Profiles Service) with EventID 1511 and 1515 are created (EventID 1515 may generate many false positives).
+Additionally, the directory \Users\TEMP may be created during exploitation. This behavior was observed on Windows Server 2008.
+","17e91768-3a0f-6d5f-bc0d-7f2d22391909"
 "MSSQL Extended Stored Procedure Backdoor Maggie","high","application","","This rule detects the execution of the extended storage procedure backdoor named Maggie in the context of Microsoft SQL server","e177969a-73cc-a32c-b948-cb580287057a"
 "LPE InstallerFileTakeOver PoC CVE-2021-41379","high","application","","Detects PoC tool used to exploit LPE vulnerability CVE-2021-41379","8e38887f-8e20-477d-26c1-0862951ae91b"
+"Exploitation Activity of CVE-2025-59287 - WSUS Deserialization","high","application","","Detects cast exceptions in Windows Server Update Services (WSUS) application logs that highly indicate exploitation attempts of CVE-2025-59287, a deserialization vulnerability in WSUS.
+","e9f37d4c-d2f4-8c89-92d8-82346d4dd882"
 "MSMQ Corrupted Packet Encountered","high","application","","Detects corrupted packets sent to the MSMQ service. Could potentially be a sign of CVE-2023-21554 exploitation","0bcc2c11-231f-f491-7985-3571fee7f2c5"
 "CVE-2023-40477 Potential Exploitation - WinRAR Application Crash","medium","application","","Detects a crash of ""WinRAR.exe"" where the version is lower than 6.23. This could indicate potential exploitation of CVE-2023-40477","f33feae7-db95-01a2-c35f-a6361e690ebb"
 "Microsoft Malware Protection Engine Crash - WER","high","application","","This rule detects a suspicious crash of the Microsoft Malware Protection Engine","ea429061-e3b4-fabd-8bd6-cb98772aeeba"
-"Suspicious Usage of CVE_2021_34484 or CVE 2022_21919","low","application","","During exploitation of this vulnerability, two logs (Provider_Name:Microsoft-Windows-User Profiles Service) with EventID 1511 and 1515 (maybe lot of false positives with this event) are created. Moreover, it appears the directory \Users\TEMP is created may be created during the exploitation. Viewed on 2008 Server","17e91768-3a0f-6d5f-bc0d-7f2d22391909"
 "MSI Install","informational","application","","Windows Installer installed software via an MSI file.
 %Data[1]%: Product Name
 %Data[2]%: Product Version
@@ -66,6 +71,7 @@ Binary: Not sure how to decode.
 "CodeIntegrity - Unmet Signing Level Requirements By File Under Validation","low","codeintegrity-operational","","Detects attempted file load events that did not meet the signing level requirements. It often means the file's signature is revoked or a signature with the Lifetime Signing EKU has expired.
 This event is best correlated with EID 3089 to determine the error of the validation.
 ","f45ca591-7575-818e-9a07-7493461a33c3"
+"CryptoDPAPI Decrypt","informational","","","Detects whenever SPCryptUnprotect is called in the Microsoft-Windows-Crypto-DPAPI/Debug event log.","420d5d28-78ed-4e43-844a-94ce69db378c"
 "Loading Diagcab Package From Remote Path","high","diagnosis-scripted","","Detects loading of diagcab packages from a remote path, as seen in DogWalk vulnerability","b0e8486c-73f6-e1ba-9684-acba841c2719"
 "USB Device Plugged","low","driver-framework","","Detects plugged/unplugged USB devices","12717514-9380-dabc-12b9-113f524ec3ac"
 "USB Plugged In","informational","driver-framework","","","b39b18a5-cece-4e7d-a438-827d0b0e8a82"
@@ -1056,6 +1062,10 @@ These services are commonly used as legitimate technical support software, and m
 Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when compared with other legitimate software commonly used by adversaries. (Citation: Symantec Living off the Land)
 ","2b62781d-0af4-f828-f915-7b0039020526"
 "Dropping Of Password Filter DLL","medium","","process_creation","Detects dropping of dll files in system32 that may be used to retrieve user credentials from LSASS","77303e46-58e3-05a8-24a1-2274aa37201c"
+"Suspicious CertReq Command to Download","high","","process_creation","Detects a suspicious CertReq execution downloading a file.
+This behavior is often used by attackers to download additional payloads or configuration files.
+Certreq is a built-in Windows utility used to request and retrieve certificates from a certification authority (CA). However, it can be abused by threat actors for malicious purposes.
+","f35bf333-81f6-500b-dc59-92da984b5ea2"
 "Uncommon Child Process Of AddinUtil.EXE","medium","","process_creation","Detects uncommon child processes of the Add-In deployment cache updating utility (AddInutil.exe) which could be a sign of potential abuse of the binary to proxy execution via a custom Addins.Store payload.
 ","3e94a11b-52b5-7f93-d623-5ba15ab8f4aa"
 "Suspicious New Service Creation","high","","process_creation","Detects creation of a new service via ""sc"" command or the powershell ""new-service"" cmdlet with suspicious binary paths","ccbdac70-917f-7393-ee60-cc1586b03137"
@@ -1309,7 +1319,6 @@ The tool has been observed in use by threat groups including Akira ransomware.
 "ManageEngine Endpoint Central Dctask64.EXE Potential Abuse","high","","process_creation","Detects the execution of ""dctask64.exe"", a signed binary by ZOHO Corporation part of ManageEngine Endpoint Central.
 This binary can be abused for DLL injection, arbitrary command and process execution.
 ","705fa07c-8ce4-2fcc-9d33-de2ac20c6369"
-"Suspicious Certreq Command to Download","high","","process_creation","Detects a suspicious certreq execution taken from the LOLBAS examples, which can be abused to download (small) files","f35bf333-81f6-500b-dc59-92da984b5ea2"
 "Potentially Suspicious Regsvr32 HTTP IP Pattern","high","","process_creation","Detects regsvr32 execution to download and install DLLs located remotely where the address is an IP address.","a49d1313-b65e-0401-130b-8e929805577f"
 "Potential Suspicious Mofcomp Execution","high","","process_creation","Detects execution of the ""mofcomp"" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
 The ""mofcomp"" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
@@ -1448,6 +1457,8 @@ Adversaries may abuse various utilities in order to decompress data to avoid det
 ","740e34bc-7ca6-ebba-db66-9b466f9c7558"
 "Suspicious File Download From File Sharing Domain Via Curl.EXE","high","","process_creation","Detects potentially suspicious file download from file sharing domains using curl.exe","ebccbc0b-0513-7912-7679-1ff5d676842e"
 "REGISTER_APP.VBS Proxy Execution","medium","","process_creation","Detects the use of a Microsoft signed script 'REGISTER_APP.VBS' to register a VSS/VDS Provider as a COM+ application.","7a6b455d-a8d7-2cba-6d4e-05d8c6c9278c"
+"DeviceCredentialDeployment Execution","medium","","process_creation","Detects the execution of DeviceCredentialDeployment to hide a process from view.
+","bf39ad4c-8a90-0e00-7076-2436ebb83b41"
 "Rar Usage with Password and Compression Level","high","","process_creation","Detects the use of rar.exe, on the command line, to create an archive with password protection or with a specific compression level. This is pretty indicative of malicious actions.","b0fec5a0-3b3f-9e6c-b5b1-bdabd28f18ee"
 "File Download Via Bitsadmin To An Uncommon Target Folder","medium","","process_creation","Detects usage of bitsadmin downloading a file to uncommon target folder","af422edd-75d2-0585-95bf-c4e72291a69e"
 "Invocation of Active Directory Diagnostic Tool (ntdsutil.exe)","medium","","process_creation","Detects execution of ntdsutil.exe, which can be used for various attacks against the NTDS database (NTDS.DIT)","4b8e07ad-57d3-608d-6f9e-31047dfeb0de"
@@ -1557,7 +1568,6 @@ observed being used by threat actors such as Volt Typhoon.
 "Stop Windows Service Via Sc.EXE","low","","process_creation","Detects the stopping of a Windows service via the ""sc.exe"" utility","115267f9-0227-94b2-f6ef-56939bd2c693"
 "Suspicious Mshta.EXE Execution Patterns","high","","process_creation","Detects suspicious mshta process execution patterns","01ee4326-bf63-03dc-3a07-97129ea929cb"
 "Execution via stordiag.exe","high","","process_creation","Detects the use of stordiag.exe to execute schtasks.exe systeminfo.exe and fltmc.exe","fa60721b-3812-856b-d15f-7c528214d125"
-"Execute MSDT Via Answer File","high","","process_creation","Detects execution of ""msdt.exe"" using an answer file which is simulating the legitimate way of calling msdt via ""pcwrun.exe"" (For example from the compatibility tab)","aac97665-0e43-e14b-bc3c-bbefd72790dd"
 "Msiexec Quiet Installation","medium","","process_creation","Adversaries may abuse msiexec.exe to proxy execution of malicious payloads.
 Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi)
 ","56fda9b4-d3c0-2709-26ea-b109bdafb5c2"
@@ -1674,7 +1684,6 @@ Both can be used for AWL bypass and to execute F# code via scripts or inline.
 "Wscript Shell Run In CommandLine","medium","","process_creation","Detects the presence of the keywords ""Wscript"", ""Shell"" and ""Run"" in the command, which could indicate a suspicious activity","378bed70-399f-408f-0667-aa91c755a606"
 "Program Executed Using Proxy/Local Command Via SSH.EXE","medium","","process_creation","Detect usage of the ""ssh.exe"" binary as a proxy to launch other programs.","c9a20835-ce7c-8118-9269-64b5a5e8cbb5"
 "Potential Mftrace.EXE Abuse","medium","","process_creation","Detects child processes of the ""Trace log generation tool for Media Foundation Tools"" (Mftrace.exe) which can abused to execute arbitrary binaries.","62ff6ff0-2ab6-4498-2d8a-7aaf4d8bdbb1"
-"Suspicious CustomShellHost Execution","medium","","process_creation","Detects the execution of CustomShellHost binary where the child isn't located in 'C:\Windows\explorer.exe'","5f438a3c-3bd7-d256-61ad-9ae6334543ec"
 "Potential AMSI Bypass Via .NET Reflection","high","","process_creation","Detects Request to ""amsiInitFailed"" that can be used to disable AMSI Scanning","584c503a-bcee-ab44-f773-dea130827275"
 "Suspicious Chromium Browser Instance Executed With Custom Extension","high","","process_creation","Detects a suspicious process spawning a Chromium based browser process with the 'load-extension' flag to start an instance with a custom extension","bb8639b3-534e-d193-84ff-570b4a6eb383"
 "Insecure Proxy/DOH Transfer Via Curl.EXE","medium","","process_creation","Detects execution of ""curl.exe"" with the ""insecure"" flag over proxy or DOH.","b1d59fa0-c42c-0efd-027d-d7721d153420"
@@ -1785,6 +1794,10 @@ Attackers can restore sensitive files such as NTDS.DIT or Registry Hives from ba
 "New Capture Session Launched Via DXCap.EXE","medium","","process_creation","Detects the execution of ""DXCap.EXE"" with the ""-c"" flag, which allows a user to launch any arbitrary binary or windows package through DXCap itself. This can be abused to potentially bypass application whitelisting.
 ","502f2034-8929-9fd1-10fc-732a817671b7"
 "Suspicious Usage Of Active Directory Diagnostic Tool (ntdsutil.exe)","medium","","process_creation","Detects execution of ntdsutil.exe to perform different actions such as restoring snapshots...etc.","693159ba-e2b9-cb03-30d0-5234a23b26d7"
+"Suspicious Explorer Process with Whitespace Padding - ClickFix/FileFix","high","","process_creation","Detects process creation with suspicious whitespace padding followed by a '#' character, which may indicate ClickFix or FileFix techniques used to conceal malicious commands from visual inspection.
+ClickFix and FileFix are social engineering attack techniques where adversaries distribute phishing documents or malicious links that deceive users into opening the Windows Run dialog box or File Explorer search bar.
+The victims are then instructed to paste commands from their clipboard, which contain extensive whitespace padding using various Unicode space characters to push the actual malicious command far to the right, effectively hiding it from immediate view.
+","ed6d814e-9b25-6213-526d-92e0d4cca625"
 "Service DACL Abuse To Hide Services Via Sc.EXE","high","","process_creation","Detects usage of the ""sc.exe"" utility adding a new service with special permission seen used by threat actors which makes the service hidden and unremovable.","4c9296a3-a93c-d142-7e16-69111f075e7f"
 "Suspicious Process Masquerading As SvcHost.EXE","high","","process_creation","Detects a suspicious process that is masquerading as the legitimate ""svchost.exe"" by naming its binary ""svchost.exe"" and executing from an uncommon location.
 Adversaries often disguise their malicious binaries by naming them after legitimate system processes like ""svchost.exe"" to evade detection.
@@ -1818,7 +1831,6 @@ Threat actors abused older vulnerable versions to manipulate system processes.
 "Remote XSL Execution Via Msxsl.EXE","high","","process_creation","Detects the execution of the ""msxsl"" binary with an ""http"" keyword in the command line. This might indicate a potential remote execution of XSL files.","8bb8dbbf-4781-7bf2-3340-f3b39cc8501a"
 "Suspicious Scheduled Task Name As GUID","medium","","process_creation","Detects creation of a scheduled task with a GUID like name","470da37d-268f-d626-f90a-04ef23655a27"
 "Certificate Exported Via Certutil.EXE","medium","","process_creation","Detects the execution of the certutil with the ""exportPFX"" flag which allows the utility to export certificates.","5dd528dc-d144-18ab-88ff-fca3158b68c5"
-"DeviceCredentialDeployment Execution","medium","","process_creation","Detects the execution of DeviceCredentialDeployment to hide a process from view","bf39ad4c-8a90-0e00-7076-2436ebb83b41"
 "Binary Proxy Execution Via Dotnet-Trace.EXE","medium","","process_creation","Detects commandline arguments for executing a child process via dotnet-trace.exe","47beff1b-e312-3476-6c22-0805b517fa1f"
 "Scheduled Task Executing Payload from Registry","medium","","process_creation","Detects the creation of a schtasks that potentially executes a payload stored in the Windows Registry using PowerShell.","bde2aa8e-57e6-7c83-466b-dfdcf1a7de29"
 "Potential ReflectDebugger Content Execution Via WerFault.EXE","medium","","process_creation","Detects execution of ""WerFault.exe"" with the ""-pr"" commandline flag that is used to run files stored in the ReflectDebugger key which could be used to store the path to the malware in order to masquerade the execution flow","6fed31ac-e26c-8668-fed8-9145c0f0cb2b"
@@ -1917,6 +1929,8 @@ Instead they modify the task after creation to include their malicious payload
 "Potentially Suspicious Windows App Activity","medium","","process_creation","Detects potentially suspicious child process of applications launched from inside the WindowsApps directory. This could be a sign of a rogue "".appx"" package installation/execution","101b11d6-0200-6a9a-daea-aaebf8b49bca"
 "Verclsid.exe Runs COM Object","medium","","process_creation","Detects when verclsid.exe is used to run COM object via GUID","f95fb96e-dacc-23fa-9a80-f509e7973c9f"
 "Regsvr32 DLL Execution With Suspicious File Extension","high","","process_creation","Detects the execution of REGSVR32.exe with DLL files masquerading as other files","de7bed2f-8da9-bfd3-f7af-a1a8e5ff462d"
+"Suspicious CustomShellHost Execution","high","","process_creation","Detects the execution of CustomShellHost.exe where the child isn't located in 'C:\Windows\explorer.exe'. CustomShellHost is a known LOLBin that can be abused by attackers for defense evasion techniques.
+","5f438a3c-3bd7-d256-61ad-9ae6334543ec"
 "Suspicious Rundll32 Activity Invoking Sys File","high","","process_creation","Detects suspicious process related to rundll32 based on command line that includes a *.sys file as seen being used by UNC2452","9d6f9951-dc6f-66b5-290e-ff79c75550f6"
 "Logged-On User Password Change Via Ksetup.EXE","medium","","process_creation","Detects password change for the logged-on user's via ""ksetup.exe""","42949869-416c-aa49-476a-3f2a4b57aa8c"
 "PktMon.EXE Execution","medium","","process_creation","Detects execution of PktMon, a tool that captures network packets.","94ae2cf8-1a32-d069-3ee0-eaae5f14745e"
@@ -2093,6 +2107,8 @@ By setting this registry value to ""0"" (DWORD), Windows will be allowed to stor
 ","310bf792-4e0d-b9ba-7dea-7512f8953921"
 "HackTool - Mimikatz Execution","high","","process_creation","Detection well-known mimikatz command line arguments","b0b6f0e2-8ed1-fa15-6ebb-cf992c0fd7ea"
 "Potential Persistence Via Logon Scripts - CommandLine","high","","process_creation","Detects the addition of a new LogonScript to the registry value ""UserInitMprLogonScript"" for potential persistence","4b8c4cc7-a599-dafe-263f-ff5cb96a6967"
+"MSDT Execution Via Answer File","high","","process_creation","Detects execution of ""msdt.exe"" using an answer file which is simulating the legitimate way of calling msdt via ""pcwrun.exe"" (For example from the compatibility tab).
+","aac97665-0e43-e14b-bc3c-bbefd72790dd"
 "Microsoft IIS Connection Strings Decryption","high","","process_creation","Detects use of aspnet_regiis to decrypt Microsoft IIS connection strings. An attacker with Microsoft IIS web server access via a webshell or alike can decrypt and dump any hardcoded connection strings, such as the MSSQL service account password using aspnet_regiis command.","c9722d26-25e3-6e45-3950-85182a7a1b35"
 "Fsutil Behavior Set SymlinkEvaluation","medium","","process_creation","A symbolic link is a type of file that contains a reference to another file.
 This is probably done to make sure that the ransomware is able to follow shortcuts on the machine in order to find the original file to encrypt
@@ -2417,6 +2433,9 @@ CVE-2025-31161, where attackers can achieve RCE through crafted HTTP requests.
 The detection focuses on commonly abused Windows executables (like powershell.exe, cmd.exe etc.) that attackers typically use post-exploitation to execute malicious commands.
 ","c8db6dc8-96e3-1974-3921-3a7fc78993d4"
 "Potential Exploitation of CrushFTP RCE Vulnerability (CVE-2025-54309)","high","","process_creation","Detects suspicious child processes created by CrushFTP. It could be an indication of exploitation of a RCE vulnerability such as CVE-2025-54309.","81ef2b50-ae07-2c4b-4242-6669c7176fec"
+"Exploitation Activity of CVE-2025-59287 - WSUS Suspicious Child Process","high","","process_creation","Detects the creation of command-line interpreters (cmd.exe, powershell.exe) as child processes of Windows Server Update Services (WSUS) related process wsusservice.exe.
+This behavior is a key indicator of exploitation for the critical remote code execution vulnerability such as CVE-2025-59287, where attackers spawn shells to conduct reconnaissance and further post-exploitation activities.
+","7b9101a5-546b-b1bc-1efd-c80d30a0d318"
 "Potential Notepad++ CVE-2025-49144 Exploitation","high","","process_creation","Detects potential exploitation of CVE-2025-49144, a local privilege escalation vulnerability in Notepad++ installers (v8.8.1 and prior) where the installer calls regsvr32.exe without specifying the full path.
 This allows an attacker to execute arbitrary code with elevated privileges by placing a malicious regsvr32.exe alongside this Legitimate Notepad++ installer.
 The vulnerability is triggered when the installer attempts to register the NppShell.dll file, which is a component of Notepad++.
@@ -2606,10 +2625,10 @@ Please investigate the user account that made the changes, as it is likely a low
 "Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"
 "Interactive Logon to Server Systems","medium","security","","Detects interactive console logons to Server Systems","7298c707-7564-3229-7c76-ec514847d8c2"
 "Potential Pass the Hash Activity","medium","security","","Detects the attack technique pass the hash which is used to move laterally inside the network","35890fd4-9ed3-b244-0eff-91fe61e52f8b"
+"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Hacktool Ruler","high","security","","This events that are generated when using the hacktool Ruler by Sensepost","8b40829b-4556-9bec-a8ad-905688497639"
 "Metasploit SMB Authentication","high","security","","Alerts on Metasploit host's authentications on the domain.","827aa6c1-1507-3f0a-385a-ade5251bfd71"
 "Failed Logon From Public IP","medium","security","","Detects a failed logon attempt from a public IP. A login from a public IP can indicate a misconfigured firewall or network boundary.","6bcac9cb-eeee-9f45-c5c1-0daaf023ac12"
-"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Account Tampering - Suspicious Failed Logon Reasons","medium","security","","This method uses uncommon error codes on failed logons to determine suspicious activity and tampering with accounts that have been disabled or somehow restricted.","655eb351-553b-501f-186e-aa9af13ecf43"
 "Failed Logins with Different Accounts from Single Source System","medium","security","","Detects suspicious failed logins with different user accounts from a single source system","428d3964-3241-1ceb-8f93-b31d8490c822"
 "Multiple Users Remotely Failing To Authenticate From Single Source","medium","security","","Detects a source system failing to authenticate against a remote host with multiple users.","30e70d43-6368-123c-a3c8-d23309a3ff97"
@@ -2630,6 +2649,7 @@ Please investigate the user account that made the changes, as it is likely a low
 "Potential Remote WMI ActiveScriptEventConsumers Activity","medium","security","","Detect potential adversaries leveraging WMI ActiveScriptEventConsumers remotely to move laterally in a network.
 This event is best correlated and used as an enrichment to determine the potential lateral movement activity.
 ","910ec16d-6957-01b7-39a8-5e676e459cac"
+"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Hacktool Ruler","high","security","","This events that are generated when using the hacktool Ruler by Sensepost","8b40829b-4556-9bec-a8ad-905688497639"
 "Suspicious Remote Logon with Explicit Credentials","medium","security","","Detects suspicious processes logging on with explicit credentials","250cf413-1d30-38fd-4b41-ae5a92452700"
 "Metasploit SMB Authentication","high","security","","Alerts on Metasploit host's authentications on the domain.","827aa6c1-1507-3f0a-385a-ade5251bfd71"
@@ -2637,7 +2657,6 @@ This event is best correlated and used as an enrichment to determine the potenti
 "Failed Logon From Public IP","medium","security","","Detects a failed logon attempt from a public IP. A login from a public IP can indicate a misconfigured firewall or network boundary.","6bcac9cb-eeee-9f45-c5c1-0daaf023ac12"
 "Successful Account Login Via WMI","low","security","","Detects successful logon attempts performed with WMI","c310cab1-252e-1d98-6b6f-e6e60c88a374"
 "RDP Login from Localhost","high","security","","RDP login with localhost source address may be a tunnelled login","b3f33f69-1331-d3d0-eb62-81f477abad86"
-"Scanner PoC for CVE-2019-0708 RDP RCE Vuln","high","security","","Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable to  CVE-2019-0708 RDP RCE aka BlueKeep","232ecd79-c09d-1323-8e7e-14322b766855"
 "Potential Access Token Abuse","medium","security","","Detects potential token impersonation and theft. Example, when using ""DuplicateToken(Ex)"" and ""ImpersonateLoggedOnUser"" with the ""LOGON32_LOGON_NEW_CREDENTIALS flag"".","e8c130a4-cf04-543d-919b-76947bde76b8"
 "Successful Overpass the Hash Attempt","high","security","","Detects successful logon with logon type 9 (NewCredentials) which matches the Overpass the Hash behavior of e.g Mimikatz's sekurlsa::pth module.","20f4e87b-c272-42da-9a1f-ad54206e3622"
 "External Remote SMB Logon from Public IP","high","security","","Detects successful logon from public IP address via SMB. This can indicate a publicly-exposed SMB port.","5c67a566-7829-eb05-4a1f-0eb292ef993f"
@@ -2997,19 +3016,21 @@ The CosmicDuke info stealer uses Windows services typically named ""javamtsup"" 
 "Turla PNG Dropper Service","critical","system","","This method detects malicious services mentioned in Turla PNG dropper report by NCC Group in November 2018","75a0da35-0e7f-e313-f974-d812b44295a4"
 "Turla Service Install","high","system","","This method detects a service install of malicious services mentioned in Carbon Paper - Turla report by ESET","665e3be1-3ec1-2e79-bd0f-dca344762794"
 "OilRig APT Schedule Task Persistence - System","critical","system","","Detects OilRig schedule task persistence as reported by Nyotron in their March 2018 report","afa88090-3c0b-17fc-7061-2259abc82d2b"
+"Potential KDC RC4-HMAC Downgrade Exploit - CVE-2022-37966","high","system","","Detects the exploitation of a security bypass and elevation of privilege vulnerability with Authentication Negotiation by using weak RC4-HMAC negotiation","87515290-bf9f-09a4-af0e-bac22cb017f6"
 "Potential CVE-2021-42278 Exploitation Attempt","medium","system","","The attacker creates a computer object using those permissions with a password known to her.
 After that she clears the attribute ServicePrincipalName on the computer object.
 Because she created the object (CREATOR OWNER), she gets granted additional permissions and can do many changes to the object.
 ","8a194220-2afd-d5a9-0644-0a2d76019999"
-"Goofy Guineapig Backdoor Service Creation","critical","system","","Detects service creation persistence used by the Goofy Guineapig backdoor","0375abd6-f86e-a665-27a0-501b2a1621a8"
-"SNAKE Malware Service Persistence","critical","system","","Detects the creation of a service named ""WerFaultSvc"" which seems to be used by the SNAKE malware as a persistence mechanism as described by CISA in their report","abdb2e55-7d24-7f3d-6091-2b42abca2e67"
-"COLDSTEEL Persistence Service Creation","high","system","","Detects the creation of new services potentially related to COLDSTEEL RAT","d8f1ace1-c01b-3f95-34ed-993d29f876f5"
-"SAM Dump to AppData","high","system","","Detects suspicious SAM dump activity as cause by QuarksPwDump and other password dumpers","f224a2b6-2db1-a1a2-42d4-25df0c460915"
-"New Service Uses Double Ampersand in Path","high","system","","Detects a service installation that uses a suspicious double ampersand used in the image path value","22b90bac-a283-6153-761c-7b6059f8f250"
 "Potential CVE-2021-42287 Exploitation Attempt","medium","system","","The attacker creates a computer object using those permissions with a password known to her.
 After that she clears the attribute ServicePrincipalName on the computer object.
 Because she created the object (CREATOR OWNER), she gets granted additional permissions and can do many changes to the object.
 ","7ef3c84f-fc5f-e0e6-b94d-07dbb0c946eb"
+"Goofy Guineapig Backdoor Service Creation","critical","system","","Detects service creation persistence used by the Goofy Guineapig backdoor","0375abd6-f86e-a665-27a0-501b2a1621a8"
+"Potential RDP Exploit CVE-2019-0708","medium","system","","Detect suspicious error on protocol RDP, potential CVE-2019-0708","19979e7a-7d1e-a8e3-2a9e-9b3ac0059fa7"
+"SNAKE Malware Service Persistence","critical","system","","Detects the creation of a service named ""WerFaultSvc"" which seems to be used by the SNAKE malware as a persistence mechanism as described by CISA in their report","abdb2e55-7d24-7f3d-6091-2b42abca2e67"
+"COLDSTEEL Persistence Service Creation","high","system","","Detects the creation of new services potentially related to COLDSTEEL RAT","d8f1ace1-c01b-3f95-34ed-993d29f876f5"
+"SAM Dump to AppData","high","system","","Detects suspicious SAM dump activity as cause by QuarksPwDump and other password dumpers","f224a2b6-2db1-a1a2-42d4-25df0c460915"
+"New Service Uses Double Ampersand in Path","high","system","","Detects a service installation that uses a suspicious double ampersand used in the image path value","22b90bac-a283-6153-761c-7b6059f8f250"
 "Critical Hive In Suspicious Location Access Bits Cleared","high","system","","Detects events from the Kernel-General ETW indicating that the access bits of a hive with a system like hive name located in the temp directory have been reset.
 This occurs when an application tries to access a hive and the hive has not be recognized since the last 7 days (by default).
 Registry hive dumping utilities such as QuarksPwDump were seen emitting this behavior.
@@ -3067,9 +3088,7 @@ When a package is deployed via PDQDeploy it installs a remote service on the tar
 "Meterpreter or Cobalt Strike Getsystem Service Installation - System","high","system","","Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service installation","4639745f-a91a-d296-8935-4c694a97f938"
 "Service Installed By Unusual Client - System","high","system","","Detects a service installed by a client which has PID 0 or whose parent has PID 0","97b97d4d-e03c-ace5-3215-fa2f51ec5fd5"
 "NTLMv1 Logon Between Client and Server","medium","system","","Detects the reporting of NTLMv1 being used between a client and server. NTLMv1 is insecure as the underlying encryption algorithms can be brute-forced by modern hardware.","cb063566-b04b-c7e4-316b-c69075ed08f5"
-"Potential RDP Exploit CVE-2019-0708","medium","system","","Detect suspicious error on protocol RDP, potential CVE-2019-0708","19979e7a-7d1e-a8e3-2a9e-9b3ac0059fa7"
 "NTFS Vulnerability Exploitation","high","system","","This the exploitation of a NTFS vulnerability as reported without many details via Twitter","73b6342c-c17a-d447-2fd3-119ed3cf61ca"
-"KDC RC4-HMAC Downgrade CVE-2022-37966","high","system","","Detects the exploitation of a security bypass and elevation of privilege vulnerability with Authentication Negotiation by using weak RC4-HMAC negotiation","87515290-bf9f-09a4-af0e-bac22cb017f6"
 "Certificate Use With No Strong Mapping","medium","system","","Detects a user certificate that was valid but could not be mapped to a user in a strong way (such as via explicit mapping, key trust mapping, or a SID)
 This could be a sign of exploitation of the elevation of privilege vulnerabilities (CVE-2022-34691, CVE-2022-26931, CVE-2022-26923) that can occur when the KDC allows certificate spoofing by not requiring a strong mapping.
 Events where the AccountName and CN of the Subject do not match, or where the CN ends in a dollar sign indicating a machine, may indicate certificate spoofing.
