@@ -2545,7 +2545,7 @@ A common error message is ""Node - (provided IP or default) ERROR Description =T
 "Suspicious Bitstransfer via PowerShell","medium","","process_creation","Detects transferring files from system on a server bitstransfer Powershell cmdlets","dc28bbe4-14ec-d765-8514-2ff2ff532e24"
 "RClone Execution","high","","process_creation","Detects execution of RClone utility for exfiltration as used by various ransomwares strains like REvil, Conti, FiveHands, etc","13dc41d6-0489-5505-887a-c3bc11ddec90"
 "New Service Creation","low","","process_creation","Detects creation of a new service.","f3c0ce89-d7e4-b1be-b79d-265254701fe6"
-"DNS Tunnel Technique from MuddyWater","critical","","process_creation","Detecting DNS tunnel activity for Muddywater actor","0f27e458-cb56-857e-1e9a-630975f5984a"
+"DNS Tunnel Technique from MuddyWater","critical","","process_creation","Detecting DNS tunnel activity for Muddywater actor","e22efaa2-ec7f-d290-fe53-4f72f4035c27"
 "Suspicious Bitsadmin Job via PowerShell","high","","process_creation","Detect download by BITS jobs via PowerShell","a6124306-bb3c-9e0e-a088-a4dee392c1ee"
 "Nslookup PwSh Download Cradle","medium","","process_creation","This rule tries to detect powershell download cradles, e.g. powershell . (nslookup -q=txt http://some.owned.domain.com)[-1]","79c252ba-3759-a153-7242-9f3de6ec7ba4"
 "PowerShell AMSI Bypass Pattern","high","","process_creation","Detects attempts to disable AMSI in the command line. It is possible to bypass AMSI by disabling it before loading the main payload.","9ec2c364-89c8-b572-4a96-ddc786444ecf"
