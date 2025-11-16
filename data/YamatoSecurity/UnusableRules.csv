@@ -58,7 +58,6 @@ by causing a malicious DLL to be loaded and run in the context of separate proce
 "Run Once Task Configuration in Registry","medium","","registry_event","Rule to detect the configuration of Run Once registry key. Configured payload can be run by runonce.exe /AlternateShellStartup","f00c4059-0241-7fee-4186-e8d0b5741cba"
 "Suspicious Run Key from Download","high","","registry_event","Detects the suspicious RUN keys created by software located in Download or temporary Outlook/Internet Explorer directories","f81b1344-1639-27dc-c1e1-577c4e6c8e19"
 "Suspicious Camera and Microphone Access","high","","registry_event","Detects Processes accessing the camera and microphone from suspicious folder","139f52db-35af-c5f8-bbf8-22a2094dfea6"
-"Pandemic Registry Key","critical","","registry_event","Detects Pandemic Windows Implant","a36fab91-8874-79c8-32cb-b2a0117d5a0b"
 "UAC Bypass Via Wsreset","high","","registry_event","Unfixed method for UAC bypass from Windows 10. WSReset.exe file associated with the Windows Store. It will run a binary file contained in a low-privilege registry.","95ca0984-3622-ee0b-d0b7-4bf861f58030"
 "Security Support Provider (SSP) Added to LSA Configuration","high","","registry_event","Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows.
 ","a2b70475-be0a-993d-b01f-8ecf4bbd7576"
@@ -68,7 +67,6 @@ by causing a malicious DLL to be loaded and run in the context of separate proce
 "NetNTLM Downgrade Attack - Registry","high","","registry_event","Detects NetNTLM downgrade attack","3387665f-9c44-56db-5cb9-a35e48689376"
 "Disable Security Events Logging Adding Reg Key MiniNt","high","","registry_event","Detects the addition of a key 'MiniNt' to the registry. Upon a reboot, Windows Event Log service will stop writing events.","36ef53bd-ce38-b8b6-b163-c7ff42107ecb"
 "Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback","medium","","registry_set","Detects enabling of the ""AllowAnonymousCallback"" registry value, which allows a remote connection between computers that do not have a trust relationship.","153b0ce0-9f0b-f10f-7d6e-3a23dea83494"
-"PrinterNightmare Mimikatz Driver Name","critical","","registry_event","Detects static QMS 810 and mimikatz driver name used by Mimikatz as exploited in CVE-2021-1675 and CVE-2021-34527","33feb9a9-afd4-3403-46c9-13a7b4a62b80"
 "Creation of a Local Hidden User Account by Registry","high","","registry_event","Sysmon registry detection of a local hidden user account.","447c311d-5d73-52c3-d10c-a1205258cf04"
 "Path To Screensaver Binary Modified","medium","","registry_event","Detects value modification of registry key containing path to binary used as screensaver.","f5a1f729-ff8c-577e-2d33-a209e00bf7f3"
 "HybridConnectionManager Service Installation - Registry","high","","registry_event","Detects the installation of the Azure Hybrid Connection Manager service to allow remote code execution from Azure function.","0a77c311-af5b-b0e4-4d1d-e87ede81b2c7"
@@ -130,6 +128,8 @@ When ""UACDisableNotify"" is set to 1, UAC prompts are suppressed.
 "Change User Account Associated with the FAX Service","high","","registry_set","Detect change of the user account associated with the FAX service to avoid the escalation problem.","96a90fb0-3747-35a8-d9c5-dcc7d373c57c"
 "PowerShell Script Execution Policy Enabled","low","","registry_set","Detects the enabling of the PowerShell script execution policy. Once enabled, this policy allows scripts to be executed.","b0ac9712-6658-cdfd-92d7-8aa07fcdf31c"
 "ETW Logging Disabled In .NET Processes - Sysmon Registry","high","","registry_set","Potential adversaries stopping ETW providers recording loaded .NET assemblies.","b845b5d0-c25c-d832-f891-58b8224599ee"
+"Suspicious Space Characters in RunMRU Registry Path - ClickFix","high","","registry_set","Detects the occurrence of numerous space characters in RunMRU registry paths, which may indicate execution via phishing lures using clickfix techniques to hide malicious commands in the Windows Run dialog box from naked eyes.
+","44b5abf5-fa3c-d623-20ee-7f8552f3b87c"
 "Uncommon Extension In Keyboard Layout IME File Registry Value","high","","registry_set","Detects usage of Windows Input Method Editor (IME) keyboard layout feature, which allows an attacker to load a DLL into the process after sending the WM_INPUTLANGCHANGEREQUEST message.
 Before doing this, the client needs to register the DLL in a special registry key that is assumed to implement this keyboard layout. This registry key should store a value named ""Ime File"" with a DLL path.
 IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean.
@@ -263,11 +263,15 @@ Ransomware threat actors and operators (specifically BlackCat) were seen increas
 The ""PromptOnSecureDesktop"" setting specifically determines whether UAC prompts are displayed on the secure desktop. The secure desktop is a separate desktop environment that's isolated from other processes running on the system. It's designed to prevent malicious software from intercepting or tampering with UAC prompts.
 When ""PromptOnSecureDesktop"" is set to 0, UAC prompts are displayed on the user's current desktop instead of the secure desktop. This reduces the level of security because it potentially exposes the prompts to manipulation by malicious software.
 ","4475b3bd-9b24-b189-1118-871c5fe3fe17"
+"WFP Filter Added via Registry","medium","","registry_set","Detects registry modifications that add Windows Filtering Platform (WFP) filters, which may be used to block security tools and EDR agents from reporting events.
+","c4192251-3d93-add7-246d-df5227e7dcb9"
 "Potential Persistence Via LSA Extensions","high","","registry_set","Detects when an attacker modifies the ""REG_MULTI_SZ"" value named ""Extensions"" to include a custom DLL to achieve persistence via lsass.
 The ""Extensions"" list contains filenames of DLLs being automatically loaded by lsass.exe. Each DLL has its InitializeLsaExtension() method called after loading.
 ","e249ebd9-4719-fbd6-ad42-802038c12f87"
 "CrashControl CrashDump Disabled","medium","","registry_set","Detects disabling the CrashDump per registry (as used by HermeticWiper)","742762c2-287c-4b94-5f99-ae234cdd3d2c"
 "Potential Persistence Via Scrobj.dll COM Hijacking","medium","","registry_set","Detect use of scrobj.dll as this DLL looks for the ScriptletURL key to get the location of the script to execute","7bb576ef-cc9a-5126-c758-aa8d24f0edda"
+"Suspicious Space Characters in TypedPaths Registry Path - FileFix","high","","registry_set","Detects the occurrence of numerous space characters in TypedPaths registry paths, which may indicate execution via phishing lures using file-fix techniques to hide malicious commands.
+","8d0dc35f-6c19-c320-3d86-8bd087469dbe"
 "UAC Bypass Abusing Winsat Path Parsing - Registry","high","","registry_set","Detects the pattern of UAC Bypass using a path parsing issue in winsat.exe (UACMe 52)","c5041759-c026-94ae-a6d4-6e6bfbfa3d0c"
 "Potential Signing Bypass Via Windows Developer Features - Registry","high","","registry_set","Detects when the enablement of developer features such as ""Developer Mode"" or ""Application Sideloading"". Which allows the user to install untrusted packages.","eea69d1c-b62d-d58f-4ee3-82f9053a20ea"
 "Persistence Via Hhctrl.ocx","high","","registry_set","Detects when an attacker modifies the registry value of the ""hhctrl"" to point to a custom binary","6e7e4fc7-4279-156d-6a7b-f6c593f51098"
@@ -322,7 +326,6 @@ An attacker can set a custom page to execute arbitrary code and link to it via t
 "Enable Local Manifest Installation With Winget","medium","","registry_set","Detects changes to the AppInstaller (winget) policy. Specifically the activation of the local manifest installation, which allows a user to install new packages via custom manifests.","e70cde78-b476-8726-75d1-073aeabb4e1d"
 "Potential Persistence Via AutodialDLL","high","","registry_set","Detects change the the ""AutodialDLL"" key which could be used as a persistence method to load custom DLL via the ""ws2_32"" library","0ea81575-bcbc-e0f8-6604-6236751cb5db"
 "New RUN Key Pointing to Suspicious Folder","high","","registry_set","Detects suspicious new RUN key element pointing to an executable in a suspicious folder","2c97b46f-dbd7-bf78-71c0-86ed4a55c654"
-"Blue Mockingbird - Registry","high","","registry_set","Attempts to detect system changes made by Blue Mockingbird","5e4e8480-72ed-5e37-7cfe-93d7cfd37974"
 "Windows Defender Exclusions Added - Registry","medium","","registry_set","Detects the Setting of Windows Defender Exclusions","c86baf10-abab-0f8f-88a2-e51640a26b5c"
 "Potential Persistence Via Outlook Home Page","high","","registry_set","Detects potential persistence activity via outlook home page.
 An attacker can set a home page to achieve code execution and persistence by editing the WebView registry keys.
@@ -399,7 +402,6 @@ This is often used as a method of persistence.
 "New File Association Using Exefile","high","","registry_set","Detects the abuse of the exefile handler in new file association. Used for bypass of security products.","b0fb77bd-c468-c8dd-1a84-96bf79d003a7"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_add","Detects COM object hijacking via TreatAs subkey","6b4b0ded-e40c-4d49-68f0-b78339d9587e"
 "Potential Persistence Via New AMSI Providers - Registry","high","","registry_add","Detects when an attacker registers a new AMSI provider in order to achieve persistence","d8884952-23ce-8a65-d998-cb775a119c95"
-"Potential NetWire RAT Activity - Registry","high","","registry_add","Detects registry keys related to NetWire RAT","61bb2824-c37f-f432-0767-9a80d45583aa"
 "Suspicious Execution Of Renamed Sysinternals Tools - Registry","high","","registry_add","Detects the creation of the ""accepteula"" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)","6a724c01-e3a5-3f08-0a26-a25aab47a2d1"
 "PUA - Sysinternals Tools Execution - Registry","medium","","registry_add","Detects the execution of some potentially unwanted tools such as PsExec, Procdump, etc. (part of the Sysinternals suite) via the creation of the ""accepteula"" registry key.","cab7e60f-55aa-b72e-1943-4d3980028a43"
 "Potential Persistence Via Logon Scripts - Registry","medium","","registry_add","Detects creation of ""UserInitMprLogonScript"" registry value which can be used as a persistence method by malicious actors","c6a4d8a3-8e7d-30b4-a6f0-aee8a87463bf"
@@ -426,17 +428,21 @@ Seen being created by Forest Blizzard APT as reported by MSFT.
 "Forest Blizzard APT - Custom Protocol Handler DLL Registry Set","high","","registry_set","Detects the setting of the DLL that handles the custom protocol handler.
 Seen being created by Forest Blizzard APT as reported by MSFT.
 ","30840c08-9ef9-b60c-581d-256b0a2f8041"
+"Pandemic Registry Key","critical","","registry_event","Detects Pandemic Windows Implant","a36fab91-8874-79c8-32cb-b2a0117d5a0b"
 "OilRig APT Registry Persistence","critical","","registry_event","Detects OilRig registry persistence as reported by Nyotron in their March 2018 report","e3b2e8dd-18aa-f9bc-9af7-bc31d7717574"
 "OceanLotus Registry Activity","critical","","registry_event","Detects registry keys created in OceanLotus (also known as APT32) attacks","91264309-c919-28fd-5fff-f994208d1f34"
 "CVE-2020-1048 Exploitation Attempt - Suspicious New Printer Ports - Registry","high","","registry_set","Detects changes to the ""Ports"" registry key with data that includes a Windows path or a file with a suspicious extension.
 This could be an attempt to exploit CVE-2020-1048 - a Windows Print Spooler elevation of privilege vulnerability.
 ","630f16a8-0e53-642e-ff10-1e8fdeb631b8"
+"Blue Mockingbird - Registry","high","","registry_set","Attempts to detect system changes made by Blue Mockingbird","5e4e8480-72ed-5e37-7cfe-93d7cfd37974"
 "FlowCloud Registry Markers","critical","","registry_event","Detects FlowCloud malware registry markers from threat group TA410.
 The malware stores its configuration in the registry alongside drivers utilized by the malware's keylogger components.
 ","0b8e16f0-ba71-e4bd-3716-69afe0091614"
 "Leviathan Registry Key Activity","critical","","registry_event","Detects registry key used by Leviathan APT in Malaysian focused campaign","09b9f622-28c3-d403-0447-f3858c57995e"
 "Suspicious Set Value of MSDT in Registry (CVE-2022-30190)","medium","","registry_set","Detects set value ms-msdt MSProtocol URI scheme in Registry that could be an attempt to exploit CVE-2022-30190.","9754f622-65d5-8c9b-7762-f074e2d502ed"
 "CVE-2021-31979 CVE-2021-33771 Exploits","critical","","registry_set","Detects patterns as noticed in exploitation of Windows CVE-2021-31979 CVE-2021-33771 vulnerability and DevilsTongue malware by threat group Sourgum","a4072638-9c3a-3307-e4f9-458edbb60efb"
+"PrinterNightmare Mimikatz Driver Name","critical","","registry_event","Detects static QMS 810 and mimikatz driver name used by Mimikatz as exploited in CVE-2021-1675 and CVE-2021-34527","33feb9a9-afd4-3403-46c9-13a7b4a62b80"
+"Potential NetWire RAT Activity - Registry","high","","registry_add","Detects registry keys related to NetWire RAT","61bb2824-c37f-f432-0767-9a80d45583aa"
 "Blackbyte Ransomware Registry","high","","registry_set","Detects specific windows registry modifications made by BlackByte ransomware variants.
 BlackByte set three different registry values to escalate privileges and begin setting the stage for lateral movement and encryption.
 This rule triggers when any of the following registry keys are set to DWORD 1, however all three should be investigated as part of a larger BlackByte ransomware detection and response effort.
@@ -461,10 +467,10 @@ This rule triggers when any of the following registry keys are set to DWORD 1, h
 This binary was created to be easily extensible, and to that end, it relies on the registry to instruct on which commands to run.
 The problem is, it will run any arbitrary command without restriction of location or type.
 ","7c470022-ced9-05c4-b9fc-5aff8e5f4dce"
-"Office Security Settings Changed","high","","registry_set","Detects registry changes to Office macro settings. The TrustRecords contain information on executed macro-enabled documents. (see references)","ea79a782-319f-b5bd-9293-cab2134f5c43"
+"Office Security Settings Changed","high","","registry_set","Detects registry changes to Office macro settings. The TrustRecords contain information on executed macro-enabled documents. (see references)","380737d7-6d1c-6791-31b3-6ce6063b0c58"
 "User Account Hidden By Registry","high","","registry_set","Detect modification for a specific user to prevent that user from being listed on the logon screen","1b78376c-c1d2-a830-93b1-5dee98965490"
 "Potential Persistence Via COM Hijacking From Suspicious Locations","high","","registry_set","Detects potential COM object hijacking where the ""Server"" (In/Out) is pointing to a suspicious or unusual location.","79389718-9e14-e5e9-1cc7-2c027078bf22"
-"Service Binary in Uncommon Folder","medium","","registry_set","Detect the creation of a service with a service binary located in a uncommon directory","f9252ab9-0f85-c10d-fd51-576b83182926"
+"Service Binary in Uncommon Folder","medium","","registry_set","Detect the creation of a service with a service binary located in a uncommon directory","42daf60a-a738-58f7-79c2-3888e02ebc89"
 "Autorun Keys Modification","medium","","registry_event","Detects modification of autostart extensibility point (ASEP) in registry.","b8939982-1774-1f45-f838-7bf9ac9be3c2"
 "Disable Microsoft Office Security Features","high","","registry_set","Disable Microsoft Office Security Features by registry","d226853e-3dbf-ce71-60c1-5458858abbbc"
 "Adwind RAT / JRAT - Registry","high","","registry_set","Detects javaw.exe in AppData folder as used by Adwind / JRAT","6c44673b-8c80-9ce9-718d-46f34b17ffcc"
