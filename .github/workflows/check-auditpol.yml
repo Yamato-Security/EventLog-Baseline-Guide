@@ -1,0 +1,28 @@
+name: Check auditpol settings
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        os: [ windows-11-arm, windows-2022, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout WELA repository
+        uses: actions/checkout@v4
+        with:
+          repository: Yamato-Security/WELA
+          path: WELA
+
+      - name: Run auditpol command
+        run: |
+          auditpol /get /category:*
