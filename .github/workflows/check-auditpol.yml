@@ -11,5 +11,62 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Run auditpol command
+        shell: pwsh
         run: |
-          auditpol /get /category:*
+          auditpol /get /category:* | Out-File -FilePath AuditpolOutput.txt -Encoding utf8
+          # 確認用にログを表示
+          Get-Content AuditpolOutput.txt | Write-Host
+
+      - name: Run registry check script
+        shell: pwsh
+        run: |
+          # レジストリ設定の定義
+          $registrySettings = @(
+              @{Path = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging"; Name = "EnableModuleLogging"; Category = "PowerShell"},
+              @{Path = "HKLM:\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"; Name = "EnableScriptBlockLogging"; Category = "PowerShell"},
+              @{Path = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit"; Name = "ProcessCreationIncludeCmdLine_Enabled"; Category = "CommandLine"},
+              @{Path = "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0"; Name = "RestrictSendingNTLMTraffic"; Category = "NTLM"},
+              @{Path = "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0"; Name = "AuditReceivingNTLMTraffic"; Category = "NTLM"},
+              @{Path = "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters"; Name = "AuditNTLMInDomain"; Category = "NTLM"}
+          )
+
+          $results = @()
+
+          foreach ($setting in $registrySettings) {
+              $value = "Not Set"
+              $exists = $false
+
+              try {
+                  if (Test-Path $setting.Path) {
+                      $regValue = Get-ItemProperty -Path $setting.Path -Name $setting.Name -ErrorAction SilentlyContinue
+                      if ($regValue) {
+                          $value = $regValue.$($setting.Name)
+                          $exists = $true
+                      }
+                  }
+              }
+              catch {
+                  $value = "Error: $_"
+              }
+
+              $results += [PSCustomObject]@{
+                  Category = $setting.Category
+                  Path = $setting.Path
+                  Name = $setting.Name
+                  Value = $value
+                  Exists = $exists
+              }
+          }
+
+          # CSV出力
+          $results | Export-Csv -Path "RegistrySettings.csv" -NoTypeInformation -Encoding UTF8
+          
+          # コンソールにも表示
+          $results | Format-Table -AutoSize
+
+      - name: Upload CSV artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: registry-settings-${{ github.run_number }}
+          path: RegistrySettings.csv
+          retention-days: 10
