@@ -13,14 +13,17 @@ jobs:
       - name: Run auditpol command
         shell: pwsh
         run: |
-          auditpol /get /category:* | Out-File -FilePath AuditpolOutput.txt -Encoding utf8
-          # 確認用にログを表示
-          Get-Content AuditpolOutput.txt | Write-Host
+          $os = '${{ matrix.os }}'
+          $auditFile = "AuditpolOutput-$os.txt"
+          auditpol /get /category:* | Out-File -FilePath $auditFile -Encoding utf8
+          Get-Content $auditFile | Write-Host
 
       - name: Run registry check script
         shell: pwsh
         run: |
-          # レジストリ設定の定義
+          $os = '${{ matrix.os }}'
+          $regFile = "RegistrySettings-$os.csv"
+
           $registrySettings = @(
               @{Path = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging"; Name = "EnableModuleLogging"; Category = "PowerShell"},
               @{Path = "HKLM:\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"; Name = "EnableScriptBlockLogging"; Category = "PowerShell"},
@@ -58,15 +61,19 @@ jobs:
               }
           }
 
-          # CSV出力
-          $results | Export-Csv -Path "RegistrySettings.csv" -NoTypeInformation -Encoding UTF8
-          
-          # コンソールにも表示
+          $results | Export-Csv -Path $regFile -NoTypeInformation -Encoding UTF8
           $results | Format-Table -AutoSize
+
+      - name: Upload auditpol artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditpol-${{ matrix.os }}-${{ github.run_number }}
+          path: AuditpolOutput-${{ matrix.os }}.txt
+          retention-days: 10
 
       - name: Upload CSV artifact
         uses: actions/upload-artifact@v4
         with:
-          name: registry-settings-${{ github.run_number }}
-          path: RegistrySettings.csv
+          name: registry-settings-${{ matrix.os }}-${{ github.run_number }}
+          path: RegistrySettings-${{ matrix.os }}.csv
           retention-days: 10
