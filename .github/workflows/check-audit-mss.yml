@@ -1,8 +1,6 @@
 name: Run WELA Audit(Microsoft Server)
 
 on:
-  push:
-    branches: [ "*" ]
   schedule:
     - cron: '0 15 * * *'
   workflow_dispatch:

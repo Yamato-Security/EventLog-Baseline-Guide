@@ -1,8 +1,6 @@
-name: Run WELA Audit
+name: Run WELA Audit(YamatoSecurity)
 
 on:
-  push:
-    branches: [ "*" ]
   schedule:
     - cron: '0 5 * * *'
   workflow_dispatch:
