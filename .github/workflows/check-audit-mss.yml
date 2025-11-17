@@ -1,0 +1,68 @@
+name: Run WELA Audit(Microsoft Server)
+
+on:
+  push:
+    branches: [ "*" ]
+  schedule:
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: windows-11-arm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout WELA repository
+        uses: actions/checkout@v4
+        with:
+          repository: Yamato-Security/WELA
+          path: WELA
+
+      - name: Run auditpol command
+        run: |
+          auditpol /get /category:*
+
+      - name: Run auditpol set command
+        run: |
+          cmd /c "auditpol /set /subcategory:{0CCE922B-69AE-11D9-BED3-505054503030} /success:disable /failure:disable"
+
+      - name: Run configure bat(MS Server)
+        run: |
+          cd bat
+          ./Microsoft_Server.bat
+
+      - name: Run WELA.ps1 audit-settings(MS Server)
+        run: |
+          cd WELA
+          ./WELA.ps1 audit-settings -Baseline Microsoft_Server
+
+      - name: Convert audit csv result(MS Server)
+        run: |
+          # WELA-Audit-Result.csvのRecommendedSetting列を空白にする
+          $auditCsvPath = "./WELA/WELA-Audit-Result.csv"
+          $auditData = Import-Csv $auditCsvPath
+          $auditData | ForEach-Object { $_.RecommendedSetting = "" }
+          $auditData | Export-Csv $auditCsvPath -NoTypeInformation -Encoding UTF8
+
+      - name: Move WELA result files (Microsoft_Server)
+        run: |
+          cd WELA
+          Copy-Item *.csv ../data/Microsoft_Server/ -Force
+
+      - name: Delete WELA repo
+        run: |
+          Remove-Item -Recurse -Force WELA
+
+      - name: Pull Git repo
+        run: |
+          git pull origin main
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply changes

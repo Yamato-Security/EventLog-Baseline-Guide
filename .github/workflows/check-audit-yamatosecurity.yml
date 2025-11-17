@@ -1,0 +1,107 @@
+name: Run WELA Audit
+
+on:
+  push:
+    branches: [ "*" ]
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: windows-11-arm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout WELA repository
+        uses: actions/checkout@v4
+        with:
+          repository: Yamato-Security/WELA
+          path: WELA
+
+      - name: Run auditpol command
+        run: |
+          auditpol /get /category:*
+
+      - name: Run auditpol set command
+        run: |
+          cmd /c "auditpol /set /subcategory:{0CCE922B-69AE-11D9-BED3-505054503030} /success:disable /failure:disable"
+
+      - name: Run WELA.ps1 audit-settings(YamatoSecurity)
+        run: |
+          cd WELA
+          ./WELA.ps1 audit-settings -Baseline YamatoSecurity
+
+      - name: Run WELA.ps1 audit-filesize(YamatoSecurity)
+        run: |
+          cd WELA
+          ./WELA.ps1 audit-filesize -Baseline YamatoSecurity
+
+      - name: Convert file size csv result
+        run: |      
+          # WELA-FileSize-Result.csvのRecommended列を空白にする
+          $fileSizeCsvPath = "./WELA/WELA-FileSize-Result.csv"
+          $fileSizeData = Import-Csv $fileSizeCsvPath
+          $fileSizeData | ForEach-Object { $_.Recommended = "" }
+          $fileSizeData | Export-Csv $fileSizeCsvPath -NoTypeInformation -Encoding UTF8
+
+      - name: Move WELA result files (Default)
+        run: |
+          cd WELA
+          Copy-Item *.csv ../data/Windows_Default/ -Force
+
+      - name: Delete WELA repo
+        run: |
+          Remove-Item -Recurse -Force WELA
+
+      - name: Pull Git repo
+        run: |
+          git pull origin main
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply changes
+
+      - name: Checkout WELA repository
+        uses: actions/checkout@v4
+        with:
+          repository: Yamato-Security/WELA
+          path: WELA
+
+      - name: Run configure bat(YamatoSecurity)
+        run: |
+          cd bat
+          ./YamatoSecurity.bat
+
+      - name: Run WELA.ps1 audit-settings
+        run: |
+          cd WELA
+          ./WELA.ps1 audit-settings -Baseline YamatoSecurity
+
+      - name: Run WELA.ps1 audit-filesize
+        run: |
+          cd WELA
+          ./WELA.ps1 audit-filesize -Baseline YamatoSecurity
+
+      - name: Move WELA result files (YamatoSecurity)
+        if: ${{ matrix.os == 'windows-2025' }}
+        run: |
+          cd WELA
+          Copy-Item *.csv ../data/YamatoSecurity/ -Force
+
+      - name: Delete WELA repo
+        run: |
+          Remove-Item -Recurse -Force WELA
+
+      - name: Pull Git repo
+        run: |
+          git pull origin main
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply changes
