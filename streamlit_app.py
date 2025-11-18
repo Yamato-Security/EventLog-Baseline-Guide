@@ -44,7 +44,10 @@ df_audit_default = pd.read_csv(default_audit.joinpath("WELA-Audit-Result.csv"))
 st.markdown(f"<h3 style='text-align: center;'>{selected_guide} Audit Settings</h3>", unsafe_allow_html=True)
 st.markdown(f"<p style='text-align: center;'><a href='{guide_link[selected_guide]}' target='_blank'>{guide_link[selected_guide]}</a></p>", unsafe_allow_html=True)
 df_combined = pd.concat([df_audit, df_audit_default], axis=1)
-columns_to_display = [0, 1, 2, 13, 6, 7, 8]
+if selected_guide == "Windows Default":
+    columns_to_display = [0, 1, 2, 13]
+else:
+    columns_to_display = [0, 1, 2, 13, 6, 7, 8]
 df = df_combined.rename(columns={"CurrentSetting": "DefaultSetting"}).iloc[:, columns_to_display]
 
 cellStyle = JsCode(
