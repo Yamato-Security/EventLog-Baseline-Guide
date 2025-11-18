@@ -40,14 +40,6 @@ jobs:
           cd WELA
           ./WELA.ps1 audit-settings -Baseline ASD
 
-      - name: Convert audit csv result(ASD)
-        run: |
-          # WELA-Audit-Result.csvのRecommendedSetting列を空白にする
-          $auditCsvPath = "./WELA/WELA-Audit-Result.csv"
-          $auditData = Import-Csv $auditCsvPath
-          $auditData | ForEach-Object { $_.RecommendedSetting = "" }
-          $auditData | Export-Csv $auditCsvPath -NoTypeInformation -Encoding UTF8
-
       - name: Move WELA result files (ASD)
         run: |
           cd WELA
