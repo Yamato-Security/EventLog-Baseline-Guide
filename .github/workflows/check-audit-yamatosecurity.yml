@@ -45,7 +45,7 @@ jobs:
           # WELA-FileSize-Result.csvのRecommended列を空白にする
           $fileSizeCsvPath = "./WELA/WELA-FileSize-Result.csv"
           $fileSizeData = Import-Csv $fileSizeCsvPath
-          $fileSizeData | ForEach-Object { $_.Recommended = "" }
+          $fileSizeData | ForEach-Object { $_.RecommendedSetting = "" }
           $fileSizeData | Export-Csv $fileSizeCsvPath -NoTypeInformation -Encoding UTF8
 
       - name: Move WELA result files (Default)
