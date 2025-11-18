@@ -40,14 +40,6 @@ jobs:
           cd WELA
           ./WELA.ps1 audit-filesize -Baseline YamatoSecurity
 
-      - name: Convert file size csv result
-        run: |      
-          # WELA-FileSize-Result.csvのRecommended列を空白にする
-          $fileSizeCsvPath = "./WELA/WELA-FileSize-Result.csv"
-          $fileSizeData = Import-Csv $fileSizeCsvPath
-          $fileSizeData | ForEach-Object { $_.RecommendedSetting = "" }
-          $fileSizeData | Export-Csv $fileSizeCsvPath -NoTypeInformation -Encoding UTF8
-
       - name: Move WELA result files (Default)
         run: |
           cd WELA
