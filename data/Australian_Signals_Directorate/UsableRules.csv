@@ -2079,8 +2079,7 @@ By setting this registry value to ""0"" (DWORD), Windows will be allowed to stor
 "MSDT Execution Via Answer File","high","","process_creation","Detects execution of ""msdt.exe"" using an answer file which is simulating the legitimate way of calling msdt via ""pcwrun.exe"" (For example from the compatibility tab).
 ","aac97665-0e43-e14b-bc3c-bbefd72790dd"
 "Microsoft IIS Connection Strings Decryption","high","","process_creation","Detects use of aspnet_regiis to decrypt Microsoft IIS connection strings. An attacker with Microsoft IIS web server access via a webshell or alike can decrypt and dump any hardcoded connection strings, such as the MSSQL service account password using aspnet_regiis command.","c9722d26-25e3-6e45-3950-85182a7a1b35"
-"Fsutil Behavior Set SymlinkEvaluation","medium","","process_creation","A symbolic link is a type of file that contains a reference to another file.
-This is probably done to make sure that the ransomware is able to follow shortcuts on the machine in order to find the original file to encrypt
+"Potentially Suspicious NTFS Symlink Behavior Modification","medium","","process_creation","Detects the modification of NTFS symbolic link behavior using fsutil, which could be used to enable remote to local or remote to remote symlinks for potential attacks.
 ","7e75fbd5-4501-e7c8-deb1-b24ea8448793"
 "Shell32 DLL Execution in Suspicious Directory","high","","process_creation","Detects shell32.dll executing a DLL in a suspicious directory","54783800-bea8-9a66-c11d-9aab8da467eb"
 "Computer Discovery And Export Via Get-ADComputer Cmdlet","medium","","process_creation","Detects usage of the Get-ADComputer cmdlet to collect computer information and output it to a file","1a00950e-36a2-0312-33ae-1d272dc02169"
