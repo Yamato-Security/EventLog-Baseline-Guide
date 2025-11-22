@@ -340,6 +340,10 @@ by causing a malicious DLL to be loaded and run in the context of separate proce
 "Security Support Provider (SSP) Added to LSA Configuration","high","","registry_event","Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows.
 ","a2b70475-be0a-993d-b01f-8ecf4bbd7576"
 "Shell Open Registry Keys Manipulation","high","","registry_event","Detects the shell open key manipulation (exefile and ms-settings) used for persistence and the pattern of UAC Bypass using fodhelper.exe, computerdefaults.exe, slui.exe via registry keys (e.g. UACMe 33 or 62)","b1bd0320-da55-2715-927f-f70a3cb846fa"
+"Registry Tampering by Potentially Suspicious Processes","medium","","registry_event","Detects suspicious registry modifications made by suspicious processes such as script engine processes such as WScript, or CScript etc.
+These processes are rarely used for legitimate registry modifications, and their activity may indicate an attempt to modify the registry
+without using standard tools like regedit.exe or reg.exe, potentially for evasion and persistence.
+","fe1d6535-15bf-3cb1-49ea-116bb1326b6a"
 "RedMimicry Winnti Playbook Registry Manipulation","high","","registry_event","Detects actions caused by the RedMimicry Winnti playbook","a250ceb5-fda2-758b-e33b-594cb197d8ca"
 "Potential Qakbot Registry Activity","high","","registry_event","Detects a registry key used by IceID in a campaign that distributes malicious OneNote files","52da4b83-76bb-1c03-3d3d-d2767a05c186"
 "NetNTLM Downgrade Attack - Registry","high","","registry_event","Detects NetNTLM downgrade attack","3387665f-9c44-56db-5cb9-a35e48689376"
