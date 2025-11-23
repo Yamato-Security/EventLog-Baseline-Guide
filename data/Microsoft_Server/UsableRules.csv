@@ -196,6 +196,10 @@ This will bypass the default DNS server and uses a specified server for answerin
 "DirectorySearcher Powershell Exploitation","medium","","ps_script","Enumerates Active Directory to determine computers that are joined to the domain","d72c1916-ab63-11e1-1916-5e8b3822f133"
 "Suspicious Mount-DiskImage","low","","ps_script","Adversaries may abuse container files such as disk image (.iso, .vhd) file formats to deliver malicious payloads that may not be tagged with MOTW.","a47e2fc3-e3e3-9763-7cb2-d19df00ad719"
 "Disable Powershell Command History","high","","ps_script","Detects scripts or commands that disabled the Powershell command history by removing psreadline module","ebdae8b0-7b83-5602-356e-b214571cee19"
+"Registry Modification Attempt Via VBScript - PowerShell","medium","","ps_script","Detects attempts to modify the registry using VBScript's CreateObject(""Wscript.shell"") and RegWrite methods embedded within PowerShell scripts or commands.
+Threat actors commonly embed VBScript code within PowerShell to perform registry modifications, attempting to evade detection that monitors for direct registry access through traditional tools.
+This technique can be used for persistence, defense evasion, and privilege escalation by modifying registry keys without using regedit.exe, reg.exe, or PowerShell's native registry cmdlets.
+","992df49c-712c-8f93-819d-74df9b59fe7d"
 "Suspicious PowerShell Invocations - Generic","high","","ps_script","Detects suspicious PowerShell invocation command parameters","308e8029-d702-799b-6aea-82f749348b24"
 "Powershell XML Execute Command","medium","","ps_script","Adversaries may abuse PowerShell commands and scripts for execution.
 PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
@@ -903,6 +907,10 @@ Data destruction is likely to render stored data irrecoverable by forensic techn
 "Potential CobaltStrike Process Patterns","high","","process_creation","Detects potential process patterns related to Cobalt Strike beacon activity","c78a9b49-3e9d-b00c-9e65-90d9f30bbe50"
 "Invoke-Obfuscation Via Use Clip","high","","process_creation","Detects Obfuscated Powershell via use Clip.exe in Scripts","5557e23a-e632-646a-e8ae-d0a476f8cea4"
 "UAC Bypass Using Consent and Comctl32 - Process","high","","process_creation","Detects the pattern of UAC Bypass using consent.exe and comctl32.dll (UACMe 22)","fae361cc-c4b0-0935-1b15-79113e3f6198"
+"RDP Enable or Disable via Win32_TerminalServiceSetting WMI Class","medium","","process_creation","Detects enabling or disabling of Remote Desktop Protocol (RDP) using alternate methods such as WMIC or PowerShell.
+In PowerShell one-liner commands, the ""SetAllowTSConnections"" method of the ""Win32_TerminalServiceSetting"" class may be used to enable or disable RDP.
+In WMIC, the ""rdtoggle"" alias or ""Win32_TerminalServiceSetting"" class may be used for the same purpose.
+","1e281ff6-9a96-3c81-f50d-f71f6b994c13"
 "Stop Windows Service Via Net.EXE","low","","process_creation","Detects the stopping of a Windows service via the ""net"" utility.","a0d8ce28-b409-13a0-c884-65166e1aa672"
 "Bypass UAC via CMSTP","high","","process_creation","Detect commandline usage of Microsoft Connection Manager Profile Installer (cmstp.exe) to install specially formatted local .INF files","e6b6d67d-434b-039b-029d-55391089a033"
 "Suspicious Process Parents","high","","process_creation","Detects suspicious parent processes that should not have any children or should only have a single possible child program","226527e7-8837-a785-775d-0dfb86e3fa27"
@@ -1083,6 +1091,10 @@ The database might contain authentication tokens and other sensitive information
 "Fsutil Drive Enumeration","low","","process_creation","Attackers may leverage fsutil to enumerated connected drives.","0521efb1-8519-4e3b-16a4-d3b360abc475"
 "Python Inline Command Execution","medium","","process_creation","Detects execution of python using the ""-c"" flag. This is could be used as a way to launch a reverse shell or execute live python code.","65188275-2c87-e92b-f463-550b550ef7f5"
 "PUA - DefenderCheck Execution","high","","process_creation","Detects the use of DefenderCheck, a tool to evaluate the signatures used in Microsoft Defender. It can be used to figure out the strings / byte chains used in Microsoft Defender to detect a tool and thus used for AV evasion.","912866aa-0cd5-dcb6-e1d4-a0b6cbbdc575"
+"Registry Modification Attempt Via VBScript","medium","","process_creation","Detects attempts to modify the registry using VBScript's CreateObject(""Wscript.shell"") and RegWrite methods via common LOLBINs.
+It could be an attempt to modify the registry for persistence without using straightforward methods like regedit.exe, reg.exe, or PowerShell.
+Threat Actors may use this technique to evade detection by security solutions that monitor for direct registry modifications through traditional tools.
+","e16092bc-e95b-89de-eed5-19e63c1cb26f"
 "File Download From IP Based URL Via CertOC.EXE","high","","process_creation","Detects when a user downloads a file from an IP based URL using CertOC.exe","67db6bcf-cb5b-3e0b-2ba8-4afd9e5ca3a8"
 "Potential MsiExec Masquerading","high","","process_creation","Detects the execution of msiexec.exe from an uncommon directory","c043e0b2-a5f8-ebe1-e99b-54303aa6f2ad"
 "Potential SysInternals ProcDump Evasion","high","","process_creation","Detects uses of the SysInternals ProcDump utility in which ProcDump or its output get renamed, or a dump file is moved or copied to a different name","61427f33-35de-ec51-6afd-e44b8ccf9023"
@@ -1213,6 +1225,9 @@ Attackers were seen saving their malware to a database column or table and then 
 "Diskshadow Script Mode - Execution From Potential Suspicious Location","medium","","process_creation","Detects execution of ""Diskshadow.exe"" in script mode using the ""/s"" flag where the script is located in a potentially suspicious location.","42e5d701-5c5b-c050-7996-f166b0907531"
 "MpiExec Lolbin","high","","process_creation","Detects a certain command line flag combination used by mpiexec.exe LOLBIN from HPC pack that can be used to execute any other binary","9a2d19cf-4378-c7a2-7a77-b268c7875c7c"
 "New Process Created Via Taskmgr.EXE","low","","process_creation","Detects the creation of a process via the Windows task manager. This might be an attempt to bypass UAC","09c3b6b8-4904-bec5-4fc1-d69447e6ff3b"
+"Suspicious ClickFix/FileFix Execution Pattern","high","","process_creation","Detects suspicious execution patterns where users are tricked into running malicious commands via clipboard manipulation, either through the Windows Run dialog (ClickFix) or File Explorer address bar (FileFix).
+Attackers leverage social engineering campaigns—such as fake CAPTCHA challenges or urgent alerts—encouraging victims to paste clipboard contents, often executing mshta.exe, powershell.exe, or similar commands to infect systems.
+","5bf555d0-5572-b3b8-5af3-115d8e7bdfb8"
 "HackTool - SharpDPAPI Execution","high","","process_creation","Detects the execution of the SharpDPAPI tool based on CommandLine flags and PE metadata.
 SharpDPAPI is a C# port of some DPAPI functionality from the Mimikatz project.
 ","e653c5ce-5d53-8f18-097d-affbeeb0425a"
@@ -1721,6 +1736,10 @@ This detection assumes that PowerShell commands are passed via the CommandLine.
 When a user clicks on a OneNote attachment and then on the malicious link inside the "".one"" file, it exports and executes the malicious embedded script from specific directories.
 ","a7aba663-3da2-bc96-f8c3-acd95b2b3052"
 "Potential NTLM Coercion Via Certutil.EXE","high","","process_creation","Detects possible NTLM coercion via certutil using the 'syncwithWU' flag","62e77033-e379-af4f-5bc4-a7f722328265"
+"Suspicious Usage of For Loop with Recursive Directory Search in CMD","medium","","process_creation","Detects suspicious usage of the cmd.exe 'for /f' loop combined with the 'tokens=' parameter and a recursive directory listing.
+This pattern may indicate an attempt to discover and execute system binaries dynamically, for example powershell, a technique sometimes used by attackers to evade detection.
+This behavior has been observed in various malicious lnk files.
+","64212d14-add9-d75f-cf98-c4f14460e8e8"
 "Change Default File Association To Executable Via Assoc","high","","process_creation","Detects when a program changes the default file association of any extension to an executable.
 When a file is opened, the default program used to open the file (also called the file association or handler) is checked. File association selections are stored in the Windows Registry and can be edited by users, administrators, or programs that have Registry access or by administrators using the built-in assoc utility. Applications can modify the file association for a given file extension to call an arbitrary program when a file with the given extension is opened.
 ","bddf8e50-854c-b536-b42e-72e80d7115da"
@@ -1736,6 +1755,9 @@ When a file is opened, the default program used to open the file (also called th
 "Suspicious Provlaunch.EXE Child Process","high","","process_creation","Detects suspicious child processes of ""provlaunch.exe"" which might indicate potential abuse to proxy execution.","325e649b-61c6-7c91-88ba-f2873675b355"
 "Potentially Suspicious Execution Of Regasm/Regsvcs From Uncommon Location","medium","","process_creation","Detects potentially suspicious execution of the Regasm/Regsvcs utilities from a potentially suspicious location","d14f893b-1931-f274-ce30-147d8cca81fb"
 "Start of NT Virtual DOS Machine","medium","","process_creation","Ntvdm.exe allows the execution of 16-bit Windows applications on 32-bit Windows operating systems, as well as the execution of both 16-bit and 32-bit DOS applications","79562785-6cc3-acf1-853a-e4758e918d32"
+"Uncommon Svchost Command Line Parameter","high","","process_creation","Detects instances of svchost.exe running with an unusual or uncommon command line parameter by excluding known legitimate or common patterns.
+This could point at a file masquerading as svchost, a process injection, or hollowing of a legitimate svchost instance.
+","59a6acf8-6a2e-3b12-d962-e991de4770a6"
 "Uncommon FileSystem Load Attempt By Format.com","high","","process_creation","Detects the execution of format.com with an uncommon filesystem selection that could indicate a defense evasion activity in which ""format.com"" is used to load malicious DLL files or other programs.
 ","de9e4f46-8404-a8bb-7f5a-78bc21b25a9e"
 "JScript Compiler Execution","low","","process_creation","Detects the execution of the ""jsc.exe"" (JScript Compiler).
