@@ -196,6 +196,10 @@ This will bypass the default DNS server and uses a specified server for answerin
 "DirectorySearcher Powershell Exploitation","medium","","ps_script","Enumerates Active Directory to determine computers that are joined to the domain","d72c1916-ab63-11e1-1916-5e8b3822f133"
 "Suspicious Mount-DiskImage","low","","ps_script","Adversaries may abuse container files such as disk image (.iso, .vhd) file formats to deliver malicious payloads that may not be tagged with MOTW.","a47e2fc3-e3e3-9763-7cb2-d19df00ad719"
 "Disable Powershell Command History","high","","ps_script","Detects scripts or commands that disabled the Powershell command history by removing psreadline module","ebdae8b0-7b83-5602-356e-b214571cee19"
+"Registry Modification Attempt Via VBScript - PowerShell","medium","","ps_script","Detects attempts to modify the registry using VBScript's CreateObject(""Wscript.shell"") and RegWrite methods embedded within PowerShell scripts or commands.
+Threat actors commonly embed VBScript code within PowerShell to perform registry modifications, attempting to evade detection that monitors for direct registry access through traditional tools.
+This technique can be used for persistence, defense evasion, and privilege escalation by modifying registry keys without using regedit.exe, reg.exe, or PowerShell's native registry cmdlets.
+","992df49c-712c-8f93-819d-74df9b59fe7d"
 "Suspicious PowerShell Invocations - Generic","high","","ps_script","Detects suspicious PowerShell invocation command parameters","308e8029-d702-799b-6aea-82f749348b24"
 "Powershell XML Execute Command","medium","","ps_script","Adversaries may abuse PowerShell commands and scripts for execution.
 PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
