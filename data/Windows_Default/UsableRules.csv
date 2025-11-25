@@ -322,9 +322,8 @@ Commands to the remote system, and often the results of those commands, will be 
 ","efbceae5-07cf-4b09-fc03-df062b971e10"
 "Suspicious PowerShell Mailbox SMTP Forward Rule","medium","","ps_script","Detects usage of the powerShell Set-Mailbox Cmdlet to set-up an SMTP forwarding rule.","516b2199-36c5-1a0d-13f4-87bcb22bc2bf"
 "Malicious ShellIntel PowerShell Commandlets","high","","ps_script","Detects Commandlet names from ShellIntel exploitation scripts.","e84977df-6377-368d-ed22-e05ee31e9947"
-"Request A Single Ticket via PowerShell","high","","ps_script","utilize native PowerShell Identity modules to query the domain to extract the Service Principal Names for a single computer.
-This behavior is typically used during a kerberos or silver ticket attack.
-A successful execution will output the SPNs for the endpoint in question.
+"Suspicious Kerberos Ticket Request via PowerShell Script - ScriptBlock","high","","ps_script","Detects PowerShell scripts that utilize native PowerShell Identity modules to request Kerberos tickets.
+This behavior is typically seen during a Kerberos or silver ticket attack. A successful execution will output the SPNs for the endpoint in question.
 ","088701bf-4758-9a2a-76c0-2e148a7e122c"
 "Potential Invoke-Mimikatz PowerShell Script","high","","ps_script","Detects Invoke-Mimikatz PowerShell script and alike. Mimikatz is a credential dumper capable of obtaining plaintext Windows account logins and passwords.","b0c6066e-a243-d2f6-c744-990ed060759c"
 "Recon Information for Export with PowerShell","medium","","ps_script","Once established within a system or network, an adversary may use automated techniques for collecting internal data","aa7ecfb4-5a28-3a35-0b06-35cdfed46928"
