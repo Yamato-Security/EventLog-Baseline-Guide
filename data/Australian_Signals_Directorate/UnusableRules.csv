@@ -61,6 +61,9 @@ Please investigate the user account that made the changes, as it is likely a low
 "Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
 "Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
 "Suspicious LDAP-Attributes Used","high","security","","Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.","925d441a-37b4-0afa-1d98-809b5df5fd06"
+"Windows Default Domain GPO Modification","medium","security","","Detects modifications to Default Domain or Default Domain Controllers Group Policy Objects (GPOs).
+Adversaries may modify these default GPOs to deploy malicious configurations across the domain.
+","848c3317-9b29-5241-aae9-ceb41ce11177"
 "Possible Shadow Credentials Added","high","security","","Detects possible addition of shadow credentials to an active directory object.","8bcf1772-4335-28e1-e320-5ce48b15ae9f"
 "Active Directory User Backdoors","high","security","","Detects scenarios where one can control another users or computers account without having to use their credentials.","c9123898-04d5-2d3b-5e2b-7c0c92111480"
 "Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"

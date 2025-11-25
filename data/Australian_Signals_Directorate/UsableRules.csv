@@ -322,9 +322,8 @@ Commands to the remote system, and often the results of those commands, will be 
 ","efbceae5-07cf-4b09-fc03-df062b971e10"
 "Suspicious PowerShell Mailbox SMTP Forward Rule","medium","","ps_script","Detects usage of the powerShell Set-Mailbox Cmdlet to set-up an SMTP forwarding rule.","516b2199-36c5-1a0d-13f4-87bcb22bc2bf"
 "Malicious ShellIntel PowerShell Commandlets","high","","ps_script","Detects Commandlet names from ShellIntel exploitation scripts.","e84977df-6377-368d-ed22-e05ee31e9947"
-"Request A Single Ticket via PowerShell","high","","ps_script","utilize native PowerShell Identity modules to query the domain to extract the Service Principal Names for a single computer.
-This behavior is typically used during a kerberos or silver ticket attack.
-A successful execution will output the SPNs for the endpoint in question.
+"Suspicious Kerberos Ticket Request via PowerShell Script - ScriptBlock","high","","ps_script","Detects PowerShell scripts that utilize native PowerShell Identity modules to request Kerberos tickets.
+This behavior is typically seen during a Kerberos or silver ticket attack. A successful execution will output the SPNs for the endpoint in question.
 ","088701bf-4758-9a2a-76c0-2e148a7e122c"
 "Potential Invoke-Mimikatz PowerShell Script","high","","ps_script","Detects Invoke-Mimikatz PowerShell script and alike. Mimikatz is a credential dumper capable of obtaining plaintext Windows account logins and passwords.","b0c6066e-a243-d2f6-c744-990ed060759c"
 "Recon Information for Export with PowerShell","medium","","ps_script","Once established within a system or network, an adversary may use automated techniques for collecting internal data","aa7ecfb4-5a28-3a35-0b06-35cdfed46928"
@@ -865,6 +864,13 @@ Windows stores local service configuration information in the Registry under HKL
 "Potential Data Exfiltration Activity Via CommandLine Tools","high","","process_creation","Detects the use of various CLI utilities exfiltrating data via web requests","245dab46-e862-0264-ae5c-a935a1f94160"
 "Node Process Executions","medium","","process_creation","Detects the execution of other scripts using the Node executable packaged with Adobe Creative Cloud","74925938-de32-0417-5a62-b63a5d0dd01a"
 "Exports Critical Registry Keys To a File","high","","process_creation","Detects the export of a crital Registry key to a file.","d68e9dcc-21b3-418c-4d05-669b4d9c0511"
+"PPL Tampering Via WerFaultSecure","high","","process_creation","Detects potential abuse of WerFaultSecure.exe to dump Protected Process Light (PPL) processes like LSASS or to freeze security solutions (EDR/antivirus).
+This technique is used by tools such as EDR-Freeze and WSASS to bypass PPL protections and access sensitive information or disable security software.
+Distinct command line patterns help identify the specific tool:
+- WSASS usage typically shows: ""WSASS.exe WerFaultSecure.exe [PID]"" in ParentCommandLine
+- EDR-Freeze usage typically shows: ""EDR-Freeze_[version].exe [PID] [timeout]"" in ParentCommandLine
+Legitimate debugging operations using WerFaultSecure are rare in production environments and should be investigated.
+","4bf1a6ac-2f14-c4e7-4339-5a28683aa92f"
 "Suspicious File Execution From Internet Hosted WebDav Share","high","","process_creation","Detects the execution of the ""net use"" command to mount a WebDAV server and then immediately execute some content in it. As seen being used in malicious LNK files","0922802a-a57f-bd7e-c635-64ffdf4824e9"
 "NtdllPipe Like Activity Execution","high","","process_creation","Detects command that type the content of ntdll.dll to a different file or a pipe in order to evade AV / EDR detection. As seen being used in the POC NtdllPipe","ae7a6aa8-b9bd-4f34-f72a-5e9d33e9098c"
 "Insecure Transfer Via Curl.EXE","medium","","process_creation","Detects execution of ""curl.exe"" with the ""--insecure"" flag.","4308f710-0e58-712f-6781-9323b7dc779e"
@@ -1395,6 +1401,11 @@ Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when com
 "Disabled Volume Snapshots","high","","process_creation","Detects commands that temporarily turn off Volume Snapshots","1f7c1ba3-2f41-4b49-17f6-5a4719527d57"
 "Use of Remote.exe","medium","","process_creation","Remote.exe is part of WinDbg in the Windows SDK and can be used for AWL bypass and running remote files.","b68cfad0-0e22-e824-aed8-8c1c3d1accdc"
 "Persistence Via TypedPaths - CommandLine","medium","","process_creation","Detects modification addition to the 'TypedPaths' key in the user or admin registry via the commandline. Which might indicate persistence attempt","08cdc165-8915-fdf4-625a-7c4f625d5efe"
+"Suspicious Kerberos Ticket Request via CLI","high","","process_creation","Detects suspicious Kerberos ticket requests via command line using System.IdentityModel.Tokens.KerberosRequestorSecurityToken class.
+Threat actors may use command line interfaces to request Kerberos tickets for service accounts in order to
+perform offline password cracking attacks commonly known as Kerberoasting or other Kerberos ticket abuse
+techniques like silver ticket attacks.
+","862c0da5-f167-6f59-63d6-59dcbea473ae"
 "HackTool - DInjector PowerShell Cradle Execution","critical","","process_creation","Detects the use of the Dinject PowerShell cradle based on the specific flags","9b584978-0d93-f10c-988d-ff3657f59e09"
 "HackTool - Inveigh Execution","critical","","process_creation","Detects the use of Inveigh a cross-platform .NET IPv4/IPv6 machine-in-the-middle tool","f5338a44-bd1b-81a7-3b76-7e2efbe1ce0d"
 "Potentially Suspicious Rundll32.EXE Execution of UDL File","medium","","process_creation","Detects the execution of rundll32.exe with the oledb32.dll library to open a UDL file.
@@ -1473,8 +1484,6 @@ Malware such as Pikabot and Qakbot were seen using similar techniques as well as
 "Potential Recon Activity Using DriverQuery.EXE","high","","process_creation","Detect usage of the ""driverquery"" utility to perform reconnaissance on installed drivers","36d25ea3-c267-467d-2607-8791f67b7e4e"
 "Suspicious Powercfg Execution To Change Lock Screen Timeout","medium","","process_creation","Detects suspicious execution of 'Powercfg.exe' to change lock screen timeout","deb3c0f1-0961-ecf5-5c89-8c7640d2b22f"
 "Harvesting Of Wifi Credentials Via Netsh.EXE","medium","","process_creation","Detect the harvesting of wifi credentials using netsh.exe","bbc6093d-c0e1-e946-62dd-d27307534a1f"
-"Suspicious Process Suspension via WERFaultSecure through EDR-Freeze","high","","process_creation","Detects attempts to freeze a process likely an EDR or an antimalware service process through EDR-Freeze that abuses the WerFaultSecure.exe process to suspend security software.
-","4bf1a6ac-2f14-c4e7-4339-5a28683aa92f"
 "DSInternals Suspicious PowerShell Cmdlets","high","","process_creation","Detects execution and usage of the DSInternals PowerShell module. Which can be used to perform what might be considered as suspicious activity such as dumping DPAPI backup keys or manipulating NTDS.DIT files.
 The DSInternals PowerShell Module exposes several internal features of Active Directory and Azure Active Directory. These include FIDO2 and NGC key auditing, offline ntds.dit file manipulation, password auditing, DC recovery from IFM backups and password hash calculation.
 ","15f30e45-8a75-9af7-3703-c6af70b3d9f5"
@@ -1584,6 +1593,9 @@ This behavior has been observed in-the-wild by different threat actors.
 "Indirect Command Execution By Program Compatibility Wizard","low","","process_creation","Detect indirect command execution via Program Compatibility Assistant pcwrun.exe","f4b28578-b356-1cbb-4554-acd9a8b62c9b"
 "Sticky Key Like Backdoor Execution","critical","","process_creation","Detects the usage and installation of a backdoor that uses an option to register a malicious debugger for built-in tools that are accessible in the login screen","0a237495-b305-87bb-8e26-417ba98a4546"
 "HackTool - Doppelanger LSASS Dumper Execution","high","","process_creation","Detects the execution of the Doppelanger hacktool which is used to dump LSASS memory via process cloning while evading common detection methods","06624157-0db4-9e8c-200f-fcfe2788d3e4"
+"Windows Default Domain GPO Modification via GPME","medium","","process_creation","Detects the use of the Group Policy Management Editor (GPME) to modify Default Domain or Default Domain Controllers Group Policy Objects (GPOs).
+Adversaries may leverage GPME to make stealthy changes in these default GPOs to deploy malicious GPOs configurations across the domain without raising suspicion.
+","d26e0b08-cf8c-dbbe-c4a5-a5c9d082a9fc"
 "Invoke-Obfuscation CLIP+ Launcher","high","","process_creation","Detects Obfuscated use of Clip.exe to execute PowerShell","d2f4e6f8-8091-3df9-bc05-f48b7a951ac8"
 "Potential Privilege Escalation Using Symlink Between Osk and Cmd","high","","process_creation","Detects the creation of a symbolic link between ""cmd.exe"" and the accessibility on-screen keyboard binary (osk.exe) using ""mklink"". This technique provides an elevated command prompt to the user from the login screen without the need to log in.","3644cb9d-2e13-2dcc-497a-9eb0710ac9b8"
 "Suspicious MSDT Parent Process","high","","process_creation","Detects msdt.exe executed by a suspicious parent as seen in CVE-2022-30190 / Follina exploitation","27bbbc51-2674-7c64-0d12-3844deb6cb4b"
@@ -2072,6 +2084,9 @@ This action removes the ""Scan with Microsoft Defender"" option from the right-c
 Attackers may use this technique to hinder manual, on-demand scans and reduce the visibility of the security product.
 ","2f67b2ed-f7b9-c3fd-7e0a-a17cb1920bab"
 "Potential Powershell ReverseShell Connection","high","","process_creation","Detects usage of the ""TcpClient"" class. Which can be abused to establish remote connections and reverse-shells. As seen used by the Nishang ""Invoke-PowerShellTcpOneLine"" reverse shell and other.","0e017e81-3278-cb76-d706-690f05a18a0e"
+"HackTool - WSASS Execution","high","","process_creation","Detects execution of WSASS, a tool used to dump LSASS memory on Windows systems by leveraging WER's
+(Windows Error Reporting) WerFaultSecure.EXE to bypass PPL (Protected Process Light) protections.
+","bc888d54-ae3f-d6dc-43e2-295f3463cc8c"
 "Potential Binary Proxy Execution Via VSDiagnostics.EXE","medium","","process_creation","Detects execution of ""VSDiagnostics.exe"" with the ""start"" command in order to launch and proxy arbitrary binaries.","ef5024d5-3303-f180-2b6c-186303099c26"
 "Netsh Allow Group Policy on Microsoft Defender Firewall","medium","","process_creation","Adversaries may modify system firewalls in order to bypass controls limiting network usage","57fc2f43-fec9-1e23-2c1e-a5bddad94af2"
 "Suspicious Scheduled Task Creation via Masqueraded XML File","medium","","process_creation","Detects the creation of a scheduled task using the ""-XML"" flag with a file without the '.xml' extension. This behavior could be indicative of potential defense evasion attempt during persistence","57b77c31-00b9-0cc8-2bba-b8620f34a730"
@@ -2881,7 +2896,18 @@ This technique is abused by several malware families to hide their files from no
 ","0399e65b-992d-24c3-dc62-0b2904dda8f1"
 "Change Winevt Channel Access Permission Via Registry","high","","registry_set","Detects tampering with the ""ChannelAccess"" registry key in order to change access to Windows event channel.","69cb5d0b-48e9-4795-d7bf-3b3051750973"
 "RDP Sensitive Settings Changed","high","","registry_set","Detects tampering of RDP Terminal Service/Server sensitive settings.
-Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections'...etc
+Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.
+
+Below is a list of registry keys/values that are monitored by this rule:
+
+- Shadow: Used to enable Remote Desktop shadowing, which allows an administrator to view or control a user's session.
+- DisableRemoteDesktopAntiAlias: Disables anti-aliasing for remote desktop sessions.
+- DisableSecuritySettings: Disables certain security settings for Remote Desktop connections.
+- fAllowUnsolicited: Allows unsolicited remote assistance offers.
+- fAllowUnsolicitedFullControl: Allows unsolicited remote assistance offers with full control.
+- InitialProgram: Specifies a program to run automatically when a user logs on to a remote computer.
+- ServiceDll: Used in RDP hijacking techniques to specify a custom DLL to be loaded by the Terminal Services service.
+- SecurityLayer: Specifies the security layer used for RDP connections.
 ","24cd048b-21d4-3957-a68d-e073a077e305"
 "Potential Persistence Using DebugPath","medium","","registry_set","Detects potential persistence using Appx DebugPath","7e39f9c6-fca2-d20b-c975-48062f7ac3e0"
 "Allow RDP Remote Assistance Feature","medium","","registry_set","Detect enable rdp feature to allow specific user to rdp connect on the targeted machine","8a77badb-a001-0da9-9213-ba6efbd70a95"
