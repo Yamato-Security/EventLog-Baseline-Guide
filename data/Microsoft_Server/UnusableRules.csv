@@ -428,7 +428,18 @@ This technique is abused by several malware families to hide their files from no
 ","0399e65b-992d-24c3-dc62-0b2904dda8f1"
 "Change Winevt Channel Access Permission Via Registry","high","","registry_set","Detects tampering with the ""ChannelAccess"" registry key in order to change access to Windows event channel.","69cb5d0b-48e9-4795-d7bf-3b3051750973"
 "RDP Sensitive Settings Changed","high","","registry_set","Detects tampering of RDP Terminal Service/Server sensitive settings.
-Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections'...etc
+Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.
+
+Below is a list of registry keys/values that are monitored by this rule:
+
+- Shadow: Used to enable Remote Desktop shadowing, which allows an administrator to view or control a user's session.
+- DisableRemoteDesktopAntiAlias: Disables anti-aliasing for remote desktop sessions.
+- DisableSecuritySettings: Disables certain security settings for Remote Desktop connections.
+- fAllowUnsolicited: Allows unsolicited remote assistance offers.
+- fAllowUnsolicitedFullControl: Allows unsolicited remote assistance offers with full control.
+- InitialProgram: Specifies a program to run automatically when a user logs on to a remote computer.
+- ServiceDll: Used in RDP hijacking techniques to specify a custom DLL to be loaded by the Terminal Services service.
+- SecurityLayer: Specifies the security layer used for RDP connections.
 ","24cd048b-21d4-3957-a68d-e073a077e305"
 "Potential Persistence Using DebugPath","medium","","registry_set","Detects potential persistence using Appx DebugPath","7e39f9c6-fca2-d20b-c975-48062f7ac3e0"
 "Allow RDP Remote Assistance Feature","medium","","registry_set","Detect enable rdp feature to allow specific user to rdp connect on the targeted machine","8a77badb-a001-0da9-9213-ba6efbd70a95"
