@@ -2555,6 +2555,7 @@ Below is a list of registry keys/values that are monitored by this rule:
 By simplify specifying an arbitrary value (e.g. fake output location or junk data) for the expected value, a Usage Log file for the .NET execution context will not be created.
 ","9f6b7775-4d86-0f98-45b5-2cfac0e410e7"
 "COM Object Hijacking Via Modification Of Default System CLSID Default Value","high","","registry_set","Detects potential COM object hijacking via modification of default system CLSID.","f27c3f9d-33e2-2ee6-64f7-a34b895b6379"
+"Potential Persistence Via Logon Scripts - Registry","medium","","registry_set","Detects creation of ""UserInitMprLogonScript"" registry value which can be used as a persistence method by malicious actors","0da35962-3561-b764-e139-bb1cd58ed292"
 "Execution DLL of Choice Using WAB.EXE","high","","registry_set","This rule detects that the path to the DLL written in the registry is different from the default one. Launched WAB.exe tries to load the DLL from Registry.","027f1f5f-4aa7-ac2c-d8c2-084da4eaee3d"
 "Disable Windows Defender Functionalities Via Registry Keys","high","","registry_set","Detects when attackers or tools disable Windows Defender functionalities via the Windows registry","14e19d39-b1be-4903-56be-684b57d45e16"
 "Driver Added To Disallowed Images In HVCI - Registry","high","","registry_set","Detects changes to the ""HVCIDisallowedImages"" registry value to potentially add a driver to the list, in order to prevent it from loading.
@@ -2643,6 +2644,7 @@ The ""Extensions"" list contains filenames of DLLs being automatically loaded by
 ","8d0dc35f-6c19-c320-3d86-8bd087469dbe"
 "UAC Bypass Abusing Winsat Path Parsing - Registry","high","","registry_set","Detects the pattern of UAC Bypass using a path parsing issue in winsat.exe (UACMe 52)","c5041759-c026-94ae-a6d4-6e6bfbfa3d0c"
 "Potential Signing Bypass Via Windows Developer Features - Registry","high","","registry_set","Detects when the enablement of developer features such as ""Developer Mode"" or ""Application Sideloading"". Which allows the user to install untrusted packages.","eea69d1c-b62d-d58f-4ee3-82f9053a20ea"
+"PUA - Sysinternal Tool Execution - Registry","low","","registry_set","Detects the execution of a Sysinternals Tool via the creation of the ""accepteula"" registry key","af922adb-02c2-1288-4d6b-ff5dae59b827"
 "Persistence Via Hhctrl.ocx","high","","registry_set","Detects when an attacker modifies the registry value of the ""hhctrl"" to point to a custom binary","6e7e4fc7-4279-156d-6a7b-f6c593f51098"
 "Activate Suppression of Windows Security Center Notifications","medium","","registry_set","Detect set Notification_Suppress to 1 to disable the Windows security center notification","b0b20369-6a44-df4d-5671-a85b5eb960dd"
 "Disable Exploit Guard Network Protection on Windows Defender","medium","","registry_set","Detects disabling Windows Defender Exploit Guard Network Protection","a1e4b72a-2af2-0002-fb44-971730e2befa"
@@ -2674,6 +2676,8 @@ Adversary may want to disable this service to disable logging of security events
 ","bff51a59-a1b9-f1f5-f5e4-ac2e523d572a"
 "New Netsh Helper DLL Registered From A Suspicious Location","high","","registry_set","Detects changes to the Netsh registry key to add a new DLL value that is located on a suspicious location. This change might be an indication of a potential persistence attempt by adding a malicious Netsh helper
 ","57fba93d-7938-c3fd-109b-6d1fb6037e2c"
+"PUA - Sysinternals Tools Execution - Registry","medium","","registry_set","Detects the execution of some potentially unwanted tools such as PsExec, Procdump, etc. (part of the Sysinternals suite) via the creation of the ""accepteula"" registry key.","bd0a6eeb-f8ff-5924-93f2-e201f47241e9"
+"Suspicious Execution Of Renamed Sysinternals Tools - Registry","high","","registry_set","Detects the creation of the ""accepteula"" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)","cb258594-8848-f96f-38de-011c2d6ddcea"
 "Registry Hide Function from User","medium","","registry_set","Detects registry modifications that hide internal tools or functions from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)","e95c5cb7-fd08-cb3b-14e8-d0a4287e6f68"
 "PowerShell as a Service in Registry","high","","registry_set","Detects that a powershell code is written to the registry as a service.","891340b3-d63e-73d0-742f-b481f911074c"
 "VBScript Payload Stored in Registry","high","","registry_set","Detects VBScript content stored into registry keys as seen being used by UNC2452 group","edcac99a-55ef-aa9c-92a3-d9c9d7e1e46e"
@@ -2744,6 +2748,10 @@ The Microsoft Windows Application Compatibility Infrastructure/Framework (Applic
 This can be used to hide internet activity or be used to hide the process of exfiltrating data.
 With this enabled organization will lose visibility into data such as query type, response and originating IP that are used to determine bad actors.
 ","22adc86b-0198-3dfd-0cc2-f686d342be66"
+"Potential Persistence Via New AMSI Providers - Registry","medium","","registry_set","Detects when an attacker adds a new AMSI provider via the Windows Registry to bypass AMSI (Antimalware Scan Interface) protections.
+Attackers may add custom AMSI providers to persist on the system and evade detection by security software that relies on AMSI for scanning scripts and other content.
+This technique is often used in conjunction with fileless malware and script-based attacks to maintain persistence while avoiding detection.
+","aa281ce3-f044-9f6c-dc0e-5c180efeeff5"
 "Scripted Diagnostics Turn Off Check Enabled - Registry","medium","","registry_set","Detects enabling TurnOffCheck which can be used to bypass defense of MSDT Follina vulnerability","5726e5a8-ce24-8360-cfb3-731d16ed8aca"
 "Disable Administrative Share Creation at Startup","medium","","registry_set","Administrative shares are hidden network shares created by Microsoft Windows NT operating systems that grant system administrators remote access to every disk volume on a network-connected system","2946c058-5b67-3779-9a29-6cd622926e09"
 "Windows Recall Feature Enabled - Registry","medium","","registry_set","Detects the enabling of the Windows Recall feature via registry manipulation. Windows Recall can be enabled by setting the value of ""DisableAIDataAnalysis"" to ""0"".
@@ -2765,16 +2773,11 @@ Second, to prepend information to the PATH environment variable on a per-applica
 This is often used as a method of persistence.
 ","7d12e91a-b670-4461-8bdc-aff5b37eda63"
 "Suspicious Printer Driver Empty Manufacturer","high","","registry_set","Detects a suspicious printer driver installation with an empty Manufacturer value","21c41e20-e274-bd0e-e22d-072fc5e0962d"
+"Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_set","Detects COM object hijacking via TreatAs subkey","9b23f158-004c-60b3-35ff-4bf653179230"
 "Antivirus Filter Driver Disallowed On Dev Drive - Registry","high","","registry_set","Detects activity that indicates a user disabling the ability for Antivirus mini filter to inspect a ""Dev Drive"".
 ","068836cf-abab-c1b2-804b-c9f34e4445aa"
 "Office Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","cb43927e-70c4-47e4-6121-af9fb00a6a77"
 "New File Association Using Exefile","high","","registry_set","Detects the abuse of the exefile handler in new file association. Used for bypass of security products.","b0fb77bd-c468-c8dd-1a84-96bf79d003a7"
-"Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_add","Detects COM object hijacking via TreatAs subkey","6b4b0ded-e40c-4d49-68f0-b78339d9587e"
-"Potential Persistence Via New AMSI Providers - Registry","high","","registry_add","Detects when an attacker registers a new AMSI provider in order to achieve persistence","d8884952-23ce-8a65-d998-cb775a119c95"
-"Suspicious Execution Of Renamed Sysinternals Tools - Registry","high","","registry_add","Detects the creation of the ""accepteula"" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)","6a724c01-e3a5-3f08-0a26-a25aab47a2d1"
-"PUA - Sysinternals Tools Execution - Registry","medium","","registry_add","Detects the execution of some potentially unwanted tools such as PsExec, Procdump, etc. (part of the Sysinternals suite) via the creation of the ""accepteula"" registry key.","cab7e60f-55aa-b72e-1943-4d3980028a43"
-"Potential Persistence Via Logon Scripts - Registry","medium","","registry_add","Detects creation of ""UserInitMprLogonScript"" registry value which can be used as a persistence method by malicious actors","c6a4d8a3-8e7d-30b4-a6f0-aee8a87463bf"
-"PUA - Sysinternal Tool Execution - Registry","low","","registry_add","Detects the execution of a Sysinternals Tool via the creation of the ""accepteula"" registry key","08427b1c-3ceb-9aa5-7d8d-84dfc1531fb8"
 "Potential Persistence Via Disk Cleanup Handler - Registry","medium","","registry_add","Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
 The disk cleanup manager is part of the operating system. It displays the dialog box […]
 The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
