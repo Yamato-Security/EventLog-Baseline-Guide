@@ -190,6 +190,11 @@ An initial baseline is required before using this utility to exclude third party
 The Microsoft Dialer, also known as Phone Dialer, is a built-in utility application included in various versions of the Microsoft Windows operating system. Its primary function is to provide users with a graphical interface for managing phone calls via a modem or a phone line connected to the computer.
 This is an outdated process in the current conext of it's usage and is a common target for info stealers for process injection, and is used to make C2 connections, common example is ""Rhadamanthys""
 ","fa5330d2-19f1-4167-52a0-fb622b6425f8"
+"Network Connection Initiated via Finger.EXE","high","","network_connection","Detects network connections via finger.exe, which can be abused by threat actors to retrieve remote commands for execution on Windows devices.
+In one ClickFix malware campaign, adversaries leveraged the finger protocol to fetch commands from a remote server.
+Since the finger utility is not commonly used in modern Windows environments, its presence already raises suspicion.
+Investigating such network connections can also help identify potential malicious infrastructure used by threat actors
+","a3b5d397-bb25-cb4b-faec-891a579c8a0f"
 "Uncommon Outbound Kerberos Connection","medium","","network_connection","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
 ","7c743e5c-7a9d-ba96-9ada-1d17687e2a6d"
 "Communication To Uncommon Destination Ports","medium","","network_connection","Detects programs that connect to uncommon destination ports","7983db98-5767-b29d-2652-a01fd3e751ad"
@@ -440,7 +445,8 @@ If the ""DsrmAdminLogonBehavior"" value is set to ""0"", the administrator accou
 If the ""DsrmAdminLogonBehavior"" value is set to ""1"", the administrator account can only be used if the local AD DS service is stopped.
 If the ""DsrmAdminLogonBehavior"" value is set to ""2"", the administrator account can always be used.
 ","04c29127-1ef3-f2f5-5b26-645eb052c42d"
-"FileFix - Command Evidence in TypedPaths from Browser File Upload Abuse","high","","registry_set","Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.","57a468ba-845c-797e-81fb-79970450803a"
+"FileFix - Command Evidence in TypedPaths","high","","registry_set","Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+","57a468ba-845c-797e-81fb-79970450803a"
 "Periodic Backup For System Registry Hives Enabled","medium","","registry_set","Detects the enabling of the ""EnablePeriodicBackup"" registry value. Once enabled, The OS will backup System registry hives on restarts to the ""C:\Windows\System32\config\RegBack"" folder. Windows creates a ""RegIdleBackup"" task to manage subsequent backups.
 Registry backup was a default behavior on Windows and was disabled as of ""Windows 10, version 1803"".
 ","08ad005b-9676-0872-2751-56c87d6c1385"
