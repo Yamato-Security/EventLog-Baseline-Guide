@@ -153,10 +153,6 @@ This facilitates executing malicious payloads or connecting with C&C server pers
 "Potentially Suspicious Office Document Executed From Trusted Location","high","","process_creation","Detects the execution of an Office application that points to a document that is located in a trusted location. Attackers often used this to avoid macro security and execute their malicious code.","773a2339-22b1-7f0c-c821-a5831b6a43cc"
 "Potentially Suspicious Execution Of Regasm/Regsvcs With Uncommon Extension","medium","","process_creation","Detects potentially suspicious execution of the Regasm/Regsvcs utilities with an uncommon extension.","ba17b43d-ff78-598e-3e48-6f7f77abce52"
 "Suspicious Splwow64 Without Params","high","","process_creation","Detects suspicious Splwow64.exe process without any command line parameters","a3eb659a-2a75-984c-1dd1-a034449b5d3a"
-"FileFix - Suspicious Child Process from Browser File Upload Abuse","high","","process_creation","Detects potentially suspicious subprocesses such as LOLBINs spawned by web browsers. This activity could be associated with the ""FileFix"" social engineering technique,
-where users are tricked into launching the file explorer via a browser-based phishing page and pasting malicious commands into the address bar.
-The technique abuses clipboard manipulation and disguises command execution as benign file path access, resulting in covert execution of system utilities.
-","0b4162ed-2534-2656-6d4a-8d2ad218617b"
 "Use of TTDInject.exe","medium","","process_creation","Detects the executiob of TTDInject.exe, which is used by Windows 10 v1809 and newer to debug time travel (underlying call of tttracer.exe)","86bcf883-2f53-b6b7-c766-0240f0ce79cf"
 "Potentially Suspicious File Download From File Sharing Domain Via PowerShell.EXE","high","","process_creation","Detects potentially suspicious file downloads from file sharing domains using PowerShell.exe","a84f4bc1-ba9a-517d-9339-0a232578cf27"
 "PUA - Nmap/Zenmap Execution","medium","","process_creation","Detects usage of namp/zenmap. Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation","45b0c0bb-7d7a-7e71-e757-cdd2508c0105"
@@ -640,6 +636,11 @@ An example would be a threat actor creating a new user via the net command and p
 "HackTool - CoercedPotato Execution","high","","process_creation","Detects the use of CoercedPotato, a tool for privilege escalation","75a96fdd-ec6a-1351-5cf2-00b8606831fe"
 "Direct Autorun Keys Modification","medium","","process_creation","Detects direct modification of autostart extensibility point (ASEP) in registry using reg.exe.","9137ba87-68d5-272d-9ada-3803321cb4c4"
 "HackTool - SharpEvtMute Execution","high","","process_creation","Detects the use of SharpEvtHook, a tool that tampers with the Windows event logs","d8a821b1-813e-ed4c-5b7d-a4bf59182a64"
+"Suspicious FileFix Execution Pattern","high","","process_creation","Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+","39a7ff4f-7a61-5234-9aa3-5b9e4e7a5871"
 "Cloudflared Tunnel Execution","medium","","process_creation","Detects execution of the ""cloudflared"" tool to connect back to a tunnel. This was seen used by threat actors to maintain persistence and remote access to compromised networks.","0fea9c26-5302-3b51-7884-b9ed47e74157"
 "Potentially Suspicious GoogleUpdate Child Process","high","","process_creation","Detects potentially suspicious child processes of ""GoogleUpdate.exe""","54947316-2baa-1515-3a10-8569020a445a"
 "Dumping Process via Sqldumper.exe","medium","","process_creation","Detects process dump via legitimate sqldumper.exe binary","38362740-fe8e-6e9d-79ad-a290fe8d5190"
@@ -1632,6 +1633,10 @@ As a result, the NT AUTHORITY/SYSTEM user can execute the taskkill /im command s
 "Potential MSTSC Shadowing Activity","high","","process_creation","Detects RDP session hijacking by using MSTSC shadowing","5e22c0e7-bde8-560d-0187-ee4134940af6"
 "Suspicious Process Patterns NTDS.DIT Exfil","high","","process_creation","Detects suspicious process patterns used in NTDS.DIT exfiltration","1fb003fd-3505-dd3d-39c9-067a836b7257"
 "Visual Studio Code Tunnel Shell Execution","medium","","process_creation","Detects the execution of a shell (powershell, bash, wsl...) via Visual Studio Code tunnel. Attackers can abuse this functionality to establish a C2 channel and execute arbitrary commands on the system.","88689b5a-5cf9-4b6b-f596-66cc471db969"
+"Renamed Schtasks Execution","high","","process_creation","Detects the execution of renamed schtasks.exe binary, which is a legitimate Windows utility used for scheduling tasks.
+One of the very common persistence techniques is schedule malicious tasks using schtasks.exe.
+Since, it is heavily abused, it is also heavily monitored by security products. To evade detection, threat actors may rename the schtasks.exe binary to schedule their malicious tasks.
+","a486f17b-eaee-229e-d26a-e116c45e3988"
 "Potential Provisioning Registry Key Abuse For Binary Proxy Execution","high","","process_creation","Detects potential abuse of the provisioning registry key for indirect command execution through ""Provlaunch.exe"".","59996aa8-9ca2-1ef7-5102-ad18e12d4402"
 "Change Default File Association Via Assoc","low","","process_creation","Detects file association changes using the builtin ""assoc"" command.
 When a file is opened, the default program used to open the file (also called the file association or handler) is checked. File association selections are stored in the Windows Registry and can be edited by users, administrators, or programs that have Registry access or by administrators using the built-in assoc utility. Applications can modify the file association for a given file extension to call an arbitrary program when a file with the given extension is opened.
@@ -1951,6 +1956,9 @@ This behavior is indicative of post-exploitation activity related to CVE-2025-10
 This could be an indicator of an attacker exploiting CVE-2025-57788 to gain initial access using leaked credentials.
 ","1ebc60e4-712a-f776-9f31-209948f97a00"
 "Kalambur Backdoor Curl TOR SOCKS Proxy Execution","high","","process_creation","Detects the execution of the ""curl.exe"" command, referencing ""SOCKS"" and "".onion"" domains, which could be indicative of Kalambur backdoor activity.","073e0fdf-35a4-362b-a1c6-2b1b41c71231"
+"Grixba Malware Reconnaissance Activity","high","","process_creation","Detects execution of the Grixba reconnaissance tool based on suspicious command-line parameter combinations.
+This tool is used by the Play ransomware group for network enumeration, data gathering, and event log clearing.
+","1c8620c4-b90c-4882-5c40-7e634a10c529"
 "Exploit for CVE-2015-1641","critical","","process_creation","Detects Winword starting uncommon sub process MicroScMgmt.exe as used in exploits for CVE-2015-1641","a13f506e-fac9-0e14-f1b5-1cfbe9c57e46"
 "CVE-2023-22518 Exploitation Attempt - Suspicious Confluence Child Process (Windows)","medium","","process_creation","Detects exploitation attempt of CVE-2023-22518 (Confluence Data Center / Confluence Server), where an attacker can exploit vulnerable endpoints to e.g. create admin accounts and execute arbitrary commands.
 ","b7a9b3d7-4d7a-c3f3-3d76-9b3c30db223c"
@@ -2018,6 +2026,10 @@ Monitor process creation with ""wmic process call create"" and LOLBins in comman
 ","72d5e2d6-b55d-f6aa-2db3-4a5fd0d1dd98"
 "PsExec Service Start","low","","process_creation","Detects a PsExec service start","0dc4e02b-cd15-c6bf-f6ef-134ff49fa620"
 "Suspicious Execution of Sc to Delete AV Services","high","","process_creation","Detects when attackers use ""sc.exe"" to delete AV services from the system in order to avoid detection","84bff3a1-2282-883e-eaff-6e74ffbf1e5f"
+"FileFix - Suspicious Child Process from Browser File Upload Abuse","high","","process_creation","Detects potentially suspicious subprocesses such as LOLBINs spawned by web browsers. This activity could be associated with the ""FileFix"" social engineering technique,
+where users are tricked into launching the file explorer via a browser-based phishing page and pasting malicious commands into the address bar.
+The technique abuses clipboard manipulation and disguises command execution as benign file path access, resulting in covert execution of system utilities.
+","0b4162ed-2534-2656-6d4a-8d2ad218617b"
 "Potential PowerShell Base64 Encoded Shellcode","medium","","process_creation","Detects potential powershell Base64 encoded Shellcode","2d9870fb-01d3-f66f-b058-9bd90d56418d"
 "Potential Xor Encoded PowerShell Command","medium","","process_creation","Detects usage of ""xor"" or ""bxor"" in combination of a ""foreach"" loop. This pattern is often found in encoded powershell code and commands as a way to avoid detection","405d20b3-771f-a808-6794-c0aae7cf9cf6"
 "Stop Windows Service","low","","process_creation","Detects a Windows service to be stopped","5e1aa8a2-0c7e-a580-4093-894302350358"
@@ -2263,6 +2275,11 @@ An initial baseline is required before using this utility to exclude third party
 The Microsoft Dialer, also known as Phone Dialer, is a built-in utility application included in various versions of the Microsoft Windows operating system. Its primary function is to provide users with a graphical interface for managing phone calls via a modem or a phone line connected to the computer.
 This is an outdated process in the current conext of it's usage and is a common target for info stealers for process injection, and is used to make C2 connections, common example is ""Rhadamanthys""
 ","fa5330d2-19f1-4167-52a0-fb622b6425f8"
+"Network Connection Initiated via Finger.EXE","high","","network_connection","Detects network connections via finger.exe, which can be abused by threat actors to retrieve remote commands for execution on Windows devices.
+In one ClickFix malware campaign, adversaries leveraged the finger protocol to fetch commands from a remote server.
+Since the finger utility is not commonly used in modern Windows environments, its presence already raises suspicion.
+Investigating such network connections can also help identify potential malicious infrastructure used by threat actors
+","a3b5d397-bb25-cb4b-faec-891a579c8a0f"
 "Uncommon Outbound Kerberos Connection","medium","","network_connection","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
 ","7c743e5c-7a9d-ba96-9ada-1d17687e2a6d"
 "Communication To Uncommon Destination Ports","medium","","network_connection","Detects programs that connect to uncommon destination ports","7983db98-5767-b29d-2652-a01fd3e751ad"
@@ -2513,7 +2530,8 @@ If the ""DsrmAdminLogonBehavior"" value is set to ""0"", the administrator accou
 If the ""DsrmAdminLogonBehavior"" value is set to ""1"", the administrator account can only be used if the local AD DS service is stopped.
 If the ""DsrmAdminLogonBehavior"" value is set to ""2"", the administrator account can always be used.
 ","04c29127-1ef3-f2f5-5b26-645eb052c42d"
-"FileFix - Command Evidence in TypedPaths from Browser File Upload Abuse","high","","registry_set","Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.","57a468ba-845c-797e-81fb-79970450803a"
+"FileFix - Command Evidence in TypedPaths","high","","registry_set","Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+","57a468ba-845c-797e-81fb-79970450803a"
 "Periodic Backup For System Registry Hives Enabled","medium","","registry_set","Detects the enabling of the ""EnablePeriodicBackup"" registry value. Once enabled, The OS will backup System registry hives on restarts to the ""C:\Windows\System32\config\RegBack"" folder. Windows creates a ""RegIdleBackup"" task to manage subsequent backups.
 Registry backup was a default behavior on Windows and was disabled as of ""Windows 10, version 1803"".
 ","08ad005b-9676-0872-2751-56c87d6c1385"
