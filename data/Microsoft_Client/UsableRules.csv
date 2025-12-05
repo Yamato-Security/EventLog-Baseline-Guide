@@ -1931,6 +1931,10 @@ Instead they modify the task after creation to include their malicious payload
 "CobaltStrike Load by Rundll32","high","","process_creation","Rundll32 can be use by Cobalt Strike with StartW function to load DLLs from the command line.","62995636-6f75-677a-428e-531368fbda08"
 "Remote Access Tool - AnyDesk Silent Installation","high","","process_creation","Detects AnyDesk Remote Desktop silent installation. Which can be used by attackers to gain remote access.","1ec0b8fb-050d-074d-7209-6c4c724f24cb"
 "LSA PPL Protection Disabled Via Reg.EXE","high","","process_creation","Detects the usage of the ""reg.exe"" utility to disable PPL protection on the LSA process","a6a22651-ffaa-7713-8313-46ce8a85ad64"
+"Github Self-Hosted Runner Execution","medium","","process_creation","Detects GitHub self-hosted runners executing workflows on local infrastructure that could be abused for persistence and code execution.
+Shai-Hulud is an npm supply chain worm targeting CI/CD environments.
+It installs runners on compromised systems to maintain access after credential theft, leveraging their access to secrets and internal networks.
+","8bccab82-71a3-be5f-ca79-65177198888e"
 "PsExec Service Execution","medium","","process_creation","Detects launch of the PSEXESVC service, which means that this system was the target of a psexec remote execution","063b6d5e-3f4e-c3a0-f506-0f8296b9eec4"
 "WSL Child Process Anomaly","medium","","process_creation","Detects uncommon or suspicious child processes spawning from a WSL process. This could indicate an attempt to evade parent/child relationship detections or persistence attempts via cron using WSL","481a16ec-1b88-6a7a-78b7-eedff1d69951"
 "WinRAR Execution in Non-Standard Folder","medium","","process_creation","Detects a suspicious WinRAR execution in a folder which is not the default installation folder","91a429e4-2bb4-05ef-b164-545b86f9ba8e"
