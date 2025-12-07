@@ -2227,6 +2227,11 @@ Investigate the command line options provided to ""iexpress"" and in case of a "
 ","8a0a2c60-bc08-2e90-8f92-1da8d1f8499b"
 "Set Files as System Files Using Attrib.EXE","low","","process_creation","Detects the execution of ""attrib"" with the ""+s"" flag to mark files as system files","78135073-a4b1-9708-8e2f-dced9caf0c32"
 "Diskshadow Child Process Spawned","medium","","process_creation","Detects any child process spawning from ""Diskshadow.exe"". This could be due to executing Diskshadow in interpreter mode or script mode and using the ""exec"" flag to launch other applications.","65955846-8a6d-8beb-af3d-ad2cdaf58f82"
+"HTML File Opened From Download Folder","low","","process_creation","Detects web browser process opening an HTML file from a user's Downloads folder.
+This behavior is could be associated with phishing attacks where threat actors send HTML attachments to users.
+When a user opens such an attachment, it can lead to the execution of malicious scripts or the download of malware.
+During investigation, analyze the HTML file for embedded scripts or links, check for any subsequent downloads or process executions, and investigate the source of the email or message containing the attachment.
+","8b781f18-3b36-6681-745e-a4b6192755b6"
 "Net.EXE Execution","low","","process_creation","Detects execution of ""Net.EXE"".","e0f16539-f1cb-5cb9-0004-f3a040346952"
 "File Download Via Curl.EXE","medium","","process_creation","Detects file download using curl.exe","8a760077-f6df-d8ae-baaa-b183b988ac04"
 "Password Protected Compressed File Extraction Via 7Zip","low","","process_creation","Detects usage of 7zip utilities (7z.exe, 7za.exe and 7zr.exe) to extract password protected zip files.","9938bbf1-ddc1-5cb0-3fc5-5f55abdba2c0"
