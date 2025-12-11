@@ -2466,6 +2466,11 @@ The vulnerability is triggered when the installer attempts to register the NppSh
 "Potential Exploitation of GoAnywhere MFT Vulnerability","high","","process_creation","Detects suspicious command execution by child processes of the GoAnywhere Managed File Transfer (MFT) application, which may indicate exploitation such as CVE-2025-10035.
 This behavior is indicative of post-exploitation activity related to CVE-2025-10035, as observed in campaigns by the threat actor Storm-1175.
 ","0e43ac6e-2ec6-bfd2-6821-ebaa244692cb"
+"Windows Suspicious Child Process from Node.js - React2Shell","high","","process_creation","Detects suspicious child processes started by Node.js server processes on Windows, which may indicate exploitation of vulnerabilities like CVE-2025-55182 (React2Shell).
+Attackers can abuse the Node.js 'child_process' module to run system commands or scripts using methods such as spawn(), exec(), execFile(), fork(), or execSync().
+If execSync() or exec() is used in the exploit, the command line often shows a shell (e.g., cmd.exe /d /s /c ...) running a suspicious command unless other shells are explicitly invoked.
+For other methods, the spawned process appears directly in the Image field unless a shell is explicitly used.
+","1c4b959a-6cd0-e507-c560-8d70fe58d9e2"
 "Commvault QLogin with PublicSharingUser and GUID Password (CVE-2025-57788)","medium","","process_creation","Detects a qlogin.exe command attempting to authenticate as the internal `_+_PublicSharingUser_` using a GUID as the password.
 This could be an indicator of an attacker exploiting CVE-2025-57788 to gain initial access using leaked credentials.
 ","1ebc60e4-712a-f776-9f31-209948f97a00"
