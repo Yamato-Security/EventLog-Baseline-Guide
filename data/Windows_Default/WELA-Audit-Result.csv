@@ -21,7 +21,7 @@
 "Security Advanced (Account Management)","Security Group Management","12","critical:0, high:5, medium:2, low:5, info:0","Success","Success","Success and Failure","Low",""
 "Security Advanced (Account Management)","User Account Management","13","critical:0, high:7, medium:4, low:2, info:0","Success","Success","Success and Failure","Low",""
 "Security Advanced (Detailed Tracking)","Plug and Play Events","2","critical:0, high:0, medium:1, low:1, info:0","No Auditing","No Auditing","Success and Failure","Low",""
-"Security Advanced (Detailed Tracking)","Process Creation","1376","critical:69, high:666, medium:552, low:86, info:3","No Auditing","No Auditing","Success and Failure","High","if sysmon is not configured"
+"Security Advanced (Detailed Tracking)","Process Creation","1377","critical:69, high:667, medium:552, low:86, info:3","No Auditing","No Auditing","Success and Failure","High","if sysmon is not configured"
 "Security Advanced (Detailed Tracking)","Process Termination","1","critical:0, high:1, medium:0, low:0, info:0","No Auditing","No Auditing","No Auditing","High","unless you want to track the lifespan of processes"
 "Security Advanced (Detailed Tracking)","RPC Events","0","critical:0, high:0, medium:0, low:0, info:0","No Auditing","No Auditing","No Auditing","High on RPC servers (According to Microsoft)",""
 "Security Advanced (Detailed Tracking)","Token Right Adjusted Events","0","critical:0, high:0, medium:0, low:0, info:0","No Auditing","No Auditing","No Auditing","",""
