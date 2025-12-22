@@ -1238,6 +1238,11 @@ SharpDPAPI is a C# port of some DPAPI functionality from the Mimikatz project.
 ","e653c5ce-5d53-8f18-097d-affbeeb0425a"
 "PUA - DIT Snapshot Viewer","high","","process_creation","Detects the use of Ditsnap tool, an inspection tool for Active Directory database, ntds.dit.","835ff144-018a-4ec5-3788-ea773f0fd869"
 "Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE","medium","","process_creation","Detects the start of a non built-in assistive technology applications via ""Atbroker.EXE"".","d5a94ccf-58fd-7481-3683-e59fbf33e8c1"
+"Suspicious ArcSOC.exe Child Process","high","","process_creation","Detects script interpreters, command-line tools, and similar suspicious child processes of ArcSOC.exe.
+ArcSOC.exe is the process name which hosts ArcGIS Server REST services. If an attacker compromises an ArcGIS
+Server system and uploads a malicious Server Object Extension (SOE), they can send crafted requests to the corresponding
+service endpoint and remotely execute code from the ArcSOC.exe process.
+","d4628de3-7e9e-1642-82ff-6193190934eb"
 "Service Reconnaissance Via Wmic.EXE","medium","","process_creation","An adversary might use WMI to check if a certain remote service is running on a remote device.
 When the test completes, a service information will be displayed on the screen if it exists.
 A common feedback message is that ""No instance(s) Available"" if the service queried is not running.
