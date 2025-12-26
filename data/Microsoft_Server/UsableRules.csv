@@ -25,7 +25,9 @@ Unfortunately, that is about the only instance of CVEs being written to this log
 ","f1c99d55-8f38-1ae5-19b6-71d4124f4c46"
 "Relevant Anti-Virus Signature Keywords In Application Log","high","application","","Detects potentially highly relevant antivirus events in the application log based on known virus signature names and malware keywords.
 ","b0f698cd-af36-2a37-ce9f-2ab614a8b808"
-"Potential Credential Dumping Via WER - Application","high","application","","Detects Windows error reporting event where the process that crashed is lsass. This could be the cause of an intentional crash by techniques such as Lsass-Shtinkering to dump credential","fcc29ed2-c7fa-1b44-6db4-de352c7cf1b8"
+"LSASS Process Crashed - Application","high","application","","Detects Windows error reporting events where the process that crashed is LSASS (Local Security Authority Subsystem Service).
+This could be the cause of a provoked crash by techniques such as Lsass-Shtinkering to dump credentials.
+","fcc29ed2-c7fa-1b44-6db4-de352c7cf1b8"
 "Microsoft Malware Protection Engine Crash","high","application","","This rule detects a suspicious crash of the Microsoft Malware Protection Engine","24cdd840-5da1-6c12-5b58-4da49cc4b11a"
 "CVE-2024-49113 Exploitation Attempt - LDAP Nightmare","high","application","","Detects exploitation attempt of CVE-2024-49113 known as LDAP Nightmare, based on ""Application Error"" log where the faulting application is ""lsass.exe"" and the faulting module is ""WLDAP32.dll"".
 ","1117f6c7-1c68-9c6e-c3e8-191e9d687387"
@@ -50,7 +52,8 @@ Additionally, the directory \Users\TEMP may be created during exploitation. This
 %Data[6]%: Not sure.
 Binary: Not sure how to decode.
 ","ef118d4d-ef83-40a7-bb27-2bb3945473ee"
-"File Was Not Allowed To Run","medium","applocker","","Detect run not allowed files. Applocker is a very useful tool, especially on servers where unprivileged users have access. For example terminal servers. You need configure applocker and log collect to receive these events.","da0e47f5-493f-9da4-b041-8eb762761118"
+"AppLocker Prevented Application or Script from Running","medium","applocker","","Detects when AppLocker prevents the execution of an Application, DLL, Script, MSI, or Packaged-App from running.
+","da0e47f5-493f-9da4-b041-8eb762761118"
 "BITS Transfer Job With Uncommon Or Suspicious Remote TLD","medium","bits-client","","Detects a suspicious download using the BITS client from a FQDN that is unusual. Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads.","8a389ad3-d0c7-ef8c-1fb3-5bb7e31bcf7f"
 "BITS Transfer Job Downloading File Potential Suspicious Extension","medium","bits-client","","Detects new BITS transfer job saving local files with potential suspicious extensions","b37c7d8f-22b8-a92d-1d1c-593de0fa759e"
 "BITS Transfer Job Download From Direct IP","high","bits-client","","Detects a BITS transfer job downloading file(s) from a direct IP address.","5e8a986a-7579-0482-f86e-ad63f6341cd1"
