@@ -651,6 +651,9 @@ Threat actors could run malicious code through the new Microsoft Excel feature t
 "Hide Schedule Task Via Index Value Tamper","high","","registry_set","Detects when the ""index"" value of a scheduled task is modified from the registry
 Which effectively hides it from any tooling such as ""schtasks /query"" (Read the referenced link for more information about the effects of this technique)
 ","8f22d1f4-6491-fcf7-858d-c2e73bcb8c48"
+"Registry Modification for OCI DLL Redirection","high","","registry_set","Detects registry modifications related to 'OracleOciLib' and 'OracleOciLibPath' under 'MSDTC' settings.
+Threat actors may modify these registry keys to redirect the loading of 'oci.dll' to a malicious DLL, facilitating phantom DLL hijacking via the MSDTC service.
+","0a08ca66-94db-9391-8eb0-82e91312a056"
 "Potential Persistence Via Shim Database Modification","medium","","registry_set","Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims.
 The Microsoft Windows Application Compatibility Infrastructure/Framework (Application Shim) was created to allow for backward compatibility of software as the operating system codebase changes over time
 ","bc03960b-bb9d-b48c-e6cd-73b6e8d17d74"
@@ -687,6 +690,10 @@ This technique is often used in conjunction with fileless malware and script-bas
 ","aa281ce3-f044-9f6c-dc0e-5c180efeeff5"
 "Scripted Diagnostics Turn Off Check Enabled - Registry","medium","","registry_set","Detects enabling TurnOffCheck which can be used to bypass defense of MSDT Follina vulnerability","5726e5a8-ce24-8360-cfb3-731d16ed8aca"
 "Disable Administrative Share Creation at Startup","medium","","registry_set","Administrative shares are hidden network shares created by Microsoft Windows NT operating systems that grant system administrators remote access to every disk volume on a network-connected system","2946c058-5b67-3779-9a29-6cd622926e09"
+"Suspicious Shell Open Command Registry Modification","medium","","registry_set","Detects modifications to shell open registry keys that point to suspicious locations typically used by malware for persistence.
+Generally, modifications to the `*\shell\open\command` registry key can indicate an attempt to change the default action for opening files,
+and various UAC bypass or persistence techniques involve modifying these keys to execute malicious scripts or binaries.
+","bb8867cb-c272-14c8-80ff-bcc3a5c502eb"
 "Windows Recall Feature Enabled - Registry","medium","","registry_set","Detects the enabling of the Windows Recall feature via registry manipulation. Windows Recall can be enabled by setting the value of ""DisableAIDataAnalysis"" to ""0"".
 Adversaries may enable Windows Recall as part of post-exploitation discovery and collection activities.
 This rule assumes that Recall is already explicitly disabled on the host, and subsequently enabled by the adversary.

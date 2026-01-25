@@ -112,6 +112,7 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 Attackers might use as an alternative obfuscation method to Base64 encoded commands.
 Investigate the CommandLine and process tree to determine if the activity is malicious.
 ","8427e501-af53-a1ba-41a5-0b2d83e199fb"
+"Windows AppX Deployment Full Trust Package Installation","medium","appxdeployment-server","","Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions","04a566d1-0df3-90bd-15c9-6c23688e9380"
 "Potential Malicious AppX Package Installation Attempts","medium","appxdeployment-server","","Detects potential installation or installation attempts of known malicious appx packages","8f46b318-b8a3-d268-911f-318d0b43c0f9"
 "Suspicious PowerShell Download","medium","powershell","","Detects suspicious PowerShell download command","12f93a4e-cd0e-18d7-6969-b345ecc8d40a"
 "SyncAppvPublishingServer Execution to Bypass Powershell Restriction","medium","powershell","","Detects SyncAppvPublishingServer process execution which usually utilized by adversaries to bypass PowerShell execution restrictions.","349e3bb4-b72b-193d-810e-7d9c145b863e"
@@ -545,7 +546,6 @@ Attackers may change the password in order to obtain persistence.
 "Potential Shim Database Persistence via Sdbinst.EXE","medium","","process_creation","Detects installation of a new shim using sdbinst.exe.
 Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims
 ","7d9d897f-58c0-2dae-d6f2-410c0f0f5e07"
-"Suspicious Reg Add Open Command","medium","","process_creation","Threat actors performed dumping of SAM, SECURITY and SYSTEM registry hives using DelegateExecute key","bfa46528-db30-f4b6-d9b2-afca48a92538"
 "HackTool - WinPwn Execution","high","","process_creation","Detects commandline keywords indicative of potential usge of the tool WinPwn. A tool for Windows and Active Directory reconnaissance and exploitation.
 ","e644857f-3d08-b5e8-61be-9e01a3706716"
 "HackTool - SharpUp PrivEsc Tool Execution","critical","","process_creation","Detects the use of SharpUp, a tool for local privilege escalation","9a8e6f2d-2a56-788b-343a-a50584a15079"
@@ -591,6 +591,10 @@ The downloaded files are temporarly stored in "":\Users\%username%\AppData\Local
 "Curl Download And Execute Combination","high","","process_creation","Adversaries can use curl to download payloads remotely and execute them. Curl is included by default in Windows 10 build 17063 and later.","637e9594-8499-4a83-1fec-53dd2ff90147"
 "Suspicious Windows Update Agent Empty Cmdline","high","","process_creation","Detects suspicious Windows Update Agent activity in which a wuauclt.exe process command line doesn't contain any command line flags
 ","af3979fb-2ecb-3ae6-3f48-ca04d867be13"
+"PUA - Kernel Driver Utility (KDU) Execution","high","","process_creation","Detects execution of the Kernel Driver Utility (KDU) tool.
+KDU can be used to bypass driver signature enforcement and load unsigned or malicious drivers into the Windows kernel.
+Potentially allowing for privilege escalation, persistence, or evasion of security controls.
+","f185644d-efcc-77e1-e32d-2b11ea12c7cb"
 "Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE","medium","","process_creation","Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware","4e18ea92-76c9-f5f4-1980-ea4c976954af"
 "Arbitrary File Download Via IMEWDBLD.EXE","high","","process_creation","Detects usage of ""IMEWDBLD.exe"" to download arbitrary files","9a2b890c-d67f-9cbf-6350-4365c0828269"
 "Windows Internet Hosted WebDav Share Mount Via Net.EXE","high","","process_creation","Detects when an internet hosted webdav share is mounted using the ""net.exe"" utility","bc7f261d-3cfe-72c9-521d-d3cd1a0032bf"
@@ -601,6 +605,10 @@ The downloaded files are temporarly stored in "":\Users\%username%\AppData\Local
 "SyncAppvPublishingServer VBS Execute Arbitrary PowerShell Code","medium","","process_creation","Executes arbitrary PowerShell code using SyncAppvPublishingServer.vbs","3acb1e73-2bdc-efdf-3865-3967cf6ce445"
 "DLL Execution via Rasautou.exe","medium","","process_creation","Detects using Rasautou.exe for loading arbitrary .DLL specified in -d option and executes the export specified in -p.","16277ba9-49fc-5f62-bf22-e5c2952e32ea"
 "Procdump Execution","medium","","process_creation","Detects usage of the SysInternals Procdump utility","9dd8cfb3-e15d-dfe4-ac54-004a540f3279"
+"Devcon Execution Disabling VMware VMCI Device","high","","process_creation","Detects execution of devcon.exe with commands that disable the VMware Virtual Machine Communication Interface (VMCI) device.
+This can be legitimate during VMware Tools troubleshooting or driver conflicts, but may also indicate malware attempting to hijack communication with the hardware via the VMCI device.
+This has been used to facilitate VMware ESXi vulnerability exploits to escape VMs and execute code on the ESXi host.
+","8e6af6ef-9875-7c76-5e93-2a8f619e828d"
 "Regedit as Trusted Installer","high","","process_creation","Detects a regedit started with TrustedInstaller privileges or by ProcessHacker.exe","897d8214-575a-533d-6b1e-a21219da4532"
 "Detected Windows Software Discovery","medium","","process_creation","Adversaries may attempt to enumerate software for a variety of reasons, such as figuring out what security measures are present or if the compromised system has a version of software that is vulnerable.","40795b72-f1da-c1a0-035c-56ecfca25ca3"
 "PUA - NSudo Execution","high","","process_creation","Detects the use of NSudo tool for command execution","09a60700-1c45-a4bf-7b17-5d1e036f4b78"
@@ -677,7 +685,13 @@ This key is used to disable the Windows Event Log service, which collects and st
 Adversaries may want to disable this service to prevent logging of security events that could be used to detect their activities.
 ","847d9f6f-a38e-7aa1-9da8-20f3f4c1d416"
 "File Decryption Using Gpg4win","medium","","process_creation","Detects usage of Gpg4win to decrypt files","f539aaee-c369-f209-b744-3e1b8b37c936"
-"Potential SquiblyTwo Technique Execution","medium","","process_creation","Detects potential SquiblyTwo attack technique with possible renamed WMIC via Imphash and OriginalFileName fields","b9b053da-68a6-d372-9780-828406597122"
+"Potential Remote SquiblyTwo Technique Execution","high","","process_creation","Detects potential execution of the SquiblyTwo technique that leverages Windows Management Instrumentation (WMI)
+to execute malicious code remotely. This technique bypasses application whitelisting by using wmic.exe to process
+malicious XSL (eXtensible Stylesheet Language) scripts that can contain embedded JScript or VBScript.
+The attack typically works by fetching XSL content from a remote source (using HTTP/HTTPS) and executing it
+with full trust privileges directly in memory, avoiding disk-based detection mechanisms. This is a common
+LOLBin (Living Off The Land Binary) technique used for defense evasion and code execution.
+","b9b053da-68a6-d372-9780-828406597122"
 "Deletion of Volume Shadow Copies via WMI with PowerShell","high","","process_creation","Detects deletion of Windows Volume Shadow Copies with PowerShell code and Get-WMIObject. This technique is used by numerous ransomware families such as Sodinokibi/REvil","962de487-869e-eec3-a641-839d9af9c49d"
 "PUA - AdFind Suspicious Execution","high","","process_creation","Detects AdFind execution with common flags seen used during attacks","241ae810-4742-fb7e-24a5-9fe5b120827a"
 "Suspicious Where Execution","low","","process_creation","Adversaries may enumerate browser bookmarks to learn more about compromised hosts.
@@ -731,6 +745,9 @@ Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when com
 "HackTool - SharpLdapWhoami Execution","high","","process_creation","Detects SharpLdapWhoami, a whoami alternative that queries the LDAP service on a domain controller","5a867cd0-5780-c09f-9e82-86aaaca431f5"
 "Suspicious SYSTEM User Process Creation","high","","process_creation","Detects a suspicious process creation as SYSTEM user (suspicious program or command line parameter)","0ce3d50b-989b-895d-96cd-f820e09f2e18"
 "Whoami.EXE Execution From Privileged Process","high","","process_creation","Detects the execution of ""whoami.exe"" by privileged accounts that are often abused by threat actors","b78e620c-3115-0c6d-ea3e-4ad5d55c1217"
+"Registry Modification of MS-settings Protocol Handler","medium","","process_creation","Detects registry modifications to the 'ms-settings' protocol handler, which is frequently targeted for UAC bypass or persistence.
+Attackers can modify this registry to execute malicious code with elevated privileges by hijacking the command execution path.
+","bfa46528-db30-f4b6-d9b2-afca48a92538"
 "Uninstall Sysinternals Sysmon","high","","process_creation","Detects the removal of Sysmon, which could be a potential attempt at defense evasion","e1344b7a-c6ce-4117-4e54-c1865cba57df"
 "Potential Suspicious Browser Launch From Document Reader Process","medium","","process_creation","Detects when a browser process or browser tab is launched from an application that handles document files such as Adobe, Microsoft Office, etc. And connects to a web application over http(s), this could indicate a possible phishing attempt.
 ","d0de4ba1-77ce-d47b-23ee-62cdcbc849a6"
@@ -918,7 +935,7 @@ In WMIC, the ""rdtoggle"" alias or ""Win32_TerminalServiceSetting"" class may be
 "Stop Windows Service Via Net.EXE","low","","process_creation","Detects the stopping of a Windows service via the ""net"" utility.","a0d8ce28-b409-13a0-c884-65166e1aa672"
 "Bypass UAC via CMSTP","high","","process_creation","Detect commandline usage of Microsoft Connection Manager Profile Installer (cmstp.exe) to install specially formatted local .INF files","e6b6d67d-434b-039b-029d-55391089a033"
 "Suspicious Process Parents","high","","process_creation","Detects suspicious parent processes that should not have any children or should only have a single possible child program","226527e7-8837-a785-775d-0dfb86e3fa27"
-"XSL Script Execution Via WMIC.EXE","medium","","process_creation","Detects the execution of WMIC with the ""format"" flag to potentially load XSL files.
+"XSL Script Execution Via WMIC.EXE","medium","","process_creation","Detects the execution of WMIC with the ""format"" flag to potentially load local XSL files.
 Adversaries abuse this functionality to execute arbitrary files while potentially bypassing application whitelisting defenses.
 Extensible Stylesheet Language (XSL) files are commonly used to describe the processing and rendering of data within XML files.
 ","d90fcd50-5835-4b80-6d1a-c708404a142c"
