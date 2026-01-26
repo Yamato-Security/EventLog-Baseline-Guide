@@ -112,6 +112,7 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 Attackers might use as an alternative obfuscation method to Base64 encoded commands.
 Investigate the CommandLine and process tree to determine if the activity is malicious.
 ","8427e501-af53-a1ba-41a5-0b2d83e199fb"
+"Windows AppX Deployment Full Trust Package Installation","medium","appxdeployment-server","","Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions","04a566d1-0df3-90bd-15c9-6c23688e9380"
 "Potential Malicious AppX Package Installation Attempts","medium","appxdeployment-server","","Detects potential installation or installation attempts of known malicious appx packages","8f46b318-b8a3-d268-911f-318d0b43c0f9"
 "Suspicious PowerShell Download","medium","powershell","","Detects suspicious PowerShell download command","12f93a4e-cd0e-18d7-6969-b345ecc8d40a"
 "SyncAppvPublishingServer Execution to Bypass Powershell Restriction","medium","powershell","","Detects SyncAppvPublishingServer process execution which usually utilized by adversaries to bypass PowerShell execution restrictions.","349e3bb4-b72b-193d-810e-7d9c145b863e"
