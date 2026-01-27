@@ -1324,6 +1324,10 @@ Malware such as Lumma stealer has been seen using this process as a target for p
 "Visual Studio NodejsTools PressAnyKey Arbitrary Binary Execution","medium","","process_creation","Detects child processes of Microsoft.NodejsTools.PressAnyKey.exe that can be used to execute any other binary","a5a31ba8-6ecb-ba33-f271-5a50afc76d9b"
 "TrustedPath UAC Bypass Pattern","critical","","process_creation","Detects indicators of a UAC bypass method by mocking directories","6ffb15be-b4f1-f105-4d90-0797b05c1838"
 "Execute Code with Pester.bat as Parent","medium","","process_creation","Detects code execution via Pester.bat (Pester - Powershell Modulte for testing)","389f8439-d42b-53a1-cb96-9387255a319f"
+"Cmd Launched with Hidden Start Flags to Suspicious Targets","medium","","process_creation","Detects cmd.exe executing commands with the ""start"" utility using ""/b"" (no window) or ""/min"" (minimized) flags.
+To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+","568b2ac8-83d2-2e23-94e9-f2a5dcdb457f"
 "Windows Shell/Scripting Processes Spawning Suspicious Programs","high","","process_creation","Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc.","b9675cf5-52dc-a941-e484-247f3640e055"
 "Suspicious RunAs-Like Flag Combination","medium","","process_creation","Detects suspicious command line flags that let the user set a target user and command as e.g. seen in PsExec-like tools","775ae677-184d-c90f-016f-f337fd79aa75"
 "System File Execution Location Anomaly","high","","process_creation","Detects the execution of a Windows system binary that is usually located in the system folder from an uncommon location.
