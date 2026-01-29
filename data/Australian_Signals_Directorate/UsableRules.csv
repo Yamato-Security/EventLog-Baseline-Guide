@@ -1490,6 +1490,10 @@ Adversaries may abuse various utilities in order to decompress data to avoid det
 "Invocation of Active Directory Diagnostic Tool (ntdsutil.exe)","medium","","process_creation","Detects execution of ntdsutil.exe, which can be used for various attacks against the NTDS database (NTDS.DIT)","4b8e07ad-57d3-608d-6f9e-31047dfeb0de"
 "Shell Process Spawned by Java.EXE","medium","","process_creation","Detects shell spawned from Java host process, which could be a sign of exploitation (e.g. log4j exploitation)","15e3c45c-06b7-5da5-4bc0-66cf00fcc185"
 "Windows Share Mount Via Net.EXE","low","","process_creation","Detects when a share is mounted using the ""net.exe"" utility","3037cec2-08d0-f4a4-91c3-668db3535704"
+"Hypervisor-protected Code Integrity (HVCI) Related Registry Tampering Via CommandLine","high","","process_creation","Detects the tampering of Hypervisor-protected Code Integrity (HVCI) related registry values via command line tool reg.exe.
+HVCI uses virtualization-based security to protect code integrity by ensuring that only trusted code can run in kernel mode.
+Adversaries may tamper with HVCI to load malicious or unsigned drivers, which can be used to escalate privileges, maintain persistence, or evade security mechanisms.
+","2422e428-2a4a-9183-9e55-0478a44213b5"
 "Persistence Via Sticky Key Backdoor","critical","","process_creation","By replacing the sticky keys executable with the local admins CMD executable, an attacker is able to access a privileged windows console session without authenticating to the system.
 When the sticky keys are ""activated"" the privilleged shell is launched.
 ","61dd8b58-6c93-639f-6342-1ba077ce0f45"
@@ -2058,6 +2062,11 @@ It is actively used in-the-wild by threat actors to inspect and understand the n
 "Assembly Loading Via CL_LoadAssembly.ps1","medium","","process_creation","Detects calls to ""LoadAssemblyFromPath"" or ""LoadAssemblyFromNS"" that are part of the ""CL_LoadAssembly.ps1"" script. This can be abused to load different assemblies and bypass App locker controls.","a14e43f1-2c46-bf33-4ae5-b72dec4e8f0f"
 "PsExec/PAExec Escalation to LOCAL SYSTEM","high","","process_creation","Detects suspicious commandline flags used by PsExec and PAExec to escalate a command line to LOCAL_SYSTEM rights","24194c4a-9136-8ccc-cb24-c32ee6a83d2f"
 "Recon Information for Export with Command Prompt","medium","","process_creation","Once established within a system or network, an adversary may use automated techniques for collecting internal data.","0aae20f4-4b90-f3db-47a1-d0032e30ccfd"
+"Vulnerable Driver Blocklist Registry Tampering Via CommandLine","high","","process_creation","Detects tampering of the Vulnerable Driver Blocklist registry via command line tools such as PowerShell or REG.EXE.
+The Vulnerable Driver Blocklist is a security feature that helps prevent the loading of known vulnerable drivers.
+Disabling this feature may indicate an attempt to bypass security controls, often targeted by threat actors
+to facilitate the installation of malicious or vulnerable drivers, particularly in scenarios involving Endpoint Detection and Response
+","39a74164-89df-cc34-b685-261b00fe4524"
 "Suspicious Eventlog Clearing or Configuration Change Activity","high","","process_creation","Detects the clearing or configuration tampering of EventLog using utilities such as ""wevtutil"", ""powershell"" and ""wmic"".
 This technique were seen used by threat actors and ransomware strains in order to evade defenses.
 ","676111e7-0d6f-b5f4-e267-6399b5052fdc"
@@ -2877,7 +2886,7 @@ If the Sysmon driver is configured to load at an altitude of another registered 
 "UAC Bypass via Event Viewer","high","","registry_set","Detects UAC bypass method using Windows event viewer","dee5910c-4bd3-fb48-fdbf-2d813d23aefb"
 "Potential Persistence Via Mpnotify","high","","registry_set","Detects when an attacker register a new SIP provider for persistence and defense evasion","ac9276b0-7220-7600-35b6-e24d01034d45"
 "CurrentVersion NT Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e2bf2ad9-465c-3b63-7970-fd222ffa3708"
-"Hypervisor Enforced Code Integrity Disabled","high","","registry_set","Detects changes to the HypervisorEnforcedCodeIntegrity registry key and the ""Enabled"" value being set to 0 in order to disable the Hypervisor Enforced Code Integrity feature. This allows an attacker to load unsigned and untrusted code to be run in the kernel
+"Windows Hypervisor Enforced Code Integrity Disabled","high","","registry_set","Detects changes to the HypervisorEnforcedCodeIntegrity registry key and the ""Enabled"" value being set to 0 in order to disable the Hypervisor Enforced Code Integrity feature. This allows an attacker to load unsigned and untrusted code to be run in the kernel
 ","3b708c9b-48bd-96e8-a680-84e819fcd228"
 "Potential ClickFix Execution Pattern - Registry","high","","registry_set","Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
 ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
@@ -3197,6 +3206,12 @@ Second, to prepend information to the PATH environment variable on a per-applica
 "ServiceDll Hijack","medium","","registry_set","Detects changes to the ""ServiceDLL"" value related to a service in the registry.
 This is often used as a method of persistence.
 ","7d12e91a-b670-4461-8bdc-aff5b37eda63"
+"Windows Vulnerable Driver Blocklist Disabled","high","","registry_set","Detects when the Windows Vulnerable Driver Blocklist is set to disabled. This setting is crucial for preventing the loading of known vulnerable drivers,
+and its modification may indicate an attempt to bypass security controls. It is often targeted by threat actors to facilitate the installation of malicious or vulnerable drivers,
+particularly in scenarios involving Endpoint Detection and Response (EDR) bypass techniques.
+This rule applies to systems that support the Vulnerable Driver Blocklist feature, including Windows 10 version 1903 and later, and Windows Server 2022 and later.
+Note that this change will require a reboot to take effect, and this rule only detects the registry modification action.
+","b8421346-c641-8b9f-8e30-77a28bd6dcc3"
 "Suspicious Printer Driver Empty Manufacturer","high","","registry_set","Detects a suspicious printer driver installation with an empty Manufacturer value","21c41e20-e274-bd0e-e22d-072fc5e0962d"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_set","Detects COM object hijacking via TreatAs subkey","9b23f158-004c-60b3-35ff-4bf653179230"
 "Antivirus Filter Driver Disallowed On Dev Drive - Registry","high","","registry_set","Detects activity that indicates a user disabling the ability for Antivirus mini filter to inspect a ""Dev Drive"".
