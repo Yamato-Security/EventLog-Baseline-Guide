@@ -1496,6 +1496,10 @@ Adversaries may abuse various utilities in order to decompress data to avoid det
 "Invocation of Active Directory Diagnostic Tool (ntdsutil.exe)","medium","","process_creation","Detects execution of ntdsutil.exe, which can be used for various attacks against the NTDS database (NTDS.DIT)","4b8e07ad-57d3-608d-6f9e-31047dfeb0de"
 "Shell Process Spawned by Java.EXE","medium","","process_creation","Detects shell spawned from Java host process, which could be a sign of exploitation (e.g. log4j exploitation)","15e3c45c-06b7-5da5-4bc0-66cf00fcc185"
 "Windows Share Mount Via Net.EXE","low","","process_creation","Detects when a share is mounted using the ""net.exe"" utility","3037cec2-08d0-f4a4-91c3-668db3535704"
+"Hypervisor-protected Code Integrity (HVCI) Related Registry Tampering Via CommandLine","high","","process_creation","Detects the tampering of Hypervisor-protected Code Integrity (HVCI) related registry values via command line tool reg.exe.
+HVCI uses virtualization-based security to protect code integrity by ensuring that only trusted code can run in kernel mode.
+Adversaries may tamper with HVCI to load malicious or unsigned drivers, which can be used to escalate privileges, maintain persistence, or evade security mechanisms.
+","2422e428-2a4a-9183-9e55-0478a44213b5"
 "Persistence Via Sticky Key Backdoor","critical","","process_creation","By replacing the sticky keys executable with the local admins CMD executable, an attacker is able to access a privileged windows console session without authenticating to the system.
 When the sticky keys are ""activated"" the privilleged shell is launched.
 ","61dd8b58-6c93-639f-6342-1ba077ce0f45"
@@ -2064,6 +2068,11 @@ It is actively used in-the-wild by threat actors to inspect and understand the n
 "Assembly Loading Via CL_LoadAssembly.ps1","medium","","process_creation","Detects calls to ""LoadAssemblyFromPath"" or ""LoadAssemblyFromNS"" that are part of the ""CL_LoadAssembly.ps1"" script. This can be abused to load different assemblies and bypass App locker controls.","a14e43f1-2c46-bf33-4ae5-b72dec4e8f0f"
 "PsExec/PAExec Escalation to LOCAL SYSTEM","high","","process_creation","Detects suspicious commandline flags used by PsExec and PAExec to escalate a command line to LOCAL_SYSTEM rights","24194c4a-9136-8ccc-cb24-c32ee6a83d2f"
 "Recon Information for Export with Command Prompt","medium","","process_creation","Once established within a system or network, an adversary may use automated techniques for collecting internal data.","0aae20f4-4b90-f3db-47a1-d0032e30ccfd"
+"Vulnerable Driver Blocklist Registry Tampering Via CommandLine","high","","process_creation","Detects tampering of the Vulnerable Driver Blocklist registry via command line tools such as PowerShell or REG.EXE.
+The Vulnerable Driver Blocklist is a security feature that helps prevent the loading of known vulnerable drivers.
+Disabling this feature may indicate an attempt to bypass security controls, often targeted by threat actors
+to facilitate the installation of malicious or vulnerable drivers, particularly in scenarios involving Endpoint Detection and Response
+","39a74164-89df-cc34-b685-261b00fe4524"
 "Suspicious Eventlog Clearing or Configuration Change Activity","high","","process_creation","Detects the clearing or configuration tampering of EventLog using utilities such as ""wevtutil"", ""powershell"" and ""wmic"".
 This technique were seen used by threat actors and ransomware strains in order to evade defenses.
 ","676111e7-0d6f-b5f4-e267-6399b5052fdc"
