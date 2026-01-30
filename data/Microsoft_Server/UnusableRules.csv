@@ -420,6 +420,9 @@ Registry backup was a default behavior on Windows and was disabled as of ""Windo
 "Wow6432Node Classes Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","50b1dd22-8438-5c33-c5f2-00496987423b"
 "Registry Disable System Restore","high","","registry_set","Detects the modification of the registry to disable a system restore on the computer","5cfed8dd-d873-5012-6a54-f3136099d818"
 "Wow6432Node Windows NT CurrentVersion Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e182da19-f29b-2327-f6f0-f71d15ff8dd5"
+"Windows Credential Guard Disabled - Registry","high","","registry_set","Detects attempts to disable Windows Credential Guard by setting registry values to 0. Credential Guard uses virtualization-based security to isolate secrets so that only privileged system software can access them.
+Adversaries may disable Credential Guard to gain access to sensitive credentials stored in the system, such as NTLM hashes and Kerberos tickets, which can be used for lateral movement and privilege escalation.
+","7a29a519-090c-b484-1cd2-c2d83e3a785a"
 "Potential Persistence Via Visual Studio Tools for Office","medium","","registry_set","Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications.","9f3a2bef-c9ee-ce47-c8eb-d746addb05ac"
 "New BgInfo.EXE Custom VBScript Registry Configuration","medium","","registry_set","Detects setting of a new registry value related to BgInfo configuration, which can be abused to execute custom VBScript via ""BgInfo.exe""","d3e621d9-17c0-c31c-1daf-8247438baa83"
 "Potential Persistence Via AppCompat RegisterAppRestart Layer","medium","","registry_set","Detects the setting of the REGISTERAPPRESTART compatibility layer on an application.
@@ -504,6 +507,10 @@ RestrictedAdmin mode prevents the transmission of reusable credentials to the re
 This prevents your credentials from being harvested during the initial connection process if the remote server has been compromise
 ","5b59bbe4-226f-1215-bff7-8c5a79430936"
 "UAC Bypass via Sdclt","high","","registry_set","Detects the pattern of UAC Bypass using registry key manipulation of sdclt.exe (e.g. UACMe 53)","4e8bf251-fcde-0996-45f9-62335b5e5d8b"
+"AMSI Disabled via Registry Modification","high","","registry_set","Detects attempts to disable AMSI (Anti-Malware Scan Interface) by modifying the AmsiEnable registry value.
+Anti-Malware Scan Interface (AMSI) is a security feature in Windows that allows applications and services to integrate with anti-malware products for enhanced protection against malicious content.
+Adversaries may attempt to disable AMSI to evade detection by security software, allowing them to execute malicious scripts or code without being scanned.
+","1b3568dc-4f3a-d59b-1527-9eb759e63563"
 "Scheduled TaskCache Change by Uncommon Program","high","","registry_set","Monitor the creation of a new key under 'TaskCache' when a new scheduled task is registered by a process that is not svchost.exe, which is suspicious","8c9b2605-a3a3-f822-afa4-e8d7abdf70e3"
 "Disable Windows Security Center Notifications","medium","","registry_set","Detect set UseActionCenterExperience to 0 to disable the Windows security center notification","75c0a3fc-9821-e555-9c15-d7829e36ed2e"
 "Add Port Monitor Persistence in Registry","medium","","registry_set","Adversaries may use port monitors to run an attacker supplied DLL during system boot for persistence or privilege escalation.
@@ -587,7 +594,10 @@ Adversary may want to disable this service to disable logging of security events
 Both services are used in the tool Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs), which uses KDU (https://github.com/hfiref0x/KDU)
 ","60953210-fd32-ddac-1118-a569c8452fd3"
 "Tamper With Sophos AV Registry Keys","high","","registry_set","Detects tamper attempts to sophos av functionality via registry key modification","ea43cb8f-21a1-38f6-1d50-bbcb754a91f6"
-"Modify User Shell Folders Startup Value","high","","registry_set","Detect modification of the startup key to a path where a payload could be stored to be launched during startup","ba919d03-0c34-c3c3-272c-ec0656c3d10c"
+"Modify User Shell Folders Startup Value","high","","registry_set","Detect modification of the User Shell Folders registry values for Startup or Common Startup which could indicate persistence attempts.
+Attackers may modify User Shell Folders registry keys to point to malicious executables or scripts that will be executed during startup.
+This technique is often used to maintain persistence on a compromised system by ensuring that the malicious payload is executed automatically.
+","ba919d03-0c34-c3c3-272c-ec0656c3d10c"
 "Outlook EnableUnsafeClientMailRules Setting Enabled - Registry","high","","registry_set","Detects an attacker trying to enable the outlook security setting ""EnableUnsafeClientMailRules"" which allows outlook to run applications or execute macros","f3359b54-f4f9-b8da-0ddb-ef16968c70e7"
 "Potential AMSI COM Server Hijacking","high","","registry_set","Detects changes to the AMSI come server registry key in order disable AMSI scanning functionalities. When AMSI attempts to starts its COM component, it will query its registered CLSID and return a non-existent COM server. This causes a load failure and prevents any scanning methods from being accessed, ultimately rendering AMSI useless","fbdc5117-68bf-93e5-9ab3-03ea072e0d36"
 "Potential Persistence Via Outlook Today Page","high","","registry_set","Detects potential persistence activity via outlook today page.
