@@ -347,6 +347,12 @@ It can potentially be abused in order to launch any arbitrary file with a name c
 "HKTL - SharpSuccessor Privilege Escalation Tool Execution","high","","process_creation","Detects the execution of SharpSuccessor, a tool used to exploit the BadSuccessor attack for privilege escalation in WinServer 2025 Active Directory environments.
 Successful usage of this tool can let the attackers gain the domain admin privileges by exploiting the BadSuccessor vulnerability.
 ","b0559eb5-33e0-09c4-c9bb-88007b5981ca"
+"Windows Credential Guard Registry Tampering Via CommandLine","high","","process_creation","Detects attempts to add, modify, or delete Windows Credential Guard related registry keys or values via command line tools such as Reg.exe or PowerShell.
+Credential Guard uses virtualization-based security to isolate secrets so that only privileged system software can access them.
+Adversaries may disable Credential Guard to gain access to sensitive credentials stored in the system, such as NTLM hashes and Kerberos tickets, which can be used for lateral movement and privilege escalation.
+The rule matches suspicious command lines that target DeviceGuard or LSA registry paths and manipulate keys like EnableVirtualizationBasedSecurity, RequirePlatformSecurityFeatures, or LsaCfgFlags.
+Such activity may indicate an attempt to disable or tamper with Credential Guard, potentially exposing sensitive credentials for misuse.
+","9ce3c996-4ad1-c33b-3c71-a5a78b054bd7"
 "Potential Execution of Sysinternals Tools","low","","process_creation","Detects command lines that contain the 'accepteula' flag which could be a sign of execution of one of the Sysinternals tools","a42438c9-7c08-7a7e-2791-43440efb6047"
 "HackTool - SharpView Execution","high","","process_creation","Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems","1f76708c-e9a2-3032-ae39-9025038a90c4"
 "IE ZoneMap Setting Downgraded To MyComputer Zone For HTTP Protocols Via CLI","high","","process_creation","Detects changes to Internet Explorer's (IE / Windows Internet properties) ZoneMap configuration of the ""HTTP"" and ""HTTPS"" protocols to point to the ""My Computer"" zone. This allows downloaded files from the Internet to be granted the same level of trust as files stored locally.
@@ -473,6 +479,10 @@ This can be used to potentially bypass defenses and execute Linux or Windows-bas
 "Arbitrary File Download Via Squirrel.EXE","medium","","process_creation","Detects the usage of the ""Squirrel.exe"" to download arbitrary files. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
 ","48279b22-db22-17e5-5146-824c1f8d07db"
 "Potentially Suspicious Cabinet File Expansion","medium","","process_creation","Detects the expansion or decompression of cabinet files from potentially suspicious or uncommon locations, e.g. seen in Iranian MeteorExpress related attacks","f8095356-407c-fb04-afa9-b637495e8d2b"
+"Windows AMSI Related Registry Tampering Via CommandLine","high","","process_creation","Detects tampering of AMSI (Anti-Malware Scan Interface) related registry values via command line tools such as reg.exe or PowerShell.
+AMSI provides a generic interface for applications and services to integrate with antimalware products.
+Adversaries may disable AMSI to evade detection of malicious scripts and code execution.
+","e821e181-409c-3690-fce1-d9cd60356420"
 "HackTool - Default PowerSploit/Empire Scheduled Task Creation","high","","process_creation","Detects the creation of a schtask via PowerSploit or Empire Default Configuration.","532fbfdd-28df-ea62-93c5-a2d9f558f9d7"
 "Script Interpreter Execution From Suspicious Folder","high","","process_creation","Detects a suspicious script execution in temporary folders or folders accessible by environment variables","962dcd71-b0d7-ad49-1fe6-2966daf7a411"
 "Uncommon Link.EXE Parent Process","medium","","process_creation","Detects an uncommon parent process of ""LINK.EXE"".
@@ -981,7 +991,6 @@ Adversaries may abuse various utilities in order to decompress data to avoid det
 "DeviceCredentialDeployment Execution","medium","","process_creation","Detects the execution of DeviceCredentialDeployment to hide a process from view.
 ","bf39ad4c-8a90-0e00-7076-2436ebb83b41"
 "Rar Usage with Password and Compression Level","high","","process_creation","Detects the use of rar.exe, on the command line, to create an archive with password protection or with a specific compression level. This is pretty indicative of malicious actions.","b0fec5a0-3b3f-9e6c-b5b1-bdabd28f18ee"
-"File Download Via Bitsadmin To An Uncommon Target Folder","medium","","process_creation","Detects usage of bitsadmin downloading a file to uncommon target folder","af422edd-75d2-0585-95bf-c4e72291a69e"
 "Invocation of Active Directory Diagnostic Tool (ntdsutil.exe)","medium","","process_creation","Detects execution of ntdsutil.exe, which can be used for various attacks against the NTDS database (NTDS.DIT)","4b8e07ad-57d3-608d-6f9e-31047dfeb0de"
 "Shell Process Spawned by Java.EXE","medium","","process_creation","Detects shell spawned from Java host process, which could be a sign of exploitation (e.g. log4j exploitation)","15e3c45c-06b7-5da5-4bc0-66cf00fcc185"
 "Windows Share Mount Via Net.EXE","low","","process_creation","Detects when a share is mounted using the ""net.exe"" utility","3037cec2-08d0-f4a4-91c3-668db3535704"
@@ -1538,6 +1547,10 @@ Attackers may use Kali Linux WSL to leverage its penetration testing tools and c
 It is actively used in-the-wild by threat actors to inspect and understand the network architecture of a victim.
 ","d14c21ed-9fb4-dd37-d9a0-df7cd5f8092b"
 "Service Security Descriptor Tampering Via Sc.EXE","medium","","process_creation","Detection of sc.exe utility adding a new service with special permission which hides that service.","6cbe870d-ed2f-e585-6d9e-201323d379a7"
+"User Shell Folders Registry Modification via CommandLine","high","","process_creation","Detects modifications to User Shell Folders registry values via reg.exe or PowerShell, which could indicate persistence attempts.
+Attackers may modify User Shell Folders registry values to point to malicious executables or scripts that will be executed during startup.
+This technique is often used to maintain persistence on a compromised system by ensuring that malicious payloads are executed automatically.
+","5420089b-141a-40bb-bbab-6f6bbce66d29"
 "Suspicious Msbuild Execution By Uncommon Parent Process","medium","","process_creation","Detects suspicious execution of 'Msbuild.exe' by a uncommon parent process","1a4e84c2-b143-1ac5-61c9-00faf74cb62a"
 "Suspicious Child Process Of Wermgr.EXE","high","","process_creation","Detects suspicious Windows Error Reporting manager (wermgr.exe) child process","65769ded-2258-284c-b61d-e79567f5efc0"
 "Potential PowerShell Obfuscation Via WCHAR/CHAR","high","","process_creation","Detects suspicious encoded character syntax often used for defense evasion","e0e9ccfe-20b3-2dca-ffe5-0e6c86ad22bc"
@@ -2123,6 +2136,7 @@ A common feedback message is that ""No instance(s) Available"" if the service qu
 A common error message is ""Node - (provided IP or default) ERROR Description =The RPC server is unavailable"" if the provided remote host is unreachable
 ","105c3740-9666-1fe5-4e4f-e9e8bdf29dc1"
 "Invoke-Obfuscation Via Use Rundll32","high","","process_creation","Detects Obfuscated Powershell via use Rundll32 in Scripts","300c09ba-ba6b-5fea-7022-567fa5593c41"
+"File Download Via Bitsadmin To An Uncommon Target Folder","medium","","process_creation","Detects usage of bitsadmin downloading a file to uncommon target folder","af422edd-75d2-0585-95bf-c4e72291a69e"
 "Process Memory Dumped Via RdrLeakDiag.EXE","high","","process_creation","Detects uses of the rdrleakdiag.exe LOLOBIN utility to dump process memory","4d7489b1-282a-3c79-a3fe-e852cdea4515"
 "Application Whitelisting Bypass via DLL Loaded by odbcconf.exe","medium","","process_creation","Detects defence evasion attempt via odbcconf.exe execution to load DLL","ec8ef858-1a44-a7b3-821d-a85f6cdaa1c9"
 "Lazarus Loaders","critical","","process_creation","Detects different loaders as described in various threat reports on Lazarus group activity","c155c295-ca75-0671-80f9-2910740dabe7"
@@ -2586,6 +2600,9 @@ Registry backup was a default behavior on Windows and was disabled as of ""Windo
 "Wow6432Node Classes Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","50b1dd22-8438-5c33-c5f2-00496987423b"
 "Registry Disable System Restore","high","","registry_set","Detects the modification of the registry to disable a system restore on the computer","5cfed8dd-d873-5012-6a54-f3136099d818"
 "Wow6432Node Windows NT CurrentVersion Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e182da19-f29b-2327-f6f0-f71d15ff8dd5"
+"Windows Credential Guard Disabled - Registry","high","","registry_set","Detects attempts to disable Windows Credential Guard by setting registry values to 0. Credential Guard uses virtualization-based security to isolate secrets so that only privileged system software can access them.
+Adversaries may disable Credential Guard to gain access to sensitive credentials stored in the system, such as NTLM hashes and Kerberos tickets, which can be used for lateral movement and privilege escalation.
+","7a29a519-090c-b484-1cd2-c2d83e3a785a"
 "Potential Persistence Via Visual Studio Tools for Office","medium","","registry_set","Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications.","9f3a2bef-c9ee-ce47-c8eb-d746addb05ac"
 "New BgInfo.EXE Custom VBScript Registry Configuration","medium","","registry_set","Detects setting of a new registry value related to BgInfo configuration, which can be abused to execute custom VBScript via ""BgInfo.exe""","d3e621d9-17c0-c31c-1daf-8247438baa83"
 "Potential Persistence Via AppCompat RegisterAppRestart Layer","medium","","registry_set","Detects the setting of the REGISTERAPPRESTART compatibility layer on an application.
@@ -2670,6 +2687,10 @@ RestrictedAdmin mode prevents the transmission of reusable credentials to the re
 This prevents your credentials from being harvested during the initial connection process if the remote server has been compromise
 ","5b59bbe4-226f-1215-bff7-8c5a79430936"
 "UAC Bypass via Sdclt","high","","registry_set","Detects the pattern of UAC Bypass using registry key manipulation of sdclt.exe (e.g. UACMe 53)","4e8bf251-fcde-0996-45f9-62335b5e5d8b"
+"AMSI Disabled via Registry Modification","high","","registry_set","Detects attempts to disable AMSI (Anti-Malware Scan Interface) by modifying the AmsiEnable registry value.
+Anti-Malware Scan Interface (AMSI) is a security feature in Windows that allows applications and services to integrate with anti-malware products for enhanced protection against malicious content.
+Adversaries may attempt to disable AMSI to evade detection by security software, allowing them to execute malicious scripts or code without being scanned.
+","1b3568dc-4f3a-d59b-1527-9eb759e63563"
 "Scheduled TaskCache Change by Uncommon Program","high","","registry_set","Monitor the creation of a new key under 'TaskCache' when a new scheduled task is registered by a process that is not svchost.exe, which is suspicious","8c9b2605-a3a3-f822-afa4-e8d7abdf70e3"
 "Disable Windows Security Center Notifications","medium","","registry_set","Detect set UseActionCenterExperience to 0 to disable the Windows security center notification","75c0a3fc-9821-e555-9c15-d7829e36ed2e"
 "Add Port Monitor Persistence in Registry","medium","","registry_set","Adversaries may use port monitors to run an attacker supplied DLL during system boot for persistence or privilege escalation.
@@ -2753,7 +2774,10 @@ Adversary may want to disable this service to disable logging of security events
 Both services are used in the tool Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs), which uses KDU (https://github.com/hfiref0x/KDU)
 ","60953210-fd32-ddac-1118-a569c8452fd3"
 "Tamper With Sophos AV Registry Keys","high","","registry_set","Detects tamper attempts to sophos av functionality via registry key modification","ea43cb8f-21a1-38f6-1d50-bbcb754a91f6"
-"Modify User Shell Folders Startup Value","high","","registry_set","Detect modification of the startup key to a path where a payload could be stored to be launched during startup","ba919d03-0c34-c3c3-272c-ec0656c3d10c"
+"Modify User Shell Folders Startup Value","high","","registry_set","Detect modification of the User Shell Folders registry values for Startup or Common Startup which could indicate persistence attempts.
+Attackers may modify User Shell Folders registry keys to point to malicious executables or scripts that will be executed during startup.
+This technique is often used to maintain persistence on a compromised system by ensuring that the malicious payload is executed automatically.
+","ba919d03-0c34-c3c3-272c-ec0656c3d10c"
 "Outlook EnableUnsafeClientMailRules Setting Enabled - Registry","high","","registry_set","Detects an attacker trying to enable the outlook security setting ""EnableUnsafeClientMailRules"" which allows outlook to run applications or execute macros","f3359b54-f4f9-b8da-0ddb-ef16968c70e7"
 "Potential AMSI COM Server Hijacking","high","","registry_set","Detects changes to the AMSI come server registry key in order disable AMSI scanning functionalities. When AMSI attempts to starts its COM component, it will query its registered CLSID and return a non-existent COM server. This causes a load failure and prevents any scanning methods from being accessed, ultimately rendering AMSI useless","fbdc5117-68bf-93e5-9ab3-03ea072e0d36"
 "Potential Persistence Via Outlook Today Page","high","","registry_set","Detects potential persistence activity via outlook today page.
