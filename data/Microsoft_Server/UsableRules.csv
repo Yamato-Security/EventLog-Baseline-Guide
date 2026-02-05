@@ -1869,6 +1869,9 @@ Any instances of hxtsr.exe not in this folder may be malware camouflaging itself
 "Potential Defense Evasion Activity Via Emoji Usage In CommandLine - 4","high","","process_creation","Detects the usage of emojis in the command line, this could be a sign of potential defense evasion activity.","09815188-8262-0a9b-c00c-460108a51499"
 "Potential PowerShell Downgrade Attack","medium","","process_creation","Detects PowerShell downgrade attack by comparing the host versions with the actually used engine version 2.0","1704d7d3-0c6c-8a4d-b02a-55dd951e5f61"
 "Process Memory Dump Via Comsvcs.DLL","high","","process_creation","Detects a process memory dump via ""comsvcs.dll"" using rundll32, covering multiple different techniques (ordinal, minidump function, etc.)","fbee28d8-8e92-176d-b6bc-0532d9a98eac"
+"Suspicious Child Process of Notepad++ Updater - GUP.Exe","high","","process_creation","Detects suspicious child process creation by the Notepad++ updater process (gup.exe).
+This could indicate potential exploitation of the updater component to deliver unwanted malware.
+","3f3ab8ff-23de-2bef-b606-fd2585bdc5e2"
 "Suspicious Calculator Usage","high","","process_creation","Detects suspicious use of 'calc.exe' with command line parameters or in a suspicious directory, which is likely caused by some PoC or detection evasion.
 ","9acd1f19-c194-7c55-3130-8479b170af87"
 "Potential Excel.EXE DCOM Lateral Movement Via ActivateMicrosoftApp","high","","process_creation","Detects suspicious child processes of Excel which could be an indicator of lateral movement leveraging the ""ActivateMicrosoftApp"" Excel DCOM object.
