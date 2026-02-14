@@ -653,6 +653,8 @@ These were seen being created by Forest Blizzard as described by MSFT.
 "Grixba Malware Reconnaissance Activity","high","","process_creation","Detects execution of the Grixba reconnaissance tool based on suspicious command-line parameter combinations.
 This tool is used by the Play ransomware group for network enumeration, data gathering, and event log clearing.
 ","1c8620c4-b90c-4882-5c40-7e634a10c529"
+"Suspicious Child Process of SolarWinds WebHelpDesk","high","","process_creation","Detects suspicious child processes spawned by SolarWinds WebHelpDesk (WHD) application, which may indicate exploitation activity leveraging RCE vulnerabilities such as CVE-2025-40551, CVE-2025-40536, or CVE-2025-26399
+","bd4e9b65-f54b-992d-f8c1-3fcb00c1de68"
 "Windows Suspicious Child Process from Node.js - React2Shell","high","","process_creation","Detects suspicious child processes started by Node.js server processes on Windows, which may indicate exploitation of vulnerabilities like CVE-2025-55182 (React2Shell).
 Attackers can abuse the Node.js 'child_process' module to run system commands or scripts using methods such as spawn(), exec(), execFile(), fork(), or execSync().
 If execSync() or exec() is used in the exploit, the command line often shows a shell (e.g., cmd.exe /d /s /c ...) running a suspicious command unless other shells are explicitly invoked.
