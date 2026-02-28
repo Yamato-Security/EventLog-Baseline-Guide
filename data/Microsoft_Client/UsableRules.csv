@@ -2012,6 +2012,10 @@ However, malicious actors may exploit these tools by renaming them to bypass det
 Attackers may use Kali Linux WSL to leverage its penetration testing tools and capabilities for malicious purposes.
 ","3de98820-2d36-1706-4ba6-1dcac6f0a2db"
 "Insecure Transfer Via Curl.EXE","medium","","process_creation","Detects execution of ""curl.exe"" with the ""--insecure"" flag.","4308f710-0e58-712f-6781-9323b7dc779e"
+"OpenEDR Spawning Command Shell","medium","","process_creation","Detects the OpenEDR ssh-shellhost.exe spawning a command shell (cmd.exe) or PowerShell with PTY (pseudo-terminal) capabilities.
+This may indicate remote command execution through OpenEDR's remote management features, which could be legitimate administrative activity or potential abuse of the remote access tool.
+Threat actors may leverage OpenEDR's remote shell capabilities to execute commands on compromised systems, facilitating lateral movement or other command-and-control operations.
+","d171fc00-4320-d070-29e2-5576e7e2dcb0"
 "Potentially Suspicious Execution Of Regasm/Regsvcs With Uncommon Extension","medium","","process_creation","Detects potentially suspicious execution of the Regasm/Regsvcs utilities with an uncommon extension.","ba17b43d-ff78-598e-3e48-6f7f77abce52"
 "Obfuscated PowerShell OneLiner Execution","high","","process_creation","Detects the execution of a specific OneLiner to download and execute powershell modules in memory.","5656cdf4-b7e5-dbcf-3fc4-2d935d5999cd"
 "Interesting Service Enumeration Via Sc.EXE","low","","process_creation","Detects the enumeration and query of interesting and in some cases sensitive services on the system via ""sc.exe"".
