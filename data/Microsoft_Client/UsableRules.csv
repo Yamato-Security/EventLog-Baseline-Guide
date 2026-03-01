@@ -194,6 +194,7 @@ Networks often contain shared network drives and folders that enable users to ac
 "Delete Volume Shadow Copies via WMI with PowerShell - PS Script","high","","ps_script","Deletes Windows Volume Shadow Copies with PowerShell code and Get-WMIObject. This technique is used by numerous ransomware families such as Sodinokibi/REvil","baee41a3-2063-6125-778e-0d9710474c06"
 "Suspicious PowerShell Invocations - Specific","high","powershell","","Detects suspicious PowerShell invocation command parameters","3db961f4-6217-4957-b717-e5955c82d6e5"
 "Execution via CL_Invocation.ps1 - Powershell","high","","ps_script","Detects Execution via SyncInvoke in CL_Invocation.ps1 module","6587075c-6239-f6e1-4717-4b7972b1c086"
+"Suspicious PowerShell Mailbox SMTP Forward Rule","medium","","ps_script","Detects usage of the powerShell Set-Mailbox Cmdlet to set-up an SMTP forwarding rule.","516b2199-36c5-1a0d-13f4-87bcb22bc2bf"
 "Suspicious Get-WmiObject","low","","ps_script","The infrastructure for management data and operations that enables local and remote management of Windows personal computers and servers","830423bc-69e4-b19b-5474-414e4ab0c365"
 "Suspicious PowerShell Download","medium","powershell","","Detects suspicious PowerShell download command","12f93a4e-cd0e-18d7-6969-b345ecc8d40a"
 "Accessing Encrypted Credentials from Google Chrome Login Database","medium","","ps_script","Adversaries may acquire credentials from web browsers by reading files specific to the target browser.
@@ -301,7 +302,6 @@ Windows stores local service configuration information in the Registry under HKL
 "Potential Unconstrained Delegation Discovery Via Get-ADComputer - ScriptBlock","medium","","ps_script","Detects the use of the ""Get-ADComputer"" cmdlet in order to identify systems which are configured for unconstrained delegation.","c0fcc261-538c-247d-21ff-05b6d2cbdf07"
 "Potential PowerShell Obfuscation Using Alias Cmdlets","low","","ps_script","Detects Set-Alias or New-Alias cmdlet usage. Which can be use as a mean to obfuscate PowerShell scripts","2b77aa85-451b-f506-eda5-71bef0c2bfa6"
 "Disable Powershell Command History","high","","ps_script","Detects scripts or commands that disabled the Powershell command history by removing psreadline module","ebdae8b0-7b83-5602-356e-b214571cee19"
-"Suspicious PowerShell Mailbox SMTP Forward Rule","medium","","ps_script","Detects usage of the powerShell Set-Mailbox Cmdlet to set-up an SMTP forwarding rule.","516b2199-36c5-1a0d-13f4-87bcb22bc2bf"
 "AMSI Bypass Pattern Assembly GetType","high","","ps_script","Detects code fragments found in small and obfuscated AMSI bypass PowerShell scripts","b38a93d1-2bd3-6583-6617-1f4bdccf8589"
 "Potential Suspicious PowerShell Keywords","medium","","ps_script","Detects potentially suspicious keywords that could indicate the use of a PowerShell exploitation framework","12b5b805-7b4b-d153-35e2-2230d216346c"
 "Tamper Windows Defender - ScriptBlockLogging","high","","ps_script","Detects PowerShell scripts attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow.","6074ad34-a80f-fdd9-5c49-e1a2fc4572c4"
@@ -472,6 +472,10 @@ load and execute malicious DLLs and/or executables.
 "Potential Data Exfiltration Over SMTP Via Send-MailMessage Cmdlet","medium","","ps_script","Detects the execution of a PowerShell script with a call to the ""Send-MailMessage"" cmdlet along with the ""-Attachments"" flag. This could be a potential sign of data exfiltration via Email.
 Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel. The data may also be sent to an alternate network location from the main command and control server.
 ","87face0d-1383-7cc4-2da9-2a5da8b81325"
+"Inbox Rules Creation Or Update Activity Via ExchangePowerShell Cmdlet","medium","","ps_script","Detects inbox rule creation or update via ExchangePowerShell cmdlet, a technique commonly observed in Business Email Compromise (BEC) attacks to hide emails.
+The usage of inbox rules can be a sign of a compromised mailbox, where an attacker is attempting to evade detections by suppressing or redirecting incoming emails.
+Analysts should review these rules in context, validate whether they reflect normal user behavior, and correlate with other indicators such as unusual login activity or recent mailbox rule modifications.
+","e95a1630-e48b-41c3-b2ca-2bd6f33e1bce"
 "WinAPI Function Calls Via PowerShell Scripts","medium","","ps_script","Detects calls to WinAPI functions from PowerShell scripts. Attackers can often leverage these APIs to avoid detection based on typical PowerShell function calls. Use this rule as a basis to hunt for interesting scripts.","fc457d0e-1ed4-ecab-aa1f-bd5c4b53c2d9"
 "Windows Mail App Mailbox Access Via PowerShell Script","medium","","ps_script","Detects PowerShell scripts that try to access the default Windows MailApp MailBox. This indicates manipulation of or access to the stored emails of a user. E.g. this could be used by an attacker to exfiltrate or delete the content of the emails.","aac8a133-780e-35ed-5d52-60a568765afb"
 "WinAPI Library Calls Via PowerShell Scripts","medium","","ps_script","Detects calls to WinAPI libraries from PowerShell scripts. Attackers can often leverage these APIs to avoid detection based on typical PowerShell function calls. Use this rule as a basis to hunt for interesting scripts.","66cccc69-033d-56e2-a1e1-f190cc0a9ca0"
@@ -480,6 +484,7 @@ Adversaries may steal data by exfiltrating it over an un-encrypted network proto
 Use this rule as a threat-hunting baseline to find obfuscated scripts in your environment.
 Once tested and tuned, consider deploying a production detection rule based on this hunting rule.
 ","77af6d22-9887-7943-53f1-6a849e2e892d"
+"Mail Forwarding/Redirecting Activity Via ExchangePowerShell Cmdlet","medium","","ps_script","Detects email forwarding or redirecting activity via ExchangePowerShell Cmdlet","cdb585a5-4a75-4c21-26d3-0bab43ffbde1"
 "New Windows Firewall Rule Added Via New-NetFirewallRule Cmdlet - ScriptBlock","low","","ps_script","Detects when a powershell script contains calls to the ""New-NetFirewallRule"" cmdlet in order to add a new firewall rule with an ""Allow"" action.
 ","40fd8a4e-3820-0edf-530e-53785ee863e9"
 "Compress-Archive Cmdlet Execution","low","","ps_script","Detects PowerShell scripts that make use of the ""Compress-Archive"" cmdlet in order to compress folders and files.
@@ -1738,6 +1743,10 @@ in Tasks to load and execute a custom assembly into cscript, wscript, regsvr32, 
 "Query Usage To Exfil Data","medium","","process_creation","Detects usage of ""query.exe"" a system binary to exfil information such as ""sessions"" and ""processes"" for later use","a3af3078-fe5d-0755-0f26-3833f03a1a6a"
 "Suspicious Download From File-Sharing Website Via Bitsadmin","high","","process_creation","Detects usage of bitsadmin downloading a file from a suspicious domain","23c16dc8-5f28-940b-9094-092e89b8727f"
 "Arbitrary File Download Via MSEDGE_PROXY.EXE","medium","","process_creation","Detects usage of ""msedge_proxy.exe"" to download arbitrary files","d6d1a63b-5f0f-795e-fe18-4c2e1784568d"
+"System Language Discovery via Reg.Exe","medium","","process_creation","Detects the usage of Reg.Exe to query system language settings.
+Attackers may discover the system language to determine the geographic location of victims, customize payloads for specific regions,
+or avoid targeting certain locales to evade detection.
+","3cc0755e-7a33-d5c1-d1cc-53a49707ca49"
 "Disable Windows Defender AV Security Monitoring","high","","process_creation","Detects attackers attempting to disable Windows Defender using Powershell","f54d52ff-5047-da16-21d1-67d79aacd624"
 "Firewall Configuration Discovery Via Netsh.EXE","low","","process_creation","Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems","af675749-89e4-ecbe-08aa-846a61be3500"
 "ConvertTo-SecureString Cmdlet Usage Via CommandLine","medium","","process_creation","Detects usage of the ""ConvertTo-SecureString"" cmdlet via the commandline. Which is fairly uncommon and could indicate potential suspicious activity","ebcee1df-9cac-a989-982c-08e181e9d5a8"
