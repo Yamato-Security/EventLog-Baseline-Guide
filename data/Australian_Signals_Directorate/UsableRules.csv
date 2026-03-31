@@ -551,6 +551,13 @@ Attackers may change the password in order to obtain persistence.
 "Grixba Malware Reconnaissance Activity","high","","process_creation","Detects execution of the Grixba reconnaissance tool based on suspicious command-line parameter combinations.
 This tool is used by the Play ransomware group for network enumeration, data gathering, and event log clearing.
 ","1c8620c4-b90c-4882-5c40-7e634a10c529"
+"Shai-Hulud 2.0 Malicious NPM Package Installation","high","","process_creation","Detects the command-line installation of specific malicious npm packages and versions associated with the Shai-Hulud 2.0 supply chain attack.
+","5e891fc3-650d-75d7-11d0-fcc5624412bb"
+"Shai-Hulud Malware Indicators - Windows","high","","process_creation","Detects potential Shai-Hulud malware indicators based on specific command line arguments associated with its execution.
+","628b7479-5761-252f-fa04-1a33e0de8758"
+"Shai-Hulud Malicious Bun Execution","high","","process_creation","Detects the execution of `bun_environment.js` via the Bun runtime, a behavior associated with the Shai-Hulud ""Second Coming"" NPM supply chain attack.
+The malware uses a `setup_bun.js` script to install the Bun runtime if not present, and then executes the malicious `bun_environment.js` payload.
+","93e946d0-5475-cd65-aa9c-e4a8312bb8dc"
 "Potential Exploitation of CrushFTP RCE Vulnerability (CVE-2025-54309)","high","","process_creation","Detects suspicious child processes created by CrushFTP. It could be an indication of exploitation of a RCE vulnerability such as CVE-2025-54309.","81ef2b50-ae07-2c4b-4242-6669c7176fec"
 "Commvault QLogin with PublicSharingUser and GUID Password (CVE-2025-57788)","medium","","process_creation","Detects a qlogin.exe command attempting to authenticate as the internal `_+_PublicSharingUser_` using a GUID as the password.
 This could be an indicator of an attacker exploiting CVE-2025-57788 to gain initial access using leaked credentials.
@@ -2438,6 +2445,9 @@ Adversaries may abuse various utilities in order to decompress data to avoid det
 The DSInternals PowerShell Module exposes several internal features of Active Directory and Azure Active Directory. These include FIDO2 and NGC key auditing, offline ntds.dit file manipulation, password auditing, DC recovery from IFM backups and password hash calculation.
 ","15f30e45-8a75-9af7-3703-c6af70b3d9f5"
 "Suspicious File Download From IP Via Curl.EXE","high","","process_creation","Detects potentially suspicious file downloads directly from IP addresses using curl.exe","a404c83b-51de-a308-f6fc-659d55a00b6c"
+"Script Interpreter Spawning Credential Scanner - Windows","high","","process_creation","Detects a script interpreter process (like node.js or bun) spawning a known credential scanning tool (e.g., trufflehog, gitleaks).
+This behavior is indicative of an attempt to find and steal secrets, as seen in the ""Shai-Hulud: The Second Coming"" campaign.
+","3319aa7e-4471-7044-7de6-5fa805250878"
 "Add Potential Suspicious New Download Source To Winget","medium","","process_creation","Detects usage of winget to add new potentially suspicious download sources","c9b38950-be40-a8b2-9d01-5912034351f3"
 "Potential PowerShell Downgrade Attack","medium","","process_creation","Detects PowerShell downgrade attack by comparing the host versions with the actually used engine version 2.0","1704d7d3-0c6c-8a4d-b02a-55dd951e5f61"
 "Computer Password Change Via Ksetup.EXE","medium","","process_creation","Detects password change for the computer's domain account or host principal via ""ksetup.exe""","24b74db7-6d52-4791-9c5a-8e5de42df8f2"
