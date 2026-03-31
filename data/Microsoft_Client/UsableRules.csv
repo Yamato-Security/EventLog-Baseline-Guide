@@ -326,6 +326,9 @@ Screen capturing functionality may be included as a feature of a remote access t
 "Potential Invoke-Mimikatz PowerShell Script","high","","ps_script","Detects Invoke-Mimikatz PowerShell script and alike. Mimikatz is a credential dumper capable of obtaining plaintext Windows account logins and passwords.","b0c6066e-a243-d2f6-c744-990ed060759c"
 "Usage Of Web Request Commands And Cmdlets - ScriptBlock","medium","","ps_script","Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via PowerShell scriptblock logs","eddbf1d6-60c9-96f5-4cdf-f0947b3aad8f"
 "PowerShell Set-Acl On Windows Folder - PsScript","high","","ps_script","Detects PowerShell scripts to set the ACL to a file in the Windows folder","82a11bd6-070f-3229-f413-73fe2ddd7018"
+"DMSA Link Attributes Modified","low","","ps_script","Detects modification of dMSA link attributes (msDS-ManagedAccountPrecededByLink) via PowerShell scripts.
+This command line pattern could be an indicator an attempt to exploit the BadSuccessor privilege escalation vulnerability in Windows Server 2025.
+","b9379854-8052-302f-b6c2-62a9b5250135"
 "PowerShell Write-EventLog Usage","medium","","ps_script","Detects usage of the ""Write-EventLog"" cmdlet with 'RawData' flag. The cmdlet can be levreage to write malicious payloads to the EventLog and then retrieve them later for later use","777d9383-7a6f-f82a-d22e-2f05f433bc9b"
 "Replace Desktop Wallpaper by Powershell","low","","ps_script","An adversary may deface systems internal to an organization in an attempt to intimidate or mislead users.
 This may take the form of modifications to internal websites, or directly to user systems with the replacement of the desktop wallpaper
@@ -406,6 +409,12 @@ Web browsers typically store the credentials in an encrypted format within a cre
 "Suspicious PowerShell Download - Powershell Script","medium","","ps_script","Detects suspicious PowerShell download command","e3888b82-f1d3-14e8-54e5-16b522dfd8a9"
 "Unsigned AppX Installation Attempt Using Add-AppxPackage - PsScript","medium","","ps_script","Detects usage of the ""Add-AppxPackage"" or it's alias ""Add-AppPackage"" to install unsigned AppX packages","649adb28-28ab-34b1-166d-cfffb0245bbd"
 "Import PowerShell Modules From Suspicious Directories","medium","","ps_script","Detects powershell scripts that import modules from suspicious directories","0a3956ee-9813-55f3-ca74-4d00e9df5262"
+"DMSA Service Account Created in Specific OUs - PowerShell","medium","","ps_script","Detects the creation of a dMSA service account using the New-ADServiceAccount cmdlet in certain OUs.
+The fact that the cmdlet is used to create a dMSASvc account in a specific OU is highly suspicious.
+It is a pattern trying to exploit the BadSuccessor privilege escalation vulnerability in Windows Server 2025.
+On top of that, if the user that is creating the dMSASvc account is not a legitimate administrator or does not have the necessary permissions,
+it is a strong signal of an attempted or successful abuse of the BaDSuccessor vulnerability for privilege escalation within the Windows Server 2025 Active Directory environment.
+","7eb149bb-0d9a-f915-d1c7-2d0de7cccc07"
 "Change PowerShell Policies to an Insecure Level - PowerShell","medium","","ps_script","Detects changing the PowerShell script execution policy to a potentially insecure level using the ""Set-ExecutionPolicy"" cmdlet.","e5a59479-4ded-f6c3-ab4d-8d464128fbb2"
 "DSInternals Suspicious PowerShell Cmdlets - ScriptBlock","high","","ps_script","Detects execution and usage of the DSInternals PowerShell module. Which can be used to perform what might be considered as suspicious activity such as dumping DPAPI backup keys or manipulating NTDS.DIT files.
 The DSInternals PowerShell Module exposes several internal features of Active Directory and Azure Active Directory. These include FIDO2 and NGC key auditing, offline ntds.dit file manipulation, password auditing, DC recovery from IFM backups and password hash calculation.
@@ -1438,6 +1447,12 @@ Instead they modify the task after creation to include their malicious payload
 ","687367a8-d423-cb00-4753-adfcbf3ef580"
 "PowerShell Base64 Encoded FromBase64String Cmdlet","high","","process_creation","Detects usage of a base64 encoded ""FromBase64String"" cmdlet in a process command line","fb3e5ab0-ed05-d894-23b3-a28ca8b237ba"
 "Invoke-Obfuscation COMPRESS OBFUSCATION","medium","","process_creation","Detects Obfuscated Powershell via COMPRESS OBFUSCATION","f52ac08e-65ef-a059-20d3-1eca726c6659"
+"New DMSA Service Account Created in Specific OUs","medium","","process_creation","Detects the creation of a dMSASvc account using the New-ADServiceAccount cmdlet in certain OUs.
+The fact that the Cmdlet is used to create a dMSASvc account in a specific OU is highly suspicious.
+It is a pattern trying to exploit the BadSuccessor privilege escalation vulnerability in Windows Server 2025.
+On top of that, if the user that is creating the dMSASvc account is not a legitimate administrator or does not have the necessary permissions,
+it is a strong signal of an attempted or successful abuse of the BaDSuccessor vulnerability for privilege escalation within the Windows Server 2025 Active Directory environment.
+","67728f40-514c-aa63-b8eb-d1537df0df30"
 "Remote Code Execute via Winrm.vbs","medium","","process_creation","Detects an attempt to execute code or create service on remote host via winrm.vbs.","3c178fa3-3914-652f-7007-f1d6f385c2ed"
 "HackTool - CreateMiniDump Execution","high","","process_creation","Detects the use of CreateMiniDump hack tool used to dump the LSASS process memory for credential extraction on the attacker's machine","c918e9f3-229d-19b9-a50f-408e5811b033"
 "Suspicious Execution of Shutdown","medium","","process_creation","Use of the commandline to shutdown or reboot windows","b74fe142-8535-448b-b2ff-c6de4a5a5133"

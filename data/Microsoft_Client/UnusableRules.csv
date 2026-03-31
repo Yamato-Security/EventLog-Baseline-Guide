@@ -64,6 +64,17 @@ Please investigate the user account that made the changes, as it is likely a low
 ","19da3c91-0fcd-61d5-5b4f-bde550a79070"
 "Suspicious LDAP-Attributes Used","high","security","","Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.","925d441a-37b4-0afa-1d98-809b5df5fd06"
 "Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
+"New MsDS-DelegatedManagedServiceAccount (DMSA) Object Created","medium","security","","Detects the creation of new msDS-DelegatedManagedServiceAccount objects, which could indicate potential abuse of privilege escalation vulnerabilities in Windows Server 2025.
+The msDS-DelegatedManagedServiceAccount (DMSA) is a new object class introduced in Windows Server 2025 that allows administrators to delegate the management of service accounts to other users or groups.
+Attackers may exploit this feature to create unauthorized service accounts with elevated privileges, leading to privilege escalation within the Active Directory environment.
+It is highly suspicious if an msDS-DelegatedManagedServiceAccount object is created without proper authorization or in an unexpected context, such as by a non-administrative user or outside of normal administrative workflows.
+So, it's a good idea to look out for accounts that are not typically responsible for service account creation to detect potential abuse of this feature.
+","99f71671-d872-abce-f1f0-8cf2e3ee7f57"
+"msDS-ManagedAccountPrecededByLink Attribute Modified","medium","security","","Detects modifications to the msDS-ManagedAccountPrecededByLink attribute, which may indicate an attempted or successful abuse of the BaD-Successor msDS-DelegatedManagedServiceAccount (DMSA) vulnerability.
+The DMSA is a new object class introduced in Windows Server 2025 that allows administrators to delegate the management of service accounts to other users or groups.
+Changes to this attribute by suspicious accounts or outside of normal administrative workflows are a strong signal of an attempted or successful abuse.
+If it is indeed modified by an account that is not typically responsible for such changes, it could indicate an attempt to exploit the BaD-Successor vulnerability for privilege escalation within the Windows Server 2025 Active Directory environment.
+","1acd5528-43c1-ed53-4ded-2aa1bddff1de"
 "Remote Schtasks Creation","medium","security","","Detects remote execution via scheduled task creation or update on the destination host","bc42c437-1ea8-fd0f-d964-e37a58d861fc"
 "RDP Session Disconnect","informational","security","","Detects when there is a RDP session disconnect.","f3532729-5536-42b4-ad74-d061b61a3891"
 "RDP Session Reconnect","informational","security","","Detects when there is a RDP session reconnect.","db23f704-61c8-4c95-a5b7-4db61c89f41d"
