@@ -695,6 +695,11 @@ This behavior was observed in multiple Raspberry-Robin variants.
 This could indicates a potential exploitation attempt of CVE-2024-37085, which allows an attacker to elevate their privileges to full administrative access on an domain-joined ESXi hypervisor.
 VMware ESXi hypervisors joined to an Active Directory domain consider any member of a domain group named ""ESX Admins"" to have full administrative access by default.
 ","15644804-cc2a-8565-e214-eefd44105fed"
+"Axios NPM Compromise Indicators - Windows","high","","process_creation","Detects the specific Windows execution chain and process tree associated with the Axios NPM supply chain compromise.
+On March 30, 2026, malicious versions (1.14.1, 0.30.4) were published to npm, injecting a dependency (plain-crypto-js@4.2.1) that executed a postinstall script as a cross-platform RAT dropper.
+The dropper contacted a C2 server, delivered platform-specific payloads, deleted itself, and replaced package.json to evade detection.
+The attack used cscript.exe (VBScript), curl.exe (C2), and PowerShell masquerading as Windows Terminal.
+","7cbf2619-fa7e-6fd3-0a93-696f5d4a5f2b"
 "Potential ACTINIUM Persistence Activity","high","","process_creation","Detects specific process parameters as used by ACTINIUM scheduled task persistence creation.","08d5c383-090f-b317-6fdd-e815d17f2ab6"
 "MERCURY APT Activity","high","","process_creation","Detects suspicious command line patterns seen being used by MERCURY APT","48adf0e2-62e3-9147-1be4-087852d3a4a5"
 "Hermetic Wiper TG Process Patterns","high","","process_creation","Detects process execution patterns found in intrusions related to the Hermetic Wiper malware attacks against Ukraine in February 2022","2a9fb7e5-5c2d-b57d-62d3-17245085abdc"
@@ -2589,7 +2594,7 @@ Usually ""RegAsm.exe"" should point to a dedicated DLL file or call the help wit
 Attackers might abuse this in order to bypass application whitelisting.
 ","e56b0b7d-eb03-5756-d3c4-1b29390fa86e"
 "Potential Defense Evasion Via Right-to-Left Override","high","","process_creation","Detects the presence of the ""u202+E"" character, which causes a terminal, browser, or operating system to render text in a right-to-left sequence.
-This is used as an obfuscation and masquerading techniques.
+This character is used as an obfuscation and masquerading techniques by adversaries to trick users into opening malicious files.
 ","7d442414-1318-9f2d-6f0c-65ff86c357de"
 "Potential Binary Impersonating Sysinternals Tools","medium","","process_creation","Detects binaries that use the same name as legitimate sysinternals tools to evade detection.
 This rule looks for the execution of binaries that are named similarly to Sysinternals tools.
