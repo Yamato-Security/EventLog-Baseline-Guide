@@ -6,6 +6,12 @@ import altair as alt
 import plotly.express as px
 from st_aggrid import AgGrid, GridOptionsBuilder, JsCode
 
+def fix_arrow_utf8(df):
+    """Convert object columns to str to avoid Arrow LargeUtf8 serialization error."""
+    for col in df.select_dtypes(include=["object"]).columns:
+        df[col] = df[col].astype(str).where(df[col].notna(), other=None)
+    return df
+
 def create_bar_chart(data, title):
     color_scale = alt.Scale(domain=["informational", "low", "medium", "high", "critical"],
                             range=["#00FFFF", "#00FF00", "#FFFF00", "#FFAF00", "#FF0000"])
@@ -73,6 +79,7 @@ cellStyle = JsCode(
     }
    """)
 
+df = fix_arrow_utf8(df)
 gb = GridOptionsBuilder.from_dataframe(df)
 gb.configure_column("Category", pinned="left", width=150)
 gb.configure_column("SubCategory", pinned="left", width=150)
@@ -93,6 +100,7 @@ with m1:
     df = pd.read_csv(csv_file)
     columns_to_display = [0, 3, 4]
     df = df.iloc[:, columns_to_display]
+    df = fix_arrow_utf8(df)
     cellStyle = JsCode(
         r"""
         function(cellClassParams) {
@@ -138,7 +146,7 @@ with m2:
     gb = GridOptionsBuilder.from_dataframe(df_legend)
     gb.configure_column("Color", cellStyle=legend_cellStyle)
     go = gb.build()
-    AgGrid(df_legend, gridOptions=go, allow_unsafe_jscode=True, key='legend', editable=False)
+    AgGrid(fix_arrow_utf8(df_legend), gridOptions=go, allow_unsafe_jscode=True, key='legend', editable=False)
 
 ### Sigma Rule Statistics
 st.markdown("<br>", unsafe_allow_html=True)
@@ -190,7 +198,7 @@ gb.configure_grid_options(ensureDomOrder=True)
 go = gb.build()
 go['defaultColDef']['cellStyle'] = cellStyle_unusable
 
-AgGrid(df_usable, gridOptions=go, allow_unsafe_jscode=True, key='usable_rules', editable=True)
+AgGrid(fix_arrow_utf8(df_usable), gridOptions=go, allow_unsafe_jscode=True, key='usable_rules', editable=True)
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
 
@@ -209,7 +217,7 @@ go = gb.build()
 go['defaultColDef']['cellStyle'] = cellStyle_unusable
 gb.configure_grid_options(enableCellTextSelection=True)
 gb.configure_grid_options(ensureDomOrder=True)
-AgGrid(df_unusable, gridOptions=go, allow_unsafe_jscode=True, key='un_usable_rules', editable=True)
+AgGrid(fix_arrow_utf8(df_unusable), gridOptions=go, allow_unsafe_jscode=True, key='un_usable_rules', editable=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
