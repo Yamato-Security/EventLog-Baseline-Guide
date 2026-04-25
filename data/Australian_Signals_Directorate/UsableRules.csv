@@ -1461,6 +1461,9 @@ This could be a precursor to a ransomware attack and has been an observed techni
 This could indicate potential exploitation of the updater component to deliver unwanted malware.
 ","3f3ab8ff-23de-2bef-b606-fd2585bdc5e2"
 "Suspicious Greedy Compression Using Rar.EXE","high","","process_creation","Detects RAR usage that creates an archive from a suspicious folder, either a system folder or one of the folders often used by attackers for staging purposes","d9100b89-baa5-8f0b-5a28-90217fe41a0f"
+"Python One-Liners with Base64 Decoding","high","","process_creation","Detects Python one-liners that use base64 decoding functions in command line executions.
+Malicious scripts or attackers often use python one-liners to decode and execute base64-encoded payloads, which is a common technique for obfuscation and evasion.
+","89d785d7-fec2-209e-53a3-19a670b7e0ea"
 "Uncommon One Time Only Scheduled Task At 00:00","high","","process_creation","Detects scheduled task creation events that include suspicious actions, and is run once at 00:00","476ef906-3f50-4b93-19a2-cf02ea63f392"
 "Dynamic .NET Compilation Via Csc.EXE","medium","","process_creation","Detects execution of ""csc.exe"" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages.","e20cb030-7e44-e3e0-0314-4f07eae201d0"
 "Certificate Exported Via PowerShell","medium","","process_creation","Detects calls to cmdlets that are used to export certificates from the local certificate store. Threat actors were seen abusing this to steal private keys from compromised machines.","909ad08b-a33e-57b8-8a0e-98a42a566b03"
@@ -1755,6 +1758,11 @@ Adversaries may delete this key to cover their tracks after executing commands.
 "Permission Check Via Accesschk.EXE","medium","","process_creation","Detects the usage of the ""Accesschk"" utility, an access and privilege audit tool developed by SysInternal and often being abused by attacker to verify process privileges","1ee3a188-7a90-b357-3e25-dd202515f11d"
 "Hardware Model Reconnaissance Via Wmic.EXE","medium","","process_creation","Detects the execution of WMIC with the ""csproduct"" which is used to obtain information such as hardware models and vendor information","ac40503f-520c-79c6-d0e8-3a32c8cec7eb"
 "Suspicious Microsoft Office Child Process","high","","process_creation","Detects a suspicious process spawning from one of the Microsoft Office suite products (Word, Excel, PowerPoint, Publisher, Visio, etc.)","7a1b8071-8f13-c99a-439b-e2769871d008"
+"HackTool - NetExec Execution","high","","process_creation","Detects execution of the hacktool NetExec.
+NetExec (formerly CrackMapExec) is a widely used post-exploitation tool designed for Active Directory penetration testing and network enumeration
+In enterprise environments, the use of NetExec is considered suspicious or potentially malicious because it enables attackers to enumerate hosts, exploit network services, and move laterally across systems.
+Threat actors and red teams commonly use NetExec to identify vulnerable systems, harvest credentials, and execute commands remotely.
+","837269f1-83f1-229a-c835-4371ad44e510"
 "Process Execution From A Potentially Suspicious Folder","high","","process_creation","Detects a potentially suspicious execution from an uncommon folder.","a9dad077-e2f9-a739-8ac0-eb0e6dcbdebb"
 "Shell Process Spawned by Java.EXE","medium","","process_creation","Detects shell spawned from Java host process, which could be a sign of exploitation (e.g. log4j exploitation)","15e3c45c-06b7-5da5-4bc0-66cf00fcc185"
 "UAC Bypass Using IEInstal - Process","high","","process_creation","Detects the pattern of UAC Bypass using IEInstal.exe (UACMe 64)","27cc5ada-12cd-ee4a-3260-a00437b0ac13"
