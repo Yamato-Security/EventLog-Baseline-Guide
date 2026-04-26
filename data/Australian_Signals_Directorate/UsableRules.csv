@@ -773,7 +773,6 @@ This may only be successful on server platforms that have Windows Backup enabled
 "HackTool - SOAPHound Execution","high","","process_creation","Detects the execution of SOAPHound, a .NET tool for collecting Active Directory data, using specific command-line arguments that may indicate an attempt to extract sensitive AD information.
 ","5c3a9984-9934-58ca-15e5-cc96b8da7455"
 "Suspicious FromBase64String Usage On Gzip Archive - Process Creation","medium","","process_creation","Detects attempts of decoding a base64 Gzip archive via PowerShell. This technique is often used as a method to load malicious content into memory afterward.","d4107fed-b19a-c873-993e-db24e6528e9f"
-"LSA PPL Protection Disabled Via Reg.EXE","high","","process_creation","Detects the usage of the ""reg.exe"" utility to disable PPL protection on the LSA process","a6a22651-ffaa-7713-8313-46ce8a85ad64"
 "Audit Policy Tampering Via Auditpol","high","","process_creation","Threat actors can use auditpol binary to change audit policy configuration to impair detection capability.
 This can be carried out by selectively disabling/removing certain audit policies as well as restoring a custom policy owned by the threat actor.
 ","5f94c12e-15a0-28ec-cd81-8049ae6c625d"
@@ -962,6 +961,9 @@ Such activity may indicate an attempt to disable or tamper with Credential Guard
 "Suspicious File Execution From Internet Hosted WebDav Share","high","","process_creation","Detects the execution of the ""net use"" command to mount a WebDAV server and then immediately execute some content in it. As seen being used in malicious LNK files","0922802a-a57f-bd7e-c635-64ffdf4824e9"
 "Suspicious Shells Spawn by Java Utility Keytool","high","","process_creation","Detects suspicious shell spawn from Java utility keytool process (e.g. adselfservice plus exploitation)","cb8f70fe-80c4-48c0-0473-656666b52064"
 "C# IL Code Compilation Via Ilasm.EXE","medium","","process_creation","Detects the use of ""Ilasm.EXE"" in order to compile C# intermediate (IL) code to EXE or DLL.","5ea0b54f-98b4-7cc7-6c38-01a53470b4e4"
+"LSA PPL Protection Setting Modification via CommandLine","medium","","process_creation","Detects modification of LSA PPL protection settings via CommandLine.
+It may indicate an attempt to disable protection and enable credential dumping tools to access LSASS process memory.
+","a6a22651-ffaa-7713-8313-46ce8a85ad64"
 "Suspicious Encoded PowerShell Command Line","high","","process_creation","Detects suspicious powershell process starts with base64 encoded commands (e.g. Emotet)","fc5c47f8-9b56-8d98-de6d-cd2b31c648f1"
 "Allow Service Access Using Security Descriptor Tampering Via Sc.EXE","high","","process_creation","Detects suspicious DACL modifications to allow access to a service from a suspicious trustee. This can be used to override access restrictions set by previous ACLs.","a6b2ba82-448c-971d-4112-1464c1588d84"
 "Potential Windows Defender Tampering Via Wmic.EXE","high","","process_creation","Detects potential tampering with Windows Defender settings such as adding exclusion using wmic","21d20eb3-388b-e372-90f5-c3da2c00dc9f"
