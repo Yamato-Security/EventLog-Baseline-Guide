@@ -102,11 +102,13 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 "Netcat The Powershell Version","medium","","ps_classic_start","Adversaries may use a non-application layer protocol for communication between host and C2 server or among infected hosts within a network","cc575689-20fe-0dda-ed3b-93e52d0d8ef1"
 "Remote PowerShell Session (PS Classic)","low","","ps_classic_start","Detects remote PowerShell sessions","d79eda57-503a-274d-fab8-0d26ff047015"
 "Nslookup PowerShell Download Cradle","medium","","ps_classic_start","Detects a powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records.","11151659-80c2-7657-d058-2a07c5662662"
+"PowerShell Download Via Net.WebClient - PowerShell Classic","low","","ps_classic_start","Detects PowerShell download activity, via the .DownloadFile() or .DownloadString() methods of the Net.WebClient class.
+This technique is often abused by attackers to download additional payloads.
+","d938bbb0-a745-c4fc-ce0d-eb5a006e6757"
 "Delete Volume Shadow Copies Via WMI With PowerShell","high","","ps_classic_start","Shadow Copies deletion using operating systems utilities via PowerShell","970cb6bc-a1b8-c7da-f658-ea96f2045162"
 "Renamed Powershell Under Powershell Channel","low","","ps_classic_start","Detects a renamed Powershell execution, which is a common technique used to circumvent security controls and bypass detection logic that's dependent on process names and process paths.
 ","b1868902-0d34-3392-8d98-99c0919a01d4"
 "Suspicious Non PowerShell WSMAN COM Provider","medium","powershell-classic","","Detects suspicious use of the WSMAN provider without PowerShell.exe as the host application.","aedc0f64-b9e7-36d1-fd92-838fdf33eac3"
-"Suspicious PowerShell Download","medium","","ps_classic_start","Detects suspicious PowerShell download command","d938bbb0-a745-c4fc-ce0d-eb5a006e6757"
 "Potential Malicious AppX Package Installation Attempts","medium","appxdeployment-server","","Detects potential installation or installation attempts of known malicious appx packages","8f46b318-b8a3-d268-911f-318d0b43c0f9"
 "Windows AppX Deployment Full Trust Package Installation","medium","appxdeployment-server","","Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions","04a566d1-0df3-90bd-15c9-6c23688e9380"
 "Uncommon PowerShell Hosts","medium","","ps_classic_start","Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe","315f165d-92fd-170d-d80b-0f16f9cf5384"
@@ -581,7 +583,6 @@ This can be used to potentially bypass defenses and execute Linux or Windows-bas
 "Suspicious Execution of Shutdown to Log Out","medium","","process_creation","Detects the rare use of the command line tool shutdown to logoff a user","4aab609a-ee21-b8ac-c046-68400df5cd4e"
 "Suspicious Windows Trace ETW Session Tamper Via Logman.EXE","high","","process_creation","Detects the execution of ""logman"" utility in order to disable or delete Windows trace sessions","b4f46720-2a2a-38d0-a77b-cd70dfbd3151"
 "Obfuscated IP Download Activity","medium","","process_creation","Detects use of an encoded/obfuscated version of an IP address (hex, octal...) in an URL combined with a download command","e0a1f78a-c161-fbe3-4ec6-e151177ec4f1"
-"Suspicious Script Execution From Temp Folder","high","","process_creation","Detects a suspicious script executions from temporary folder","18f506e1-2726-f3fa-8429-f7b06ce69825"
 "MMC Executing Files with Reversed Extensions Using RTLO Abuse","high","","process_creation","Detects malicious behavior where the MMC utility (`mmc.exe`) executes files with reversed extensions caused by Right-to-Left Override (RLO) abuse, disguising them as document formats.","5602c07f-c042-d14f-190e-cf750711227e"
 "Add SafeBoot Keys Via Reg Utility","high","","process_creation","Detects execution of ""reg.exe"" commands with the ""add"" or ""copy"" flags on safe boot registry keys. Often used by attacker to allow the ransomware to work in safe mode as some security products do not","e51a363c-2979-56e7-4526-c49be62e6062"
 "New Service Creation Using Sc.EXE","low","","process_creation","Detects the creation of a new service using the ""sc.exe"" utility.","9030c2bf-bf5b-cbfb-9cfc-e37534d2031a"
@@ -633,7 +634,9 @@ When a file is opened, the default program used to open the file (also called th
 ","bddf8e50-854c-b536-b42e-72e80d7115da"
 "Veeam Backup Database Suspicious Query","medium","","process_creation","Detects potentially suspicious SQL queries using SQLCmd targeting the Veeam backup databases in order to steal information.","2eed1cc9-eaed-d468-3184-02f80bf78c3d"
 "Potential CommandLine Path Traversal Via Cmd.EXE","high","","process_creation","Detects potential path traversal attempt via cmd.exe. Could indicate possible command/argument confusion/hijacking","63efb70a-b106-3e6a-fe1d-b3c49558ebd0"
-"Script Interpreter Execution From Suspicious Folder","high","","process_creation","Detects a suspicious script execution in temporary folders or folders accessible by environment variables","962dcd71-b0d7-ad49-1fe6-2966daf7a411"
+"Script Interpreter Execution From Suspicious Folder","high","","process_creation","Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.
+Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.
+","962dcd71-b0d7-ad49-1fe6-2966daf7a411"
 "CodePage Modification Via MODE.COM To Russian Language","medium","","process_creation","Detects a CodePage modification using the ""mode.com"" utility to Russian language.
 This behavior has been used by threat actors behind Dharma ransomware.
 ","54a21dac-be5a-04d2-da18-4bdd55216fa0"
@@ -753,6 +756,8 @@ Adversaries may tamper with HVCI to load malicious or unsigned drivers, which ca
 "Data Copied To Clipboard Via Clip.EXE","low","","process_creation","Detects the execution of clip.exe in order to copy data to the clipboard. Adversaries may collect data stored in the clipboard from users copying information within or between applications.","aa1b5f1a-0f18-adfb-7274-ca82c7711c36"
 "Firewall Rule Deleted Via Netsh.EXE","medium","","process_creation","Detects the removal of a port or application rule in the Windows Firewall configuration using netsh","f4b9cf98-c3c6-4a42-a20e-6728d79f8fec"
 "New Process Created Via Taskmgr.EXE","low","","process_creation","Detects the creation of a process via the Windows task manager. This might be an attempt to bypass UAC","09c3b6b8-4904-bec5-4fc1-d69447e6ff3b"
+"System Restore Registry Modification via CommandLine","high","","process_creation","Detects system restore registry modification via command line, which can be used by adversaries to disable system restore on the computer.
+","1c46443a-7a5b-7da5-7af3-427a3568a5dc"
 "Suspicious GUP Usage","high","","process_creation","Detects execution of the Notepad++ updater in a suspicious directory, which is often used in DLL side-loading attacks","cec3aeb1-8e95-5fa2-4566-9463115e48b2"
 "Dllhost.EXE Execution Anomaly","high","","process_creation","Detects a ""dllhost"" process spawning with no commandline arguments which is very rare to happen and could indicate process injection activity or malware mimicking similar system processes.","e2ad4178-62be-451e-624c-06ea47918a7a"
 "Suspicious PowerShell IEX Execution Patterns","high","","process_creation","Detects suspicious ways to run Invoke-Execution using IEX alias","814014e5-bfa2-e72a-4f31-6155fab87672"
@@ -1576,6 +1581,7 @@ The attack typically works by fetching XSL content from a remote source (using H
 with full trust privileges directly in memory, avoiding disk-based detection mechanisms. This is a common
 LOLBin (Living Off The Land Binary) technique used for defense evasion and code execution.
 ","b9b053da-68a6-d372-9780-828406597122"
+"Potentially Suspicious Powershell Script Execution From Temp Folder","medium","","process_creation","Detects a potentially suspicious powershell script executions from temporary folder","18f506e1-2726-f3fa-8429-f7b06ce69825"
 "Arbitrary File Download Via GfxDownloadWrapper.EXE","medium","","process_creation","Detects execution of GfxDownloadWrapper.exe with a URL as an argument to download file.","84707330-6ce4-b159-4432-712646f49a7b"
 "Windows Admin Share Mount Via Net.EXE","medium","","process_creation","Detects when an admin share is mounted using net.exe","70e8ecd5-c850-e676-1c25-2bdb4f5ef98c"
 "PowerShell Script Run in AppData","medium","","process_creation","Detects a suspicious command line execution that invokes PowerShell with reference to an AppData folder","403a879a-c765-af55-2a45-cce39e1f5cdb"
@@ -1829,6 +1835,11 @@ Attackers can leverage the ""wbadmin"" utility in order to dump sensitive files 
 "HackTool - SharpLDAPmonitor Execution","medium","","process_creation","Detects execution of the SharpLDAPmonitor. Which can monitor the creation, deletion and changes to LDAP objects.","e5c800a5-3e9b-b168-6ef9-6f47f8a19124"
 "NtdllPipe Like Activity Execution","high","","process_creation","Detects command that type the content of ntdll.dll to a different file or a pipe in order to evade AV / EDR detection. As seen being used in the POC NtdllPipe","ae7a6aa8-b9bd-4f34-f72a-5e9d33e9098c"
 "Remote Access Tool - NetSupport Execution From Unusual Location","medium","","process_creation","Detects execution of client32.exe (NetSupport RAT) from an unusual location (outside of 'C:\Program Files')","132686cd-ea41-e5c8-8c22-5211ea3bfb5d"
+"Windows EventLog Autologger Session Registry Modification Via CommandLine","high","","process_creation","Detects attempts to disable Windows EventLog autologger sessions via registry modification.
+The AutoLogger event tracing session records events that occur early in the operating system boot process.
+Applications and device drivers can use the AutoLogger session to capture traces before the user logs in.
+Adversaries may disable these sessions to evade detection and prevent security monitoring of early boot activities and system events.
+","f2b97647-02a8-e38f-ebd7-03d1bbe3d6a4"
 "Suspicious CustomShellHost Execution","high","","process_creation","Detects the execution of CustomShellHost.exe where the child isn't located in 'C:\Windows\explorer.exe'. CustomShellHost is a known LOLBin that can be abused by attackers for defense evasion techniques.
 ","5f438a3c-3bd7-d256-61ad-9ae6334543ec"
 "Hiding User Account Via SpecialAccounts Registry Key - CommandLine","medium","","process_creation","Detects changes to the registry key ""HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\Userlist"" where the value is set to ""0"" in order to hide user account from being listed on the logon screen.
@@ -1872,7 +1883,6 @@ are indistinguishable from ASCII characters and thus may make excellent candidat
 "Potentially Suspicious Execution Of PDQDeployRunner","medium","","process_creation","Detects suspicious execution of ""PDQDeployRunner"" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines","26de0206-5a40-c902-6fcf-8ab280a45735"
 "PsExec Service Execution","medium","","process_creation","Detects launch of the PSEXESVC service, which means that this system was the target of a psexec remote execution","063b6d5e-3f4e-c3a0-f506-0f8296b9eec4"
 "Suspicious File Downloaded From Direct IP Via Certutil.EXE","high","","process_creation","Detects the execution of certutil with certain flags that allow the utility to download files from direct IPs.","e0c7a46a-e1c5-f3fd-6202-5fcf88ffeb16"
-"Potential Dropper Script Execution Via WScript/CScript","medium","","process_creation","Detects wscript/cscript executions of scripts located in user directories","4b713aaa-d275-9bdc-3492-6a1d3582348c"
 "File Decryption Using Gpg4win","medium","","process_creation","Detects usage of Gpg4win to decrypt files","f539aaee-c369-f209-b744-3e1b8b37c936"
 "HackTool - UACMe Akagi Execution","high","","process_creation","Detects the execution of UACMe, a tool used for UAC bypasses, via default PE metadata","b23c27a3-ce02-1abb-0aa3-f1376bd9d0bd"
 "PowerShell Get-Process LSASS","high","","process_creation","Detects a ""Get-Process"" cmdlet and it's aliases on lsass process, which is in almost all cases a sign of malicious activity","0ac2cb1c-3284-c46e-dd61-1fd81302ad3c"
@@ -2103,6 +2113,7 @@ MemProcFS usage that is not part of authorized forensic analysis should be treat
 "Cloudflared Tunnel Connections Cleanup","medium","","process_creation","Detects execution of the ""cloudflared"" tool with the tunnel ""cleanup"" flag in order to cleanup tunnel connections.","fc4ecc21-82a9-f983-5331-c9e94cfc7cfd"
 "User Added To Highly Privileged Group","high","","process_creation","Detects addition of users to highly privileged groups via ""Net"" or ""Add-LocalGroupMember"".","315b342a-decc-2f38-398f-41e5c8fdb4ed"
 "Malicious PowerShell Commandlets - ProcessCreation","high","","process_creation","Detects Commandlet names from well-known PowerShell exploitation frameworks","097acc6f-8384-1ffd-c4af-993cdf49dff6"
+"Potential Dropper Script Execution Via WScript/CScript/MSHTA","medium","","process_creation","Detects wscript/cscript/mshta executions of scripts located in user directories","4b713aaa-d275-9bdc-3492-6a1d3582348c"
 "Odbcconf.EXE Suspicious DLL Location","high","","process_creation","Detects execution of ""odbcconf"" where the path of the DLL being registered is located in a potentially suspicious location.","a6a65b53-c476-cb1e-8267-5383b33c0dc1"
 "Suspicious Driver Install by pnputil.exe","medium","","process_creation","Detects when a possible suspicious driver is being installed via pnputil.exe lolbin","a4547750-0b4d-019c-4808-0da01680cddb"
 "Suspicious Usage of For Loop with Recursive Directory Search in CMD","medium","","process_creation","Detects suspicious usage of the cmd.exe 'for /f' loop combined with the 'tokens=' parameter and a recursive directory listing.
@@ -2197,6 +2208,8 @@ Because Node.js is commonly used, this rule may generate false positives in some
 "Suspicious Eventlog Clearing or Configuration Change Activity","high","","process_creation","Detects the clearing or configuration tampering of EventLog using utilities such as ""wevtutil"", ""powershell"" and ""wmic"".
 This technique were seen used by threat actors and ransomware strains in order to evade defenses.
 ","676111e7-0d6f-b5f4-e267-6399b5052fdc"
+"Sensitive File Dump Via Print.EXE","high","","process_creation","Detects the abuse of the Print.exe utility for credential harvesting which involves using Print.Exe to copy sensitive files such as ntds.dit, SAM, SECURITY, or SYSTEM from the Windows directory in order to extract credentials, locally or remotely.
+","138e119a-33c7-68ed-b14f-bb55df1be95a"
 "Potential CobaltStrike Process Patterns","high","","process_creation","Detects potential process patterns related to Cobalt Strike beacon activity","c78a9b49-3e9d-b00c-9e65-90d9f30bbe50"
 "Potentially Suspicious EventLog Recon Activity Using Log Query Utilities","medium","","process_creation","Detects execution of different log query utilities and commands to search and dump the content of specific event logs or look for specific event IDs.
 This technique is used by threat actors in order to extract sensitive information from events logs such as usernames, IP addresses, hostnames, etc.
@@ -2346,6 +2359,30 @@ The malware Pikabot has been seen to use this technique for process hollowing th
 "PaperCut MF/NG Exploitation Related Indicators","high","","process_creation","Detects exploitation indicators related to PaperCut MF/NG Exploitation","ebb92368-23b5-851f-104d-95a89838d948"
 "PaperCut MF/NG Potential Exploitation","high","","process_creation","Detects suspicious child processes of ""pc-app.exe"". Which could indicate potential exploitation of PaperCut","2a5d2c0f-578d-a591-f955-6a96069d7d9d"
 "Peach Sandstorm APT Process Activity Indicators","high","","process_creation","Detects process creation activity related to Peach Sandstorm APT","ad6cf96f-fa18-2ab2-281f-bbffecb4ab3a"
+"RedSun - Conhost.exe Spawned by TieringEngineService.exe","high","","process_creation","Detects two stages of the RedSun post-exploitation process chain that deliver a SYSTEM-level shell to the attacker's interactive session.
+Observed process chain
+  services.exe
+    → TieringEngineService.exe
+      → conhost.exe             (SYSTEM, CommandLine: bare path, no arguments)
+        → cmd.exe / shell       (SYSTEM, TerminalSessionId = attacker's session)
+
+Stage 1 — TieringEngineService.exe spawns argument-less conhost.exe:
+  After winning the oplock + Cloud Files mount point race, the malicious TieringEngineService.exe (RedSun.exe copied to System32, started via CoCreateInstance
+  / services.exe) detects it is NT AUTHORITY\SYSTEM and calls LaunchConsoleInSessionId().
+  This opens \\.\pipe\REDSUN, reads the attacker's session ID, duplicates the SYSTEM token, re-stamps it with that session ID via SetTokenInformation(TokenSessionId), then
+  calls CreateProcessAsUser to spawn conhost.exe with no arguments.
+
+Stage 2 — Shell spawned from rogue conhost.exe (EDR sources with GrandParentImage):
+  The rogue SYSTEM conhost.exe spawns a shell (cmd.exe, PowerShell, etc.) as SYSTEM in the attacker's interactive session.
+  On EDR sources that expose GrandParentImage, the full three-level chain (TieringEngineService.exe → conhost.exe → shell) can be matched directly.
+  The legitimate TieringEngineService.exe is a headless COM server that is unlikely to spawn conhost.exe under normal conditions.
+","9bbf2c33-b756-f40e-93bb-63e488c5ba29"
+"Potential CVE-2026-33829 Exploitation - Windows Snipping Tool Remote File Path URI","high","","process_creation","Detects potential exploitation of CVE-2026-33829, a vulnerability in the Windows Snipping Tool URI handler (ms-screensketch:).
+An attacker can abuse the 'filePath' parameter to supply a UNC path or HTTP URL, causing SnippingTool.exe to initiate a connection to a remote resource.
+When a UNC path is used (e.g. \\attacker.com\share), this triggers an outbound NTLM authentication attempt, allowing the attacker to capture or relay the victim's Net-NTLMv2 hash.
+HTTP-based paths may result in remote file loading or server-side request forgery (SSRF)-style access.
+The URI can be delivered via a malicious hyperlink, phishing email, or web page.
+","d7e34f3e-44fe-cd0b-6374-24a9bfeb97ad"
 "Axios NPM Compromise Indicators - Windows","high","","process_creation","Detects the specific Windows execution chain and process tree associated with the Axios NPM supply chain compromise.
 On March 30, 2026, malicious versions (1.14.1, 0.30.4) were published to npm, injecting a dependency (plain-crypto-js@4.2.1) that executed a postinstall script as a cross-platform RAT dropper.
 The dropper contacted a C2 server, delivered platform-specific payloads, deleted itself, and replaced package.json to evade detection.
@@ -2603,7 +2640,7 @@ Hunting Opportunity 2 - Remote Sessions On Out Of Office Hours
 
 If you have admins within your environment using remote sessions to administer endpoints, you can create a threat-hunting query and modify the time of the initiated sessions looking for abnormal activity.
 ","441ef2d8-5da0-7432-b390-b778f9f5c77b"
-"WSF/JSE/JS/VBA/VBE File Execution Via Cscript/Wscript","medium","","process_creation","Detects script file execution (.js, .jse, .vba, .vbe, .vbs, .wsf) by Wscript/Cscript","5742c4d7-6bb8-d4c7-1abf-eedde7c178df"
+"WSF/JSE/JS/VBA/VBE File Execution Via Cscript/Wscript","medium","","process_creation","Detects script file execution (.js, .jse, .vba, .vbe, .vbs, .wsf, .wsh) by Wscript/Cscript.","5742c4d7-6bb8-d4c7-1abf-eedde7c178df"
 "File or Folder Permissions Modifications","medium","","process_creation","Detects a file or folder's permissions being modified or tampered with.","2fbf12bc-cfa8-081e-6e1c-f7a08543c781"
 "Suspicious Tasklist Discovery Command","informational","","process_creation","Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network","a8683f51-05f0-cb77-d513-48b731911be3"
 "Remote Access Tool - Ammy Admin Agent Execution","medium","","process_creation","Detects the execution of the Ammy Admin RMM agent for remote management.","b7469b0d-0e65-e130-f73c-9b9ccd3b363b"
@@ -3044,9 +3081,9 @@ Windows 10+ seems to always output 0 for this so it is not a reliable source for
 "Computer Startup","informational","system","","The system has booted up. It also contains information about the OS version even though this information is not present in the event message. You can tell if the system was started up normally or in safe mode depending on the value of the BootMode. 0 for normal boot. 1 for Safe Mode. 2 for Safe Mode with networking.","a225cc36-bfdc-4e7a-ad01-f544b90e2d2a"
 "Rare Scheduled Task Creations","low","taskscheduler","","This rule detects rare scheduled task creations. Typically software gets installed on multiple systems and not only on a few. The aggregation and count function selects tasks with rare names.","696cf23d-d3f2-0a4d-6aff-b162d692a778"
 "Scheduled Tasks Names Used By SVR For GraphicalProton Backdoor - Task Scheduler","high","taskscheduler","","Hunts for known SVR-specific scheduled task names","51850e92-9de2-230e-98f6-5775d63df091"
-"Important Scheduled Task Deleted","high","taskscheduler","","Detects when adversaries try to stop system services or processes by deleting their respective scheduled tasks in order to conduct data destructive activities
-","0c0e2be2-30d2-c713-0c9c-63cd9752a940"
 "Scheduled Task Executed Uncommon LOLBIN","medium","taskscheduler","","Detects the execution of Scheduled Tasks where the program being run is located in a suspicious location or where it is an unusual program to be run from a Scheduled Task","d5a3d13e-7db3-bcf5-824a-789488ab40fd"
+"Important Scheduled Task Deleted or Disabled","high","taskscheduler","","Detects when adversaries try to stop system services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities
+","0c0e2be2-30d2-c713-0c9c-63cd9752a940"
 "Scheduled Task Executed From A Suspicious Location","medium","taskscheduler","","Detects the execution of Scheduled Tasks where the Program being run is located in a suspicious location or it's an unusale program to be run from a Scheduled Task","c1fd9ca2-a3f8-1adc-0f1d-1d6099f5d827"
 "Task Deleted","informational","taskscheduler","","","ff6ada24-c7f0-4ae5-a7a6-f20ddb7b591f"
 "Task Created","informational","taskscheduler","","","33599dfb-f3e4-4298-8d3f-59407f65f4e7"
@@ -3086,6 +3123,21 @@ This event has the same information as EID 23 and Security EID 4634.
 "Temporary WMI Event Consumer","informational","wmi","","","d96164c4-9e15-4d48-964f-153ac0dab6e9"
 "WMI Provider Started","informational","wmi","","The time wmiprvse was executed and path to the provider DLL. Attackers may sometimes install malicious WMI provider DLLs.","547aec97-2635-474a-a36c-7a3a46b07fde"
 "Antivirus PrinterNightmare CVE-2021-34527 Exploit Detection","critical","windefend","antivirus","Detects the suspicious file that is created from PoC code against Windows Print Spooler Remote Code Execution Vulnerability CVE-2021-34527 (PrinterNightmare), CVE-2021-1675 .","aef0711e-c055-e870-92bc-ea130059eed1"
+"RedSun - TieringEngineService.exe Detected as EICAR Test File","critical","windefend","","Detects Windows Defender (EventID 1119 - Remediation Action Failed) flagging TieringEngineService.exe
+dropped in a characteristic RS-{GUID} temporary directory, or the RedSun.exe process itself being present.
+This covers the staging pattern used by RedSun, a Cloud Files API and opportunistic lock (oplock) based
+AV bypass/privilege escalation tool.
+
+RedSun works as follows:
+  1. Registers a Cloud Files sync root and creates a Cloud Files placeholder for TieringEngineService.exe under %TEMP%\RS-{GUID}\
+  2. The placeholder file carries EICAR test file content (Virus:DOS/EICAR_Test_File) to reliably trigger
+     a Defender scan and remediation attempt
+  3. Requests a batch oplock (FSCTL_REQUEST_BATCH_OPLOCK) on the placeholder file
+  4. When Defender attempts to scan/quarantine the file, the oplock triggers - holding the file open
+  5. During the oplock break window, RedSun swaps the mount point (junction) to redirect
+     \\?\C:\Windows\System32 to the attacker-controlled temp path
+  6. This races the AV/OS into executing the malicious TieringEngineService.exe with elevated privileges
+","d3f14e8a-e0f1-4337-023e-35e868617bf4"
 "Microsoft Defender Tamper Protection Trigger","high","windefend","","Detects blocked attempts to change any of Defender's settings such as ""Real Time Monitoring"" and ""Behavior Monitoring""","f0a75367-1237-98a3-79c3-c4e7e4f5bacc"
 "Windows Defender Real-time Protection Disabled","high","windefend","","Detects disabling of Windows Defender Real-time Protection. As this event doesn't contain a lot of information on who initiated this action you might want to reduce it to a ""medium"" level if this occurs too many times in your environment
 ","e6c2628d-e4dc-0b32-e087-1c205385af72"
