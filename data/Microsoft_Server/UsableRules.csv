@@ -1359,6 +1359,9 @@ Adversaries abuse this functionality to execute arbitrary files while potentiall
 Extensible Stylesheet Language (XSL) files are commonly used to describe the processing and rendering of data within XML files.
 ","d90fcd50-5835-4b80-6d1a-c708404a142c"
 "Sysmon Configuration Update","medium","","process_creation","Detects updates to Sysmon's configuration. Attackers might update or replace the Sysmon configuration with a bare bone one to avoid monitoring without shutting down the service completely","055ae5db-808f-a1cc-57ac-99f0fadbab7f"
+"Indirect Command Execution via SFTP ProxyCommand","medium","","process_creation","Detects the use of SFTP.exe to execute commands indirectly via ProxyCommand parameter.
+Threat actors were seen leveraging this legitimate Windows binary to bypass security controls and execute arbitrary commands while evading detection.
+","68c735c2-b61f-e870-2049-07bb43817230"
 "Potential Data Stealing Via Chromium Headless Debugging","high","","process_creation","Detects chromium based browsers starting in headless and debugging mode and pointing to a user profile. This could be a sign of data stealing or remote control","6a04614f-59c7-e8c1-6a54-5cc3b4eb1810"
 "Process Memory Dump Via Dotnet-Dump","medium","","process_creation","Detects the execution of ""dotnet-dump"" with the ""collect"" flag. The execution could indicate potential process dumping of critical processes such as LSASS.
 ","33667ca9-e2d9-2762-b163-7e71780bc3b1"
@@ -1819,6 +1822,8 @@ Attackers were seen saving their malware to a database column or table and then 
 "Mstsc.EXE Execution With Local RDP File","low","","process_creation","Detects potential RDP connection via Mstsc using a local "".rdp"" file","b089b249-149b-dfae-0fa9-53aef8435346"
 "Arbitrary File Download Via MSPUB.EXE","medium","","process_creation","Detects usage of ""MSPUB"" (Microsoft Publisher) to download arbitrary files","dd4ac92f-1ad9-9f2e-e7b1-574030f25c36"
 "Potential Arbitrary DLL Load Using Winword","medium","","process_creation","Detects potential DLL sideloading using the Microsoft Office winword process via the '/l' flag.","eacb8d30-18b2-df70-fb8e-b5b8bb773983"
+"Service Startup Type Change Via Wmic.EXE","medium","","process_creation","Detects changes to service startup type to 'disabled' or 'manual' using the WMIC command-line utility.
+","64fa414d-b58f-a5a5-82e1-4ec381a95b01"
 "HackTool - PurpleSharp Execution","critical","","process_creation","Detects the execution of the PurpleSharp adversary simulation tool","18dfc536-9538-c1a3-545c-82b5c749672c"
 "Sensitive File Recovery From Backup Via Wbadmin.EXE","high","","process_creation","Detects the dump of highly sensitive files such as ""NTDS.DIT"" and ""SECURITY"" hive.
 Attackers can leverage the ""wbadmin"" utility in order to dump sensitive files that might contain credential or sensitive information.
@@ -2092,6 +2097,11 @@ This may only be successful on server platforms that have Windows Backup enabled
 This could be an indicator of exfiltration or use of WebDav to launch code (hosted on a WebDav server).
 ","f84fbf6b-fa1f-71fb-e2ca-4f67b2451fe6"
 "Regedit as Trusted Installer","high","","process_creation","Detects a regedit started with TrustedInstaller privileges or by ProcessHacker.exe","897d8214-575a-533d-6b1e-a21219da4532"
+"PUA - Memory Dump Mount Via MemProcFS","high","","process_creation","Detects execution of MemProcFS a memory forensics tool with the '-device' parameter.
+MemProcFS mounts physical memory as a virtual file system, allowing direct access to process memory and system structures.
+Threat actors were seen abusing this utility to mount memory dumps and then extract sensitive information from processes like LSASS or extract registry hives to obtain credentials, LSA secrets, SAM data, and cached domain credentials.
+MemProcFS usage that is not part of authorized forensic analysis should be treated as suspicious and warrants further investigation.
+","b917462b-c064-bd73-d45d-334fc43567be"
 "Cloudflared Tunnel Connections Cleanup","medium","","process_creation","Detects execution of the ""cloudflared"" tool with the tunnel ""cleanup"" flag in order to cleanup tunnel connections.","fc4ecc21-82a9-f983-5331-c9e94cfc7cfd"
 "User Added To Highly Privileged Group","high","","process_creation","Detects addition of users to highly privileged groups via ""Net"" or ""Add-LocalGroupMember"".","315b342a-decc-2f38-398f-41e5c8fdb4ed"
 "Malicious PowerShell Commandlets - ProcessCreation","high","","process_creation","Detects Commandlet names from well-known PowerShell exploitation frameworks","097acc6f-8384-1ffd-c4af-993cdf49dff6"
