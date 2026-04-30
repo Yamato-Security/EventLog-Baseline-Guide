@@ -102,11 +102,13 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 "Netcat The Powershell Version","medium","","ps_classic_start","Adversaries may use a non-application layer protocol for communication between host and C2 server or among infected hosts within a network","cc575689-20fe-0dda-ed3b-93e52d0d8ef1"
 "Remote PowerShell Session (PS Classic)","low","","ps_classic_start","Detects remote PowerShell sessions","d79eda57-503a-274d-fab8-0d26ff047015"
 "Nslookup PowerShell Download Cradle","medium","","ps_classic_start","Detects a powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records.","11151659-80c2-7657-d058-2a07c5662662"
+"PowerShell Download Via Net.WebClient - PowerShell Classic","low","","ps_classic_start","Detects PowerShell download activity, via the .DownloadFile() or .DownloadString() methods of the Net.WebClient class.
+This technique is often abused by attackers to download additional payloads.
+","d938bbb0-a745-c4fc-ce0d-eb5a006e6757"
 "Delete Volume Shadow Copies Via WMI With PowerShell","high","","ps_classic_start","Shadow Copies deletion using operating systems utilities via PowerShell","970cb6bc-a1b8-c7da-f658-ea96f2045162"
 "Renamed Powershell Under Powershell Channel","low","","ps_classic_start","Detects a renamed Powershell execution, which is a common technique used to circumvent security controls and bypass detection logic that's dependent on process names and process paths.
 ","b1868902-0d34-3392-8d98-99c0919a01d4"
 "Suspicious Non PowerShell WSMAN COM Provider","medium","powershell-classic","","Detects suspicious use of the WSMAN provider without PowerShell.exe as the host application.","aedc0f64-b9e7-36d1-fd92-838fdf33eac3"
-"Suspicious PowerShell Download","medium","","ps_classic_start","Detects suspicious PowerShell download command","d938bbb0-a745-c4fc-ce0d-eb5a006e6757"
 "Potential Malicious AppX Package Installation Attempts","medium","appxdeployment-server","","Detects potential installation or installation attempts of known malicious appx packages","8f46b318-b8a3-d268-911f-318d0b43c0f9"
 "Windows AppX Deployment Full Trust Package Installation","medium","appxdeployment-server","","Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions","04a566d1-0df3-90bd-15c9-6c23688e9380"
 "Uncommon PowerShell Hosts","medium","","ps_classic_start","Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe","315f165d-92fd-170d-d80b-0f16f9cf5384"
@@ -814,9 +816,9 @@ Windows 10+ seems to always output 0 for this so it is not a reliable source for
 "Computer Startup","informational","system","","The system has booted up. It also contains information about the OS version even though this information is not present in the event message. You can tell if the system was started up normally or in safe mode depending on the value of the BootMode. 0 for normal boot. 1 for Safe Mode. 2 for Safe Mode with networking.","a225cc36-bfdc-4e7a-ad01-f544b90e2d2a"
 "Rare Scheduled Task Creations","low","taskscheduler","","This rule detects rare scheduled task creations. Typically software gets installed on multiple systems and not only on a few. The aggregation and count function selects tasks with rare names.","696cf23d-d3f2-0a4d-6aff-b162d692a778"
 "Scheduled Tasks Names Used By SVR For GraphicalProton Backdoor - Task Scheduler","high","taskscheduler","","Hunts for known SVR-specific scheduled task names","51850e92-9de2-230e-98f6-5775d63df091"
-"Important Scheduled Task Deleted","high","taskscheduler","","Detects when adversaries try to stop system services or processes by deleting their respective scheduled tasks in order to conduct data destructive activities
-","0c0e2be2-30d2-c713-0c9c-63cd9752a940"
 "Scheduled Task Executed Uncommon LOLBIN","medium","taskscheduler","","Detects the execution of Scheduled Tasks where the program being run is located in a suspicious location or where it is an unusual program to be run from a Scheduled Task","d5a3d13e-7db3-bcf5-824a-789488ab40fd"
+"Important Scheduled Task Deleted or Disabled","high","taskscheduler","","Detects when adversaries try to stop system services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities
+","0c0e2be2-30d2-c713-0c9c-63cd9752a940"
 "Scheduled Task Executed From A Suspicious Location","medium","taskscheduler","","Detects the execution of Scheduled Tasks where the Program being run is located in a suspicious location or it's an unusale program to be run from a Scheduled Task","c1fd9ca2-a3f8-1adc-0f1d-1d6099f5d827"
 "Task Deleted","informational","taskscheduler","","","ff6ada24-c7f0-4ae5-a7a6-f20ddb7b591f"
 "Task Created","informational","taskscheduler","","","33599dfb-f3e4-4298-8d3f-59407f65f4e7"
@@ -856,6 +858,21 @@ This event has the same information as EID 23 and Security EID 4634.
 "Temporary WMI Event Consumer","informational","wmi","","","d96164c4-9e15-4d48-964f-153ac0dab6e9"
 "WMI Provider Started","informational","wmi","","The time wmiprvse was executed and path to the provider DLL. Attackers may sometimes install malicious WMI provider DLLs.","547aec97-2635-474a-a36c-7a3a46b07fde"
 "Antivirus PrinterNightmare CVE-2021-34527 Exploit Detection","critical","windefend","antivirus","Detects the suspicious file that is created from PoC code against Windows Print Spooler Remote Code Execution Vulnerability CVE-2021-34527 (PrinterNightmare), CVE-2021-1675 .","aef0711e-c055-e870-92bc-ea130059eed1"
+"RedSun - TieringEngineService.exe Detected as EICAR Test File","critical","windefend","","Detects Windows Defender (EventID 1119 - Remediation Action Failed) flagging TieringEngineService.exe
+dropped in a characteristic RS-{GUID} temporary directory, or the RedSun.exe process itself being present.
+This covers the staging pattern used by RedSun, a Cloud Files API and opportunistic lock (oplock) based
+AV bypass/privilege escalation tool.
+
+RedSun works as follows:
+  1. Registers a Cloud Files sync root and creates a Cloud Files placeholder for TieringEngineService.exe under %TEMP%\RS-{GUID}\
+  2. The placeholder file carries EICAR test file content (Virus:DOS/EICAR_Test_File) to reliably trigger
+     a Defender scan and remediation attempt
+  3. Requests a batch oplock (FSCTL_REQUEST_BATCH_OPLOCK) on the placeholder file
+  4. When Defender attempts to scan/quarantine the file, the oplock triggers - holding the file open
+  5. During the oplock break window, RedSun swaps the mount point (junction) to redirect
+     \\?\C:\Windows\System32 to the attacker-controlled temp path
+  6. This races the AV/OS into executing the malicious TieringEngineService.exe with elevated privileges
+","d3f14e8a-e0f1-4337-023e-35e868617bf4"
 "Microsoft Defender Tamper Protection Trigger","high","windefend","","Detects blocked attempts to change any of Defender's settings such as ""Real Time Monitoring"" and ""Behavior Monitoring""","f0a75367-1237-98a3-79c3-c4e7e4f5bacc"
 "Windows Defender Real-time Protection Disabled","high","windefend","","Detects disabling of Windows Defender Real-time Protection. As this event doesn't contain a lot of information on who initiated this action you might want to reduce it to a ""medium"" level if this occurs too many times in your environment
 ","e6c2628d-e4dc-0b32-e087-1c205385af72"
