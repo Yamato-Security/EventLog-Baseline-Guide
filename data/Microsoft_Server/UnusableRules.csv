@@ -422,7 +422,10 @@ Both services are used in the tool Ghost-In-The-Logs (https://github.com/bats3c/
 "Modification of IE Registry Settings","low","","registry_set","Detects modification of the registry settings used for Internet Explorer and other Windows components that use these settings. An attacker can abuse this registry key to add a domain to the trusted sites Zone or insert JavaScript for persistence","0fbb75e3-4f11-c091-e62d-0159f224a0af"
 "Potential Persistence Via CHM Helper DLL","high","","registry_set","Detects when an attacker modifies the registry key ""HtmlHelp Author"" to achieve persistence","7c631357-74f2-6fac-f215-06a5d2c1e99b"
 "System Scripts Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","672c20dd-b3a3-85e6-ece5-2b1010734c41"
-"Office Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","cb43927e-70c4-47e4-6121-af9fb00a6a77"
+"Office Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry. Adversaries may modify these keys to execute malicious code when Office files are opened.
+There are various legitimate add-ins that also use these keys and this filter list might not be exhaustive.
+Thus, it is recommended to review and tune filters for your environment to reduce false positives before deploying to production.
+","cb43927e-70c4-47e4-6121-af9fb00a6a77"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_set","Detects COM object hijacking via TreatAs subkey","9b23f158-004c-60b3-35ff-4bf653179230"
 "Potential Ransomware Activity Using LegalNotice Message","high","","registry_set","Detect changes to the ""LegalNoticeCaption"" or ""LegalNoticeText"" registry values where the message set contains keywords often used in ransomware ransom messages","dcbfe53c-e933-cfb7-d9ce-8f03726f9637"
 "ScreenSaver Registry Key Set","medium","","registry_set","Detects registry key established after masqueraded .scr file execution using Rundll32 through desk.cpl","a6cf9f0e-8857-2bf6-bf8f-ebe833b09125"
@@ -538,7 +541,11 @@ The SilentCleanup task located in %windir%\system32\cleanmgr.exe is an auto-elev
 "WinSock2 Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e06345ae-614b-8ef6-d336-a5ed3b2dc71b"
 "Wow6432Node Classes Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","50b1dd22-8438-5c33-c5f2-00496987423b"
 "Trust Access Disable For VBApplications","high","","registry_set","Detects registry changes to Microsoft Office ""AccessVBOM"" to a value of ""1"" which disables trust access for VBA on the victim machine and lets attackers execute malicious macros without any Microsoft Office warnings.","d5d54339-c5a4-2889-7da2-66fd42b16ef0"
-"Potential AutoLogger Sessions Tampering","high","","registry_set","Detects tampering with autologger trace sessions which is a technique used by attackers to disable logging","c561b602-ffb8-a69c-10ef-7c35000d7bca"
+"Potential AutoLogger Sessions Tampering","high","","registry_set","Detects tampering with autologger trace sessions which is a technique used by attackers to disable logging.
+The AutoLogger event tracing session records events up that occur early in the operating system boot process.
+Applications and device drivers can use the AutoLogger session to capture traces before the user logs in, and also used by security solutions as telemetry source.
+Adversaries may disable these sessions to evade detection and prevent security monitoring of early boot activities and system events.
+","c561b602-ffb8-a69c-10ef-7c35000d7bca"
 "Registry Persistence via Explorer Run Key","high","","registry_set","Detects a possible persistence mechanism using RUN key for Windows Explorer and pointing to a suspicious folder","2c5460e8-fa5b-2a17-1e53-f6f3789de52d"
 "Old TLS1.0/TLS1.1 Protocol Version Enabled","medium","","registry_set","Detects applications or users re-enabling old TLS versions by setting the ""Enabled"" value to ""1"" for the ""Protocols"" registry key.","f1d2e557-5935-d1b7-cc8a-48563f722f9c"
 "COM Object Hijacking Via Modification Of Default System CLSID Default Value","high","","registry_set","Detects potential COM object hijacking via modification of default system CLSID.","f27c3f9d-33e2-2ee6-64f7-a34b895b6379"
@@ -582,7 +589,11 @@ Attackers may add custom AMSI providers to persist on the system and evade detec
 This technique is often used in conjunction with fileless malware and script-based attacks to maintain persistence while avoiding detection.
 ","aa281ce3-f044-9f6c-dc0e-5c180efeeff5"
 "Usage of Renamed Sysinternals Tools - RegistrySet","high","","registry_set","Detects non-sysinternals tools setting the ""accepteula"" key which normally is set on sysinternals tool execution","55790e96-f1bd-5804-59c2-7cd806625025"
-"Classes Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","a4cae50c-cac3-7292-659e-cf9ca88c8ba8"
+"Classes Autorun Keys Modification","medium","","registry_set","Detects modification of Windows Registry Classes keys used for persistence.
+Adversaries modify these autostart extensibility points (ASEP) to execute malicious code when file types are opened or actions are performed.
+Various legitimate software also uses these keys. Currently, this rule only filters out known legitimate software paths,
+thus it is recommended to review and tune filters for your environment to reduce false positives before deploying to production.
+","a4cae50c-cac3-7292-659e-cf9ca88c8ba8"
 "Potential SentinelOne Shell Context Menu Scan Command Tampering","medium","","registry_set","Detects potentially suspicious changes to the SentinelOne context menu scan command by a process other than SentinelOne.","8785a0bb-8ec2-c019-4196-7d4d2fb47bd7"
 "New ODBC Driver Registered","low","","registry_set","Detects the registration of a new ODBC driver.","f3d16bf4-2de2-b0e3-b8dc-37b2ca82c1cf"
 "Potential EventLog File Location Tampering","high","","registry_set","Detects tampering with EventLog service ""file"" key. In order to change the default location of an Evtx file. This technique is used to tamper with log collection and alerting","dfa1b70c-248b-d9ac-0b47-fbce1fe26a10"
