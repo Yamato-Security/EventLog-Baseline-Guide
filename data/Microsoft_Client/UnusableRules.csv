@@ -18,6 +18,7 @@ such as one-liners that execute remotely hosted malicious files or scripts.
 "Lace Tempest PowerShell Evidence Eraser","high","","ps_script","Detects a PowerShell script used by Lace Tempest APT to erase evidence from victim servers by exploiting CVE-2023-47246 as reported by SysAid Team
 ","017266c4-7b12-7c2b-d2b3-0b8ffe973af8"
 "Execution DLL of Choice Using WAB.EXE","high","","registry_set","This rule detects that the path to the DLL written in the registry is different from the default one. Launched WAB.exe tries to load the DLL from Registry.","027f1f5f-4aa7-ac2c-d8c2-084da4eaee3d"
+"DFS Namespace Removal","low","dfsn-server","","Detects removal of a DFS namespace, which may be indicative of a forced authentication attack through tools such as DFSCoerce. If the DFS server specified is not expected, this should be correlated with Named Pipe events to ""\netdfs"" and NTLM authentications for further investigation.","0346e3b9-3783-468f-9e07-ef8d490846eb"
 "Potential Packet Capture Activity Via Start-NetEventSession - ScriptBlock","medium","","ps_script","Detects the execution of powershell scripts with calls to the ""Start-NetEventSession"" cmdlet. Which allows an attacker to start event and packet capture for a network event session.
 Adversaries may attempt to capture network to gather information over the course of an operation.
 Data captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol.
@@ -283,6 +284,11 @@ internal network resources such as servers, tools/dashboards, or other related i
 "Password Policy Discovery With Get-AdDefaultDomainPasswordPolicy","low","","ps_script","Detetcts PowerShell activity in which Get-Addefaultdomainpasswordpolicy is used to get the default password policy for an Active Directory domain.","3c8ea56a-ad16-8598-c24e-3fdd6b345dda"
 "Suspicious PowerShell Invocations - Specific","high","powershell","","Detects suspicious PowerShell invocation command parameters","3db961f4-6217-4957-b717-e5955c82d6e5"
 "Tamper Windows Defender - PSClassic","high","","ps_classic_provider_start","Attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow.","3ec981cc-6521-d6a9-9630-d1df7d2090b9"
+"New User Account Creation Attempt Via ADSI","medium","","ps_script","Detects an attempt to create a new user account via ADSI (Active Directory Service Interfaces)
+using either the WinNT or LDAP provider. This is an uncommon method to create user accounts
+and may indicate an attempt to evade detection by avoiding more commonly monitored commands
+such as ""net user"", ""New-LocalUser"" or ""New-ADUser"".
+","3ef382fc-cbff-66ab-97ab-f4c0fa11ddc9"
 "DNS Server Error Failed Loading the ServerLevelPluginDLL","high","dns-server","","Detects a DNS server error in which a specified plugin DLL (in registry) could not be loaded","40077f9e-f597-1087-0c4f-8901d1a07af4"
 "Potential Persistence Via Event Viewer Events.asp","medium","","registry_set","Detects potential registry persistence technique using the Event Viewer ""Events.asp"" technique","406b79d8-988c-0ef9-5702-7aa379ce70e2"
 "HackTool - WinPwn Execution - ScriptBlock","high","","ps_script","Detects scriptblock text keywords indicative of potential usge of the tool WinPwn. A tool for Windows and Active Directory reconnaissance and exploitation.
@@ -368,6 +374,16 @@ The Windows Time service (W32Time) enables time synchronization across and withi
 "ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
 "RDP to HTTP or HTTPS Target Ports","high","","network_connection","Detects svchost hosting RDP termsvcs communicating to target systems on TCP port 80 or 443","5049ed9f-e700-a499-9498-5e648851d2ad"
 "Wow6432Node Classes Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","50b1dd22-8438-5c33-c5f2-00496987423b"
+"ADCS - Certighost Certificate Issued via CDC Chase (CVE-2026-54121)","high","security","","Detects successful issuance of an ADCS certificate where the request attributes include
+'cdc' (Client DC) or 'rmd' (Remote Domain) pointing to a non-DC domain or IP, confirming the
+CA's chase fallback path was taken against an attacker-controlled target.
+
+'cdc' directs the CA to an address for identity lookup; 'rmd' specifies the principal to
+look up there. In an attack (CVE-2026-54121, Certighost), cdc points to a rogue host that
+returns a forged DC identity. A successfully issued certificate at this stage means the
+attacker has obtained a cert carrying a Domain Controller's SID and DNS identity, enabling
+PKINIT authentication as that DC followed by DCSync replication.
+","50f06a12-50cc-fd71-7b01-80a01d9e9418"
 "Suspicious Wordpad Outbound Connections","medium","","network_connection","Detects a network connection initiated by ""wordpad.exe"" over uncommon destination ports.
 This might indicate potential process injection activity from a beacon or similar mechanisms.
 ","510d0486-0545-9178-93cb-5f5a8c75930b"
@@ -385,6 +401,19 @@ This can be potentially abused as a persistence mechanism.
 "PowerShell Script With File Hostname Resolving Capabilities","medium","","ps_script","Detects PowerShell scripts that have capabilities to read files, loop through them and resolve DNS host entries.","53f26dda-d088-32eb-a704-03c3b6986b49"
 "Device Installation Blocked","medium","security","","Detects an installation of a device that is forbidden by the system policy","53f7ff98-38dd-f02c-0658-1debbf8deddc"
 "Usage of Renamed Sysinternals Tools - RegistrySet","high","","registry_set","Detects non-sysinternals tools setting the ""accepteula"" key which normally is set on sysinternals tool execution","55790e96-f1bd-5804-59c2-7cd806625025"
+"DC Machine Account TGS Request from Non-DC Source IP","high","security","","Detects a Kerberos service ticket request (Event 4769) targeting a Domain Controller
+machine account's service (e.g. DRSUAPI) originating from an IP address that is not a
+known Domain Controller. Service tickets for DC machine accounts should only be requested
+by other DCs during legitimate replication operations.
+
+An attacker with a valid TGT (obtained via PKINIT, overpass-the-hash, or stolen TGT)
+targeting a DC machine account's service from a workstation IP indicates preparation for
+DCSync or impersonation of a DC. Unlike Silver Ticket attacks (which forge the TGS and
+bypass this event), this rule catches attacks that go through the KDC legitimately.
+
+This rule requires %dc_machine_accounts% and %dc_ip_addresses% to be populated with
+all known DC machine account names and DC IP addresses respectively.
+","55afdafd-6418-740a-1cdf-0788609efb5b"
 "DSInternals Suspicious PowerShell Cmdlets - ScriptBlock","high","","ps_script","Detects execution and usage of the DSInternals PowerShell module. Which can be used to perform what might be considered as suspicious activity such as dumping DPAPI backup keys or manipulating NTDS.DIT files.
 The DSInternals PowerShell Module exposes several internal features of Active Directory and Azure Active Directory. These include FIDO2 and NGC key auditing, offline ntds.dit file manipulation, password auditing, DC recovery from IFM backups and password hash calculation.
 ","55d8816f-49cc-7135-b3b1-63d41ce23a01"
@@ -432,11 +461,22 @@ This is marked as a medium alert as there is a high possibility for false positi
 ","5b6e58ee-c231-4a54-9eee-af2577802e08"
 "AppX Located in Known Staging Directory Added to Deployment Pipeline","high","appxdeployment-server","","Detects an appx package that was added to the pipeline of the ""to be processed"" packages that is located in a known folder often used as a staging directory.
 ","5bb0ef8b-3b9d-8a3c-30c2-0a787e54184a"
+"DC Machine Account TGT Request from Non-DC Source IP","high","security","","Detects a Kerberos TGT request (Event 4768) for a known Domain Controller machine account
+originating from an IP address that is not a known Domain Controller. DC machine accounts
+should only request TGTs from their own IP. Any TGT request for a DC account from a
+workstation or non-DC host is anomalous and indicates one of the following:
+
+  - PKINIT abuse (CVE-2026-54121 / Certighost): attacker authenticating as a DC via a
+    forged certificate from their workstation
+  - Overpass-the-Hash: attacker converting a stolen DC machine account NTLM hash into a
+    Kerberos TGT
+  - Pass-the-Hash (RC4): attacker using the DC machine account hash directly with Kerberos
+","5c14854d-b6ca-79bc-c43a-ddf354a14d62"
 "Atbroker Registry Change","medium","","registry_event","Detects creation/modification of Assistive Technology applications and persistence with usage of 'at'","5c5490c6-68eb-786c-e6b0-12374dce833f"
 "Lolbas OneDriveStandaloneUpdater.exe Proxy Download","high","","registry_set","Detects setting a custom URL for OneDriveStandaloneUpdater.exe to download a file from the Internet without executing any
 anomalous executables with suspicious arguments. The downloaded file will be in C:\Users\redacted\AppData\Local\Microsoft\OneDrive\StandaloneUpdaterreSignInSettingsConfig.json
 ","5c6e4e04-c3a5-0b21-f966-97441d749d47"
-"Active Directory Replication from Non Machine Account","critical","security","","Detects potential abuse of Active Directory Replication Service (ADRS) from a non machine account to request credentials.","5c8e2537-5c7f-56d8-de80-1f0746b61067"
+"Active Directory Replication from Non Machine Account - DcSync Indicator","medium","security","","Detects potential abuse of Active Directory Replication Service (ADRS) from a non machine account to request credentials.","5c8e2537-5c7f-56d8-de80-1f0746b61067"
 "AppX Package Deployment Failed Due to Signing Requirements","medium","appxdeployment-server","","Detects an appx package deployment / installation with the error code ""0x80073cff"" which indicates that the package didn't meet the signing requirements.
 ","5cfde458-a9e1-f4b7-92cd-959ead47bdd3"
 "Registry Disable System Restore","high","","registry_set","Detects the modification of the registry to disable a system restore on the computer","5cfed8dd-d873-5012-6a54-f3136099d818"
@@ -635,7 +675,9 @@ Any developer can extend the available disk cleanup services by implementing and
 "Windows Default Domain GPO Modification","medium","security","","Detects modifications to Default Domain or Default Domain Controllers Group Policy Objects (GPOs).
 Adversaries may modify these default GPOs to deploy malicious configurations across the domain.
 ","848c3317-9b29-5241-aae9-ceb41ce11177"
-"CMSTP Execution Registry Event","high","","registry_event","Detects various indicators of Microsoft Connection Manager Profile Installer execution","8538e021-b60d-b297-e8e1-e9020ae98f78"
+"CMSTP App Paths Registry Key Modification","high","","registry_event","Detects modifications to the CMSTP App Paths registry key. This may indicate abuse of
+Microsoft Connection Manager Profile Installer (CMSTP) for arbitrary code execution or UAC bypass.
+","8538e021-b60d-b297-e8e1-e9020ae98f78"
 "Suspicious Get-ADDBAccount Usage","high","","ps_module","Detects suspicious invocation of the Get-ADDBAccount script that reads from a ntds.dit file and may be used to get access to credentials without using any credential dumpers","85b06a92-2ad6-ef34-57c3-fac694f74095"
 "DCOM InternetExplorer.Application Iertutil DLL Hijack - Security","high","security","","Detects a threat actor creating a file named `iertutil.dll` in the `C:\Program Files\Internet Explorer\` directory over the network for a DCOM InternetExplorer DLL Hijack scenario.","85e72fe3-83af-8ed9-39d3-2883e46059f1"
 "Suspicious PowerShell Invocations - Specific","high","","ps_script","Detects suspicious PowerShell invocation command parameters","8655ba53-c937-dbcf-91c5-3125219b9497"
@@ -721,6 +763,20 @@ This rule triggers when any of the following registry keys are set to DWORD 1, h
 "Suspicious Set Value of MSDT in Registry (CVE-2022-30190)","medium","","registry_set","Detects set value ms-msdt MSProtocol URI scheme in Registry that could be an attempt to exploit CVE-2022-30190.","9754f622-65d5-8c9b-7762-f074e2d502ed"
 "Powershell Create Scheduled Task","medium","","ps_script","Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code","977cdcc1-6d3a-a221-a03f-d794230e01ae"
 "Kerberos Manipulation","high","security","","Detects failed Kerberos TGT issue operation. This can be a sign of manipulations of TGT messages by an attacker.","978525c2-97aa-f0e4-8c11-3cf81ea3379b"
+"Certificate Services Outbound SMB or LDAP Connection","high","","network_connection","Detects the Windows Certificate Services process (certsrv.exe) initiating an outbound
+network connection on port 445 (SMB) or 389 (LDAP) to a non-DC host. This behaviour is
+inherently suspicious: under normal operation the CA resolves subject identities via local
+RPC against the domain and never initiates outbound SMB or LDAP connections to arbitrary
+hosts. Any such connection indicates the CA is being coerced into performing a remote
+identity lookup against an attacker-controlled host.
+
+The most direct known trigger is the CA chase fallback (EDITF_ENABLECHASECLIENTDC) where
+a requester-supplied 'cdc' attribute causes the CA to open SMB and LDAP to a specified
+address. CVE-2026-54121 (Certighost) exploits this path to redirect the CA to rogue LSA
+and LDAP services that return a DC's identity, resulting in a forged DC certificate.
+This rule is not limited to Certighost — any future vulnerability or misconfiguration
+that causes certsrv.exe to make outbound SMB or LDAP connections is covered.
+","97d2c88d-6b09-01ac-bb36-2af6fce7d2b0"
 "Tamper Windows Defender Remove-MpPreference - ScriptBlockLogging","high","","ps_script","Detects attempts to remove Windows Defender configuration using the 'MpPreference' cmdlet","97e928f0-6985-66cd-fd2d-3783904a3c7c"
 "Suspicious Shim Database Patching Activity","high","","registry_set","Detects installation of new shim databases that try to patch sections of known processes for potential process injection or persistence.","98109d4e-3967-7837-46d2-9fdaface4ac0"
 "SyncAppvPublishingServer Bypass Powershell Restriction - PS Module","medium","","ps_module","Detects SyncAppvPublishingServer process execution which usually utilized by adversaries to bypass PowerShell execution restrictions.","9863342f-1e0e-72c5-8faa-674337cd6d2b"
@@ -872,7 +928,10 @@ Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as R
 "Potential Invoke-Mimikatz PowerShell Script","high","","ps_script","Detects Invoke-Mimikatz PowerShell script and alike. Mimikatz is a credential dumper capable of obtaining plaintext Windows account logins and passwords.","b0c6066e-a243-d2f6-c744-990ed060759c"
 "New File Association Using Exefile","high","","registry_set","Detects the abuse of the exefile handler in new file association. Used for bypass of security products.","b0fb77bd-c468-c8dd-1a84-96bf79d003a7"
 "Powershell Install a DLL in System Directory","high","","ps_script","Uses PowerShell to install/copy a file into a system directory such as ""System32"" or ""SysWOW64""","b16a0b26-d586-4ff7-f200-20927037e55f"
-"Shell Open Registry Keys Manipulation","high","","registry_event","Detects the shell open key manipulation (exefile and ms-settings) used for persistence and the pattern of UAC Bypass using fodhelper.exe, computerdefaults.exe, slui.exe via registry keys (e.g. UACMe 33 or 62)","b1bd0320-da55-2715-927f-f70a3cb846fa"
+"Shell Open Registry Keys Manipulation","high","","registry_event","Detects manipulation of shell open command registry keys such as ""ms-settings"" and ""exefile"",
+which are commonly abused to achieve UAC bypass (e.g. via fodhelper.exe) or establish persistence
+through file association hijacking.
+","b1bd0320-da55-2715-927f-f70a3cb846fa"
 "Invoke-Obfuscation VAR++ LAUNCHER OBFUSCATION - PowerShell Module","high","","ps_module","Detects Obfuscated Powershell via VAR++ LAUNCHER","b2064db0-e465-72c2-edcc-57cfd9676207"
 "Invoke-Obfuscation Obfuscated IEX Invocation - PowerShell Module","high","","ps_module","Detects all variations of obfuscated powershell IEX invocation code generated by Invoke-Obfuscation framework from the code block cited in the reference section below","b21405ff-2071-082b-067f-fa116d28a858"
 "Windows Registry Trust Record Modification","medium","","registry_event","Alerts on trust record modification within the registry, indicating usage of macros","b2a0af70-a308-0185-6128-c2e37db1ebf2"
@@ -1060,7 +1119,16 @@ In some cases, windows that would typically be displayed when an application car
 "Kerberos TGT Requested","informational","security","","Prints logon information.","d9f336ea-bb16-4a35-8a9c-183216b8d59c"
 "Suspicious PowerShell Invocations - Specific - PowerShell Module","high","","ps_module","Detects suspicious PowerShell invocation command parameters","da4a803e-e609-d187-675c-d7e7f0083763"
 "Kerberos Service Ticket Requested","informational","security","","Prints logon information.","da6257f3-cf49-464a-96fc-c84a7ce20636"
-"Mimikatz DC Sync","high","security","","Detects Mimikatz DC sync security events","daad2203-665f-294c-6d2f-f9272c3214f2"
+"Suspicious Machine Account Replication - DcSync Indicator","medium","security","","Detects suspicious Active Directory Replication Service (ADRS) requests originating from
+a machine account (SubjectUserName ending in '$') rather than a legitimate Domain Controller.
+
+Under normal operation, only Domain Controllers initiate replication requests carrying the
+DS-Replication-Get-Changes-All right. If a threat actor obtains valid machine account
+credentials — for example by abusing certificate-based authentication (PKINIT) to
+impersonate a DC after exploiting a CA vulnerability such as CVE-2026-54121 (Certighost),
+where a temporary machine account is created to request a DC certificate and then used to
+perform DCSync — they can dump all domain credential material including the krbtgt hash.
+","daad2203-665f-294c-6d2f-f9272c3214f2"
 "Uncommon Extension In Keyboard Layout IME File Registry Value","high","","registry_set","Detects usage of Windows Input Method Editor (IME) keyboard layout feature, which allows an attacker to load a DLL into the process after sending the WM_INPUTLANGCHANGEREQUEST message.
 Before doing this, the client needs to register the DLL in a special registry key that is assumed to implement this keyboard layout. This registry key should store a value named ""Ime File"" with a DLL path.
 IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean.
@@ -1214,6 +1282,28 @@ Since the key is stored in plain text, a threat actor who gains access to both f
 Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
 ","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
 "DLL Load via LSASS","high","","registry_event","Detects a method to load DLL via LSASS process using an undocumented Registry key","f90321bd-3a7e-2f0a-220f-49096e6b8ef5"
+"ADCS - Certighost CDC Chase Certificate Request (CVE-2026-54121)","high","security","","Detects Active Directory Certificate Services (ADCS) certificate requests that include the
+'cdc' (Client DC) request attribute pointing to a domain or IP that is not a known Domain Controller.
+
+'cdc' is an optional MS-WCCE enrollment attribute designed for cross-domain/cross-forest
+scenarios where a client in a child domain tells the CA which DC to contact for identity
+lookups when the CA cannot reach that domain directly. Legitimate values are DC hostnames
+or IPs that resolve to a real Domain Controller computer object in AD with the
+SERVER_TRUST_ACCOUNT (0x2000) userAccountControl bit set.
+
+In an attack, the attacker sets cdc to a domain or IP they control so the CA connects to their
+rogue SMB and LDAP services instead of a real DC. The rogue server returns a forged DC
+identity which the pre-patch CA accepts without validation. A malicious event looks like:
+
+    Requester: DOMAIN\GHOST<random>$
+    Attributes: cdc:<attacker_ip>
+                rmd:<target_dc_fqdn>
+    SubjectAlternativeName: DNS Name=<target_dc_fqdn>
+
+CVE-2026-54121 (Certighost) is the known exploit for this path. The July 2026 patch added
+_ValidateChaseTargetIsDC which rejects cdc values that do not resolve to a legitimate
+DC object in Active Directory before following the chase.
+","f9171836-1ff1-5b82-0082-2acb377e94fa"
 "Suspicious Connection to Remote Account","low","","ps_script","Adversaries with no prior knowledge of legitimate credentials within the system or environment may guess passwords to attempt access to accounts.
 Without knowledge of the password for an account, an adversary may opt to systematically guess the password using a repetitive or iterative mechanism
 ","f9203bdd-ca24-aced-1e79-b9cfd7936099"

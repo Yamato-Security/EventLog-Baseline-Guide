@@ -288,6 +288,8 @@ This event must not be ignored just because the AV has blocked the malware but i
 "Suspicious WmiPrvSE Child Process","high","","process_creation","Detects suspicious and uncommon child processes of WmiPrvSE","19090407-d63d-5d05-f03e-f254980d972c"
 "Potential RDP Exploit CVE-2019-0708","medium","system","","Detect suspicious error on protocol RDP, potential CVE-2019-0708","19979e7a-7d1e-a8e3-2a9e-9b3ac0059fa7"
 "Invoke-Obfuscation VAR+ Launcher - System","high","system","","Detects Obfuscated use of Environment Variables to execute PowerShell","19adbb05-25d8-44fe-3721-1590be735426"
+"PowerShell AppLocker Policy Discovery Via Get-AppLockerPolicy","low","","process_creation","Detects AppLocker policy enumeration attempts via PowerShell using the Get-AppLockerPolicy cmdlet and an policy scope of either Effective, LDAP, or Local.
+","19b14364-ba7a-ee0b-2f82-090ddfe015ea"
 "PAExec Service Installation","medium","system","","Detects PAExec service installation","19b4e2a1-4499-8c65-e93a-5f675df202d8"
 "Use Get-NetTCPConnection","low","","ps_classic_start","Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network.","19bee8fa-b4db-79ab-2c60-ea8ae4875dcc"
 "Computer Discovery And Export Via Get-ADComputer Cmdlet","medium","","process_creation","Detects usage of the Get-ADComputer cmdlet to collect computer information and output it to a file","1a00950e-36a2-0312-33ae-1d272dc02169"
@@ -682,6 +684,21 @@ This could indicate potential exploitation of the updater component to deliver u
 "Winnti Malware HK University Campaign","critical","","process_creation","Detects specific process characteristics of Winnti malware noticed in Dec/Jan 2020 in a campaign against Honk Kong universities","3f469afc-3a19-1d2e-3bb7-e4d0e8354880"
 "Defender Alert (Moderate)","medium","windefend","","Windows defender malware detection","3f5005fc-e354-4b0b-b1a1-3eec1d336023"
 "Ps.exe Renamed SysInternals Tool","high","","process_creation","Detects renamed SysInternals tool execution with a binary named ps.exe as used by Dragonfly APT group and documented in TA17-293A report","3f54c5d2-0fd9-2b17-f9e5-c2fa4ca101d7"
+"DC Machine Account Network Logon from Non-DC Source IP","critical","security","","Detects a Domain Controller machine account authenticating from a source IP that is not
+a known Domain Controller. DC machine accounts should only authenticate locally or from other DCs during
+replication operations. Any logon event for a DC account from a workstation or non-DC host is anomalous and
+indicates one of the following:
+
+  - Silver Ticket: attacker forged a Kerberos TGS for a DC machine account without
+    requesting a TGT
+  - Pass-the-Ticket: attacker is replaying a captured DC machine account TGS from
+    a non-DC host
+  - Overpass-the-Hash: attacker converted a stolen DC machine account hash into a
+    Kerberos ticket and is authenticating from a non-DC host
+  - Exploitation of certain vulnerabilities such as CVE-2026-54121 (Certighost):
+    attacker obtained a DC certificate via ADCS CDC-chase
+    abuse, authenticates via PKINIT as the DC from their own host, then performs DCSync
+","3faea455-f4a0-234e-99e3-591dd99c3fa0"
 "RDP Disconnect","informational","terminalservices-localsessionmanager","","Event 24 is created when a local session disconnects. That happens after a user successfully logs off or disconnects a local or remote interactive logon session.
 This event immediately follows a EID 23 RDP Logoff event.
 This event has the same information as EID 23 and Security EID 4634.
@@ -743,6 +760,11 @@ Hunting Opportunity 2 - Remote Sessions On Out Of Office Hours
 
 If you have admins within your environment using remote sessions to administer endpoints, you can create a threat-hunting query and modify the time of the initiated sessions looking for abnormal activity.
 ","441ef2d8-5da0-7432-b390-b778f9f5c77b"
+"Potentially Suspicious Explicit Credential Local Logon","medium","security","","Detects potentially suspicious explicit credential logon events where the user
+is trying to logon with explicit credentials (username and password) that are
+different from the current user context. It might indicate an attacker attempting
+to escalate privileges after obtaining credentials for a different user account.
+","4501a3b4-251a-3296-a3c4-2eb1d6b4b390"
 "Potential Proxy Execution Via Explorer.EXE From Shell Process","low","","process_creation","Detects the creation of a child ""explorer.exe"" process from a shell like process such as ""cmd.exe"" or ""powershell.exe"".
 Attackers can use ""explorer.exe"" for evading defense mechanisms by proxying the execution through the latter.
 While this is often a legitimate action, this rule can be use to hunt for anomalies.
@@ -1404,7 +1426,7 @@ Because she created the object (CREATOR OWNER), she gets granted additional perm
 "Suspicious NTLM Authentication on the Printer Spooler Service","high","","process_creation","Detects a privilege elevation attempt by coercing NTLM authentication on the Printer Spooler service","7fd1971c-8117-58b7-9bfd-d42cda435945"
 "Arbitrary DLL or Csproj Code Execution Via Dotnet.EXE","medium","","process_creation","Detects execution of arbitrary DLLs or unsigned code via a "".csproj"" files via Dotnet.EXE.","7fe031ee-5c6c-0eea-fe28-fb72cbbe1aed"
 "Logon (NetworkCleartext)","informational","security","","Prints logon information. Despite the naming NetworkCleartext, the password is not sent over the network in cleartext. It is usually for IIS Basic Authentication.","7ff51227-6a10-49e6-a58b-b9f4ac32b138"
-"Potential Suspicious Mofcomp Execution","high","","process_creation","Detects execution of the ""mofcomp"" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
+"Potentially Suspicious Mofcomp Execution","high","","process_creation","Detects execution of the ""mofcomp"" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
 The ""mofcomp"" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
 Attackers abuse this utility to install malicious MOF scripts
 ","7ff57038-20dd-b144-f4f9-fe2fb075e004"
@@ -1761,6 +1783,20 @@ Such activity may indicate an attempt to disable or tamper with Credential Guard
 This behavior was observed by a set of samples related to Lummac Stealer.
 The Lummac payload is injected into the vbc.exe process.
 ","9dedfbb8-2cd0-ec0a-0822-0dee15d8a397"
+"ADCS - Certighost Ghost Machine Account Creation","high","security","","Detects the creation of a machine account whose name starts with 'GHOST', which is the
+naming convention used by the CVE-2026-54121 (Certighost) exploit tooling.
+
+The public proof-of-concept for Certighost creates a temporary machine account with a
+name of the form GHOST<random>$ before enrolling for a DC certificate via the cdc chase
+path. The attacker-controlled machine account is used as the requester identity in the
+certificate request; the cdc attribute then redirects the CA to a rogue host that returns
+a forged Domain Controller identity. The resulting certificate carries the DC's SID and
+DNS name, enabling full PKINIT authentication as the targeted DC followed by DCSync.
+
+A machine account creation event (4741) where TargetUserName starts with 'GHOST' and
+ends with '$' is a high-fidelity indicator of this attack tool's execution. Legitimate
+environments very rarely provision machine accounts with this prefix.
+","9e087bf6-c2c3-9ed9-4803-a9ac486b5802"
 "Whoami.EXE Execution With Output Option","medium","","process_creation","Detects the execution of ""whoami.exe"" with the ""/FO"" flag to choose CSV as output format or with redirection options to export the results to a file for later use.","9e0f0c37-ffdb-1903-192f-5f8056bd407a"
 "Powershell Token Obfuscation - Process Creation","high","","process_creation","Detects TOKEN OBFUSCATION technique from Invoke-Obfuscation","9e12c2cd-fa32-33a2-e894-455cfcbb3680"
 "ProcessHacker Privilege Elevation","high","system","","Detects a ProcessHacker tool that elevated privileges to a very high level","9e870183-fbbc-e736-c380-d20bd74d7dbe"
@@ -2734,6 +2770,11 @@ This event is best correlated with EID 3089 to determine the error of the valida
 "Potential Goofy Guineapig GoolgeUpdate Process Anomaly","high","","process_creation","Detects ""GoogleUpdate.exe"" spawning a new instance of itself in an uncommon location as seen used by the Goofy Guineapig backdoor","f4ecb52a-58a8-1b58-2edc-0d083d0df505"
 "Scripting/CommandLine Process Spawned Regsvr32","medium","","process_creation","Detects various command line and scripting engines/processes such as ""PowerShell"", ""Wscript"", ""Cmd"", etc. spawning a ""regsvr32"" instance.","f4ef60dd-b493-97a1-92db-e8a8146be6a4"
 "Registry Dump of SAM Creds and Secrets","high","","process_creation","Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database either through Windows Registry where the SAM database is stored","f4ff3d8e-34aa-51f7-6a8e-5081ec934b65"
+"New User Account Creation Attempt Via ADSI in CommandLine","medium","","process_creation","Detects PowerShell command line arguments containing ADSI (Active Directory Service Interfaces) patterns
+trying to create a new user account via the WinNT or LDAP provider. This is an uncommon method to create
+user accounts and may indicate an attempt to evade detection by avoiding more commonly monitored commands
+such as ""net user"", ""New-LocalUser"" or ""New-ADUser"".
+","f50d3b21-bab1-7281-3fa6-cd63b05ec796"
 "Invoke-Obfuscation COMPRESS OBFUSCATION","medium","","process_creation","Detects Obfuscated Powershell via COMPRESS OBFUSCATION","f52ac08e-65ef-a059-20d3-1eca726c6659"
 "HackTool - Inveigh Execution","critical","","process_creation","Detects the use of Inveigh a cross-platform .NET IPv4/IPv6 machine-in-the-middle tool","f5338a44-bd1b-81a7-3b76-7e2efbe1ce0d"
 "File Decryption Using Gpg4win","medium","","process_creation","Detects usage of Gpg4win to decrypt files","f539aaee-c369-f209-b744-3e1b8b37c936"
