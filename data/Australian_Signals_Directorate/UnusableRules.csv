@@ -1,36 +1,31 @@
 "title","level","service","category","description","id"
-"Valid Users Failing to Authenticate from Single Source Using NTLM","medium","security","","Detects failed logins with multiple valid domain accounts from a single source system using the NTLM protocol.","ddbbe639-21f9-7b39-ae7d-821e490d6130"
-"Invalid Users Failing To Authenticate From Single Source Using NTLM","medium","security","","Detects failed logins with multiple invalid domain accounts from a single source system using the NTLM protocol.","bbd02091-a432-94b3-8041-9f776b681fc2"
-"Failed NTLM Logins with Different Accounts from Single Source System","medium","security","","Detects suspicious failed logins with different user accounts from a single source system","203aaec0-5613-4fdc-42b3-a021d6f853dc"
-"NTLM Auth","informational","security","","Logged when NTLM authentication is used usually for local accounts but NTLM can also be used with domain accounts. The original event title says it is only generated on domain controllers but that is not true. This also gets logged on clients.","4fbe94b0-577a-4f77-9b13-250e27d440fa"
-"Valid Users Failing to Authenticate From Single Source Using Kerberos","medium","security","","Detects multiple failed logins with multiple valid domain accounts from a single source system using the Kerberos protocol.","32ce2d24-3d1c-2f81-cddb-d64b33fe9247"
-"Disabled Users Failing To Authenticate From Source Using Kerberos","medium","security","","Detects failed logins with multiple disabled domain accounts from a single source system using the Kerberos protocol.","c6c2c3e3-44ee-516c-9e48-63b304511787"
-"Invalid Users Failing To Authenticate From Source Using Kerberos","medium","security","","Detects failed logins with multiple invalid domain accounts from a single source system using the Kerberos protocol.","74eaa0ee-05a7-86a5-a7a8-076952aa764d"
+"Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
+"DFS Namespace Removal","low","dfsn-server","","Detects removal of a DFS namespace, which may be indicative of a forced authentication attack through tools such as DFSCoerce. If the DFS server specified is not expected, this should be correlated with Named Pipe events to ""\netdfs"" and NTLM authentications for further investigation.","0346e3b9-3783-468f-9e07-ef8d490846eb"
+"Failed DNS Zone Transfer","medium","dns-server","","Detects when a DNS zone transfer failed.","04768e11-3acf-895f-9193-daae77c4678f"
+"Windows AppX Deployment Full Trust Package Installation","medium","appxdeployment-server","","Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions","04a566d1-0df3-90bd-15c9-6c23688e9380"
+"AD Object WriteDAC Access","critical","security","","Detects WRITE_DAC access to a domain object","09c08048-5eab-303f-dfe3-706a6052b6f9"
+"Important Scheduled Task Deleted or Disabled","high","taskscheduler","","Detects when adversaries try to stop system services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities
+","0c0e2be2-30d2-c713-0c9c-63cd9752a940"
+"Network Connection Initiated By IMEWDBLD.EXE","high","","network_connection","Detects a network connection initiated by IMEWDBLD.EXE. This might indicate potential abuse of the utility as a LOLBIN in order to download arbitrary files or additional payloads.
+","0f4d93f0-a1eb-e6cb-7d79-f38cc95a9a55"
+"Dllhost.EXE Initiated Network Connection To Non-Local IP Address","medium","","network_connection","Detects Dllhost.EXE initiating a network connection to a non-local IP address.
+Aside from Microsoft own IP range that needs to be excluded. Network communication from Dllhost will depend entirely on the hosted DLL.
+An initial baseline is recommended before deployment.
+","1062d249-f014-9faf-044e-2b75d6f9763f"
+"OpenSSH Server Listening On Socket","medium","openssh","","Detects scenarios where an attacker enables the OpenSSH server and server starts to listening on SSH socket.","12800c31-cb60-9d63-bcc2-9ad342585c3a"
+"Suspicious PowerShell Download","medium","powershell","","Detects suspicious PowerShell download command","12f93a4e-cd0e-18d7-6969-b345ecc8d40a"
+"HH.EXE Initiated HTTP Network Connection","medium","","network_connection","Detects a network connection initiated by the ""hh.exe"" process to HTTP destination ports, which could indicate the execution/download of remotely hosted .chm files.
+","13790f2d-97b2-d1a0-6624-1061d7ccbb8c"
+"Network Connection Initiated By Eqnedt32.EXE","high","","network_connection","Detects network connections from the Equation Editor process ""eqnedt32.exe"".","141fe5f1-4de3-21fd-1b09-8d53f1019340"
+"Outbound Network Connection Initiated By Script Interpreter","high","","network_connection","Detects a script interpreter wscript/cscript opening a network connection to a non-local network. Adversaries may use script to download malicious payloads.","1487f05c-b749-4322-d657-d20a2eea7e47"
+"DNS Query To MEGA Hosting Website - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to MEGA sharing website","14b17417-8ae7-ff8e-fe36-28aaa337ccd5"
+"Tap Driver Installation - Security","low","security","","Detects the installation of a well-known TAP driver service. This could be a sign of potential preparation for data exfiltration using tunnelling techniques.
+","15284efb-90de-5675-59c5-433d34675e8e"
 "Potential AS-REP Roasting via Kerberos TGT Requests","medium","security","","Detects suspicious Kerberos TGT requests with pre-authentication disabled (Pre-Authentication Type = 0) and Ticket Encryption Type (0x17) i.e, RC4-HMAC.
 This may indicate an AS-REP Roasting attack, where attackers request AS-REP messages for accounts without pre-authentication and attempt to crack the encrypted ticket offline to recover user passwords.
 ","15481d86-14a7-85e7-b1a2-ff2eab19060e"
-"Kerberos Manipulation","high","security","","Detects failed Kerberos TGT issue operation. This can be a sign of manipulations of TGT messages by an attacker.","978525c2-97aa-f0e4-8c11-3cf81ea3379b"
-"PetitPotam Suspicious Kerberos TGT Request","high","security","","Detect suspicious Kerberos TGT requests.
-Once an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes.
-One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus.
-This request will generate a 4768 event with some unusual fields depending on the environment.
-This analytic will require tuning, we recommend filtering Account_Name to the Domain Controller computer accounts.
-","cd01c787-aad1-bbed-5842-aa8e58410aad"
-"Kerberos TGT Requested","informational","security","","Prints logon information.","d9f336ea-bb16-4a35-8a9c-183216b8d59c"
-"Possible AS-REP Roasting (RC4 Kerberos Ticket Req)","medium","security","","For each account found without preauthentication, an adversary may send an AS-REQ message without the encrypted timestamp and receive an AS-REP message with TGT data which may be encrypted with an insecure algorithm such as RC4.","dee2a01e-5d7c-45b4-aec3-ad9722f2165a"
-"Kerberoasting Activity - Initial Query","medium","security","","This rule will collect the data needed to start looking into possible kerberoasting activity.
-Further analysis or computation within the query is needed focusing on requests from one specific host/IP towards multiple service names within a time period of 5 seconds.
-You can then set a threshold for the number of requests and time between the requests to turn this into an alert.
-","4386b4e0-f268-42a6-b91d-e3bb768976d6"
-"Kerberos Manipulation","high","security","","Detects failed Kerberos TGT issue operation. This can be a sign of manipulations of TGT messages by an attacker.","978525c2-97aa-f0e4-8c11-3cf81ea3379b"
-"Suspicious Kerberos RC4 Ticket Encryption","medium","security","","Detects service ticket requests using RC4 encryption type","2d20edf4-6141-35c5-e54f-3c578082d1d3"
-"Possible Kerberoasting (RC4 Kerberos Ticket Req)","medium","security","","Adversaries may abuse a valid Kerberos ticket-granting ticket (TGT) or sniff network traffic to obtain a ticket-granting service (TGS) ticket that may be vulnerable to Brute Force.","f19849e7-b5ba-404b-a731-9b624d7f6d19"
-"Kerberos Service Ticket Requested","informational","security","","Prints logon information.","da6257f3-cf49-464a-96fc-c84a7ce20636"
-"Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
-"Active Directory User Backdoors","high","security","","Detects scenarios where one can control another users or computers account without having to use their credentials.","c9123898-04d5-2d3b-5e2b-7c0c92111480"
-"Device Installation Blocked","medium","security","","Detects an installation of a device that is forbidden by the system policy","53f7ff98-38dd-f02c-0658-1debbf8deddc"
-"External Disk Drive Or USB Storage Device Was Recognized By The System","low","security","","Detects external disk drives or plugged-in USB devices.","eab514f7-3f9b-a705-4d1d-8fee3d81c4b5"
-"Password Policy Enumerated","medium","security","","Detects when the password policy is enumerated.","9bcf333e-fc4c-5912-eeba-8a0cefe21be4"
+"Possible Hidden Service Created","medium","security","","User requested to modify the Dynamic Access Control (DAC) permissions of a service, possibly to hide it from view.","15db3cc7-30bd-47a0-bd75-66208ce8e3fe"
+"Windows Network Access Suspicious desktop.ini Action","medium","security","","Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.","192d9d70-11ad-70e5-9d6c-d32a1ec74857"
 "Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
 matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
 commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
@@ -38,401 +33,396 @@ attacker-controlled hosts by spoofing SPNs via DNS. It is one of the strong indi
 where adversaries manipulate DNS records to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
 Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
 ","19da3c91-0fcd-61d5-5b4f-bde550a79070"
-"Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
-"AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
-"WMI Persistence - Security","medium","security","","Detects suspicious WMI event filter and command line event consumer based on WMI and Security Logs.","ec2275df-3a0a-933f-0573-490938cc47ef"
-"DPAPI Domain Backup Key Extraction","high","security","","Detects tools extracting LSA secret DPAPI domain backup key from Domain Controllers","c42c534d-16ae-877f-0722-6d6914090855"
-"Potential AD User Enumeration From Non-Machine Account","medium","security","","Detects read access to a domain user from a non-machine account","fe814c5a-505f-a313-7d8c-030187c24e8e"
-"Mimikatz DC Sync","high","security","","Detects Mimikatz DC sync security events","daad2203-665f-294c-6d2f-f9272c3214f2"
-"AD Object WriteDAC Access","critical","security","","Detects WRITE_DAC access to a domain object","09c08048-5eab-303f-dfe3-706a6052b6f9"
-"Active Directory Replication from Non Machine Account","critical","security","","Detects potential abuse of Active Directory Replication Service (ADRS) from a non machine account to request credentials.","5c8e2537-5c7f-56d8-de80-1f0746b61067"
+"RDP Attempt","informational","","","","1a850b71-6aef-4f31-a509-f31b2c778476"
 "msDS-ManagedAccountPrecededByLink Attribute Modified","medium","security","","Detects modifications to the msDS-ManagedAccountPrecededByLink attribute, which may indicate an attempted or successful abuse of the BaD-Successor msDS-DelegatedManagedServiceAccount (DMSA) vulnerability.
 The DMSA is a new object class introduced in Windows Server 2025 that allows administrators to delegate the management of service accounts to other users or groups.
 Changes to this attribute by suspicious accounts or outside of normal administrative workflows are a strong signal of an attempted or successful abuse.
 If it is indeed modified by an account that is not typically responsible for such changes, it could indicate an attempt to exploit the BaD-Successor vulnerability for privilege escalation within the Windows Server 2025 Active Directory environment.
 ","1acd5528-43c1-ed53-4ded-2aa1bddff1de"
+"Metasploit Or Impacket Service Installation Via SMB PsExec","high","security","","Detects usage of Metasploit SMB PsExec (exploit/windows/smb/psexec) and Impacket psexec.py by triggering on specific service installation","1b037a84-214e-b58a-53ae-949542063f1f"
+"Network Connection Initiated From Process Located In Potentially Suspicious Or Uncommon Location","high","","network_connection","Detects a network connection initiated by programs or processes running from suspicious or uncommon files system locations.
+","1ba0b3d6-e0f7-98e9-4611-b307922a0766"
+"Uncommon Outbound Kerberos Connection - Security","medium","security","","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
+","1ee90f6c-2d09-5bcf-b8fd-06fe14f86746"
+"Failed NTLM Logins with Different Accounts from Single Source System","medium","security","","Detects suspicious failed logins with different user accounts from a single source system","203aaec0-5613-4fdc-42b3-a021d6f853dc"
+"Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"
+"Security Event Log Cleared","medium","security","","Checks for event id 1102 which indicates the security event log was cleared.","23f0b75b-66c0-4895-ae63-4243fa898109"
+"RDS GTW Logon Error","low","","","","24a04758-729d-4c43-9bd5-cccd31db80d0"
+"Impacket PsExec Execution","high","security","","Detects execution of Impacket's psexec.py.","24e370e0-b9f0-5851-0261-f984742ff2a1"
+"RDS GTW Logon","informational","","","","27648a93-cfc0-4903-beb2-9395e784a484"
+"Win Susp Computer Name Containing Samtheadmin","critical","security","","Detects suspicious computer name samtheadmin-{1..100}$ generated by hacktool","2875c85a-58eb-ca3b-80a3-4cdd8ffa41a8"
+"Potential RemoteFXvGPUDisablement.EXE Abuse","high","powershell-classic","","Detects PowerShell module creation where the module Contents are set to ""function Get-VMRemoteFXPhysicalVideoAdapter"". This could be a sign of potential abuse of  the ""RemoteFXvGPUDisablement.exe"" binary which is known to be vulnerable to module load-order hijacking.","29a3935d-0428-4f39-d39e-ec43c598b272"
+"Failed MSExchange Transport Agent Installation","high","msexchange-management","","Detects a failed installation of a Exchange Transport Agent","29ec9279-2899-b0a0-0b41-6bf40cdda885"
+"DNS Query for Anonfiles.com Domain - DNS Client","high","dns-client","","Detects DNS queries for anonfiles.com, which is an anonymous file upload platform often used for malicious purposes","2abf05fa-98f2-d00b-6a6a-12d07e55233e"
+"VHDX Mounted","low","vhdmp","","A VHDX (Virtual Hard Disk version 2) image was mounted. They are often used with WSL disk partitions.","2c544083-e209-4a8d-ad28-4f1427353d2e"
+"Suspicious Kerberos RC4 Ticket Encryption","medium","security","","Detects service ticket requests using RC4 encryption type","2d20edf4-6141-35c5-e54f-3c578082d1d3"
+"First Time Seen Remote Named Pipe","high","security","","This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes","308a3356-4624-7c95-24df-cf5a02e5eb56"
+"Exchange Set OabVirtualDirectory ExternalUrl Property","high","msexchange-management","","Rule to detect an adversary setting OabVirtualDirectory External URL property to a script in Exchange Management log","30eb1897-ab7e-5cc9-6f83-cd5abd8ee0dc"
+"MSExchange Transport Agent Installation - Builtin","medium","msexchange-management","","Detects the Installation of a Exchange Transport Agent","31aa27f1-7ac6-a316-2786-b13400c130f5"
+"Valid Users Failing to Authenticate From Single Source Using Kerberos","medium","security","","Detects multiple failed logins with multiple valid domain accounts from a single source system using the Kerberos protocol.","32ce2d24-3d1c-2f81-cddb-d64b33fe9247"
+"Task Created","informational","taskscheduler","","","33599dfb-f3e4-4298-8d3f-59407f65f4e7"
+"SyncAppvPublishingServer Execution to Bypass Powershell Restriction","medium","powershell","","Detects SyncAppvPublishingServer process execution which usually utilized by adversaries to bypass PowerShell execution restrictions.","349e3bb4-b72b-193d-810e-7d9c145b863e"
+"Network Communication Initiated To File Sharing Domains From Process Located In Suspicious Folder","high","","network_connection","Detects executables located in potentially suspicious directories initiating network connections towards file sharing domains.","34ba9d0c-a415-a91a-013b-30158906f18c"
+"SMB Create Remote File Admin Share","high","security","","Look for non-system accounts SMB accessing a file with write (0x2) access mask via administrative share (i.e C$).","37f5d188-182d-7a53-dca7-4bebbb6ce43e"
+"Suspicious PowerShell Invocations - Generic","high","powershell","","Detects suspicious PowerShell invocation command parameters","391b98f2-3f42-0d06-a295-18a2aa29d39a"
+"ADCS Certificate Template Configuration Vulnerability","low","security","","Detects certificate creation with template allowing risk permission subject","3a655a7c-a830-77ad-fc8b-f054fb713304"
+"Invoke-Obfuscation STDIN+ Launcher - Security","high","security","","Detects Obfuscated use of stdin to execute PowerShell","3ae69c7e-e865-c0e2-05b7-553ab8979ac0"
+"Outbound Network Connection To Public IP Via Winlogon","medium","","network_connection","Detects a ""winlogon.exe"" process that initiate network communications with public IP addresses","3c6c2271-decf-a5c0-b983-edaa9cf7077d"
+"CobaltStrike Service Installations - Security","high","security","","Detects known malicious service installs that appear in cases in which a Cobalt Strike beacon elevates privileges or lateral movement","3d2e9eef-8851-f3ed-49e1-53e350e277cb"
+"Suspicious PowerShell Invocations - Specific","high","powershell","","Detects suspicious PowerShell invocation command parameters","3db961f4-6217-4957-b717-e5955c82d6e5"
+"Invoke-Obfuscation Via Use MSHTA - Security","high","security","","Detects Obfuscated Powershell via use MSHTA in Scripts","3dc2d411-4f0e-6564-d243-8351afd3d375"
+"Tamper Windows Defender - PSClassic","high","","ps_classic_provider_start","Attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow.","3ec981cc-6521-d6a9-9630-d1df7d2090b9"
+"DNS Server Error Failed Loading the ServerLevelPluginDLL","high","dns-server","","Detects a DNS server error in which a specified plugin DLL (in registry) could not be loaded","40077f9e-f597-1087-0c4f-8901d1a07af4"
+"Abnormal Logon Proc Registered With LSA","informational","security","","A logon process has registered with the Local Security Authority (LSA). Logon requests will now be accepted from this source. Technically, the event does not come from the registration of a trusted logon process, but from a confirmation that the process is a trusted logon process. If it is a trusted logon process, the event generates. A logon process is a trusted part of the OS that handles logon methods (network, interactive, etc.)","41ca6049-dd12-462c-a772-7bba78d8e2f0"
+"Outbound Network Connection Initiated By Cmstp.EXE","high","","network_connection","Detects a network connection initiated by Cmstp.EXE
+Its uncommon for ""cmstp.exe"" to initiate an outbound network connection. Investigate the source of such requests to determine if they are malicious.
+","41d54b25-deb6-4ea3-fbac-3f5b6e200939"
+"CryptoDPAPI Decrypt","informational","","","Detects whenever SPCryptUnprotect is called in the Microsoft-Windows-Crypto-DPAPI/Debug event log.","420d5d28-78ed-4e43-844a-94ce69db378c"
+"Dfsvc.EXE Initiated Network Connection Over Uncommon Port","high","","network_connection","Detects an initiated network connection over uncommon ports from ""dfsvc.exe"". A utility used to handled ClickOnce applications.","4255ccee-f954-7d80-4281-d5a5fe9ea9f7"
+"Suspicious PsExec Execution","high","security","","detects execution of psexec or paexec with renamed service name, this rule helps to filter out the noise if psexec is used for legit purposes or if attacker uses a different psexec client other than sysinternal one","426009da-814c-c1c0-cf41-6631c9ff6a8e"
+"Possible Exploitation of Exchange RCE CVE-2021-42321","high","msexchange-management","","Detects log entries that appear in exploitation attempts against MS Exchange RCE CVE-2021-42321","429ee035-2f74-8a92-ad19-a448e450bb5e"
+"Kerberoasting Activity - Initial Query","medium","security","","This rule will collect the data needed to start looking into possible kerberoasting activity.
+Further analysis or computation within the query is needed focusing on requests from one specific host/IP towards multiple service names within a time period of 5 seconds.
+You can then set a threshold for the number of requests and time between the requests to turn this into an alert.
+","4386b4e0-f268-42a6-b91d-e3bb768976d6"
+"ProxyLogon MSExchange OabVirtualDirectory","critical","msexchange-management","","Detects specific patterns found after a successful ProxyLogon exploitation in relation to a Commandlet invocation of Set-OabVirtualDirectory","469804e4-bb11-7cb1-96ce-f7687daa98a0"
+"Remove Exported Mailbox from Exchange Webserver","high","msexchange-management","","Detects removal of an exported Exchange mailbox which could be to cover tracks from ProxyShell exploit","47e67dfc-354a-0989-f6b1-f3f888a31278"
+"Suspicious Application Installed","medium","shell-core","","Detects suspicious application installed by looking at the added shortcut to the app resolver cache","487f5b43-6155-d21c-7189-1a6108974f1b"
+"Rundll32 Internet Connection","medium","","network_connection","Detects a rundll32 that communicates with public IP addresses","4a7137e3-d863-49dd-6199-5ca7722de62e"
+"Suspicious Access to Sensitive File Extensions","medium","security","","Detects known sensitive file extensions accessed on a network share","4af39497-9655-9586-817d-94f0df38913f"
+"Win RM Session Created","informational","","","","4f321a68-176a-4f1d-873a-8793bc49e3b0"
+"NTLM Auth","informational","security","","Logged when NTLM authentication is used usually for local accounts but NTLM can also be used with domain accounts. The original event title says it is only generated on domain controllers but that is not true. This also gets logged on clients.","4fbe94b0-577a-4f77-9b13-250e27d440fa"
+"RDP to HTTP or HTTPS Target Ports","high","","network_connection","Detects svchost hosting RDP termsvcs communicating to target systems on TCP port 80 or 443","5049ed9f-e700-a499-9498-5e648851d2ad"
+"ADCS - Certighost Certificate Issued via CDC Chase (CVE-2026-54121)","high","security","","Detects successful issuance of an ADCS certificate where the request attributes include
+'cdc' (Client DC) or 'rmd' (Remote Domain) pointing to a non-DC domain or IP, confirming the
+CA's chase fallback path was taken against an attacker-controlled target.
+
+'cdc' directs the CA to an address for identity lookup; 'rmd' specifies the principal to
+look up there. In an attack (CVE-2026-54121, Certighost), cdc points to a rogue host that
+returns a forged DC identity. A successfully issued certificate at this stage means the
+attacker has obtained a cert carrying a Domain Controller's SID and DNS identity, enabling
+PKINIT authentication as that DC followed by DCSync replication.
+","50f06a12-50cc-fd71-7b01-80a01d9e9418"
+"Suspicious Wordpad Outbound Connections","medium","","network_connection","Detects a network connection initiated by ""wordpad.exe"" over uncommon destination ports.
+This might indicate potential process injection activity from a beacon or similar mechanisms.
+","510d0486-0545-9178-93cb-5f5a8c75930b"
+"RDP Conn Attempt","informational","","","","512e70f5-bf70-4de1-9375-2174999a7f8d"
+"Scheduled Tasks Names Used By SVR For GraphicalProton Backdoor - Task Scheduler","high","taskscheduler","","Hunts for known SVR-specific scheduled task names","51850e92-9de2-230e-98f6-5775d63df091"
+"CVE-2021-1675 Print Spooler Exploitation IPC Access","critical","security","","Detects remote printer driver load from Detailed File Share in Security logs that are a sign of successful exploitation attempts against print spooler vulnerability CVE-2021-1675 and CVE-2021-34527","52b5923e-1ef2-aaad-5513-3c830f3c5850"
+"Device Installation Blocked","medium","security","","Detects an installation of a device that is forbidden by the system policy","53f7ff98-38dd-f02c-0658-1debbf8deddc"
+"HybridConnectionManager Service Installation","high","security","","Rule to detect the Hybrid Connection Manager service installation.","54f9b4d2-3f4a-675f-58d6-9995ae58f988"
+"DC Machine Account TGS Request from Non-DC Source IP","high","security","","Detects a Kerberos service ticket request (Event 4769) targeting a Domain Controller
+machine account's service (e.g. DRSUAPI) originating from an IP address that is not a
+known Domain Controller. Service tickets for DC machine accounts should only be requested
+by other DCs during legitimate replication operations.
+
+An attacker with a valid TGT (obtained via PKINIT, overpass-the-hash, or stolen TGT)
+targeting a DC machine account's service from a workstation IP indicates preparation for
+DCSync or impersonation of a DC. Unlike Silver Ticket attacks (which forge the TGS and
+bypass this event), this rule catches attacks that go through the KDC legitimately.
+
+This rule requires %dc_machine_accounts% and %dc_ip_addresses% to be populated with
+all known DC machine account names and DC IP addresses respectively.
+","55afdafd-6418-740a-1cdf-0788609efb5b"
+"Windows Pcap Drivers","medium","security","","Detects Windows Pcap driver installation based on a list of associated .sys files.","566fa294-85f7-af27-80c7-753d9941729b"
+"Password Protected ZIP File Opened (Suspicious Filenames)","high","security","","Detects the extraction of password protected ZIP archives with suspicious file names. See the filename variable for more details on which file has been opened.","586bcb8e-f698-f372-54cf-ff08727352e7"
+"Suspicious Epmap Connection","high","","network_connection","Detects suspicious ""epmap"" connection to a remote computer via remote procedure call (RPC)","58a2d80c-c77b-324c-640d-c97cf5fcbefa"
+"Remote Access Tool - AnyDesk Incoming Connection","medium","","network_connection","Detects incoming connections to AnyDesk. This could indicate a potential remote attacker trying to connect to a listening instance of AnyDesk and use it as potential command and control channel.
+","5a099129-36a4-b13b-5345-9f37b231fb5c"
+"Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
+"Process Ran With High Privilege","medium","security","","Malware may generate a 4673 event (A privileged service was called) when dumping hashes or wiping disk. 
+For example, mimikatz will generate 4 logs using SeTcbPrivilege (Act as part of the OS.) 
+Disk wipers like bcwipe will also generate this.
+More legitimate filepaths may have to be added to the filter.
+This is marked as a medium alert as there is a high possibility for false positives.
+","5b6e58ee-c231-4a54-9eee-af2577802e08"
+"AppX Located in Known Staging Directory Added to Deployment Pipeline","high","appxdeployment-server","","Detects an appx package that was added to the pipeline of the ""to be processed"" packages that is located in a known folder often used as a staging directory.
+","5bb0ef8b-3b9d-8a3c-30c2-0a787e54184a"
+"DC Machine Account TGT Request from Non-DC Source IP","high","security","","Detects a Kerberos TGT request (Event 4768) for a known Domain Controller machine account
+originating from an IP address that is not a known Domain Controller. DC machine accounts
+should only request TGTs from their own IP. Any TGT request for a DC account from a
+workstation or non-DC host is anomalous and indicates one of the following:
+
+  - PKINIT abuse (CVE-2026-54121 / Certighost): attacker authenticating as a DC via a
+    forged certificate from their workstation
+  - Overpass-the-Hash: attacker converting a stolen DC machine account NTLM hash into a
+    Kerberos TGT
+  - Pass-the-Hash (RC4): attacker using the DC machine account hash directly with Kerberos
+","5c14854d-b6ca-79bc-c43a-ddf354a14d62"
+"Active Directory Replication from Non Machine Account - DcSync Indicator","medium","security","","Detects potential abuse of Active Directory Replication Service (ADRS) from a non machine account to request credentials.","5c8e2537-5c7f-56d8-de80-1f0746b61067"
+"AppX Package Deployment Failed Due to Signing Requirements","medium","appxdeployment-server","","Detects an appx package deployment / installation with the error code ""0x80073cff"" which indicates that the package didn't meet the signing requirements.
+","5cfde458-a9e1-f4b7-92cd-959ead47bdd3"
+"Logon Proc Registered With LSA","informational","security","","A logon process has registered with the Local Security Authority (LSA). Logon requests will now be accepted from this source. Technically, the event does not come from the registration of a trusted logon process, but from a confirmation that the process is a trusted logon process. If it is a trusted logon process, the event generates. A logon process is a trusted part of the OS that handles logon methods (network, interactive, etc.)","614c150b-905d-4071-9b8e-0425e370c493"
+"Credential Dumping Tools Service Execution - Security","high","security","","Detects well-known credential dumping tools execution via service execution events","633bd649-4b18-b5bd-d923-07caeccd1ee0"
+"Invoke-Obfuscation CLIP+ Launcher - Security","high","security","","Detects Obfuscated use of Clip.exe to execute PowerShell","660a0229-700e-8e43-40c7-fafe60c29491"
+"Lateral Movement Indicator ConDrv","low","security","","This event was observed on the target host during lateral movement. The process name within the event contains the process spawned post compromise. Account Name within the event contains the compromised user account name. This event should to be correlated with 4624 and 4688 for further intrusion context.","6683ccd7-da7a-b988-1683-7f7a1bf72bf6"
+"Possible Impacket SecretDump Remote Activity","high","security","","Detect AD credential dumping using impacket secretdump HKTL","677980bc-7dcc-1f9a-e161-a7f310ec9652"
+"Network Connection Initiated By Regsvr32.EXE","medium","","network_connection","Detects a network connection initiated by ""Regsvr32.exe""","6814d247-c70b-e49e-6553-149fc21c3a81"
+"Mailbox Export to Exchange Webserver","critical","msexchange-management","","Detects a successful export of an Exchange mailbox to untypical directory or with aspx name suffix which can be used to place a webshell or the needed role assignment for it","684f5f59-5de0-7d7a-e983-1e2758d383d6"
+"Rare Scheduled Task Creations","low","taskscheduler","","This rule detects rare scheduled task creations. Typically software gets installed on multiple systems and not only on a few. The aggregation and count function selects tasks with rare names.","696cf23d-d3f2-0a4d-6aff-b162d692a778"
+"Recursive DNS Response","informational","dns-server-analytic","","","6db38b96-3772-4cbf-a8ad-c65d8ac5134e"
+"RDP Conn (Noisy)","informational","","","This event is generated when anyone connects to RDP and sends data. It does not need to be a legitimate RDP connection.
+Unfortunately, there are no details about the remote machine.
+This event is noisy and will generate a lot of logs and is of limited investigative value.
+If you see a large number of these events, but not successful logon events with EID 1149, etc... then it may indicate a brute force attack.
+The Security event log will have more information so this event is only useful if the Security event logs are not available.
+","6dbed1df-f08a-47ab-9a58-999c0787d034"
+"Group Policy Abuse for Privilege Addition","medium","security","","Detects the first occurrence of a modification to Group Policy Object Attributes to add privileges to user accounts or use them to add users as local admins.
+","6e3066ef-54e1-9d1b-5bc6-9ae6947ae271"
+"Dfsvc.EXE Network Connection To Non-Local IPs","medium","","network_connection","Detects network connections from ""dfsvc.exe"" used to handled ClickOnce applications to non-local IPs","713fd43d-88e4-6801-2eac-756d06792d4f"
+"DPAPI Domain Master Key Backup Attempt","medium","security","","Detects anyone attempting a backup for the DPAPI Master Key. This events gets generated at the source and not the Domain Controller.","725b729a-b3ea-fb14-9cad-a4e944af8b5d"
+"Windows AppX Deployment Unsigned Package Installation","medium","appxdeployment-server","","Detects attempts to install unsigned MSIX/AppX packages using the -AllowUnsigned parameter via AppXDeployment-Server events","73007262-0bee-b885-c2ec-0d42700ea430"
+"Transferring Files with Credential Data via Network Shares","medium","security","","Transferring files with well-known filenames (sensitive files with credential data) using network shares","73d3720b-e4f3-d7e1-2a3f-8ca0a5e1fc1b"
+"Invalid Users Failing To Authenticate From Source Using Kerberos","medium","security","","Detects failed logins with multiple invalid domain accounts from a single source system using the Kerberos protocol.","74eaa0ee-05a7-86a5-a7a8-076952aa764d"
+"Standard User In High Privileged Group","medium","lsa-server","","Detect standard users login that are part of high privileged groups such as the Administrator group","7536b3d3-6765-4433-9269-2d460cb10adf"
+"Windows Filtering Platform Blocked Connection From EDR Agent Binary","high","security","","Detects a Windows Filtering Platform (WFP) blocked connection event involving common Endpoint Detection and Response (EDR) agents.
+Adversaries may use WFP filters to prevent Endpoint Detection and Response (EDR) agents from reporting security events.
+","764518e5-4160-b679-1946-cbd0e76705da"
+"Protected Storage Service Access","high","security","","Detects access to a protected_storage service over the network. Potential abuse of DPAPI to extract domain backup keys from Domain Controllers","7695295d-281f-23ce-d52e-8336ebd47532"
+"Password Protected ZIP File Opened (Email Attachment)","high","security","","Detects the extraction of password protected ZIP archives. See the filename variable for more details on which file has been opened.","77366099-d04a-214d-365c-c62c537df3ba"
+"Communication To Uncommon Destination Ports","medium","","network_connection","Detects programs that connect to uncommon destination ports","7983db98-5767-b29d-2652-a01fd3e751ad"
+"Potentially Suspicious Malware Callback Communication","high","","network_connection","Detects programs that connect to known malware callback ports based on statistical analysis from two different sandbox system databases
+","7ac85830-5907-5206-2d25-490b3ace5587"
+"Office Application Initiated Network Connection To Non-Local IP","medium","","network_connection","Detects an office application (Word, Excel, PowerPoint)  that initiate a network connection to a non-private IP addresses.
+This rule aims to detect traffic similar to one seen exploited in CVE-2021-42292.
+This rule will require an initial baseline and tuning that is specific to your organization.
+","7c154a7f-01a0-3b2e-927d-32c452139322"
+"Uncommon Outbound Kerberos Connection","medium","","network_connection","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
+","7c743e5c-7a9d-ba96-9ada-1d17687e2a6d"
+"Remote AppX Package Downloaded from File Sharing or CDN Domain","high","appxdeployment-server","","Detects an appx package that was added to the pipeline of the ""to be processed"" packages which was downloaded from a file sharing or CDN domain.
+","7de9c1d0-7b8e-8196-8137-8dcc13c6e960"
+"Password Protected ZIP File Opened","medium","security","","Detects the extraction of password protected ZIP archives. See the filename variable for more details on which file has been opened.","7e1daab0-3263-403e-ec26-de48e3bf22c3"
+"Local Network Connection Initiated By Script Interpreter","medium","","network_connection","Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder.
+","7e448677-939e-f6d0-e901-91843a3888d7"
+"RDP over Reverse SSH Tunnel WFP","high","security","","Detects svchost hosting RDP termsvcs communicating with the loopback address","810804a5-98c3-7e56-e8ed-8a95d72ad829"
+"RDP Over Reverse SSH Tunnel","high","","network_connection","Detects svchost hosting RDP termsvcs communicating with the loopback address and on TCP port 3389","81ca22c3-fdfd-6c3a-051f-dc404488536c"
+"Invoke-Obfuscation RUNDLL LAUNCHER - Security","medium","security","","Detects Obfuscated Powershell via RUNDLL LAUNCHER","826feb8b-536b-0302-0b4e-bd34cc5c4923"
+"CosmicDuke Service Installation","critical","security","","Detects the installation of a service named ""javamtsup"" on the system.
+The CosmicDuke info stealer uses Windows services typically named ""javamtsup"" for persistence.
+","8428d90d-a928-f70a-c46e-f08457d6b01f"
+"Windows Default Domain GPO Modification","medium","security","","Detects modifications to Default Domain or Default Domain Controllers Group Policy Objects (GPOs).
+Adversaries may modify these default GPOs to deploy malicious configurations across the domain.
+","848c3317-9b29-5241-aae9-ceb41ce11177"
+"Remote Access Tool Services Have Been Installed - Security","medium","security","","Detects service installation of different remote access tools software. These software are often abused by threat actors to perform","85e291ec-b85b-2553-1aba-03c9ad116b61"
+"DCOM InternetExplorer.Application Iertutil DLL Hijack - Security","high","security","","Detects a threat actor creating a file named `iertutil.dll` in the `C:\Program Files\Internet Explorer\` directory over the network for a DCOM InternetExplorer DLL Hijack scenario.","85e72fe3-83af-8ed9-39d3-2883e46059f1"
+"Msiexec.EXE Initiated Network Connection Over HTTP","low","","network_connection","Detects a network connection initiated by an ""Msiexec.exe"" process over port 80 or 443.
+Adversaries might abuse ""msiexec.exe"" to install and execute remotely hosted packages.
+Use this rule to hunt for potentially anomalous or suspicious communications.
+","8696ae22-70c1-ca19-4888-66ed19ea27da"
+"HybridConnectionManager Service Running","high","microsoft-servicebus-client","","Rule to detect the Hybrid Connection Manager service running on an endpoint.","871bc844-4977-a864-457b-46cfba6ddb65"
+"Invoke-Obfuscation Via Use Rundll32 - Security","high","security","","Detects Obfuscated Powershell via use Rundll32 in Scripts","89d88072-7a24-8218-a044-0c071bf36bf6"
+"New RDP Connection Initiated From Domain Controller","high","","network_connection","Detects an RDP connection originating from a domain controller.","8b0f1458-5a23-5950-ebc7-f8d7a562dc06"
+"Possible Shadow Credentials Added","high","security","","Detects possible addition of shadow credentials to an active directory object.","8bcf1772-4335-28e1-e320-5ce48b15ae9f"
+"PowerShell Scripts Installed as Services - Security","high","security","","Detects powershell script installed as a Service","8c3523c1-357b-5653-335a-9db3ecfcbc2a"
+"NetShare File Access","informational","security","","","8c6ec2b2-8dad-4996-9aba-d659afc1b919"
+"Office App PopUp","informational","security","","Displays the dialog box message that popped up in Office Activated App for the user.","8cab5688-ca77-483d-a295-56dd6c1db944"
+"Office Application Initiated Network Connection Over Uncommon Ports","medium","","network_connection","Detects an office suit application (Word, Excel, PowerPoint, Outlook) communicating to target systems over uncommon ports.","8cf1b63a-f161-0e51-a9d2-cc697d06a5a4"
+"Network Connection Initiated By AddinUtil.EXE","high","","network_connection","Detects a network connection initiated by the Add-In deployment cache updating utility ""AddInutil.exe"".
+This could indicate a potential command and control communication as this tool doesn't usually initiate network activity.
+","8d993d6b-e44b-0df0-91c0-6093975b69f8"
+"Invoke-Obfuscation Via Use Clip - Security","high","security","","Detects Obfuscated Powershell via use Clip.exe in Scripts","8ec23dfa-00a7-2b09-1756-678e941d69b2"
+"Potential Malicious AppX Package Installation Attempts","medium","appxdeployment-server","","Detects potential installation or installation attempts of known malicious appx packages","8f46b318-b8a3-d268-911f-318d0b43c0f9"
+"Wifi AP Conn","informational","","","Prints connection info to wireless access points.","90dd0797-f481-453d-a97e-dd78436893f9"
+"Suspicious LDAP-Attributes Used","high","security","","Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.","925d441a-37b4-0afa-1d98-809b5df5fd06"
+"AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
+"Remote Task Creation via ATSVC Named Pipe","medium","security","","Detects remote task creation via at.exe or API interacting with ATSVC namedpipe","93fd0f77-62da-26fb-3e96-71cde45a9680"
+"Suspicious Outbound SMTP Connections","medium","","network_connection","Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
+The data may also be sent to an alternate network location from the main command and control server.
+","94af51b6-e4c1-f780-3f48-90c3d7e35ea4"
+"Svc Installed","informational","security","","A new service was installed. (Possibly malware.)","95fe88c9-5b9d-4454-97b4-957918b84208"
+"Kerberos Manipulation","high","security","","Detects failed Kerberos TGT issue operation. This can be a sign of manipulations of TGT messages by an attacker.","978525c2-97aa-f0e4-8c11-3cf81ea3379b"
+"Certificate Services Outbound SMB or LDAP Connection","high","","network_connection","Detects the Windows Certificate Services process (certsrv.exe) initiating an outbound
+network connection on port 445 (SMB) or 389 (LDAP) to a non-DC host. This behaviour is
+inherently suspicious: under normal operation the CA resolves subject identities via local
+RPC against the domain and never initiates outbound SMB or LDAP connections to arbitrary
+hosts. Any such connection indicates the CA is being coerced into performing a remote
+identity lookup against an attacker-controlled host.
+
+The most direct known trigger is the CA chase fallback (EDITF_ENABLECHASECLIENTDC) where
+a requester-supplied 'cdc' attribute causes the CA to open SMB and LDAP to a specified
+address. CVE-2026-54121 (Certighost) exploits this path to redirect the CA to rogue LSA
+and LDAP services that return a DC's identity, resulting in a forged DC certificate.
+This rule is not limited to Certighost — any future vulnerability or misconfiguration
+that causes certsrv.exe to make outbound SMB or LDAP connections is covered.
+","97d2c88d-6b09-01ac-bb36-2af6fce7d2b0"
 "New MsDS-DelegatedManagedServiceAccount (DMSA) Object Created","medium","security","","Detects the creation of new msDS-DelegatedManagedServiceAccount objects, which could indicate potential abuse of privilege escalation vulnerabilities in Windows Server 2025.
 The msDS-DelegatedManagedServiceAccount (DMSA) is a new object class introduced in Windows Server 2025 that allows administrators to delegate the management of service accounts to other users or groups.
 Attackers may exploit this feature to create unauthorized service accounts with elevated privileges, leading to privilege escalation within the Active Directory environment.
 It is highly suspicious if an msDS-DelegatedManagedServiceAccount object is created without proper authorization or in an unexpected context, such as by a non-administrative user or outside of normal administrative workflows.
 So, it's a good idea to look out for accounts that are not typically responsible for service account creation to detect potential abuse of this feature.
 ","99f71671-d872-abce-f1f0-8cf2e3ee7f57"
-"Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation","high","security","","Detects modifications to DNS records in Active Directory where the Distinguished Name (DN) contains a base64-encoded blob
-matching the pattern ""1UWhRCAAAAA...BAAAA"". This pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure,
-commonly used in Kerberos coercion attacks. Adversaries may exploit this to coerce victim systems into authenticating to
-attacker-controlled hosts by spoofing SPNs via DNS. It is one of the strong indicators of a Kerberos coercion attack,.
-where adversaries manipulate DNS records to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
-Please investigate the user account that made the changes, as it is likely a low-privileged account that has been compromised.
-","19da3c91-0fcd-61d5-5b4f-bde550a79070"
-"Suspicious LDAP-Attributes Used","high","security","","Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.","925d441a-37b4-0afa-1d98-809b5df5fd06"
-"Group Policy Abuse for Privilege Addition","medium","security","","Detects the first occurrence of a modification to Group Policy Object Attributes to add privileges to user accounts or use them to add users as local admins.
-","6e3066ef-54e1-9d1b-5bc6-9ae6947ae271"
-"Possible Shadow Credentials Added","high","security","","Detects possible addition of shadow credentials to an active directory object.","8bcf1772-4335-28e1-e320-5ce48b15ae9f"
-"Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
-","bc613d09-5a80-cad3-6f65-c5020f960511"
-"Powerview Add-DomainObjectAcl DCSync AD Extend Right","high","security","","Backdooring domain object to grant the rights associated with DCSync to a regular user or machine account using Powerview\Add-DomainObjectAcl DCSync Extended Right cmdlet, will allow to re-obtain the pwd hashes of any user/computer","e92d7fea-4127-4b6c-a889-3f0b89f7b567"
-"Windows Default Domain GPO Modification","medium","security","","Detects modifications to Default Domain or Default Domain Controllers Group Policy Objects (GPOs).
-Adversaries may modify these default GPOs to deploy malicious configurations across the domain.
-","848c3317-9b29-5241-aae9-ceb41ce11177"
-"Possible DC Shadow Attack","medium","security","","Detects DCShadow via create new SPN","c800ccd5-5818-b0f5-1a12-f9c8bc24a433"
-"Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
-"Active Directory User Backdoors","high","security","","Detects scenarios where one can control another users or computers account without having to use their credentials.","c9123898-04d5-2d3b-5e2b-7c0c92111480"
-"Dir Svc Obj Modified","informational","security","","Directory Service Object Modified. Log written only to domain controllers (2008+)","22ee9fb7-64ca-4eed-92de-d1dbef1170b8"
-"ADCS Certificate Template Configuration Vulnerability with Risky EKU","high","security","","Detects certificate creation with template allowing risk permission subject and risky EKU","aa2d5bf7-bc73-068e-a4df-a887cc3aba2b"
-"ADCS Certificate Template Configuration Vulnerability","low","security","","Detects certificate creation with template allowing risk permission subject","3a655a7c-a830-77ad-fc8b-f054fb713304"
-"CVE-2021-1675 Print Spooler Exploitation IPC Access","critical","security","","Detects remote printer driver load from Detailed File Share in Security logs that are a sign of successful exploitation attempts against print spooler vulnerability CVE-2021-1675 and CVE-2021-34527","52b5923e-1ef2-aaad-5513-3c830f3c5850"
-"BlueSky Ransomware Artefacts","high","security","","Detect access to files and shares with names and extensions used by BlueSky ransomware which could indicate a current or previous encryption attempt.","21ead34c-d2d4-2799-6318-2ff9e4aa9222"
-"Remote Registry Management Using Reg Utility","medium","security","","Remote registry management using REG utility from non-admin workstation","e9f405d3-e7ea-9adf-2f31-9ab2a7a90f5a"
-"Windows Network Access Suspicious desktop.ini Action","medium","security","","Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.","192d9d70-11ad-70e5-9d6c-d32a1ec74857"
-"DCOM InternetExplorer.Application Iertutil DLL Hijack - Security","high","security","","Detects a threat actor creating a file named `iertutil.dll` in the `C:\Program Files\Internet Explorer\` directory over the network for a DCOM InternetExplorer DLL Hijack scenario.","85e72fe3-83af-8ed9-39d3-2883e46059f1"
-"Transferring Files with Credential Data via Network Shares","medium","security","","Transferring files with well-known filenames (sensitive files with credential data) using network shares","73d3720b-e4f3-d7e1-2a3f-8ca0a5e1fc1b"
-"Suspicious Access to Sensitive File Extensions","medium","security","","Detects known sensitive file extensions accessed on a network share","4af39497-9655-9586-817d-94f0df38913f"
-"First Time Seen Remote Named Pipe","high","security","","This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes","308a3356-4624-7c95-24df-cf5a02e5eb56"
-"Protected Storage Service Access","high","security","","Detects access to a protected_storage service over the network. Potential abuse of DPAPI to extract domain backup keys from Domain Controllers","7695295d-281f-23ce-d52e-8336ebd47532"
-"Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
-","bc613d09-5a80-cad3-6f65-c5020f960511"
-"SMB Create Remote File Admin Share","high","security","","Look for non-system accounts SMB accessing a file with write (0x2) access mask via administrative share (i.e C$).","37f5d188-182d-7a53-dca7-4bebbb6ce43e"
 "Remote Service Activity via SVCCTL Named Pipe","medium","security","","Detects remote service activity via remote access to the svcctl named pipe","9a0e08fc-d50e-2539-9da0-f2b04439c414"
-"Suspicious PsExec Execution","high","security","","detects execution of psexec or paexec with renamed service name, this rule helps to filter out the noise if psexec is used for legit purposes or if attacker uses a different psexec client other than sysinternal one","426009da-814c-c1c0-cf41-6631c9ff6a8e"
-"Possible Impacket SecretDump Remote Activity","high","security","","Detect AD credential dumping using impacket secretdump HKTL","677980bc-7dcc-1f9a-e161-a7f310ec9652"
-"DCERPC SMB Spoolss Named Pipe","medium","security","","Detects the use of the spoolss named pipe over SMB. This can be used to trigger the authentication via NTLM of any machine that has the spoolservice enabled.","d415c82b-814d-5cdc-c2f2-a138115b878e"
-"T1047 Wmiprvse Wbemcomn DLL Hijack","high","security","","Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\` directory over the network for a WMI DLL Hijack scenario.","f252afa3-fe83-562c-01c0-1334f55af84c"
-"Remote Task Creation via ATSVC Named Pipe","medium","security","","Detects remote task creation via at.exe or API interacting with ATSVC namedpipe","93fd0f77-62da-26fb-3e96-71cde45a9680"
-"Impacket PsExec Execution","high","security","","Detects execution of Impacket's psexec.py.","24e370e0-b9f0-5851-0261-f984742ff2a1"
-"Persistence and Execution at Scale via GPO Scheduled Task","high","security","","Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale","01628b51-85e1-4088-9432-a11cba9f3ebd"
-"Possible PetitPotam Coerce Authentication Attempt","high","security","","Detect PetitPotam coerced authentication activity.","bcc12e55-1578-5174-2a47-98a6211a1c6c"
-"NetShare File Access","informational","security","","","8c6ec2b2-8dad-4996-9aba-d659afc1b919"
-"CVE-2023-23397 Exploitation Attempt","critical","security","","Detects outlook initiating connection to a WebDAV or SMB share, which could be a sign of CVE-2023-23397 exploitation.","1aeb71a3-31b4-1a5e-85d8-1631c3a73d43"
-"CVE-2024-1708 - ScreenConnect Path Traversal Exploitation - Security","critical","security","","This detects file modifications to ASPX and ASHX files within the root of the App_Extensions directory, which is allowed by a ZipSlip vulnerability in versions prior to 23.9.8. This occurs during exploitation of CVE-2024-1708.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","74d067bc-3f42-3855-c13d-771d589cf11c"
-"ScreenConnect User Database Modification - Security","medium","security","","This detects file modifications to the temporary xml user database file indicating local user modification in the ScreenConnect server.
-This will occur during exploitation of the ScreenConnect Authentication Bypass vulnerability (CVE-2024-1709) in versions <23.9.8, but may also be observed when making legitimate modifications to local users or permissions.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","82b185f4-cdcb-ba23-9fdb-dbc1a732e1a7"
-"BlueSky Ransomware Artefacts","high","security","","Detect access to files and shares with names and extensions used by BlueSky ransomware which could indicate a current or previous encryption attempt.","21ead34c-d2d4-2799-6318-2ff9e4aa9222"
-"Stored Credentials in Fake Files","high","security","","Search for accessing of fake files with stored credentials","888d3e17-a1ed-6b11-895c-e1f9b96b35be"
-"Suspicious Multiple File Rename Or Delete Occurred","medium","security","","Detects multiple file rename or delete events occurrence within a specified period of time by a same user (these events may signalize about ransomware activity).","a4504cb2-23f6-6d94-5ae6-d6013cf1d995"
-"SCM Database Handle Failure","medium","security","","Detects non-system users failing to get a handle of the SCM database.","474caaa9-3115-c838-1509-59ffb6caecfc"
-"Potential Secure Deletion with SDelete","medium","security","","Detects files that have extensions commonly seen while SDelete is used to wipe files.","70c3269a-a7f2-49bd-1e28-a0921f353db7"
-"WCE wceaux.dll Access","critical","security","","Detects wceaux.dll access while WCE pass-the-hash remote command execution on source host","de10da38-ee60-f6a4-7d70-4d308558158b"
-"Password Dumper Activity on LSASS","high","security","","Detects process handle on LSASS process with certain access mask and object type SAM_DOMAIN","d81faa44-ff28-8f61-097b-92727b8af44b"
-"Sysmon Channel Reference Deletion","high","security","","Potential threat actor tampering with Sysmon manifest and eventually disabling it","249d836c-8857-1b98-5d7b-050c2d34e275"
-"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
-The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
-Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
-Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
-","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
-"Service Registry Key Read Access Request","low","security","","Detects ""read access"" requests on the services registry key.
-Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services.
-Adversaries may use flaws in the permissions for Registry keys related to services to redirect from the originally specified executable to one that they control, in order to launch their own code when a service starts.
-","d1909400-93d7-de3c-ba13-153c64499c7c"
-"Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
-Information from AD Health service agents can be used to potentially abuse some of the features provided by those services in the cloud (e.g. Federation).
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object: HKLM:\SOFTWARE\Microsoft\ADHealthAgent.
-Make sure you set the SACL to propagate to its sub-keys.
-","763d50d7-9452-0146-18a1-9ca65e3a2f73"
-"Azure AD Health Monitoring Agent Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key of Azure AD Health monitoring agent.
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object HKLM\SOFTWARE\Microsoft\Microsoft Online\Reporting\MonitoringAgent.
-","321196fe-fb10-6b13-c611-3dfe40baa1af"
-"Potentially Suspicious AccessMask Requested From LSASS","medium","security","","Detects process handle on LSASS process with certain access mask","c7f94c63-6fb7-9686-e2c2-2298c9f56ca9"
-"Processes Accessing the Microphone and Webcam","medium","security","","Potential adversaries accessing the microphone and webcam in an endpoint.","32337bc9-8e75-bdaf-eaf4-d3b19ee08a67"
-"SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
-"SAM Registry Hive Handle Request","high","security","","Detects handles requested to SAM registry hive","d7742b08-730d-3624-df95-cc3c6eaa3a39"
-"ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
-"Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
-","777523b0-14f8-1ca2-12c9-d668153661ff"
-"LSASS Access From Non System Account","medium","security","","Detects potential mimikatz-like tools accessing LSASS from non system account","06b8bcc0-326b-518a-3868-fe0721488fb8"
-"Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
-"Access To Browser Credential Files By Uncommon Applications - Security","low","security","","Detects file access requests to browser credential stores by uncommon processes. Could indicate potential attempt of credential stealing This rule requires heavy baselining before usage.
-","7619b716-8052-6323-d9c7-87923ef591e6"
-"New RDP Connection Initiated From Domain Controller","high","","network_connection","Detects an RDP connection originating from a domain controller.","8b0f1458-5a23-5950-ebc7-f8d7a562dc06"
-"Enumeration via the Global Catalog","medium","security","","Detects enumeration of the global catalog (that can be performed using BloodHound or others AD reconnaissance tools). Adjust Threshold according to domain width.","ffaf246b-f54a-05ba-d9b0-fba6626c7822"
-"Windows Filtering Platform Blocked Connection From EDR Agent Binary","high","security","","Detects a Windows Filtering Platform (WFP) blocked connection event involving common Endpoint Detection and Response (EDR) agents.
-Adversaries may use WFP filters to prevent Endpoint Detection and Response (EDR) agents from reporting security events.
-","764518e5-4160-b679-1946-cbd0e76705da"
-"RDP over Reverse SSH Tunnel WFP","high","security","","Detects svchost hosting RDP termsvcs communicating with the loopback address","810804a5-98c3-7e56-e8ed-8a95d72ad829"
-"Uncommon Outbound Kerberos Connection - Security","medium","security","","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
-","1ee90f6c-2d09-5bcf-b8fd-06fe14f86746"
-"Remote PowerShell Sessions Network Connections (WinRM)","high","security","","Detects basic PowerShell Remoting (WinRM) by monitoring for network inbound connections to ports 5985 OR 5986","cc1d9970-7c17-d738-f5cb-8fb12f02d0fd"
-"HH.EXE Initiated HTTP Network Connection","medium","","network_connection","Detects a network connection initiated by the ""hh.exe"" process to HTTP destination ports, which could indicate the execution/download of remotely hosted .chm files.
-","13790f2d-97b2-d1a0-6624-1061d7ccbb8c"
+"Invoke-Obfuscation Obfuscated IEX Invocation - Security","high","security","","Detects all variations of obfuscated powershell IEX invocation code generated by Invoke-Obfuscation framework from the code block linked in the references","9ab29a5b-d66d-a41e-bdaf-8c718011875c"
+"Security Eventlog Cleared","high","security","","One of the Windows Eventlogs has been cleared. e.g. caused by ""wevtutil cl"" command execution","9b14c9d8-6b61-e49f-f8a8-0836d0ad98c9"
+"DNS Query To Put.io - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to ""Put.io"" sharing website.","9b3ffe56-a479-9b35-d590-9b94c2f7fa35"
+"Password Policy Enumerated","medium","security","","Detects when the password policy is enumerated.","9bcf333e-fc4c-5912-eeba-8a0cefe21be4"
+"Certificate Request Export to Exchange Webserver","critical","msexchange-management","","Detects a write of an Exchange CSR to an untypical directory or with aspx name suffix which can be used to place a webshell","9c8f1614-f386-ea28-e870-75e3daf99adc"
 "Network Connection Initiated By PowerShell Process","low","","network_connection","Detects a network connection that was initiated from a PowerShell process.
 Often times malicious powershell scripts download additional payloads or communicate back to command and control channels via uncommon ports or IPs.
 Use this rule as a basis for hunting for anomalies.
 ","9e00ae65-e5aa-2c89-c7a1-7b6ee0e194f5"
-"Msiexec.EXE Initiated Network Connection Over HTTP","low","","network_connection","Detects a network connection initiated by an ""Msiexec.exe"" process over port 80 or 443.
-Adversaries might abuse ""msiexec.exe"" to install and execute remotely hosted packages.
-Use this rule to hunt for potentially anomalous or suspicious communications.
-","8696ae22-70c1-ca19-4888-66ed19ea27da"
+"RegAsm.EXE Initiating Network Connection To Public IP","medium","","network_connection","Detects ""RegAsm.exe"" initiating a network connection to public IP adresses","a0e133b9-f055-5011-01e6-75ed480ad2da"
 "Network Connection Initiated From Users\Public Folder","medium","","network_connection","Detects a network connection initiated from a process located in the ""C:\Users\Public"" folder.
 Attacker are known to drop their malicious payloads and malware in this directory as its writable by everyone.
 Use this rule to hunt for potential suspicious or uncommon activity in your environement.
 ","a1027f51-4eb5-a16d-91bf-9e124bb594dd"
-"Dfsvc.EXE Initiated Network Connection Over Uncommon Port","high","","network_connection","Detects an initiated network connection over uncommon ports from ""dfsvc.exe"". A utility used to handled ClickOnce applications.","4255ccee-f954-7d80-4281-d5a5fe9ea9f7"
-"Dfsvc.EXE Network Connection To Non-Local IPs","medium","","network_connection","Detects network connections from ""dfsvc.exe"" used to handled ClickOnce applications to non-local IPs","713fd43d-88e4-6801-2eac-756d06792d4f"
-"Dllhost.EXE Initiated Network Connection To Non-Local IP Address","medium","","network_connection","Detects Dllhost.EXE initiating a network connection to a non-local IP address.
-Aside from Microsoft own IP range that needs to be excluded. Network communication from Dllhost will depend entirely on the hosted DLL.
-An initial baseline is recommended before deployment.
-","1062d249-f014-9faf-044e-2b75d6f9763f"
-"Suspicious Wordpad Outbound Connections","medium","","network_connection","Detects a network connection initiated by ""wordpad.exe"" over uncommon destination ports.
-This might indicate potential process injection activity from a beacon or similar mechanisms.
-","510d0486-0545-9178-93cb-5f5a8c75930b"
-"Local Network Connection Initiated By Script Interpreter","medium","","network_connection","Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder.
-","7e448677-939e-f6d0-e901-91843a3888d7"
-"RDP to HTTP or HTTPS Target Ports","high","","network_connection","Detects svchost hosting RDP termsvcs communicating to target systems on TCP port 80 or 443","5049ed9f-e700-a499-9498-5e648851d2ad"
-"Outbound Network Connection Initiated By Cmstp.EXE","high","","network_connection","Detects a network connection initiated by Cmstp.EXE
-Its uncommon for ""cmstp.exe"" to initiate an outbound network connection. Investigate the source of such requests to determine if they are malicious.
-","41d54b25-deb6-4ea3-fbac-3f5b6e200939"
-"Python Initiated Connection","medium","","network_connection","Detects a Python process initiating a network connection. While this often relates to package installation, it can also indicate a potential malicious script communicating with a C&C server.","cb64ddfa-8325-dc30-db3f-e546a9b1eba5"
-"Office Application Initiated Network Connection To Non-Local IP","medium","","network_connection","Detects an office application (Word, Excel, PowerPoint)  that initiate a network connection to a non-private IP addresses.
-This rule aims to detect traffic similar to one seen exploited in CVE-2021-42292.
-This rule will require an initial baseline and tuning that is specific to your organization.
-","7c154a7f-01a0-3b2e-927d-32c452139322"
-"Microsoft Sync Center Suspicious Network Connections","medium","","network_connection","Detects suspicious connections from Microsoft Sync Center to non-private IPs.","e2d0c6fb-f0de-9cce-076d-f755f6ae4956"
-"Uncommon Network Connection Initiated By Certutil.EXE","high","","network_connection","Detects a network connection initiated by the certutil.exe utility.
-Attackers can abuse the utility in order to download malware or additional payloads.
-","bc5e54c2-1b8d-cb27-3079-f47318f4ccc7"
-"Network Connection Initiated By IMEWDBLD.EXE","high","","network_connection","Detects a network connection initiated by IMEWDBLD.EXE. This might indicate potential abuse of the utility as a LOLBIN in order to download arbitrary files or additional payloads.
-","0f4d93f0-a1eb-e6cb-7d79-f38cc95a9a55"
-"Rundll32 Internet Connection","medium","","network_connection","Detects a rundll32 that communicates with public IP addresses","4a7137e3-d863-49dd-6199-5ca7722de62e"
-"Suspicious Outbound SMTP Connections","medium","","network_connection","Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
-The data may also be sent to an alternate network location from the main command and control server.
-","94af51b6-e4c1-f780-3f48-90c3d7e35ea4"
-"Remote Access Tool - AnyDesk Incoming Connection","medium","","network_connection","Detects incoming connections to AnyDesk. This could indicate a potential remote attacker trying to connect to a listening instance of AnyDesk and use it as potential command and control channel.
-","5a099129-36a4-b13b-5345-9f37b231fb5c"
-"Communication To Uncommon Destination Ports","medium","","network_connection","Detects programs that connect to uncommon destination ports","7983db98-5767-b29d-2652-a01fd3e751ad"
-"Network Connection Initiated From Process Located In Potentially Suspicious Or Uncommon Location","high","","network_connection","Detects a network connection initiated by programs or processes running from suspicious or uncommon files system locations.
-","1ba0b3d6-e0f7-98e9-4611-b307922a0766"
-"Silenttrinity Stager Msbuild Activity","high","","network_connection","Detects a possible remote connections to Silenttrinity c2","f96b2d35-57da-bef8-3624-73634617eac6"
-"Potentially Suspicious Malware Callback Communication","high","","network_connection","Detects programs that connect to known malware callback ports based on statistical analysis from two different sandbox system databases
-","7ac85830-5907-5206-2d25-490b3ace5587"
-"Outbound Network Connection Initiated By Microsoft Dialer","high","","network_connection","Detects outbound network connection initiated by Microsoft Dialer.
-The Microsoft Dialer, also known as Phone Dialer, is a built-in utility application included in various versions of the Microsoft Windows operating system. Its primary function is to provide users with a graphical interface for managing phone calls via a modem or a phone line connected to the computer.
-This is an outdated process in the current conext of it's usage and is a common target for info stealers for process injection, and is used to make C2 connections, common example is ""Rhadamanthys""
-","fa5330d2-19f1-4167-52a0-fb622b6425f8"
-"RegAsm.EXE Initiating Network Connection To Public IP","medium","","network_connection","Detects ""RegAsm.exe"" initiating a network connection to public IP adresses","a0e133b9-f055-5011-01e6-75ed480ad2da"
-"Network Connection Initiated By AddinUtil.EXE","high","","network_connection","Detects a network connection initiated by the Add-In deployment cache updating utility ""AddInutil.exe"".
-This could indicate a potential command and control communication as this tool doesn't usually initiate network activity.
-","8d993d6b-e44b-0df0-91c0-6093975b69f8"
-"Network Connection Initiated By Regsvr32.EXE","medium","","network_connection","Detects a network connection initiated by ""Regsvr32.exe""","6814d247-c70b-e49e-6553-149fc21c3a81"
-"Outbound Network Connection Initiated By Script Interpreter","high","","network_connection","Detects a script interpreter wscript/cscript opening a network connection to a non-local network. Adversaries may use script to download malicious payloads.","1487f05c-b749-4322-d657-d20a2eea7e47"
-"RDP Over Reverse SSH Tunnel","high","","network_connection","Detects svchost hosting RDP termsvcs communicating with the loopback address and on TCP port 3389","81ca22c3-fdfd-6c3a-051f-dc404488536c"
+"Potential Privileged System Service Operation - SeLoadDriverPrivilege","medium","security","","Detects the usage of the 'SeLoadDriverPrivilege' privilege. This privilege is required to load or unload a device driver.
+With this privilege, the user can dynamically load and unload device drivers or other code in to kernel mode.
+This user right does not apply to Plug and Play device drivers.
+If you exclude privileged users/admins and processes, which are allowed to do so, you are maybe left with bad programs trying to load malicious kernel drivers.
+This will detect Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs) and the usage of Sysinternals and various other tools. So you have to work with a whitelist to find the bad stuff.
+","a25c0c49-11f8-ace9-6bbd-80cfa6e2b2d7"
 "Network Connection Initiated via Finger.EXE","high","","network_connection","Detects network connections via finger.exe, which can be abused by threat actors to retrieve remote commands for execution on Windows devices.
 In one ClickFix malware campaign, adversaries leveraged the finger protocol to fetch commands from a remote server.
 Since the finger utility is not commonly used in modern Windows environments, its presence already raises suspicion.
 Investigating such network connections can also help identify potential malicious infrastructure used by threat actors
 ","a3b5d397-bb25-cb4b-faec-891a579c8a0f"
+"AppX Located in Uncommon Directory Added to Deployment Pipeline","medium","appxdeployment-server","","Detects an appx package that was added to the pipeline of the ""to be processed"" packages that is located in uncommon locations.
+","a3dbb89a-aebc-03c7-295b-ad18d5c7924b"
+"Sysinternals Tools AppX Versions Execution","low","appmodel-runtime","","Detects execution of Sysinternals tools via an AppX package.
+Attackers could install the Sysinternals Suite to get access to tools such as psexec and procdump to avoid detection based on System paths.
+","a3ffcde3-a83d-3d16-0b83-72f4758207cd"
+"Register new Logon Process by Rubeus","high","security","","Detects potential use of Rubeus via registered new trusted logon process","a5498e1f-e40d-d8b1-bceb-5931f5169dbd"
+"Device Conn","informational","","","Device is connected or disconnected","a6a0d64-75d1-433a-b415-4123bab080ec"
+"Deployment AppX Package Was Blocked By AppLocker","medium","appxdeployment-server","","Detects an appx package deployment that was blocked by AppLocker policy.","a902397c-6118-0a8f-7fab-3f8142297d80"
+"ADCS Certificate Template Configuration Vulnerability with Risky EKU","high","security","","Detects certificate creation with template allowing risk permission subject and risky EKU","aa2d5bf7-bc73-068e-a4df-a887cc3aba2b"
+"Task Updated","informational","taskscheduler","","","aba04101-e439-4e2f-b051-4be561993c31"
+"Certificate Exported From Local Certificate Store","medium","certificateservicesclient-lifecycle-system","","Detects when an application exports a certificate (and potentially the private key as well) from the local Windows certificate store.","aec05047-d4cd-8eed-6c67-40b018f64c6e"
+"Suspicious Non PowerShell WSMAN COM Provider","medium","powershell-classic","","Detects suspicious use of the WSMAN provider without PowerShell.exe as the host application.","aedc0f64-b9e7-36d1-fd92-838fdf33eac3"
+"NTFS volume mounted","informational","ntfs","","A NTFS volume has been successfully mounted. Introduced in Windows 10 / Windows Server 2016 (Build 14393), with more fields logged (including information on the underlying device) starting with Windows 11 / Windows Server 2022 (Build 22000).","af127790-5563-473e-8d3a-43b3509572b1"
+"Invoke-Obfuscation Via Stdin - Security","high","security","","Detects Obfuscated Powershell via Stdin in Scripts","b073cf4b-ed38-0a6f-38d3-50997892d7e7"
 "Uncommon Connection to Active Directory Web Services","medium","","network_connection","Detects uncommon network connections to the Active Directory Web Services (ADWS) from processes not typically associated with ADWS management.
 ","b2c34a06-251e-87ee-2d3e-fae878185d34"
+"Net Conn Blocked","informational","security","","The Windows Filtering Platform has blocked a connection.","b793a8e6-28a4-4fb8-816e-17a99e4e7b40"
+"Successful MSIX/AppX Package Installation","low","appxdeployment-server","","Detects successful MSIX/AppX package installations on Windows systems by monitoring EventID 854 in the Microsoft-Windows-AppXDeployment-Server/Operational log.
+While most installations are legitimate, this can help identify unauthorized or suspicious package installations.
+It is crucial to monitor such events as threat actors may exploit MSIX/AppX packages to deliver and execute malicious payloads.
+","b9ec68fe-f656-4c32-62da-1ece594d2708"
+"Invalid Users Failing To Authenticate From Single Source Using NTLM","medium","security","","Detects failed logins with multiple invalid domain accounts from a single source system using the NTLM protocol.","bbd02091-a432-94b3-8041-9f776b681fc2"
+"Uncommon Network Connection Initiated By Certutil.EXE","high","","network_connection","Detects a network connection initiated by the certutil.exe utility.
+Attackers can abuse the utility in order to download malware or additional payloads.
+","bc5e54c2-1b8d-cb27-3079-f47318f4ccc7"
+"Startup/Logon Script Added to Group Policy Object","medium","security","","Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
+","bc613d09-5a80-cad3-6f65-c5020f960511"
+"Possible PetitPotam Coerce Authentication Attempt","high","security","","Detect PetitPotam coerced authentication activity.","bcc12e55-1578-5174-2a47-98a6211a1c6c"
+"Deployment Of The AppX Package Was Blocked By The Policy","medium","appxdeployment-server","","Detects an appx package deployment that was blocked by the local computer policy.
+The following events indicate that an AppX package deployment was blocked by a policy:
+- Event ID 441: The package deployment operation is blocked by the ""Allow deployment operations in special profiles"" policy
+- Event ID 442: Deployments to non-system volumes are blocked by the ""Disable deployment of Windows Store apps to non-system volumes"" policy.""
+- Event ID 453: Package blocked by a platform policy.
+- Event ID 454: Package blocked by a platform policy.
+","c01e61dd-7cb7-acd0-c6e5-bda4c93b330c"
+"Denied Access To Remote Desktop","medium","security","","This event is generated when an authenticated user who is not allowed to log on remotely attempts to connect to this computer through Remote Desktop.
+Often, this event can be generated by attackers when searching for available windows servers in the network.
+","c0c9db9a-0a47-c9fd-13fd-965eadb10a6f"
+"Scheduled Task Executed From A Suspicious Location","medium","taskscheduler","","Detects the execution of Scheduled Tasks where the Program being run is located in a suspicious location or it's an unusale program to be run from a Scheduled Task","c1fd9ca2-a3f8-1adc-0f1d-1d6099f5d827"
+"Log Cleared","high","security","","A user has cleared the Security event log.","c2f690ac-53f8-4745-8cfe-7127dda28c74"
+"DPAPI Domain Backup Key Extraction","high","security","","Detects tools extracting LSA secret DPAPI domain backup key from Domain Controllers","c42c534d-16ae-877f-0722-6d6914090855"
+"Disabled Users Failing To Authenticate From Source Using Kerberos","medium","security","","Detects failed logins with multiple disabled domain accounts from a single source system using the Kerberos protocol.","c6c2c3e3-44ee-516c-9e48-63b304511787"
+"GALLIUM Artefacts - Builtin","high","dns-server-analytic","","Detects artefacts associated with activity group GALLIUM - Microsoft Threat Intelligence Center indicators released in December 2019.","c8e0edae-2335-591c-7057-1ac58f03e06c"
+"Python Initiated Connection","medium","","network_connection","Detects a Python process initiating a network connection. While this often relates to package installation, it can also indicate a potential malicious script communicating with a C&C server.","cb64ddfa-8325-dc30-db3f-e546a9b1eba5"
+"Remote PowerShell Sessions Network Connections (WinRM)","high","security","","Detects basic PowerShell Remoting (WinRM) by monitoring for network inbound connections to ports 5985 OR 5986","cc1d9970-7c17-d738-f5cb-8fb12f02d0fd"
+"PetitPotam Suspicious Kerberos TGT Request","high","security","","Detect suspicious Kerberos TGT requests.
+Once an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes.
+One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus.
+This request will generate a 4768 event with some unusual fields depending on the environment.
+This analytic will require tuning, we recommend filtering Account_Name to the Domain Controller computer accounts.
+","cd01c787-aad1-bbed-5842-aa8e58410aad"
+"Recursive DNS Request","informational","dns-server-analytic","","","cd6eb342-9dcd-450d-b448-bebd97cb6e89"
+"User Couldn't Call a Privileged Service 'LsaRegisterLogonProcess'","high","security","","The 'LsaRegisterLogonProcess' function verifies that the application making the function call is a logon process by checking that it has the SeTcbPrivilege privilege set. Possible Rubeus tries to get a handle to LSA.","cd93b6ed-961d-ed36-92db-bd44bccda695"
+"VHD Mounted","low","vhdmp","","A VMGS or VHD (Virtual Hard Disk) image was mounted. They are often used with HyperV.","d00c370c-c6c2-474f-9d41-a250644852b5"
+"Net Conn","informational","security","","The Windows Filtering Platform has allowed a connection.","d0a61a11-57c9-4afc-b940-3f19b60db08e"
+"Invoke-Obfuscation COMPRESS OBFUSCATION - Security","medium","security","","Detects Obfuscated Powershell via COMPRESS OBFUSCATION","d0c8e98d-0746-a43c-9170-c04e7f7a3867"
+"Task Executed","informational","taskscheduler","","","d1923809-955b-47c4-b3e5-37c0e461919c"
+"DCERPC SMB Spoolss Named Pipe","medium","security","","Detects the use of the spoolss named pipe over SMB. This can be used to trigger the authentication via NTLM of any machine that has the spoolservice enabled.","d415c82b-814d-5cdc-c2f2-a138115b878e"
+"Credential Manager Accessed","low","security","","A process has read credentials in the Credential Manager. There will be many false positives so check if the Process ID (PID) is that of known malware on the system.","d478c070-8f84-4e65-9f45-cc432a000e93"
+"Scheduled Task Executed Uncommon LOLBIN","medium","taskscheduler","","Detects the execution of Scheduled Tasks where the program being run is located in a suspicious location or where it is an unusual program to be run from a Scheduled Task","d5a3d13e-7db3-bcf5-824a-789488ab40fd"
+"Credential Manager Enumerated","low","security","","A process has enumerated credential information in Credential Manager. There will be many false positives so check if the Process ID (PID) is that of known malware on the system.","d8e3afc5-fa0a-4063-a4af-55e014eb1936"
+"Kerberos TGT Requested","informational","security","","Prints logon information.","d9f336ea-bb16-4a35-8a9c-183216b8d59c"
+"Kerberos Service Ticket Requested","informational","security","","Prints logon information.","da6257f3-cf49-464a-96fc-c84a7ce20636"
+"Suspicious Machine Account Replication - DcSync Indicator","medium","security","","Detects suspicious Active Directory Replication Service (ADRS) requests originating from
+a machine account (SubjectUserName ending in '$') rather than a legitimate Domain Controller.
+
+Under normal operation, only Domain Controllers initiate replication requests carrying the
+DS-Replication-Get-Changes-All right. If a threat actor obtains valid machine account
+credentials — for example by abusing certificate-based authentication (PKINIT) to
+impersonate a DC after exploiting a CA vulnerability such as CVE-2026-54121 (Certighost),
+where a temporary machine account is created to request a DC certificate and then used to
+perform DCSync — they can dump all domain credential material including the krbtgt hash.
+","daad2203-665f-294c-6d2f-f9272c3214f2"
+"Certificate Private Key Acquired","medium","capi2","","Detects when an application acquires a certificate private key","dadaca47-d760-88a9-fd35-cbe8a6237499"
+"Valid Users Failing to Authenticate from Single Source Using NTLM","medium","security","","Detects failed logins with multiple valid domain accounts from a single source system using the NTLM protocol.","ddbbe639-21f9-7b39-ae7d-821e490d6130"
+"Potential CVE-2023-23397 Exploitation Attempt - SMB","medium","smbclient-connectivity","","Detects (failed) outbound connection attempts to internet facing SMB servers. This could be a sign of potential exploitation attempts of CVE-2023-23397.","de290ecb-3279-dd5b-2f6c-7d3f22a752d8"
+"Possible AS-REP Roasting (RC4 Kerberos Ticket Req)","medium","security","","For each account found without preauthentication, an adversary may send an AS-REQ message without the encrypted timestamp and receive an AS-REP message with TGT data which may be encrypted with an insecure algorithm such as RC4.","dee2a01e-5d7c-45b4-aec3-ad9722f2165a"
+"Service Installed By Unusual Client - Security","high","security","","Detects a service installed by a client which has PID 0 or whose parent has PID 0","df47c51b-2738-8866-a1d7-86b96fb5b5ca"
 "Outbound RDP Connections Over Non-Standard Tools","high","","network_connection","Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
 An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
 ","e02f9ef8-2edb-79a4-0626-b506436d7ebe"
-"Network Connection Initiated By Eqnedt32.EXE","high","","network_connection","Detects network connections from the Equation Editor process ""eqnedt32.exe"".","141fe5f1-4de3-21fd-1b09-8d53f1019340"
-"Uncommon Outbound Kerberos Connection","medium","","network_connection","Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
-","7c743e5c-7a9d-ba96-9ada-1d17687e2a6d"
-"Network Communication Initiated To File Sharing Domains From Process Located In Suspicious Folder","high","","network_connection","Detects executables located in potentially suspicious directories initiating network connections towards file sharing domains.","34ba9d0c-a415-a91a-013b-30158906f18c"
+"Query Tor Onion Address - DNS Client","high","dns-client","","Detects DNS resolution of an .onion address related to Tor routing networks","e1b0fd63-1017-1597-ec08-3f9e1021e564"
+"Meterpreter or Cobalt Strike Getsystem Service Installation - Security","high","security","","Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service installation","e2755f38-e817-94c0-afef-acff29676b43"
+"Microsoft Sync Center Suspicious Network Connections","medium","","network_connection","Detects suspicious connections from Microsoft Sync Center to non-private IPs.","e2d0c6fb-f0de-9cce-076d-f755f6ae4956"
+"RDS GTW Logoff","informational","","","","e5f74909-58a9-45ec-b70d-21c654dca4f3"
+"Suspicious Digital Signature Of AppX Package","medium","appxpackaging-om","","Detects execution of AppX packages with known suspicious or malicious signature","e6dd8206-87ca-b6e9-3c8f-9e097bfc4e31"
 "Network Connection Initiated Via Notepad.EXE","high","","network_connection","Detects a network connection that is initiated by the ""notepad.exe"" process.
 This might be a sign of process injection from a beacon process or something similar.
 Notepad rarely initiates a network communication except when printing documents for example.
 ","e6f76f81-e758-4001-122c-58a3ceef02f9"
-"Office Application Initiated Network Connection Over Uncommon Ports","medium","","network_connection","Detects an office suit application (Word, Excel, PowerPoint, Outlook) communicating to target systems over uncommon ports.","8cf1b63a-f161-0e51-a9d2-cc697d06a5a4"
-"Outbound Network Connection To Public IP Via Winlogon","medium","","network_connection","Detects a ""winlogon.exe"" process that initiate network communications with public IP addresses","3c6c2271-decf-a5c0-b983-edaa9cf7077d"
-"Suspicious Epmap Connection","high","","network_connection","Detects suspicious ""epmap"" connection to a remote computer via remote procedure call (RPC)","58a2d80c-c77b-324c-640d-c97cf5fcbefa"
-"Net Conn Blocked","informational","security","","The Windows Filtering Platform has blocked a connection.","b793a8e6-28a4-4fb8-816e-17a99e4e7b40"
-"Net Conn","informational","security","","The Windows Filtering Platform has allowed a connection.","d0a61a11-57c9-4afc-b940-3f19b60db08e"
-"CVE-2023-23397 Exploitation Attempt","critical","security","","Detects outlook initiating connection to a WebDAV or SMB share, which could be a sign of CVE-2023-23397 exploitation.","1aeb71a3-31b4-1a5e-85d8-1631c3a73d43"
-"CVE-2024-1708 - ScreenConnect Path Traversal Exploitation - Security","critical","security","","This detects file modifications to ASPX and ASHX files within the root of the App_Extensions directory, which is allowed by a ZipSlip vulnerability in versions prior to 23.9.8. This occurs during exploitation of CVE-2024-1708.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","74d067bc-3f42-3855-c13d-771d589cf11c"
-"ScreenConnect User Database Modification - Security","medium","security","","This detects file modifications to the temporary xml user database file indicating local user modification in the ScreenConnect server.
-This will occur during exploitation of the ScreenConnect Authentication Bypass vulnerability (CVE-2024-1709) in versions <23.9.8, but may also be observed when making legitimate modifications to local users or permissions.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","82b185f4-cdcb-ba23-9fdb-dbc1a732e1a7"
-"BlueSky Ransomware Artefacts","high","security","","Detect access to files and shares with names and extensions used by BlueSky ransomware which could indicate a current or previous encryption attempt.","21ead34c-d2d4-2799-6318-2ff9e4aa9222"
-"Stored Credentials in Fake Files","high","security","","Search for accessing of fake files with stored credentials","888d3e17-a1ed-6b11-895c-e1f9b96b35be"
-"Suspicious Multiple File Rename Or Delete Occurred","medium","security","","Detects multiple file rename or delete events occurrence within a specified period of time by a same user (these events may signalize about ransomware activity).","a4504cb2-23f6-6d94-5ae6-d6013cf1d995"
-"SCM Database Handle Failure","medium","security","","Detects non-system users failing to get a handle of the SCM database.","474caaa9-3115-c838-1509-59ffb6caecfc"
-"Potential Secure Deletion with SDelete","medium","security","","Detects files that have extensions commonly seen while SDelete is used to wipe files.","70c3269a-a7f2-49bd-1e28-a0921f353db7"
-"WCE wceaux.dll Access","critical","security","","Detects wceaux.dll access while WCE pass-the-hash remote command execution on source host","de10da38-ee60-f6a4-7d70-4d308558158b"
-"Password Dumper Activity on LSASS","high","security","","Detects process handle on LSASS process with certain access mask and object type SAM_DOMAIN","d81faa44-ff28-8f61-097b-92727b8af44b"
-"Sysmon Channel Reference Deletion","high","security","","Potential threat actor tampering with Sysmon manifest and eventually disabling it","249d836c-8857-1b98-5d7b-050c2d34e275"
-"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
-The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
-Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
-Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
-","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
-"Service Registry Key Read Access Request","low","security","","Detects ""read access"" requests on the services registry key.
-Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services.
-Adversaries may use flaws in the permissions for Registry keys related to services to redirect from the originally specified executable to one that they control, in order to launch their own code when a service starts.
-","d1909400-93d7-de3c-ba13-153c64499c7c"
-"Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
-Information from AD Health service agents can be used to potentially abuse some of the features provided by those services in the cloud (e.g. Federation).
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object: HKLM:\SOFTWARE\Microsoft\ADHealthAgent.
-Make sure you set the SACL to propagate to its sub-keys.
-","763d50d7-9452-0146-18a1-9ca65e3a2f73"
-"Azure AD Health Monitoring Agent Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key of Azure AD Health monitoring agent.
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object HKLM\SOFTWARE\Microsoft\Microsoft Online\Reporting\MonitoringAgent.
-","321196fe-fb10-6b13-c611-3dfe40baa1af"
-"Potentially Suspicious AccessMask Requested From LSASS","medium","security","","Detects process handle on LSASS process with certain access mask","c7f94c63-6fb7-9686-e2c2-2298c9f56ca9"
-"Processes Accessing the Microphone and Webcam","medium","security","","Potential adversaries accessing the microphone and webcam in an endpoint.","32337bc9-8e75-bdaf-eaf4-d3b19ee08a67"
-"SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
-"SAM Registry Hive Handle Request","high","security","","Detects handles requested to SAM registry hive","d7742b08-730d-3624-df95-cc3c6eaa3a39"
-"ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
-"Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
-","777523b0-14f8-1ca2-12c9-d668153661ff"
-"LSASS Access From Non System Account","medium","security","","Detects potential mimikatz-like tools accessing LSASS from non system account","06b8bcc0-326b-518a-3868-fe0721488fb8"
-"Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
-"Access To Browser Credential Files By Uncommon Applications - Security","low","security","","Detects file access requests to browser credential stores by uncommon processes. Could indicate potential attempt of credential stealing This rule requires heavy baselining before usage.
-","7619b716-8052-6323-d9c7-87923ef591e6"
-"Potential Secure Deletion with SDelete","medium","security","","Detects files that have extensions commonly seen while SDelete is used to wipe files.","70c3269a-a7f2-49bd-1e28-a0921f353db7"
-"CVE-2023-23397 Exploitation Attempt","critical","security","","Detects outlook initiating connection to a WebDAV or SMB share, which could be a sign of CVE-2023-23397 exploitation.","1aeb71a3-31b4-1a5e-85d8-1631c3a73d43"
-"CVE-2024-1708 - ScreenConnect Path Traversal Exploitation - Security","critical","security","","This detects file modifications to ASPX and ASHX files within the root of the App_Extensions directory, which is allowed by a ZipSlip vulnerability in versions prior to 23.9.8. This occurs during exploitation of CVE-2024-1708.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","74d067bc-3f42-3855-c13d-771d589cf11c"
-"ScreenConnect User Database Modification - Security","medium","security","","This detects file modifications to the temporary xml user database file indicating local user modification in the ScreenConnect server.
-This will occur during exploitation of the ScreenConnect Authentication Bypass vulnerability (CVE-2024-1709) in versions <23.9.8, but may also be observed when making legitimate modifications to local users or permissions.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","82b185f4-cdcb-ba23-9fdb-dbc1a732e1a7"
-"BlueSky Ransomware Artefacts","high","security","","Detect access to files and shares with names and extensions used by BlueSky ransomware which could indicate a current or previous encryption attempt.","21ead34c-d2d4-2799-6318-2ff9e4aa9222"
-"Stored Credentials in Fake Files","high","security","","Search for accessing of fake files with stored credentials","888d3e17-a1ed-6b11-895c-e1f9b96b35be"
-"Suspicious Multiple File Rename Or Delete Occurred","medium","security","","Detects multiple file rename or delete events occurrence within a specified period of time by a same user (these events may signalize about ransomware activity).","a4504cb2-23f6-6d94-5ae6-d6013cf1d995"
-"SCM Database Handle Failure","medium","security","","Detects non-system users failing to get a handle of the SCM database.","474caaa9-3115-c838-1509-59ffb6caecfc"
-"Potential Secure Deletion with SDelete","medium","security","","Detects files that have extensions commonly seen while SDelete is used to wipe files.","70c3269a-a7f2-49bd-1e28-a0921f353db7"
-"WCE wceaux.dll Access","critical","security","","Detects wceaux.dll access while WCE pass-the-hash remote command execution on source host","de10da38-ee60-f6a4-7d70-4d308558158b"
-"Password Dumper Activity on LSASS","high","security","","Detects process handle on LSASS process with certain access mask and object type SAM_DOMAIN","d81faa44-ff28-8f61-097b-92727b8af44b"
-"Sysmon Channel Reference Deletion","high","security","","Potential threat actor tampering with Sysmon manifest and eventually disabling it","249d836c-8857-1b98-5d7b-050c2d34e275"
-"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
-The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
-Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
-Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
-","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
-"Service Registry Key Read Access Request","low","security","","Detects ""read access"" requests on the services registry key.
-Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services.
-Adversaries may use flaws in the permissions for Registry keys related to services to redirect from the originally specified executable to one that they control, in order to launch their own code when a service starts.
-","d1909400-93d7-de3c-ba13-153c64499c7c"
-"Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
-Information from AD Health service agents can be used to potentially abuse some of the features provided by those services in the cloud (e.g. Federation).
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object: HKLM:\SOFTWARE\Microsoft\ADHealthAgent.
-Make sure you set the SACL to propagate to its sub-keys.
-","763d50d7-9452-0146-18a1-9ca65e3a2f73"
-"Azure AD Health Monitoring Agent Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key of Azure AD Health monitoring agent.
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object HKLM\SOFTWARE\Microsoft\Microsoft Online\Reporting\MonitoringAgent.
-","321196fe-fb10-6b13-c611-3dfe40baa1af"
-"Potentially Suspicious AccessMask Requested From LSASS","medium","security","","Detects process handle on LSASS process with certain access mask","c7f94c63-6fb7-9686-e2c2-2298c9f56ca9"
-"Processes Accessing the Microphone and Webcam","medium","security","","Potential adversaries accessing the microphone and webcam in an endpoint.","32337bc9-8e75-bdaf-eaf4-d3b19ee08a67"
-"SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
-"SAM Registry Hive Handle Request","high","security","","Detects handles requested to SAM registry hive","d7742b08-730d-3624-df95-cc3c6eaa3a39"
-"ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
-"Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
-","777523b0-14f8-1ca2-12c9-d668153661ff"
-"LSASS Access From Non System Account","medium","security","","Detects potential mimikatz-like tools accessing LSASS from non system account","06b8bcc0-326b-518a-3868-fe0721488fb8"
-"Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
-"Access To Browser Credential Files By Uncommon Applications - Security","low","security","","Detects file access requests to browser credential stores by uncommon processes. Could indicate potential attempt of credential stealing This rule requires heavy baselining before usage.
-","7619b716-8052-6323-d9c7-87923ef591e6"
-"CVE-2023-23397 Exploitation Attempt","critical","security","","Detects outlook initiating connection to a WebDAV or SMB share, which could be a sign of CVE-2023-23397 exploitation.","1aeb71a3-31b4-1a5e-85d8-1631c3a73d43"
-"CVE-2024-1708 - ScreenConnect Path Traversal Exploitation - Security","critical","security","","This detects file modifications to ASPX and ASHX files within the root of the App_Extensions directory, which is allowed by a ZipSlip vulnerability in versions prior to 23.9.8. This occurs during exploitation of CVE-2024-1708.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","74d067bc-3f42-3855-c13d-771d589cf11c"
-"ScreenConnect User Database Modification - Security","medium","security","","This detects file modifications to the temporary xml user database file indicating local user modification in the ScreenConnect server.
-This will occur during exploitation of the ScreenConnect Authentication Bypass vulnerability (CVE-2024-1709) in versions <23.9.8, but may also be observed when making legitimate modifications to local users or permissions.
-This requires an Advanced Auditing policy to log a successful Windows Event ID 4663 events and with a SACL set on the directory.
-","82b185f4-cdcb-ba23-9fdb-dbc1a732e1a7"
-"BlueSky Ransomware Artefacts","high","security","","Detect access to files and shares with names and extensions used by BlueSky ransomware which could indicate a current or previous encryption attempt.","21ead34c-d2d4-2799-6318-2ff9e4aa9222"
-"Stored Credentials in Fake Files","high","security","","Search for accessing of fake files with stored credentials","888d3e17-a1ed-6b11-895c-e1f9b96b35be"
-"Suspicious Multiple File Rename Or Delete Occurred","medium","security","","Detects multiple file rename or delete events occurrence within a specified period of time by a same user (these events may signalize about ransomware activity).","a4504cb2-23f6-6d94-5ae6-d6013cf1d995"
-"SCM Database Handle Failure","medium","security","","Detects non-system users failing to get a handle of the SCM database.","474caaa9-3115-c838-1509-59ffb6caecfc"
-"Potential Secure Deletion with SDelete","medium","security","","Detects files that have extensions commonly seen while SDelete is used to wipe files.","70c3269a-a7f2-49bd-1e28-a0921f353db7"
-"WCE wceaux.dll Access","critical","security","","Detects wceaux.dll access while WCE pass-the-hash remote command execution on source host","de10da38-ee60-f6a4-7d70-4d308558158b"
-"Password Dumper Activity on LSASS","high","security","","Detects process handle on LSASS process with certain access mask and object type SAM_DOMAIN","d81faa44-ff28-8f61-097b-92727b8af44b"
-"Sysmon Channel Reference Deletion","high","security","","Potential threat actor tampering with Sysmon manifest and eventually disabling it","249d836c-8857-1b98-5d7b-050c2d34e275"
-"File Access Of Signal Desktop Sensitive Data","medium","security","","Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
-The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
-Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
-Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
-","f8baaa96-980f-9fec-5b6e-2bbc36237bd6"
-"Service Registry Key Read Access Request","low","security","","Detects ""read access"" requests on the services registry key.
-Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services.
-Adversaries may use flaws in the permissions for Registry keys related to services to redirect from the originally specified executable to one that they control, in order to launch their own code when a service starts.
-","d1909400-93d7-de3c-ba13-153c64499c7c"
-"Azure AD Health Service Agents Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
-Information from AD Health service agents can be used to potentially abuse some of the features provided by those services in the cloud (e.g. Federation).
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object: HKLM:\SOFTWARE\Microsoft\ADHealthAgent.
-Make sure you set the SACL to propagate to its sub-keys.
-","763d50d7-9452-0146-18a1-9ca65e3a2f73"
-"Azure AD Health Monitoring Agent Registry Keys Access","medium","security","","This detection uses Windows security events to detect suspicious access attempts to the registry key of Azure AD Health monitoring agent.
-This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object HKLM\SOFTWARE\Microsoft\Microsoft Online\Reporting\MonitoringAgent.
-","321196fe-fb10-6b13-c611-3dfe40baa1af"
-"Potentially Suspicious AccessMask Requested From LSASS","medium","security","","Detects process handle on LSASS process with certain access mask","c7f94c63-6fb7-9686-e2c2-2298c9f56ca9"
-"Processes Accessing the Microphone and Webcam","medium","security","","Potential adversaries accessing the microphone and webcam in an endpoint.","32337bc9-8e75-bdaf-eaf4-d3b19ee08a67"
-"SysKey Registry Keys Access","high","security","","Detects handle requests and access operations to specific registry keys to calculate the SysKey","63308dbe-54a4-9c70-cc90-6d15e10f3505"
-"SAM Registry Hive Handle Request","high","security","","Detects handles requested to SAM registry hive","d7742b08-730d-3624-df95-cc3c6eaa3a39"
-"ISO Image Mounted","medium","security","","Detects the mount of an ISO image on an endpoint","4faa08cb-e57e-bb07-cfc2-2153a97a99bf"
-"Windows Defender Exclusion Registry Key - Write Access Requested","medium","security","","Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
-","777523b0-14f8-1ca2-12c9-d668153661ff"
-"LSASS Access From Non System Account","medium","security","","Detects potential mimikatz-like tools accessing LSASS from non system account","06b8bcc0-326b-518a-3868-fe0721488fb8"
-"Suspicious Teams Application Related ObjectAcess Event","high","security","","Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.","04a055ea-ffa9-540b-e1d2-d5c1bfd5bc7b"
-"Access To Browser Credential Files By Uncommon Applications - Security","low","security","","Detects file access requests to browser credential stores by uncommon processes. Could indicate potential attempt of credential stealing This rule requires heavy baselining before usage.
-","7619b716-8052-6323-d9c7-87923ef591e6"
-"Password Policy Enumerated","medium","security","","Detects when the password policy is enumerated.","9bcf333e-fc4c-5912-eeba-8a0cefe21be4"
-"Reconnaissance Activity","high","security","","Detects activity as ""net user administrator /domain"" and ""net group domain admins /domain""","5ac4b7f8-9412-f919-220c-aa8a1867b1ef"
-"AD Privileged Users or Groups Reconnaissance","high","security","","Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs","93c95eee-748a-e1db-18a5-f40035167086"
+"RDP Logon","informational","","","Logon for RDS (Remote Desktop Services). Formerly known as Terminal Services.
+Uses RDP so I am refering to these as RDP Logons as that is what most people will expect.
+On newer OSes (Win 7+, 2012+), this event is logged only when a user successfully logs on to a RDP session.
+On older OSes (Vista, 2008), this event is logged when a user logs on to a RDP session, regardless of success.
+This event might be be created when rdesktop is used as a client and NLA is disabled.
+User and domain names are empty if the server is configured with Restricted Admin.
+Information in this event is also found in the Security event log.
+","e91c514e-08c5-4c42-96d7-ab1f5668a2f7"
+"Powerview Add-DomainObjectAcl DCSync AD Extend Right","high","security","","Backdooring domain object to grant the rights associated with DCSync to a regular user or machine account using Powerview\Add-DomainObjectAcl DCSync Extended Right cmdlet, will allow to re-obtain the pwd hashes of any user/computer","e92d7fea-4127-4b6c-a889-3f0b89f7b567"
+"Remote Registry Management Using Reg Utility","medium","security","","Remote registry management using REG utility from non-admin workstation","e9f405d3-e7ea-9adf-2f31-9ab2a7a90f5a"
 "Enabled User Right in AD to Control User Objects","high","security","","Detects scenario where if a user is assigned the SeEnableDelegationPrivilege right in Active Directory it would allow control of other AD user objects.","eaafcd7e-3303-38d1-9cff-fcfbae177f4d"
-"Potential Privileged System Service Operation - SeLoadDriverPrivilege","medium","security","","Detects the usage of the 'SeLoadDriverPrivilege' privilege. This privilege is required to load or unload a device driver.
-With this privilege, the user can dynamically load and unload device drivers or other code in to kernel mode.
-This user right does not apply to Plug and Play device drivers.
-If you exclude privileged users/admins and processes, which are allowed to do so, you are maybe left with bad programs trying to load malicious kernel drivers.
-This will detect Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs) and the usage of Sysinternals and various other tools. So you have to work with a whitelist to find the bad stuff.
-","a25c0c49-11f8-ace9-6bbd-80cfa6e2b2d7"
-"User Couldn't Call a Privileged Service 'LsaRegisterLogonProcess'","high","security","","The 'LsaRegisterLogonProcess' function verifies that the application making the function call is a logon process by checking that it has the SeTcbPrivilege privilege set. Possible Rubeus tries to get a handle to LSA.","cd93b6ed-961d-ed36-92db-bd44bccda695"
-"SCM Database Privileged Operation","medium","security","","Detects non-system users performing privileged operation os the SCM database","ec9c7ea2-54d7-3a55-caa8-4741f099505a"
-"Lateral Movement Indicator ConDrv","low","security","","This event was observed on the target host during lateral movement. The process name within the event contains the process spawned post compromise. Account Name within the event contains the compromised user account name. This event should to be correlated with 4624 and 4688 for further intrusion context.","6683ccd7-da7a-b988-1683-7f7a1bf72bf6"
-"Process Ran With High Privilege","medium","security","","Malware may generate a 4673 event (A privileged service was called) when dumping hashes or wiping disk. 
-For example, mimikatz will generate 4 logs using SeTcbPrivilege (Act as part of the OS.) 
-Disk wipers like bcwipe will also generate this.
-More legitimate filepaths may have to be added to the filter.
-This is marked as a medium alert as there is a high possibility for false positives.
-","5b6e58ee-c231-4a54-9eee-af2577802e08"
-"Possible Hidden Service Created","medium","security","","User requested to modify the Dynamic Access Control (DAC) permissions of a service, possibly to hide it from view.","15db3cc7-30bd-47a0-bd75-66208ce8e3fe"
-"Potential Privileged System Service Operation - SeLoadDriverPrivilege","medium","security","","Detects the usage of the 'SeLoadDriverPrivilege' privilege. This privilege is required to load or unload a device driver.
-With this privilege, the user can dynamically load and unload device drivers or other code in to kernel mode.
-This user right does not apply to Plug and Play device drivers.
-If you exclude privileged users/admins and processes, which are allowed to do so, you are maybe left with bad programs trying to load malicious kernel drivers.
-This will detect Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs) and the usage of Sysinternals and various other tools. So you have to work with a whitelist to find the bad stuff.
-","a25c0c49-11f8-ace9-6bbd-80cfa6e2b2d7"
-"User Couldn't Call a Privileged Service 'LsaRegisterLogonProcess'","high","security","","The 'LsaRegisterLogonProcess' function verifies that the application making the function call is a logon process by checking that it has the SeTcbPrivilege privilege set. Possible Rubeus tries to get a handle to LSA.","cd93b6ed-961d-ed36-92db-bd44bccda695"
-"Process Ran With High Privilege","medium","security","","Malware may generate a 4673 event (A privileged service was called) when dumping hashes or wiping disk. 
-For example, mimikatz will generate 4 logs using SeTcbPrivilege (Act as part of the OS.) 
-Disk wipers like bcwipe will also generate this.
-More legitimate filepaths may have to be added to the filter.
-This is marked as a medium alert as there is a high possibility for false positives.
-","5b6e58ee-c231-4a54-9eee-af2577802e08"
-"CosmicDuke Service Installation","critical","security","","Detects the installation of a service named ""javamtsup"" on the system.
-The CosmicDuke info stealer uses Windows services typically named ""javamtsup"" for persistence.
-","8428d90d-a928-f70a-c46e-f08457d6b01f"
-"Metasploit Or Impacket Service Installation Via SMB PsExec","high","security","","Detects usage of Metasploit SMB PsExec (exploit/windows/smb/psexec) and Impacket psexec.py by triggering on specific service installation","1b037a84-214e-b58a-53ae-949542063f1f"
-"Invoke-Obfuscation CLIP+ Launcher - Security","high","security","","Detects Obfuscated use of Clip.exe to execute PowerShell","660a0229-700e-8e43-40c7-fafe60c29491"
-"Invoke-Obfuscation Obfuscated IEX Invocation - Security","high","security","","Detects all variations of obfuscated powershell IEX invocation code generated by Invoke-Obfuscation framework from the code block linked in the references","9ab29a5b-d66d-a41e-bdaf-8c718011875c"
-"Invoke-Obfuscation RUNDLL LAUNCHER - Security","medium","security","","Detects Obfuscated Powershell via RUNDLL LAUNCHER","826feb8b-536b-0302-0b4e-bd34cc5c4923"
-"Tap Driver Installation - Security","low","security","","Detects the installation of a well-known TAP driver service. This could be a sign of potential preparation for data exfiltration using tunnelling techniques.
-","15284efb-90de-5675-59c5-433d34675e8e"
-"Service Installed By Unusual Client - Security","high","security","","Detects a service installed by a client which has PID 0 or whose parent has PID 0","df47c51b-2738-8866-a1d7-86b96fb5b5ca"
-"Invoke-Obfuscation STDIN+ Launcher - Security","high","security","","Detects Obfuscated use of stdin to execute PowerShell","3ae69c7e-e865-c0e2-05b7-553ab8979ac0"
-"Invoke-Obfuscation Via Use Clip - Security","high","security","","Detects Obfuscated Powershell via use Clip.exe in Scripts","8ec23dfa-00a7-2b09-1756-678e941d69b2"
-"Credential Dumping Tools Service Execution - Security","high","security","","Detects well-known credential dumping tools execution via service execution events","633bd649-4b18-b5bd-d923-07caeccd1ee0"
-"Invoke-Obfuscation Via Use Rundll32 - Security","high","security","","Detects Obfuscated Powershell via use Rundll32 in Scripts","89d88072-7a24-8218-a044-0c071bf36bf6"
-"Register new Logon Process by Rubeus","high","security","","Detects potential use of Rubeus via registered new trusted logon process","a5498e1f-e40d-d8b1-bceb-5931f5169dbd"
-"Invoke-Obfuscation Via Use MSHTA - Security","high","security","","Detects Obfuscated Powershell via use MSHTA in Scripts","3dc2d411-4f0e-6564-d243-8351afd3d375"
-"Windows Pcap Drivers","medium","security","","Detects Windows Pcap driver installation based on a list of associated .sys files.","566fa294-85f7-af27-80c7-753d9941729b"
-"PowerShell Scripts Installed as Services - Security","high","security","","Detects powershell script installed as a Service","8c3523c1-357b-5653-335a-9db3ecfcbc2a"
-"CobaltStrike Service Installations - Security","high","security","","Detects known malicious service installs that appear in cases in which a Cobalt Strike beacon elevates privileges or lateral movement","3d2e9eef-8851-f3ed-49e1-53e350e277cb"
-"Remote Access Tool Services Have Been Installed - Security","medium","security","","Detects service installation of different remote access tools software. These software are often abused by threat actors to perform","85e291ec-b85b-2553-1aba-03c9ad116b61"
+"External Disk Drive Or USB Storage Device Was Recognized By The System","low","security","","Detects external disk drives or plugged-in USB devices.","eab514f7-3f9b-a705-4d1d-8fee3d81c4b5"
 "Invoke-Obfuscation VAR++ LAUNCHER OBFUSCATION - Security","high","security","","Detects Obfuscated Powershell via VAR++ LAUNCHER","eb15263a-80e1-a789-18a9-ec45f9a6edfc"
-"Invoke-Obfuscation Via Stdin - Security","high","security","","Detects Obfuscated Powershell via Stdin in Scripts","b073cf4b-ed38-0a6f-38d3-50997892d7e7"
-"HybridConnectionManager Service Installation","high","security","","Rule to detect the Hybrid Connection Manager service installation.","54f9b4d2-3f4a-675f-58d6-9995ae58f988"
-"Invoke-Obfuscation COMPRESS OBFUSCATION - Security","medium","security","","Detects Obfuscated Powershell via COMPRESS OBFUSCATION","d0c8e98d-0746-a43c-9170-c04e7f7a3867"
-"Meterpreter or Cobalt Strike Getsystem Service Installation - Security","high","security","","Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service installation","e2755f38-e817-94c0-afef-acff29676b43"
+"WMI Persistence - Security","medium","security","","Detects suspicious WMI event filter and command line event consumer based on WMI and Security Logs.","ec2275df-3a0a-933f-0573-490938cc47ef"
+"DNS Query To Ufile.io - DNS Client","low","dns-client","","Detects DNS queries to ""ufile.io"", which was seen abused by malware and threat actors as a method for data exfiltration","ec3b018a-d4dd-2d51-4a63-50d078f737dd"
+"SCM Database Privileged Operation","medium","security","","Detects non-system users performing privileged operation os the SCM database","ec9c7ea2-54d7-3a55-caa8-4741f099505a"
+"Zip A Folder With PowerShell For Staging In Temp - PowerShell","medium","powershell-classic","","Detects PowerShell scripts that make use of the ""Compress-Archive"" Cmdlet in order to compress folders and files where the output is stored in a potentially suspicious location that is used often by malware for exfiltration.
+An adversary might compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.
+","ee9681d0-6ba5-5eaf-9c8b-fe39afe542b9"
+"Suspicious Cobalt Strike DNS Beaconing - DNS Client","critical","dns-client","","Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons","f0b3a5e9-e4ee-ed23-3b27-4dd30c5974c8"
+"Possible Kerberoasting (RC4 Kerberos Ticket Req)","medium","security","","Adversaries may abuse a valid Kerberos ticket-granting ticket (TGT) or sniff network traffic to obtain a ticket-granting service (TGS) ticket that may be vulnerable to Brute Force.","f19849e7-b5ba-404b-a731-9b624d7f6d19"
+"T1047 Wmiprvse Wbemcomn DLL Hijack","high","security","","Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\` directory over the network for a WMI DLL Hijack scenario.","f252afa3-fe83-562c-01c0-1334f55af84c"
+"ADCS - Certighost CDC Chase Certificate Request (CVE-2026-54121)","high","security","","Detects Active Directory Certificate Services (ADCS) certificate requests that include the
+'cdc' (Client DC) request attribute pointing to a domain or IP that is not a known Domain Controller.
+
+'cdc' is an optional MS-WCCE enrollment attribute designed for cross-domain/cross-forest
+scenarios where a client in a child domain tells the CA which DC to contact for identity
+lookups when the CA cannot reach that domain directly. Legitimate values are DC hostnames
+or IPs that resolve to a real Domain Controller computer object in AD with the
+SERVER_TRUST_ACCOUNT (0x2000) userAccountControl bit set.
+
+In an attack, the attacker sets cdc to a domain or IP they control so the CA connects to their
+rogue SMB and LDAP services instead of a real DC. The rogue server returns a forged DC
+identity which the pre-patch CA accepts without validation. A malicious event looks like:
+
+    Requester: DOMAIN\GHOST<random>$
+    Attributes: cdc:<attacker_ip>
+                rmd:<target_dc_fqdn>
+    SubjectAlternativeName: DNS Name=<target_dc_fqdn>
+
+CVE-2026-54121 (Certighost) is the known exploit for this path. The July 2026 patch added
+_ValidateChaseTargetIsDC which rejects cdc values that do not resolve to a legitimate
+DC object in Active Directory before following the chase.
+","f9171836-1ff1-5b82-0082-2acb377e94fa"
+"Silenttrinity Stager Msbuild Activity","high","","network_connection","Detects a possible remote connections to Silenttrinity c2","f96b2d35-57da-bef8-3624-73634617eac6"
+"RDP Denied","informational","security","","A user was denied the access to Remote Desktop. By default, users are allowed to connect only if they are members of the Remote Desktop Users group or Administrators group.","f97a152e-753c-4975-9375-19087fb66f8c"
+"ISO Mounted","low","vhdmp","","An ISO disk image was mounted. The original event is for when the handle is created. 
+There is an event ID 1 for when it is mounted but this happens at the same time and this event contains more detailed information 
+so I am using this instead of EID 1 for VHD mounting.
+Attackers have started to place malware instead .iso files now that office documents downloaded from the internet have their macros blocked by default since 2022.
+","f9915ff9-17ce-4524-9851-cc4bdd9bb35e"
+"Outbound Network Connection Initiated By Microsoft Dialer","high","","network_connection","Detects outbound network connection initiated by Microsoft Dialer.
+The Microsoft Dialer, also known as Phone Dialer, is a built-in utility application included in various versions of the Microsoft Windows operating system. Its primary function is to provide users with a graphical interface for managing phone calls via a modem or a phone line connected to the computer.
+This is an outdated process in the current conext of it's usage and is a common target for info stealers for process injection, and is used to make C2 connections, common example is ""Rhadamanthys""
+","fa5330d2-19f1-4167-52a0-fb622b6425f8"
 "Invoke-Obfuscation VAR+ Launcher - Security","high","security","","Detects Obfuscated use of Environment Variables to execute PowerShell","fbc9679a-a1f8-33c7-5a85-c6e7a3c2363f"
-"Logon Proc Registered With LSA","informational","security","","A logon process has registered with the Local Security Authority (LSA). Logon requests will now be accepted from this source. Technically, the event does not come from the registration of a trusted logon process, but from a confirmation that the process is a trusted logon process. If it is a trusted logon process, the event generates. A logon process is a trusted part of the OS that handles logon methods (network, interactive, etc.)","614c150b-905d-4071-9b8e-0425e370c493"
-"Svc Installed","informational","security","","A new service was installed. (Possibly malware.)","95fe88c9-5b9d-4454-97b4-957918b84208"
-"Abnormal Logon Proc Registered With LSA","informational","security","","A logon process has registered with the Local Security Authority (LSA). Logon requests will now be accepted from this source. Technically, the event does not come from the registration of a trusted logon process, but from a confirmation that the process is a trusted logon process. If it is a trusted logon process, the event generates. A logon process is a trusted part of the OS that handles logon methods (network, interactive, etc.)","41ca6049-dd12-462c-a772-7bba78d8e2f0"
+"Potential AD User Enumeration From Non-Machine Account","medium","security","","Detects read access to a domain user from a non-machine account","fe814c5a-505f-a313-7d8c-030187c24e8e"
+"Task Deleted","informational","taskscheduler","","","ff6ada24-c7f0-4ae5-a7a6-f20ddb7b591f"
+"Enumeration via the Global Catalog","medium","security","","Detects enumeration of the global catalog (that can be performed using BloodHound or others AD reconnaissance tools). Adjust Threshold according to domain width.","ffaf246b-f54a-05ba-d9b0-fba6626c7822"
