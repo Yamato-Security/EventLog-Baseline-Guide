@@ -67,3 +67,4 @@
 "WMI-Activity Operational","","8","critical:0, high:2, medium:3, low:0, info:3","Enabled","Enabled","","",""
 "Windows Defender Operational","","31","critical:8, high:17, medium:3, low:2, info:1","Enabled","Enabled","","",""
 "Uncategorized","","73","critical:5, high:19, medium:26, low:9, info:14","","Unknown","","","Rules whose channel or subcategory is not covered by this baseline. WELA cannot tell whether these logs are enabled."
+"NTLM Authentication","Domain NTLM auditing","0","critical:0, high:0, medium:0, low:0, info:0","Not configured","Not applicable (Windows client)","Enable all (7) on domain controllers only","","AuditNTLMInDomain; applicability is determined from Win32_OperatingSystem.ProductType."
