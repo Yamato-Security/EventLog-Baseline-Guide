@@ -583,9 +583,15 @@ This event must not be ignored just because the AV has blocked the malware but i
 "PW Guessing","medium","security","","Search for many 4625 wrong password failed logon attempts in a short period of time.","35e8a0fc-60c2-46d7-ba39-aafb15b9854e"
 "Potential Compromised 3CXDesktopApp Execution","high","","process_creation","Detects execution of known compromised version of 3CXDesktopApp","35f3ea40-3ec2-86b1-9633-0a8230a46fc6"
 "Delete All Scheduled Tasks","high","","process_creation","Detects the usage of schtasks with the delete flag and the asterisk symbol to delete all tasks from the schedule of the local computer, including tasks scheduled by other users.","35f42a49-bad0-2ba7-87b0-62e78681838e"
+"HackTool - Defendnot Execution","high","","process_creation","Detects the execution of the hacktool Defendnot. Defendnot is a hacktool that abuses Microsoft undocumented WSC (Windows Security Center) API
+to disable Windows Defender by registering itself as a fake antivirus product. Threat actors often use these kind of tools to bypass security measures.
+","36099be9-a163-12bb-5dc4-e8c908e2d0ed"
 "All Rules Have Been Deleted From The Windows Firewall Configuration","high","firewall-as","","Detects when a all the rules have been deleted from the Windows Defender Firewall configuration","3623c339-f1c5-67f2-a5a2-ddb078d75f69"
 "Potential Privilege Escalation Using Symlink Between Osk and Cmd","high","","process_creation","Detects the creation of a symbolic link between ""cmd.exe"" and the accessibility on-screen keyboard binary (osk.exe) using ""mklink"". This technique provides an elevated command prompt to the user from the login screen without the need to log in.","3644cb9d-2e13-2dcc-497a-9eb0710ac9b8"
 "Always Install Elevated MSI Spawned Cmd And Powershell","medium","","process_creation","Detects Windows Installer service (msiexec.exe) spawning ""cmd"" or ""powershell""","3679f255-d90a-49da-389c-bb16db65853c"
+"Uncommon Child Process Spawned From XBootMgrSleep.EXE","medium","","process_creation","Detects a process other than XBootMgr.exe spawned by XBootMgrSleep.exe.
+XBootMgrSleep.exe is a Microsoft-signed Windows Performance Toolkit binary that can execute an arbitrary executable after a delay.
+","367f6b95-a942-ea7b-60ad-7b01c03112ec"
 "ShimCache Flush","high","","process_creation","Detects actions that clear the local ShimCache and remove forensic evidence","3681f000-5b6c-d6a6-3a0f-8240c1325dc3"
 "Disable Windows IIS HTTP Logging","high","","process_creation","Disables HTTP logging on a Windows IIS web server as seen by Threat Group 3390 (Bronze Union)","3682c181-3b54-0cf3-cfdb-1d800bb7b125"
 "Potential Pikabot Hollowing Activity","high","","process_creation","Detects the execution of rundll32 that leads to the invocation of legitimate Windows binaries.
@@ -662,6 +668,10 @@ Windows stores local service configuration information in the Registry under HKL
 Attackers may discover the system language to determine the geographic location of victims, customize payloads for specific regions,
 or avoid targeting certain locales to evade detection.
 ","3cc0755e-7a33-d5c1-d1cc-53a49707ca49"
+"Suspicious WSL Binary Masquerading","high","","process_creation","Detects execution of masqueraded wsl.exe binary.
+Attackers can rename a malicious payload to wsl.exe to masquerade as the legitimate Windows Subsystem for Linux binary,
+bypassing detection based on image name alone and abusing user trust in the WSL process name.
+","3cfe3874-2ddb-0db0-c3c7-8b237061b896"
 "SyncAppvPublishingServer Execute Arbitrary PowerShell Code","medium","","process_creation","Executes arbitrary PowerShell code using SyncAppvPublishingServer.exe.","3d04a8d4-c258-0c3b-8665-5803d5ceba7f"
 "CobaltStrike Service Installations - Security","high","security","","Detects known malicious service installs that appear in cases in which a Cobalt Strike beacon elevates privileges or lateral movement","3d2e9eef-8851-f3ed-49e1-53e350e277cb"
 "Arbitrary Binary Execution Using GUP Utility","medium","","process_creation","Detects execution of the Notepad++ updater (gup) to launch other commands or executables","3d30b2bb-135f-d972-364f-9e41f8aa609b"
@@ -907,7 +917,13 @@ The case is not applicable for Unix OS.
 Supported OS - Windows 2008 R2 and 7, Windows 2012 R2 and 8.1, Windows 2016 and 10 Windows Server 2019, Windows Server 2000, Windows 2003 and XP.
 ","506379d9-8545-c010-e9a3-693119ab9261"
 "Computer System Reconnaissance Via Wmic.EXE","medium","","process_creation","Detects execution of wmic utility with the ""computersystem"" flag in order to obtain information about the machine such as the domain, username, model, etc.","50bb828c-a04e-d207-bb34-71d9f1144a73"
-"AppLocker Application Would Have Been Blocked","medium","applocker","","Detects when AppLocker ""Audit only"" enforcement mode reports that an Application, DLL, Script, MSI, or Packaged-App would have been blocked if AppLocker ""Enforce rules"" enforcement mode was enabled.
+"AppLocker Application Would Have Been Blocked","low","applocker","","Detects when AppLocker ""Audit only"" enforcement mode reports that an Application, DLL, Script, MSI,
+or Packaged-App would have been blocked if AppLocker ""Enforce rules"" enforcement mode was enabled.
+This rule triggers on the AppLocker audit events and requires review of the reported path against the local AppLocker policy.
+Since this rule triggers solely on event IDs without path-based filtering, tuning and false positive
+suppression must be handled at the AppLocker policy level by the policy author, not via Sigma filters.
+Analysts should review the reported FullFilePath and correlate with the local AppLocker policy to
+determine whether the activity is expected or warrants investigation.
 ","50c292b5-0833-2c56-198e-fa4975db1c67"
 "Suspicious VBoxDrvInst.exe Parameters","medium","","process_creation","Detect VBoxDrvInst.exe run with parameters allowing processing INF file.
 This allows to create values in the registry and install drivers.
@@ -1000,7 +1016,9 @@ Use this rule to hunt for potential anomalies initiating from PowerShell scripts
 "MMC20 Lateral Movement","high","","process_creation","Detects MMC20.Application Lateral Movement; specifically looks for the spawning of the parent MMC.exe with a command line of ""-Embedding"" as a child of svchost.exe","57e2b3e2-fb28-0497-4729-aa536a2a5089"
 "Potential PlugX Activity","high","","process_creation","Detects the execution of an executable that is typically used by PlugX for DLL side loading starting from an uncommon location","57e6d496-927a-453c-36cf-2fece4eb81ae"
 "Netsh Allow Group Policy on Microsoft Defender Firewall","medium","","process_creation","Adversaries may modify system firewalls in order to bypass controls limiting network usage","57fc2f43-fec9-1e23-2c1e-a5bddad94af2"
-"Nslookup PowerShell Download Cradle - ProcessCreation","medium","","process_creation","Detects suspicious powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records","58180213-29ed-6aa8-7558-806ba2830b7f"
+"Nslookup PowerShell Download Cradle - ProcessCreation","medium","","process_creation","Detects suspicious powershell download cradle using nslookup.
+This cradle uses nslookup to extract payloads from DNS records
+","58180213-29ed-6aa8-7558-806ba2830b7f"
 "Potential AMSI Bypass Via .NET Reflection","high","","process_creation","Detects Request to ""amsiInitFailed"" that can be used to disable AMSI Scanning","584c503a-bcee-ab44-f773-dea130827275"
 "Formbook Process Creation","high","","process_creation","Detects Formbook like process executions that inject code into a set of files in the System32 folder, which executes a special command command line to delete the dropper from the AppData Temp folder. We avoid false positives by excluding all parent process with command line parameters.","588be409-8e98-409a-a4ef-4cccc7b7e865"
 "Potential ShellDispatch.DLL Functionality Abuse","medium","","process_creation","Detects potential ""ShellDispatch.dll"" functionality abuse to execute arbitrary binaries via ""ShellExecute""","589134cd-5a71-4868-1ad1-623db28a1d75"
@@ -1076,6 +1094,10 @@ and GPU driver products/versions.
 ","5ecd226b-563f-4723-7a1e-d637d81f0a1f"
 "Suspicious High IntegrityLevel Conhost Legacy Option","informational","","process_creation","ForceV1 asks for information directly from the kernel space. Conhost connects to the console application. High IntegrityLevel means the process is running with elevated privileges, such as an Administrator context.","5ede905b-ba07-4607-d2f1-ae3b552a752f"
 "Add Windows Capability Via PowerShell Cmdlet","medium","","process_creation","Detects usage of the ""Add-WindowsCapability"" cmdlet to add Windows capabilities. Notable capabilities could be ""OpenSSH"" and others.","5ee853eb-9d4f-e140-fd4d-c6c6e65e27bf"
+"PowerShell Dynamic Module Invocation Via ExportedCommands Array Index","high","","process_creation","Detects PowerShell processes invoked with obfuscated command lines that enumerate Microsoft.PowerShell.Utility
+exported commands and invoke cmdlets indirectly by array index. This technique is used to evade
+detections that look for explicit strings such as Invoke-RestMethod or Invoke-Expression.
+","5f2fb7c5-5c23-bea7-955c-77a11fcc0c00"
 "Suspicious CustomShellHost Execution","high","","process_creation","Detects the execution of CustomShellHost.exe where the child isn't located in 'C:\Windows\explorer.exe'. CustomShellHost is a known LOLBin that can be abused by attackers for defense evasion techniques.
 ","5f438a3c-3bd7-d256-61ad-9ae6334543ec"
 "Wscript Execution from Non C Drive","medium","","process_creation","Detects Wscript or Cscript executing from a drive other than C. This has been observed with Qakbot executing from within a mounted ISO file.","5f55c592-7555-3ca2-5d49-f1b7b74454ab"
@@ -1206,6 +1228,11 @@ Threat actors were seen leveraging this legitimate Windows binary to bypass secu
 "Portable Gpg.EXE Execution","medium","","process_creation","Detects the execution of ""gpg.exe"" from uncommon location. Often used by ransomware and loaders to decrypt/encrypt data.","69ecc75a-13a3-371f-01a6-fcb003da67b4"
 "HTML Help HH.EXE Suspicious Child Process","high","","process_creation","Detects a suspicious child process of a Microsoft HTML Help (HH.exe)","69f1f3b5-0009-eed3-f99e-e0db531c168b"
 "Potential Data Stealing Via Chromium Headless Debugging","high","","process_creation","Detects chromium based browsers starting in headless and debugging mode and pointing to a user profile. This could be a sign of data stealing or remote control","6a04614f-59c7-e8c1-6a54-5cc3b4eb1810"
+"Suspicious WSL Binary Hijack via Proxy Execution","high","","process_creation","Detects C:\Windows\System32\wsl.exe spawning a child wsl.exe process from outside the legitimate WSL install locations.
+When WSL or bash is invoked, the System32 stub (wsl.exe) looks up the InstallLocation registry key and executes the wsl.exe found there.
+An attacker who modifies InstallLocation to a controlled path causes the stub to transparently proxy execution to a malicious payload,
+which then appears as a wsl.exe child of the legitimate System32 stub.
+","6a18a610-a2b8-6fd3-02a3-6a3f9ca2501e"
 "Process Proxy Execution Via Squirrel.EXE","medium","","process_creation","Detects the usage of the ""Squirrel.exe"" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
 ","6acffd8c-96c9-9d3b-9d69-0e0f332209c3"
 "Suspicious Vsls-Agent Command With AgentExtensionPath Load","medium","","process_creation","Detects Microsoft Visual Studio vsls-agent.exe lolbin execution with a suspicious library load using the --agentExtensionPath parameter","6b169ef1-e760-a417-0794-dc36e56ea984"
@@ -1509,8 +1536,10 @@ Adversaries may want to disable this service to prevent logging of security even
 "Suspicious Kerberos Ticket Request via CLI","high","","process_creation","Detects suspicious Kerberos ticket requests via command line using System.IdentityModel.Tokens.KerberosRequestorSecurityToken class.
 Threat actors may use command line interfaces to request Kerberos tickets for service accounts in order to
 perform offline password cracking attacks commonly known as Kerberoasting or other Kerberos ticket abuse
-techniques like silver ticket attacks.
+techniques like silver ticket attacks. Encoded commands will not surface the class name, so the ps_script
+rule covers that instead.
 ","862c0da5-f167-6f59-63d6-59dcbea473ae"
+"Registry Tampering Of Internal Tools Settings","medium","","process_creation","Detects registry modifications that tamper with internal Windows tools settings, commonly used by malware to disable security features or system tools","862c2516-9d94-a83f-53f3-a55e644f4544"
 "Suspicious Copy From or To System Directory","medium","","process_creation","Detects a suspicious copy operation that tries to copy a program from system (System32, SysWOW64, WinSxS) directories to another on disk.
 Often used to move LOLBINs such as 'certutil' or 'desktopimgdownldr' to a different location with a different name in order to bypass detections based on locations.
 ","864f6704-33c0-cdec-c3fa-ae453ca199c1"
@@ -2239,7 +2268,11 @@ This rule might require some initial baselining to align with some third party t
 "PowerShell DownloadFile","high","","process_creation","Detects the execution of powershell, a WebClient object creation and the invocation of DownloadFile in a single command line","c095d894-f021-b42f-054d-9727ada91e6a"
 "Execute Files with Msdeploy.exe","medium","","process_creation","Detects file execution using the msdeploy.exe lolbin","c0cc4271-ed56-6236-e21a-e9db92f30d97"
 "StoneDrill Service Install","high","system","","This method detects a service install of the malicious Microsoft Network Realtime Inspection Service service described in StoneDrill report by Kaspersky","c1362f8e-594e-72a7-d9a9-6fe6c74334ef"
-"ETW Trace Evasion Activity","high","","process_creation","Detects command line activity that tries to clear or disable any ETW trace log which could be a sign of logging evasion.
+"ETW Trace Evasion Activity","high","","process_creation","Detects command line activity that attempts to tamper with Event Tracing for Windows (ETW) by clearing or disabling
+trace logs or providers. Adversaries may target ETW to blind security tooling and evade detection by removing
+visibility into process activity, network connections, and other telemetry sources.
+Techniques include clearing logs via wevtutil, disabling trace sessions via logman, and removing or modifying
+ETW providers using PowerShell cmdlets such as Remove-EtwTraceProvider and Set-EtwTraceProvider.
 ","c1477cd5-ccf1-5649-1688-b3fc9ce45594"
 "Lazarus Loaders","critical","","process_creation","Detects different loaders as described in various threat reports on Lazarus group activity","c155c295-ca75-0671-80f9-2910740dabe7"
 "Suspicious Esentutl Use","high","","process_creation","Detects flags often used with the LOLBAS Esentutl for malicious activity. It could be used in rare cases by administrators to access locked files or during maintenance.","c21b19ea-3369-9fab-3ca6-767d24c85595"
@@ -2290,6 +2323,8 @@ or checking for the presence of such records through the `nslookup` command.
 "Potential CVE-2022-22954 Exploitation Attempt - VMware Workspace ONE Access Remote Code Execution","medium","","process_creation","Detects potential exploitation attempt of CVE-2022-22954, a remote code execution vulnerability in VMware Workspace ONE Access and Identity Manager.
 As reported by Morphisec, part of the attack chain, threat actors used PowerShell commands that executed as a child processes of the legitimate Tomcat ""prunsrv.exe"" process application.
 ","c673198f-36bd-eaf8-5986-f439d6b8c2a8"
+"Lynx Ransomware Execution Pattern","high","","process_creation","Detects the execution of Lynx ransomware based on specific command line flags such as '--noprint' and '--mode fast'.
+","c6ba4493-3ebf-009e-e090-335e1bab8b41"
 "Potential Tampering With Security Products Via WMIC","high","","process_creation","Detects uninstallation or termination of security products using the WMIC utility","c6bdb310-216f-075c-19c4-3873b8a1a516"
 "New DLL Registered Via Odbcconf.EXE","medium","","process_creation","Detects execution of ""odbcconf"" with ""REGSVR"" in order to register a new DLL (equivalent to running regsvr32). Attackers abuse this to install and run malicious DLLs.","c70669f8-ed0f-df3b-f2a4-6e8605285bb1"
 "Windows Defender Threat Detected","high","windefend","","Detects actions taken by Windows Defender malware detection engines","c70d7033-8146-fe73-8430-90b23c296f9d"
@@ -2431,6 +2466,8 @@ service endpoint and remotely execute code from the ArcSOC.exe process.
 "Crash Dump Created By Operating System","medium","system","","Detects ""BugCheck"" errors indicating the system rebooted due to a crash, capturing the bugcheck code, dump file path, and report ID.","d4ccca35-9fd6-1ed8-f5d5-84f755404fdd"
 "DNSCat2 Powershell Implementation Detection Via Process Creation","high","","process_creation","The PowerShell implementation of DNSCat2 calls nslookup to craft queries. Counting nslookup processes spawned by PowerShell will show hundreds or thousands of instances if PS DNSCat2 is active locally.","d5482c32-a04b-a0a2-4262-064908b098a3"
 "TAIDOOR RAT DLL Load","high","","process_creation","Detects specific process characteristics of Chinese TAIDOOR RAT malware load","d560b276-ce03-f4a8-6672-12ce7b5c62b9"
+"HackTool - GoldenDMSA Execution","high","","process_creation","Detects execution of GoldenDMSA hacktool used for Directory Service Account manipulation.
+","d5985261-075e-e7e0-064c-a40ef2ddd2fa"
 "Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE","medium","","process_creation","Detects the start of a non built-in assistive technology applications via ""Atbroker.EXE"".","d5a94ccf-58fd-7481-3683-e59fbf33e8c1"
 "Domain Trust Discovery","medium","","process_creation","Detects a discovery of domain trusts.","d5dc5032-aa74-54e8-76e0-3d264adc2ea0"
 "Windows Defender Definition Files Removed","high","","process_creation","Adversaries may disable security tools to avoid possible detection of their tools and activities by removing Windows Defender Definition Files","d5e7858d-f6fa-9fe9-e747-ff3a3312244e"
@@ -2491,6 +2528,9 @@ When no credentials are provided, the Microsoft-shipped curl passes a NULL ident
 stored in LSASS — without requiring a plaintext password.
 This behavior is exclusive to the curl binary shipped by Microsoft (available since Windows 10 / Windows Server 2019), which is built with SSPI support.
 ","daa6dc1b-6708-933d-5c9d-6e17fb61552a"
+"Susp CmdLine (Possible Inhibit System Recovery)","high","security","","Detects commands commonly used by ransomware and destructive malware to inhibit system recovery, such as deleting or resizing Volume Shadow Copies, deleting backup catalogs, or disabling Windows automatic recovery.
+This rule uses the built-in Windows Security ""Process Creation"" event (4688) so that it works without Sysmon. Command line auditing must be enabled.
+","db13c364-2254-4247-8c53-da1a7c4bdb78"
 "HackTool - F-Secure C3 Load by Rundll32","critical","","process_creation","F-Secure C3 produces DLLs with a default exported StartNodeRelay function.","db43d94f-ee5a-913b-3a86-2e1cb07e39a4"
 "LSASS Access Detected via Attack Surface Reduction","high","windefend","","Detects Access to LSASS Process","db45bac6-e4cf-df15-bb73-abdc2bb5b466"
 "Potentially Suspicious Electron Application CommandLine","medium","","process_creation","Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary.","db4d52b7-af14-c61b-c1e1-5b52f036b5e0"
@@ -2526,6 +2566,10 @@ The tool allows a user to provide a DLL that can contain a custom ""verification
 Adversaries may use valid accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user.
 ","df2b1ca6-a4d3-e875-ca48-ed65bd486a5f"
 "Service Installed By Unusual Client - Security","high","security","","Detects a service installed by a client which has PID 0 or whose parent has PID 0","df47c51b-2738-8866-a1d7-86b96fb5b5ca"
+"Suspicious WSL InstallLocation Registry Key Modification Via CommandLine","high","","process_creation","Detects the use of reg.exe or PowerShell to modify the WSL InstallLocation registry key via command-line arguments.
+Legitimate modifications to this key are performed exclusively by the Windows Installer (msiexec.exe) during WSL package installation or update.
+Manual use of reg.exe or PowerShell to set this value strongly indicates an attempt to redirect WSL execution to a malicious binary.
+","df7792bd-59ec-b8b0-6755-0b6a5eacf736"
 "Potential Compromised 3CXDesktopApp Update Activity","high","","process_creation","Detects the 3CXDesktopApp updater downloading a known compromised version of the 3CXDesktopApp software","dfd05613-5afb-ff48-86b9-082194e9ae79"
 "Potential Excel.EXE DCOM Lateral Movement Via ActivateMicrosoftApp","high","","process_creation","Detects suspicious child processes of Excel which could be an indicator of lateral movement leveraging the ""ActivateMicrosoftApp"" Excel DCOM object.
 ","dfd2290c-5c82-62f3-7643-4df329d43ce1"
