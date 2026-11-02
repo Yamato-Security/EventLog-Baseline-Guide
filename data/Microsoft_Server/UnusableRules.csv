@@ -42,7 +42,9 @@ If the ""DsrmAdminLogonBehavior"" value is set to ""2"", the administrator accou
 ","068836cf-abab-c1b2-804b-c9f34e4445aa"
 "LSASS Access From Non System Account","medium","security","","Detects potential mimikatz-like tools accessing LSASS from non system account","06b8bcc0-326b-518a-3868-fe0721488fb8"
 "Suspicious Kerberos Ticket Request via PowerShell Script - ScriptBlock","high","","ps_script","Detects PowerShell scripts that utilize native PowerShell Identity modules to request Kerberos tickets.
-This behavior is typically seen during a Kerberos or silver ticket attack. A successful execution will output the SPNs for the endpoint in question.
+This behavior is typically seen during a Kerberoasting or silver ticket attack. A TGS request is issued by
+the KerberosRequestorSecurityToken constructor, resulting tickets are cached in LSA and become
+extractable by other tools later on.
 ","088701bf-4758-9a2a-76c0-2e148a7e122c"
 "Periodic Backup For System Registry Hives Enabled","medium","","registry_set","Detects the enabling of the ""EnablePeriodicBackup"" registry value. Once enabled, The OS will backup System registry hives on restarts to the ""C:\Windows\System32\config\RegBack"" folder. Windows creates a ""RegIdleBackup"" task to manage subsequent backups.
 Registry backup was a default behavior on Windows and was disabled as of ""Windows 10, version 1803"".
@@ -114,7 +116,6 @@ Passwords are stored in several places on a system, depending on the operating s
 "Execution via CL_Invocation.ps1 (2 Lines)","high","","ps_script","Detects Execution via SyncInvoke in CL_Invocation.ps1 module","13cf4134-564b-abdb-c83e-dac3ba9bac3c"
 "Network Connection Initiated By Eqnedt32.EXE","high","","network_connection","Detects network connections from the Equation Editor process ""eqnedt32.exe"".","141fe5f1-4de3-21fd-1b09-8d53f1019340"
 "Outbound Network Connection Initiated By Script Interpreter","high","","network_connection","Detects a script interpreter wscript/cscript opening a network connection to a non-local network. Adversaries may use script to download malicious payloads.","1487f05c-b749-4322-d657-d20a2eea7e47"
-"DNS Query To MEGA Hosting Website - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to MEGA sharing website","14b17417-8ae7-ff8e-fe36-28aaa337ccd5"
 "Disable Windows Defender Functionalities Via Registry Keys","high","","registry_set","Detects when attackers or tools disable Windows Defender functionalities via the Windows registry","14e19d39-b1be-4903-56be-684b57d45e16"
 "Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback","medium","","registry_set","Detects enabling of the ""AllowAnonymousCallback"" registry value, which allows a remote connection between computers that do not have a trust relationship.","153b0ce0-9f0b-f10f-7d6e-3a23dea83494"
 "Potential AS-REP Roasting via Kerberos TGT Requests","medium","security","","Detects suspicious Kerberos TGT requests with pre-authentication disabled (Pre-Authentication Type = 0) and Ticket Encryption Type (0x17) i.e, RC4-HMAC.
@@ -128,6 +129,7 @@ This may indicate an AS-REP Roasting attack, where attackers request AS-REP mess
 Winlogon.exe is a Windows component responsible for actions at logon/logoff as well as the secure attention sequence (SAS) triggered by Ctrl-Alt-Delete.
 ","16505b6b-b744-b451-e1cc-2bf1ecc9e7df"
 "Replay Attack Detected","high","security","","Detects possible Kerberos Replay Attack on the domain controllers when ""KRB_AP_ERR_REPEAT"" Kerberos response is sent to the client","167784ae-8d7f-ca00-e9d9-586a4c8469e8"
+"Query Tor Onion Address - DNS Client","high","dns-client","","Detects DNS resolution of an .onion address related to Tor routing networks","178fd94a-09bc-d16c-7fce-96dd3dab304c"
 "Windows Network Access Suspicious desktop.ini Action","medium","security","","Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.","192d9d70-11ad-70e5-9d6c-d32a1ec74857"
 "RDP Attempt","informational","","","","1a850b71-6aef-4f31-a509-f31b2c778476"
 "Clearing Windows Console History","high","","ps_script","Identifies when a user attempts to clear console history. An adversary may clear the command history of a compromised account to conceal the actions undertaken during an intrusion.","1a8e1936-4b07-2bb2-ef3a-2cdf7d294a56"
@@ -194,7 +196,6 @@ Domain accounts are those managed by Active Directory Domain Services where acce
 "Troubleshooting Pack Cmdlet Execution","medium","","ps_script","Detects execution of ""TroubleshootingPack"" cmdlets to leverage CVE-2022-30190 or action similar to ""msdt"" lolbin (as described in LOLBAS)","297f849b-2dff-ce76-be52-6f50e2f5d205"
 "Potential RemoteFXvGPUDisablement.EXE Abuse","high","powershell-classic","","Detects PowerShell module creation where the module Contents are set to ""function Get-VMRemoteFXPhysicalVideoAdapter"". This could be a sign of potential abuse of  the ""RemoteFXvGPUDisablement.exe"" binary which is known to be vulnerable to module load-order hijacking.","29a3935d-0428-4f39-d39e-ec43c598b272"
 "Failed MSExchange Transport Agent Installation","high","msexchange-management","","Detects a failed installation of a Exchange Transport Agent","29ec9279-2899-b0a0-0b41-6bf40cdda885"
-"DNS Query for Anonfiles.com Domain - DNS Client","high","dns-client","","Detects DNS queries for anonfiles.com, which is an anonymous file upload platform often used for malicious purposes","2abf05fa-98f2-d00b-6a6a-12d07e55233e"
 "Potential PowerShell Obfuscation Using Alias Cmdlets","low","","ps_script","Detects Set-Alias or New-Alias cmdlet usage. Which can be use as a mean to obfuscate PowerShell scripts","2b77aa85-451b-f506-eda5-71bef0c2bfa6"
 "VHDX Mounted","low","vhdmp","","A VHDX (Virtual Hard Disk version 2) image was mounted. They are often used with WSL disk partitions.","2c544083-e209-4a8d-ad28-4f1427353d2e"
 "Registry Persistence via Explorer Run Key","high","","registry_set","Detects a possible persistence mechanism using RUN key for Windows Explorer and pointing to a suspicious folder","2c5460e8-fa5b-2a17-1e53-f6f3789de52d"
@@ -417,6 +418,9 @@ Common uses of batch files include long or repetitive tasks, or the need to run 
 "New Netsh Helper DLL Registered From A Suspicious Location","high","","registry_set","Detects changes to the Netsh registry key to add a new DLL value that is located on a suspicious location. This change might be an indication of a potential persistence attempt by adding a malicious Netsh helper
 ","57fba93d-7938-c3fd-109b-6d1fb6037e2c"
 "Password Protected ZIP File Opened (Suspicious Filenames)","high","security","","Detects the extraction of password protected ZIP archives with suspicious file names. See the filename variable for more details on which file has been opened.","586bcb8e-f698-f372-54cf-ff08727352e7"
+"HackTool - Defendnot Installation via PowerShell One-Liner","high","","ps_script","Detects execution of Defendnot installation via PowerShell one-liner that downloads and executes the Defendnot script from a remote URL.
+Defendnot is a hacktool that abuses Microsoft's undocumented WSC API to disable Windows Defender by registering itself as a fake antivirus product.
+","587f64c5-f432-8b5f-5e4d-a6565ea1965d"
 "Invoke-Obfuscation Via Stdin - PowerShell Module","high","","ps_module","Detects Obfuscated Powershell via Stdin in Scripts","58925ff0-2936-8ebd-4c28-8fdbb8ac19a8"
 "Suspicious Epmap Connection","high","","network_connection","Detects suspicious ""epmap"" connection to a remote computer via remote procedure call (RPC)","58a2d80c-c77b-324c-640d-c97cf5fcbefa"
 "SNAKE Malware Covert Store Registry Key","high","","registry_event","Detects any registry event that targets the key 'SECURITY\Policy\Secrets\n' which is a key related to SNAKE malware as described by CISA","58f3d2fb-ee2d-19e8-3792-abdf0eca4067"
@@ -524,6 +528,10 @@ This may include changing behaviors based on the results of checks for the prese
 "Adwind RAT / JRAT - Registry","high","","registry_set","Detects javaw.exe in AppData folder as used by Adwind / JRAT","6c44673b-8c80-9ce9-718d-46f34b17ffcc"
 "Bypass UAC Using DelegateExecute","high","","registry_set","Bypasses User Account Control using a fileless method","6c5c8d47-3184-6c84-8736-f426d0e50839"
 "Disable Windows Event Logging Via Registry","high","","registry_set","Detects tampering with the ""Enabled"" registry key in order to disable Windows logging of a Windows event channel","6d5ef37b-2d6d-8ef5-a641-57161c232686"
+"Allow Exceptions in Microsoft Defender Firewall via Registry","medium","","registry_set","Detects the degradation of the system firewall security by the DoNotAllowExceptions policy value being
+set to 0 (DWORD 0x00000000), which re-enables application and port exceptions in the Microsoft
+Defender Firewall and can restore network paths that a hardened profile would block.
+","6db0ffef-a8ca-8cae-d31a-d07d90a38247"
 "Recursive DNS Response","informational","dns-server-analytic","","","6db38b96-3772-4cbf-a8ad-c65d8ac5134e"
 "ClickOnce Trust Prompt Tampering","medium","","registry_set","Detects changes to the ClickOnce trust prompt registry key in order to enable an installation from different locations such as the Internet.","6dbd4cbc-13d1-1d53-1ce4-5ad27813a654"
 "RDP Conn (Noisy)","informational","","","This event is generated when anyone connects to RDP and sends data. It does not need to be a legitimate RDP connection.
@@ -578,6 +586,9 @@ Adversaries may use WFP filters to prevent Endpoint Detection and Response (EDR)
 An adversary might compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.
 ","7778d03c-e7bd-53bb-1f84-6557e3ecf12d"
 "PowerShell Write-EventLog Usage","medium","","ps_script","Detects usage of the ""Write-EventLog"" cmdlet with 'RawData' flag. The cmdlet can be levreage to write malicious payloads to the EventLog and then retrieve them later for later use","777d9383-7a6f-f82a-d22e-2f05f433bc9b"
+"Potential WSL InstallLocation Registry Key Modification","medium","","registry_set","Detects modifications to the Windows Subsystem for Linux (WSL) InstallLocation registry key.
+Attackers can modify this registry key to redirect the execution flow of legitimate WSL processes (wsl.exe or bash.exe) to a malicious payload, acting as a proxy execution and defense evasion technique.
+","77a5b738-b0ef-7938-465f-567976153877"
 "Powershell Token Obfuscation - Powershell","medium","","ps_script","Detects TOKEN OBFUSCATION technique from Invoke-Obfuscation in Powershell scripts.
 Use this rule as a threat-hunting baseline to find obfuscated scripts in your environment.
 Once tested and tuned, consider deploying a production detection rule based on this hunting rule.
@@ -588,6 +599,10 @@ Once tested and tuned, consider deploying a production detection rule based on t
 "Malicious Nishang PowerShell Commandlets","high","","ps_script","Detects Commandlet names and arguments from the Nishang exploitation framework","79769f3b-efb3-9463-e114-7446d4361146"
 "Communication To Uncommon Destination Ports","medium","","network_connection","Detects programs that connect to uncommon destination ports","7983db98-5767-b29d-2652-a01fd3e751ad"
 "OilRig APT Schedule Task Persistence - Security","critical","security","","Detects OilRig schedule task persistence as reported by Nyotron in their March 2018 report","798c8f65-068a-0a31-009f-12739f547a2d"
+"PowerShell Dynamic Module Invocation Via ExportedCommands Array Index - PS Script","medium","","ps_script","Detects obfuscated PowerShell scripts that enumerate Microsoft.PowerShell.Utility exported commands
+and invoke cmdlets indirectly by array index. This can be used to evade detections
+that look for explicit strings such as Invoke-RestMethod or Invoke-Expression.
+","79930971-2e8e-a97e-1f60-5a7a5db918a9"
 "Windows Credential Guard Disabled - Registry","high","","registry_set","Detects attempts to disable Windows Credential Guard by setting registry values to 0. Credential Guard uses virtualization-based security to isolate secrets so that only privileged system software can access them.
 Adversaries may disable Credential Guard to gain access to sensitive credentials stored in the system, such as NTLM hashes and Kerberos tickets, which can be used for lateral movement and privilege escalation.
 ","7a29a519-090c-b484-1cd2-c2d83e3a785a"
@@ -632,6 +647,7 @@ it is a strong signal of an attempted or successful abuse of the BaDSuccessor vu
 "Add Windows Capability Via PowerShell Script","medium","","ps_script","Detects usage of the ""Add-WindowsCapability"" cmdlet to add Windows capabilities. Notable capabilities could be ""OpenSSH"" and others.","8094e74c-0e24-f840-50c3-bfcdc98cd6a9"
 "Active Directory Group Enumeration With Get-AdGroup","low","","ps_script","Detects usage of the ""Get-AdGroup"" cmdlet to enumerate Groups within Active Directory","80aaec39-a75b-8ad7-ac46-14fd5159f93f"
 "Potential Active Directory Enumeration Using AD Module - PsScript","medium","","ps_script","Detects usage of the ""Import-Module"" cmdlet to load the ""Microsoft.ActiveDirectory.Management.dl"" DLL. Which is often used by attackers to perform AD enumeration.","80fe1b47-6d38-9fc5-9535-6afd04b55a15"
+"Suspicious Cobalt Strike DNS Beaconing - DNS Client","critical","dns-client","","Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons","81044606-0597-3b0d-c000-a976304c9570"
 "RDP over Reverse SSH Tunnel WFP","high","security","","Detects svchost hosting RDP termsvcs communicating with the loopback address","810804a5-98c3-7e56-e8ed-8a95d72ad829"
 "Local Firewall Rules Enumeration Via NetFirewallRule Cmdlet","low","","ps_module","Detects execution of ""Get-NetFirewallRule"" or ""Show-NetFirewallRule"" to enumerate the local firewall rules on a host.","81b7f962-1b39-9a15-eca7-f718f8e45e85"
 "RDP Over Reverse SSH Tunnel","high","","network_connection","Detects svchost hosting RDP termsvcs communicating with the loopback address and on TCP port 3389","81ca22c3-fdfd-6c3a-051f-dc404488536c"
@@ -768,9 +784,13 @@ This technique can be used for persistence, defense evasion, and privilege escal
 ","992df49c-712c-8f93-819d-74df9b59fe7d"
 "Remote Service Activity via SVCCTL Named Pipe","medium","security","","Detects remote service activity via remote access to the svcctl named pipe","9a0e08fc-d50e-2539-9da0-f2b04439c414"
 "Potential RemoteFXvGPUDisablement.EXE Abuse - PowerShell ScriptBlock","high","","ps_script","Detects PowerShell module creation where the module Contents are set to ""function Get-VMRemoteFXPhysicalVideoAdapter"". This could be a sign of potential abuse of the ""RemoteFXvGPUDisablement.exe"" binary which is known to be vulnerable to module load-order hijacking.","9a9b4924-bf93-774d-4bee-a2d13260663c"
+"HackTool - Defendnot Default Scheduled Task Activity","high","security","","Detects the default scheduled task activity of the hacktool Defendnot, which is used to disable Windows Defender Security.
+It abuses Microsoft's undocumented WSC API to register itself as a fake antivirus product, allowing it to disable Windows Defender.
+During installation, Defendnot creates a scheduled task named 'defendnot' with the argument '--from-autorun' for persistence.
+","9abe6845-6ee4-2129-29c3-9e868c62497e"
 "Security Eventlog Cleared","high","security","","One of the Windows Eventlogs has been cleared. e.g. caused by ""wevtutil cl"" command execution","9b14c9d8-6b61-e49f-f8a8-0836d0ad98c9"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_set","Detects COM object hijacking via TreatAs subkey","9b23f158-004c-60b3-35ff-4bf653179230"
-"DNS Query To Put.io - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to ""Put.io"" sharing website.","9b3ffe56-a479-9b35-d590-9b94c2f7fa35"
+"DNS Query To Put.io - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to ""Put.io"" sharing website.","9c195ff5-6f55-cf90-a759-1ebce067e455"
 "Certificate Request Export to Exchange Webserver","critical","msexchange-management","","Detects a write of an Exchange CSR to an untypical directory or with aspx name suffix which can be used to place a webshell","9c8f1614-f386-ea28-e870-75e3daf99adc"
 "Important Scheduled Task Deleted/Disabled","high","security","","Detects when adversaries stop services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities","9ce591d7-6b6d-444a-8c27-8ca626dddad3"
 "Suspicious New-PSDrive to Admin Share","medium","","ps_script","Adversaries may use to interact with a remote network share using Server Message Block (SMB). The adversary may then perform actions as the logged-on user.","9d0ff6ee-9967-a757-d8dc-cf3f3b3546b1"
@@ -805,6 +825,10 @@ If you exclude privileged users/admins and processes, which are allowed to do so
 This will detect Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs) and the usage of Sysinternals and various other tools. So you have to work with a whitelist to find the bad stuff.
 ","a25c0c49-11f8-ace9-6bbd-80cfa6e2b2d7"
 "Malicious PowerShell Scripts - PoshModule","high","","ps_module","Detects the execution of known offensive powershell scripts used for exploitation or reconnaissance","a26b0227-f81e-097b-19ba-ffbb04417ccc"
+"Add Authorized Applications to Microsoft Defender Firewall via Registry","medium","","registry_set","Detects the degradation of the system firewall security by the creation or re-enabling of per-application
+exceptions via registry writes to the AuthorizedApplications\List keys under FirewallPolicy, which grants
+the targeted executable network access and can be abused by malware to bypass network restrictions.
+","a29c22ab-eced-13f5-9dcb-c4bb6ebc59da"
 "Wdigest Enable UseLogonCredential","high","","registry_set","Detects potential malicious modification of the property value of UseLogonCredential from HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest to enable clear-text credentials","a2a9ea74-be61-a011-3676-5bdd9cdae0a4"
 "Security Support Provider (SSP) Added to LSA Configuration","high","","registry_event","Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows.
 ","a2b70475-be0a-993d-b01f-8ecf4bbd7576"
@@ -880,6 +904,10 @@ Second, to prepend information to the PATH environment variable on a per-applica
 "Certificate Exported From Local Certificate Store","medium","certificateservicesclient-lifecycle-system","","Detects when an application exports a certificate (and potentially the private key as well) from the local Windows certificate store.","aec05047-d4cd-8eed-6c67-40b018f64c6e"
 "Suspicious Non PowerShell WSMAN COM Provider","medium","powershell-classic","","Detects suspicious use of the WSMAN provider without PowerShell.exe as the host application.","aedc0f64-b9e7-36d1-fd92-838fdf33eac3"
 "NTFS volume mounted","informational","ntfs","","A NTFS volume has been successfully mounted. Introduced in Windows 10 / Windows Server 2016 (Build 14393), with more fields logged (including information on the underlying device) starting with Windows 11 / Windows Server 2022 (Build 22000).","af127790-5563-473e-8d3a-43b3509572b1"
+"Potential HackTool - Defendnot Security Center AV Registry Modification","medium","","registry_set","Detects modification of the Microsoft Security Center AV registry keys, particularly those related with DisplayName, ProductEXE, or ReportingExe.
+These keys typically store information about antivirus products installed on the system, which is Windows Defender or third-party antivirus software.
+But, if these keys holds unexpected values or are modified in a suspicious manner, it could indicate an attempt to tamper with the security settings of the system.
+","af1f804f-b41d-176d-39de-0250fdf93e13"
 "Windows Event Log Access Tampering Via Registry","high","","registry_set","Detects changes to the Windows EventLog channel permission values. It focuses on changes to the Security Descriptor Definition Language (SDDL) string, as modifications to these values can restrict access to specific users or groups, potentially aiding in defense evasion by controlling who can view or modify a event log channel. Upon execution, the user shouldn't be able to access the event log channel via the event viewer or via utilities such as ""Get-EventLog"" or ""wevtutil"".
 ","af6d5933-a155-f3c7-bdb6-c2b98b515cc7"
 "PUA - Sysinternal Tool Execution - Registry","low","","registry_set","Detects the execution of a Sysinternals Tool via the creation of the ""accepteula"" registry key","af922adb-02c2-1288-4d6b-ff5dae59b827"
@@ -902,6 +930,7 @@ through file association hijacking.
 ","b1bd0320-da55-2715-927f-f70a3cb846fa"
 "Invoke-Obfuscation VAR++ LAUNCHER OBFUSCATION - PowerShell Module","high","","ps_module","Detects Obfuscated Powershell via VAR++ LAUNCHER","b2064db0-e465-72c2-edcc-57cfd9676207"
 "Invoke-Obfuscation Obfuscated IEX Invocation - PowerShell Module","high","","ps_module","Detects all variations of obfuscated powershell IEX invocation code generated by Invoke-Obfuscation framework from the code block cited in the reference section below","b21405ff-2071-082b-067f-fa116d28a858"
+"DNS Query To MEGA Hosting Website - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to MEGA sharing website","b23f739e-2ff3-1773-0393-fa8b6fa5d695"
 "Windows Registry Trust Record Modification","medium","","registry_event","Alerts on trust record modification within the registry, indicating usage of macros","b2a0af70-a308-0185-6128-c2e37db1ebf2"
 "Uncommon Connection to Active Directory Web Services","medium","","network_connection","Detects uncommon network connections to the Active Directory Web Services (ADWS) from processes not typically associated with ADWS management.
 ","b2c34a06-251e-87ee-2d3e-fae878185d34"
@@ -1011,6 +1040,11 @@ Adversaries may disable these sessions to evade detection and prevent security m
 "Disabled Users Failing To Authenticate From Source Using Kerberos","medium","security","","Detects failed logins with multiple disabled domain accounts from a single source system using the Kerberos protocol.","c6c2c3e3-44ee-516c-9e48-63b304511787"
 "Scheduled Task Created - Registry","low","","registry_event","Detects the creation of a scheduled task via Registry keys.","c6cda933-68be-134e-fe2e-71ee945f0f69"
 "Suspicious Start-Process PassThru","medium","","ps_script","Powershell use PassThru option to start in background","c6dce605-3bb0-c881-1c5c-f3e4e9d62577"
+"Potential Kerberos Pre-Authentication Failure for Machine Accounts","medium","security","","Detects Kerberos pre-authentication failures for machine accounts, which may indicate attempts to brute-force service account passwords.
+This rule helps identify potential Golden dMSA attacks where attackers try multiple password combinations.
+When hunting, look for multiple 4771 failures for machine accounts in short succession with status code 0x18 (KDC_ERR_PREAUTH_FAILED). Distinguish these from 0x19 (KDC_ERR_PREAUTH_REQUIRED), which indicates that additional pre-authentication is required rather than that a password was incorrect.
+Hypothesis: An attacker is attempting to identify machine accounts with weak passwords for attacks like Golden dMSA by performing Kerberos pre-authentication brute-force against machine accounts (ending with $). Multiple failures in a short time window from the same source IP or targeting multiple machine accounts suggests credential guessing activity.
+","c7b3b22e-5a69-0d52-a181-deb23b4311f5"
 "Potentially Suspicious AccessMask Requested From LSASS","medium","security","","Detects process handle on LSASS process with certain access mask","c7f94c63-6fb7-9686-e2c2-2298c9f56ca9"
 "Windows Defender Exclusions Added - Registry","medium","","registry_set","Detects the Setting of Windows Defender Exclusions","c86baf10-abab-0f8f-88a2-e51640a26b5c"
 "GALLIUM Artefacts - Builtin","high","dns-server-analytic","","Detects artefacts associated with activity group GALLIUM - Microsoft Threat Intelligence Center indicators released in December 2019.","c8e0edae-2335-591c-7057-1ac58f03e06c"
@@ -1089,6 +1123,9 @@ Before doing this, the client needs to register the DLL in a special registry ke
 IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean.
 ","dacb1ee4-05cc-995a-adee-964a19774888"
 "Certificate Private Key Acquired","medium","capi2","","Detects when an application acquires a certificate private key","dadaca47-d760-88a9-fd35-cbe8a6237499"
+"Susp CmdLine (Possible Inhibit System Recovery)","high","sysmon","","Detects commands commonly used by ransomware and destructive malware to inhibit system recovery, such as deleting or resizing Volume Shadow Copies, deleting backup catalogs, or disabling Windows automatic recovery.
+This is the Sysmon process creation (EventID 1) version of the Security 4688 rule.
+","db1fa879-6d12-4bd1-b947-ee5dc565c55e"
 "RDP Session Reconnect","informational","security","","Detects when there is a RDP session reconnect.","db23f704-61c8-4c95-a5b7-4db61c89f41d"
 "Potential Ransomware Activity Using LegalNotice Message","high","","registry_set","Detect changes to the ""LegalNoticeCaption"" or ""LegalNoticeText"" registry values where the message set contains keywords often used in ransomware ransom messages","dcbfe53c-e933-cfb7-d9ce-8f03726f9637"
 "WCE wceaux.dll Access","critical","security","","Detects wceaux.dll access while WCE pass-the-hash remote command execution on source host","de10da38-ee60-f6a4-7d70-4d308558158b"
@@ -1111,7 +1148,6 @@ An initial baseline is required before using this utility to exclude third party
 "WinSock2 Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e06345ae-614b-8ef6-d336-a5ed3b2dc71b"
 "Potential Persistence Via TypedPaths","high","","registry_set","Detects modification addition to the 'TypedPaths' key in the user or admin registry from a non standard application. Which might indicate persistence attempt","e0f39f6d-5bc7-83ca-9a1f-4e67316af212"
 "Wow6432Node Windows NT CurrentVersion Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e182da19-f29b-2327-f6f0-f71d15ff8dd5"
-"Query Tor Onion Address - DNS Client","high","dns-client","","Detects DNS resolution of an .onion address related to Tor routing networks","e1b0fd63-1017-1597-ec08-3f9e1021e564"
 "Potential Persistence Via LSA Extensions","high","","registry_set","Detects when an attacker modifies the ""REG_MULTI_SZ"" value named ""Extensions"" to include a custom DLL to achieve persistence via lsass.
 The ""Extensions"" list contains filenames of DLLs being automatically loaded by lsass.exe. Each DLL has its InitializeLsaExtension() method called after loading.
 ","e249ebd9-4719-fbd6-ad42-802038c12f87"
@@ -1177,11 +1213,11 @@ Analysts should review these rules in context, validate whether they reflect nor
 "External Disk Drive Or USB Storage Device Was Recognized By The System","low","security","","Detects external disk drives or plugged-in USB devices.","eab514f7-3f9b-a705-4d1d-8fee3d81c4b5"
 "Disable Powershell Command History","high","","ps_script","Detects scripts or commands that disabled the Powershell command history by removing psreadline module","ebdae8b0-7b83-5602-356e-b214571cee19"
 "Disable Internal Tools or Feature in Registry","medium","","registry_set","Detects registry modifications that change features of internal Windows tools (malware like Agent Tesla uses this technique)","ebfabc1f-964a-69f3-60d7-e027eaaf1022"
-"DNS Query To Ufile.io - DNS Client","low","dns-client","","Detects DNS queries to ""ufile.io"", which was seen abused by malware and threat actors as a method for data exfiltration","ec3b018a-d4dd-2d51-4a63-50d078f737dd"
 "Powershell LocalAccount Manipulation","medium","","ps_script","Adversaries may manipulate accounts to maintain access to victim systems.
 Account manipulation may consist of any action that preserves adversary access to a compromised account, such as modifying credentials or permission groups
 ","ec4cdf41-f053-d3af-6a68-973d32bacdff"
 "SCM Database Privileged Operation","medium","security","","Detects non-system users performing privileged operation os the SCM database","ec9c7ea2-54d7-3a55-caa8-4741f099505a"
+"DNS Query for Anonfiles.com Domain - DNS Client","high","dns-client","","Detects DNS queries for anonfiles.com, which is an anonymous file upload platform often used for malicious purposes","eccf9d52-bd30-0ec7-dac9-8f0005287356"
 "Service Binary in Suspicious Folder","high","","registry_set","Detect the creation of a service with a service binary located in a suspicious directory","ed9f6502-6cf6-8a06-be4a-10027cabb474"
 "VBScript Payload Stored in Registry","high","","registry_set","Detects VBScript content stored into registry keys as seen being used by UNC2452 group","edcac99a-55ef-aa9c-92a3-d9c9d7e1e46e"
 "Usage Of Web Request Commands And Cmdlets - ScriptBlock","medium","","ps_script","Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via PowerShell scriptblock logs","eddbf1d6-60c9-96f5-4cdf-f0947b3aad8f"
@@ -1200,7 +1236,6 @@ Commands to the remote system, and often the results of those commands, will be 
 "Run Once Task Configuration in Registry","medium","","registry_event","Rule to detect the configuration of Run Once registry key. Configured payload can be run by runonce.exe /AlternateShellStartup","f00c4059-0241-7fee-4186-e8d0b5741cba"
 "Suspicious TCP Tunnel Via PowerShell Script","medium","","ps_script","Detects powershell scripts that creates sockets/listeners which could be indicative of tunneling activity","f0174af7-3de1-3209-5f81-f96ff9d1f5c6"
 "Suspicious Application Allowed Through Exploit Guard","high","","registry_set","Detects applications being added to the ""allowed applications"" list of exploit guard in order to bypass controlled folder settings","f06899a3-2598-48df-bd36-4c846265e174"
-"Suspicious Cobalt Strike DNS Beaconing - DNS Client","critical","dns-client","","Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons","f0b3a5e9-e4ee-ed23-3b27-4dd30c5974c8"
 "Disable of ETW Trace - Powershell","high","","ps_script","Detects usage of powershell cmdlets to disable or remove ETW trace sessions","f1205c3a-b112-f060-2b3e-b43fd3460482"
 "Possible Kerberoasting (RC4 Kerberos Ticket Req)","medium","security","","Adversaries may abuse a valid Kerberos ticket-granting ticket (TGT) or sniff network traffic to obtain a ticket-granting service (TGS) ticket that may be vulnerable to Brute Force.","f19849e7-b5ba-404b-a731-9b624d7f6d19"
 "PowerShell Remote Session Creation","medium","","ps_script","Adversaries may abuse PowerShell commands and scripts for execution.
@@ -1210,6 +1245,7 @@ PowerShell is a powerful interactive command-line interface and scripting enviro
 "T1047 Wmiprvse Wbemcomn DLL Hijack","high","security","","Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\` directory over the network for a WMI DLL Hijack scenario.","f252afa3-fe83-562c-01c0-1334f55af84c"
 "Live Memory Dump Using Powershell","high","","ps_script","Detects usage of a PowerShell command to dump the live memory of a Windows machine","f279fcb8-4560-0d0c-3bee-043b32f9b3fb"
 "COM Object Hijacking Via Modification Of Default System CLSID Default Value","high","","registry_set","Detects potential COM object hijacking via modification of default system CLSID.","f27c3f9d-33e2-2ee6-64f7-a34b895b6379"
+"DNS Query To Ufile.io - DNS Client","low","dns-client","","Detects DNS queries to ""ufile.io"", which was seen abused by malware and threat actors as a method for data exfiltration","f28088fe-c9ad-f2d2-4d5e-051655715b19"
 "Outlook EnableUnsafeClientMailRules Setting Enabled - Registry","high","","registry_set","Detects an attacker trying to enable the outlook security setting ""EnableUnsafeClientMailRules"" which allows outlook to run applications or execute macros","f3359b54-f4f9-b8da-0ddb-ef16968c70e7"
 "RDP Session Disconnect","informational","security","","Detects when there is a RDP session disconnect.","f3532729-5536-42b4-ad74-d061b61a3891"
 "AD Groups Or Users Enumeration Using PowerShell - PoshModule","low","","ps_module","Adversaries may attempt to find domain-level groups and permission settings.
