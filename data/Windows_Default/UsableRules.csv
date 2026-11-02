@@ -179,7 +179,13 @@ Event ID 4730 indicates a ""Security Group is deleted"".
 The case is not applicable for Unix OS.
 Supported OS - Windows 2008 R2 and 7, Windows 2012 R2 and 8.1, Windows 2016 and 10 Windows Server 2019, Windows Server 2000, Windows 2003 and XP.
 ","506379d9-8545-c010-e9a3-693119ab9261"
-"AppLocker Application Would Have Been Blocked","medium","applocker","","Detects when AppLocker ""Audit only"" enforcement mode reports that an Application, DLL, Script, MSI, or Packaged-App would have been blocked if AppLocker ""Enforce rules"" enforcement mode was enabled.
+"AppLocker Application Would Have Been Blocked","low","applocker","","Detects when AppLocker ""Audit only"" enforcement mode reports that an Application, DLL, Script, MSI,
+or Packaged-App would have been blocked if AppLocker ""Enforce rules"" enforcement mode was enabled.
+This rule triggers on the AppLocker audit events and requires review of the reported path against the local AppLocker policy.
+Since this rule triggers solely on event IDs without path-based filtering, tuning and false positive
+suppression must be handled at the AppLocker policy level by the policy author, not via Sigma filters.
+Analysts should review the reported FullFilePath and correlate with the local AppLocker policy to
+determine whether the activity is expected or warrants investigation.
 ","50c292b5-0833-2c56-198e-fa4975db1c67"
 "Unexpected Shutdown","low","system","","The shutdown operation is initiated automatically by a program that uses the InitiateSystemShutdownEx function with the force flag.","517c0b15-d2bf-48a3-926c-f7b4a96dcec3"
 "CobaltStrike Service Installations - System","critical","system","","Detects known malicious service installs that appear in cases in which a Cobalt Strike beacon elevates privileges or lateral movement","51ba8477-86a4-6ff0-35fa-7b7f1b1e3f83"
