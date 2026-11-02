@@ -55,7 +55,6 @@ An attacker can set a custom page to execute arbitrary code and link to it via t
 "OpenSSH Server Listening On Socket","medium","openssh","","Detects scenarios where an attacker enables the OpenSSH server and server starts to listening on SSH socket.","12800c31-cb60-9d63-bcc2-9ad342585c3a"
 "Suspicious PowerShell Download","medium","powershell","","Detects suspicious PowerShell download command","12f93a4e-cd0e-18d7-6969-b345ecc8d40a"
 "Suspicious Camera and Microphone Access","high","","registry_event","Detects Processes accessing the camera and microphone from suspicious folder","139f52db-35af-c5f8-bbf8-22a2094dfea6"
-"DNS Query To MEGA Hosting Website - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to MEGA sharing website","14b17417-8ae7-ff8e-fe36-28aaa337ccd5"
 "Disable Windows Defender Functionalities Via Registry Keys","high","","registry_set","Detects when attackers or tools disable Windows Defender functionalities via the Windows registry","14e19d39-b1be-4903-56be-684b57d45e16"
 "Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback","medium","","registry_set","Detects enabling of the ""AllowAnonymousCallback"" registry value, which allows a remote connection between computers that do not have a trust relationship.","153b0ce0-9f0b-f10f-7d6e-3a23dea83494"
 "Persistence Via New SIP Provider","medium","","registry_set","Detects when an attacker register a new SIP provider for persistence and defense evasion","15d9849f-4559-6cb8-b45b-663e3ddd9cc5"
@@ -64,6 +63,7 @@ An attacker can set a custom page to execute arbitrary code and link to it via t
 "Winlogon Notify Key Logon Persistence","high","","registry_set","Adversaries may abuse features of Winlogon to execute DLLs and/or executables when a user logs in.
 Winlogon.exe is a Windows component responsible for actions at logon/logoff as well as the secure attention sequence (SAS) triggered by Ctrl-Alt-Delete.
 ","16505b6b-b744-b451-e1cc-2bf1ecc9e7df"
+"Query Tor Onion Address - DNS Client","high","dns-client","","Detects DNS resolution of an .onion address related to Tor routing networks","178fd94a-09bc-d16c-7fce-96dd3dab304c"
 "Windows Network Access Suspicious desktop.ini Action","medium","security","","Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.","192d9d70-11ad-70e5-9d6c-d32a1ec74857"
 "RDP Attempt","informational","","","","1a850b71-6aef-4f31-a509-f31b2c778476"
 "AMSI Disabled via Registry Modification","high","","registry_set","Detects attempts to disable AMSI (Anti-Malware Scan Interface) by modifying the AmsiEnable registry value.
@@ -107,7 +107,6 @@ Below is a list of registry keys/values that are monitored by this rule:
 "Disable Administrative Share Creation at Startup","medium","","registry_set","Administrative shares are hidden network shares created by Microsoft Windows NT operating systems that grant system administrators remote access to every disk volume on a network-connected system","2946c058-5b67-3779-9a29-6cd622926e09"
 "Potential RemoteFXvGPUDisablement.EXE Abuse","high","powershell-classic","","Detects PowerShell module creation where the module Contents are set to ""function Get-VMRemoteFXPhysicalVideoAdapter"". This could be a sign of potential abuse of  the ""RemoteFXvGPUDisablement.exe"" binary which is known to be vulnerable to module load-order hijacking.","29a3935d-0428-4f39-d39e-ec43c598b272"
 "Failed MSExchange Transport Agent Installation","high","msexchange-management","","Detects a failed installation of a Exchange Transport Agent","29ec9279-2899-b0a0-0b41-6bf40cdda885"
-"DNS Query for Anonfiles.com Domain - DNS Client","high","dns-client","","Detects DNS queries for anonfiles.com, which is an anonymous file upload platform often used for malicious purposes","2abf05fa-98f2-d00b-6a6a-12d07e55233e"
 "VHDX Mounted","low","vhdmp","","A VHDX (Virtual Hard Disk version 2) image was mounted. They are often used with WSL disk partitions.","2c544083-e209-4a8d-ad28-4f1427353d2e"
 "Registry Persistence via Explorer Run Key","high","","registry_set","Detects a possible persistence mechanism using RUN key for Windows Explorer and pointing to a suspicious folder","2c5460e8-fa5b-2a17-1e53-f6f3789de52d"
 "ETW Logging Disabled For SCM","low","","registry_set","Detects changes to the ""TracingDisabled"" key in order to disable ETW logging for services.exe (SCM)","2c7799c7-bf70-0033-f2e0-e2ae59d4385b"
@@ -261,6 +260,10 @@ This could be an attempt to exploit CVE-2020-1048 - a Windows Print Spooler elev
 "Adwind RAT / JRAT - Registry","high","","registry_set","Detects javaw.exe in AppData folder as used by Adwind / JRAT","6c44673b-8c80-9ce9-718d-46f34b17ffcc"
 "Bypass UAC Using DelegateExecute","high","","registry_set","Bypasses User Account Control using a fileless method","6c5c8d47-3184-6c84-8736-f426d0e50839"
 "Disable Windows Event Logging Via Registry","high","","registry_set","Detects tampering with the ""Enabled"" registry key in order to disable Windows logging of a Windows event channel","6d5ef37b-2d6d-8ef5-a641-57161c232686"
+"Allow Exceptions in Microsoft Defender Firewall via Registry","medium","","registry_set","Detects the degradation of the system firewall security by the DoNotAllowExceptions policy value being
+set to 0 (DWORD 0x00000000), which re-enables application and port exceptions in the Microsoft
+Defender Firewall and can restore network paths that a hardened profile would block.
+","6db0ffef-a8ca-8cae-d31a-d07d90a38247"
 "Recursive DNS Response","informational","dns-server-analytic","","","6db38b96-3772-4cbf-a8ad-c65d8ac5134e"
 "ClickOnce Trust Prompt Tampering","medium","","registry_set","Detects changes to the ClickOnce trust prompt registry key in order to enable an installation from different locations such as the Internet.","6dbd4cbc-13d1-1d53-1ce4-5ad27813a654"
 "RDP Conn (Noisy)","informational","","","This event is generated when anyone connects to RDP and sends data. It does not need to be a legitimate RDP connection.
@@ -280,6 +283,9 @@ The Security event log will have more information so this event is only useful i
 "Disable Windows Security Center Notifications","medium","","registry_set","Detect set UseActionCenterExperience to 0 to disable the Windows security center notification","75c0a3fc-9821-e555-9c15-d7829e36ed2e"
 "Protected Storage Service Access","high","security","","Detects access to a protected_storage service over the network. Potential abuse of DPAPI to extract domain backup keys from Domain Controllers","7695295d-281f-23ce-d52e-8336ebd47532"
 "Password Protected ZIP File Opened (Email Attachment)","high","security","","Detects the extraction of password protected ZIP archives. See the filename variable for more details on which file has been opened.","77366099-d04a-214d-365c-c62c537df3ba"
+"Potential WSL InstallLocation Registry Key Modification","medium","","registry_set","Detects modifications to the Windows Subsystem for Linux (WSL) InstallLocation registry key.
+Attackers can modify this registry key to redirect the execution flow of legitimate WSL processes (wsl.exe or bash.exe) to a malicious payload, acting as a proxy execution and defense evasion technique.
+","77a5b738-b0ef-7938-465f-567976153877"
 "Custom File Open Handler Executes PowerShell","high","","registry_set","Detects the abuse of custom file open handler, executing powershell","790cbe25-2aac-45a7-48c4-234b2a622f06"
 "Potential Persistence Via COM Hijacking From Suspicious Locations","high","","registry_set","Detects potential COM object hijacking where the ""Server"" (In/Out) is pointing to a suspicious or unusual location.","79389718-9e14-e5e9-1cc7-2c027078bf22"
 "Windows Credential Guard Disabled - Registry","high","","registry_set","Detects attempts to disable Windows Credential Guard by setting registry values to 0. Credential Guard uses virtualization-based security to isolate secrets so that only privileged system software can access them.
@@ -304,6 +310,7 @@ This is often used as a method of persistence.
 "Potential Persistence Using DebugPath","medium","","registry_set","Detects potential persistence using Appx DebugPath","7e39f9c6-fca2-d20b-c975-48062f7ac3e0"
 "Hiding User Account Via SpecialAccounts Registry Key","high","","registry_set","Detects modifications to the registry key ""HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\Userlist"" where the value is set to ""0"" in order to hide user account from being listed on the logon screen.","7ee582b4-6e4c-aa81-c848-34f91ae9302d"
 "Windows Defender Service Disabled - Registry","high","","registry_set","Detects when an attacker or tool disables the  Windows Defender service (WinDefend) via the registry","7f5a4070-c4d2-ba36-ab1f-378da90ddf45"
+"Suspicious Cobalt Strike DNS Beaconing - DNS Client","critical","dns-client","","Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons","81044606-0597-3b0d-c000-a976304c9570"
 "New Root or CA or AuthRoot Certificate to Store","medium","","registry_set","Detects the addition of new root, CA or AuthRoot certificates to the Windows registry","8365c772-65e3-7f23-1606-2a2ecbd20235"
 "Small Sieve Malware Registry Persistence","high","","registry_set","Detects registry value with specific intentional typo and strings seen used by the Small Sieve malware","8376c984-b3da-370c-ff20-3c9c0dc9f18e"
 "Correct Execution of Nltest.exe","high","security","","The attacker might use LOLBAS nltest.exe for discovery of domain controllers, domain trusts, parent domain and the current user permissions.","83c2f19e-f588-1826-fc7d-cf7f4db7031a"
@@ -371,7 +378,7 @@ This rule triggers when any of the following registry keys are set to DWORD 1, h
 "Remote Service Activity via SVCCTL Named Pipe","medium","security","","Detects remote service activity via remote access to the svcctl named pipe","9a0e08fc-d50e-2539-9da0-f2b04439c414"
 "Security Eventlog Cleared","high","security","","One of the Windows Eventlogs has been cleared. e.g. caused by ""wevtutil cl"" command execution","9b14c9d8-6b61-e49f-f8a8-0836d0ad98c9"
 "Potential COM Object Hijacking Via TreatAs Subkey - Registry","medium","","registry_set","Detects COM object hijacking via TreatAs subkey","9b23f158-004c-60b3-35ff-4bf653179230"
-"DNS Query To Put.io - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to ""Put.io"" sharing website.","9b3ffe56-a479-9b35-d590-9b94c2f7fa35"
+"DNS Query To Put.io - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to ""Put.io"" sharing website.","9c195ff5-6f55-cf90-a759-1ebce067e455"
 "Certificate Request Export to Exchange Webserver","critical","msexchange-management","","Detects a write of an Exchange CSR to an untypical directory or with aspx name suffix which can be used to place a webshell","9c8f1614-f386-ea28-e870-75e3daf99adc"
 "Potential Persistence Via Visual Studio Tools for Office","medium","","registry_set","Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications.","9f3a2bef-c9ee-ce47-c8eb-d746addb05ac"
 "NET NGenAssemblyUsageLog Registry Key Tamper","high","","registry_set","Detects changes to the NGenAssemblyUsageLog registry key.
@@ -382,6 +389,10 @@ By simplify specifying an arbitrary value (e.g. fake output location or junk dat
 "Sysinternals SDelete Registry Keys","medium","","registry_add","A General detection to trigger for the creation or modification of .*\Software\Sysinternals\SDelete registry keys. Indicators of the use of Sysinternals SDelete tool.","a08aa16a-ae4f-9e1e-7a2d-3ad02f750ff0"
 "Disable Exploit Guard Network Protection on Windows Defender","medium","","registry_set","Detects disabling Windows Defender Exploit Guard Network Protection","a1e4b72a-2af2-0002-fb44-971730e2befa"
 "RedMimicry Winnti Playbook Registry Manipulation","high","","registry_event","Detects actions caused by the RedMimicry Winnti playbook","a250ceb5-fda2-758b-e33b-594cb197d8ca"
+"Add Authorized Applications to Microsoft Defender Firewall via Registry","medium","","registry_set","Detects the degradation of the system firewall security by the creation or re-enabling of per-application
+exceptions via registry writes to the AuthorizedApplications\List keys under FirewallPolicy, which grants
+the targeted executable network access and can be abused by malware to bypass network restrictions.
+","a29c22ab-eced-13f5-9dcb-c4bb6ebc59da"
 "Wdigest Enable UseLogonCredential","high","","registry_set","Detects potential malicious modification of the property value of UseLogonCredential from HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest to enable clear-text credentials","a2a9ea74-be61-a011-3676-5bdd9cdae0a4"
 "Security Support Provider (SSP) Added to LSA Configuration","high","","registry_event","Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows.
 ","a2b70475-be0a-993d-b01f-8ecf4bbd7576"
@@ -423,6 +434,10 @@ Second, to prepend information to the PATH environment variable on a per-applica
 "Certificate Exported From Local Certificate Store","medium","certificateservicesclient-lifecycle-system","","Detects when an application exports a certificate (and potentially the private key as well) from the local Windows certificate store.","aec05047-d4cd-8eed-6c67-40b018f64c6e"
 "Suspicious Non PowerShell WSMAN COM Provider","medium","powershell-classic","","Detects suspicious use of the WSMAN provider without PowerShell.exe as the host application.","aedc0f64-b9e7-36d1-fd92-838fdf33eac3"
 "NTFS volume mounted","informational","ntfs","","A NTFS volume has been successfully mounted. Introduced in Windows 10 / Windows Server 2016 (Build 14393), with more fields logged (including information on the underlying device) starting with Windows 11 / Windows Server 2022 (Build 22000).","af127790-5563-473e-8d3a-43b3509572b1"
+"Potential HackTool - Defendnot Security Center AV Registry Modification","medium","","registry_set","Detects modification of the Microsoft Security Center AV registry keys, particularly those related with DisplayName, ProductEXE, or ReportingExe.
+These keys typically store information about antivirus products installed on the system, which is Windows Defender or third-party antivirus software.
+But, if these keys holds unexpected values or are modified in a suspicious manner, it could indicate an attempt to tamper with the security settings of the system.
+","af1f804f-b41d-176d-39de-0250fdf93e13"
 "Windows Event Log Access Tampering Via Registry","high","","registry_set","Detects changes to the Windows EventLog channel permission values. It focuses on changes to the Security Descriptor Definition Language (SDDL) string, as modifications to these values can restrict access to specific users or groups, potentially aiding in defense evasion by controlling who can view or modify a event log channel. Upon execution, the user shouldn't be able to access the event log channel via the event viewer or via utilities such as ""Get-EventLog"" or ""wevtutil"".
 ","af6d5933-a155-f3c7-bdb6-c2b98b515cc7"
 "PUA - Sysinternal Tool Execution - Registry","low","","registry_set","Detects the execution of a Sysinternals Tool via the creation of the ""accepteula"" registry key","af922adb-02c2-1288-4d6b-ff5dae59b827"
@@ -441,6 +456,7 @@ Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as R
 which are commonly abused to achieve UAC bypass (e.g. via fodhelper.exe) or establish persistence
 through file association hijacking.
 ","b1bd0320-da55-2715-927f-f70a3cb846fa"
+"DNS Query To MEGA Hosting Website - DNS Client","medium","dns-client","","Detects DNS queries for subdomains related to MEGA sharing website","b23f739e-2ff3-1773-0393-fa8b6fa5d695"
 "Windows Registry Trust Record Modification","medium","","registry_event","Alerts on trust record modification within the registry, indicating usage of macros","b2a0af70-a308-0185-6128-c2e37db1ebf2"
 "IE ZoneMap Setting Downgraded To MyComputer Zone For HTTP Protocols","high","","registry_set","Detects changes to Internet Explorer's (IE / Windows Internet properties) ZoneMap configuration of the ""HTTP"" and ""HTTPS"" protocols to point to the ""My Computer"" zone. This allows downloaded files from the Internet to be granted the same level of trust as files stored locally.
 ","b6f9cd8c-4abc-cbc8-159c-654b64f77695"
@@ -541,6 +557,9 @@ Before doing this, the client needs to register the DLL in a special registry ke
 IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean.
 ","dacb1ee4-05cc-995a-adee-964a19774888"
 "Certificate Private Key Acquired","medium","capi2","","Detects when an application acquires a certificate private key","dadaca47-d760-88a9-fd35-cbe8a6237499"
+"Susp CmdLine (Possible Inhibit System Recovery)","high","sysmon","","Detects commands commonly used by ransomware and destructive malware to inhibit system recovery, such as deleting or resizing Volume Shadow Copies, deleting backup catalogs, or disabling Windows automatic recovery.
+This is the Sysmon process creation (EventID 1) version of the Security 4688 rule.
+","db1fa879-6d12-4bd1-b947-ee5dc565c55e"
 "Potential Ransomware Activity Using LegalNotice Message","high","","registry_set","Detect changes to the ""LegalNoticeCaption"" or ""LegalNoticeText"" registry values where the message set contains keywords often used in ransomware ransom messages","dcbfe53c-e933-cfb7-d9ce-8f03726f9637"
 "Potential CVE-2023-23397 Exploitation Attempt - SMB","medium","smbclient-connectivity","","Detects (failed) outbound connection attempts to internet facing SMB servers. This could be a sign of potential exploitation attempts of CVE-2023-23397.","de290ecb-3279-dd5b-2f6c-7d3f22a752d8"
 "RDP Sensitive Settings Changed to Zero","medium","","registry_set","Detects tampering of RDP Terminal Service/Server sensitive settings.
@@ -551,7 +570,6 @@ Such as allowing unauthorized users access to a system via the 'fAllowUnsolicite
 "WinSock2 Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e06345ae-614b-8ef6-d336-a5ed3b2dc71b"
 "Potential Persistence Via TypedPaths","high","","registry_set","Detects modification addition to the 'TypedPaths' key in the user or admin registry from a non standard application. Which might indicate persistence attempt","e0f39f6d-5bc7-83ca-9a1f-4e67316af212"
 "Wow6432Node Windows NT CurrentVersion Autorun Keys Modification","medium","","registry_set","Detects modification of autostart extensibility point (ASEP) in registry.","e182da19-f29b-2327-f6f0-f71d15ff8dd5"
-"Query Tor Onion Address - DNS Client","high","dns-client","","Detects DNS resolution of an .onion address related to Tor routing networks","e1b0fd63-1017-1597-ec08-3f9e1021e564"
 "Potential Persistence Via LSA Extensions","high","","registry_set","Detects when an attacker modifies the ""REG_MULTI_SZ"" value named ""Extensions"" to include a custom DLL to achieve persistence via lsass.
 The ""Extensions"" list contains filenames of DLLs being automatically loaded by lsass.exe. Each DLL has its InitializeLsaExtension() method called after loading.
 ","e249ebd9-4719-fbd6-ad42-802038c12f87"
@@ -595,8 +613,8 @@ Information in this event is also found in the Security event log.
 "Macro Enabled In A Potentially Suspicious Document","high","","registry_set","Detects registry changes to Office trust records where the path is located in a potentially suspicious location","ea79a782-319f-b5bd-9293-cab2134f5c43"
 "Enabled User Right in AD to Control User Objects","high","security","","Detects scenario where if a user is assigned the SeEnableDelegationPrivilege right in Active Directory it would allow control of other AD user objects.","eaafcd7e-3303-38d1-9cff-fcfbae177f4d"
 "Disable Internal Tools or Feature in Registry","medium","","registry_set","Detects registry modifications that change features of internal Windows tools (malware like Agent Tesla uses this technique)","ebfabc1f-964a-69f3-60d7-e027eaaf1022"
-"DNS Query To Ufile.io - DNS Client","low","dns-client","","Detects DNS queries to ""ufile.io"", which was seen abused by malware and threat actors as a method for data exfiltration","ec3b018a-d4dd-2d51-4a63-50d078f737dd"
 "SCM Database Privileged Operation","medium","security","","Detects non-system users performing privileged operation os the SCM database","ec9c7ea2-54d7-3a55-caa8-4741f099505a"
+"DNS Query for Anonfiles.com Domain - DNS Client","high","dns-client","","Detects DNS queries for anonfiles.com, which is an anonymous file upload platform often used for malicious purposes","eccf9d52-bd30-0ec7-dac9-8f0005287356"
 "Service Binary in Suspicious Folder","high","","registry_set","Detect the creation of a service with a service binary located in a suspicious directory","ed9f6502-6cf6-8a06-be4a-10027cabb474"
 "VBScript Payload Stored in Registry","high","","registry_set","Detects VBScript content stored into registry keys as seen being used by UNC2452 group","edcac99a-55ef-aa9c-92a3-d9c9d7e1e46e"
 "Zip A Folder With PowerShell For Staging In Temp - PowerShell","medium","powershell-classic","","Detects PowerShell scripts that make use of the ""Compress-Archive"" Cmdlet in order to compress folders and files where the output is stored in a potentially suspicious location that is used often by malware for exfiltration.
@@ -606,10 +624,10 @@ An adversary might compress data (e.g., sensitive documents) that is collected p
 "Potential WerFault ReflectDebugger Registry Value Abuse","high","","registry_set","Detects potential WerFault ""ReflectDebugger"" registry value abuse for persistence.","effced04-aa28-c07f-9aa5-41cdded8bb61"
 "Run Once Task Configuration in Registry","medium","","registry_event","Rule to detect the configuration of Run Once registry key. Configured payload can be run by runonce.exe /AlternateShellStartup","f00c4059-0241-7fee-4186-e8d0b5741cba"
 "Suspicious Application Allowed Through Exploit Guard","high","","registry_set","Detects applications being added to the ""allowed applications"" list of exploit guard in order to bypass controlled folder settings","f06899a3-2598-48df-bd36-4c846265e174"
-"Suspicious Cobalt Strike DNS Beaconing - DNS Client","critical","dns-client","","Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons","f0b3a5e9-e4ee-ed23-3b27-4dd30c5974c8"
 "Old TLS1.0/TLS1.1 Protocol Version Enabled","medium","","registry_set","Detects applications or users re-enabling old TLS versions by setting the ""Enabled"" value to ""1"" for the ""Protocols"" registry key.","f1d2e557-5935-d1b7-cc8a-48563f722f9c"
 "T1047 Wmiprvse Wbemcomn DLL Hijack","high","security","","Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\` directory over the network for a WMI DLL Hijack scenario.","f252afa3-fe83-562c-01c0-1334f55af84c"
 "COM Object Hijacking Via Modification Of Default System CLSID Default Value","high","","registry_set","Detects potential COM object hijacking via modification of default system CLSID.","f27c3f9d-33e2-2ee6-64f7-a34b895b6379"
+"DNS Query To Ufile.io - DNS Client","low","dns-client","","Detects DNS queries to ""ufile.io"", which was seen abused by malware and threat actors as a method for data exfiltration","f28088fe-c9ad-f2d2-4d5e-051655715b19"
 "Outlook EnableUnsafeClientMailRules Setting Enabled - Registry","high","","registry_set","Detects an attacker trying to enable the outlook security setting ""EnableUnsafeClientMailRules"" which allows outlook to run applications or execute macros","f3359b54-f4f9-b8da-0ddb-ef16968c70e7"
 "New ODBC Driver Registered","low","","registry_set","Detects the registration of a new ODBC driver.","f3d16bf4-2de2-b0e3-b8dc-37b2ca82c1cf"
 "Path To Screensaver Binary Modified","medium","","registry_event","Detects value modification of registry key containing path to binary used as screensaver.","f5a1f729-ff8c-577e-2d33-a209e00bf7f3"
