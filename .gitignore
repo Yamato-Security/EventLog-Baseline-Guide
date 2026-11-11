@@ -1,2 +1,5 @@
 .venv/*
 .idea/*
+
+# Local environment files may contain secrets.
+.env
